@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>{{ config('app.name') }} | Registration Page</title>
+    <title>{{ config('app.name') }} | Registrater</title>
 
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -38,7 +38,7 @@
 
     <div class="card">
         <div class="card-body register-card-body">
-            <p class="login-box-msg">Register a new membership</p>
+            <p class="login-box-msg">Registrar un nuevo usuario</p>
 
             <form method="post" action="{{ route('register') }}">
                 @csrf
@@ -48,7 +48,7 @@
                            name="name"
                            class="form-control @error('name') is-invalid @enderror"
                            value="{{ old('name') }}"
-                           placeholder="Full name">
+                           placeholder="Nombre completo">
                     <div class="input-group-append">
                         <div class="input-group-text">
                             <span class="fas fa-user"></span>
@@ -94,21 +94,14 @@
                     <input type="password"
                            name="password_confirmation"
                            class="form-control"
-                           placeholder="Retype password">
+                           placeholder="Repetir password">
                     <div class="input-group-append">
                         <div class="input-group-text"><span class="fas fa-lock"></span></div>
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="col-8">
-                        <div class="icheck-primary">
-                            <input type="checkbox" id="agreeTerms" name="terms" value="agree">
-                            <label for="agreeTerms">
-                                I agree to the <a href="#">terms</a>
-                            </label>
-                        </div>
-                    </div>
+                    
                     <!-- /.col -->
                     <div class="col-4">
                         <button type="submit" class="btn btn-primary btn-block">Register</button>
@@ -116,8 +109,11 @@
                     <!-- /.col -->
                 </div>
             </form>
-
-            <a href="{{ route('login') }}" class="text-center">I already have a membership</a>
+            <div class="row">
+                <div class="mb-3">
+                    <a href="{{ route('login') }}" class="text-center">Ya tengo una cuenta</a>      
+                </div>
+            </div>
         </div>
         <!-- /.form-box -->
     </div><!-- /.card -->
