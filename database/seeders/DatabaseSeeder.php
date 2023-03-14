@@ -15,10 +15,10 @@ class DatabaseSeeder extends Seeder
      * @return void
      */
     public function run()
-    {   /* Roles */
+    {   
         $administrador = User::factory()->create([
             'id' => 1,
-            'name' => 'Admin',
+            'name' => 'Administrador',
             'email' => 'admin@cumi.com',
             'password' => '$2y$10$cXVLvs9JkKIq2OtLJni8jeJf/5wVsmiP2nkD4YrkgsnSa5Opmbkf.',
             'created_at' => date("Y-m-d H:i:s"),
@@ -27,7 +27,7 @@ class DatabaseSeeder extends Seeder
 
         $persona = User::factory()->create([
             'id' => 2,
-            'name' => 'persona',
+            'name' => 'Persona',
             'email' => 'persona@cumi.com',
             'password' => '$2y$10$cXVLvs9JkKIq2OtLJni8jeJf/5wVsmiP2nkD4YrkgsnSa5Opmbkf.',
             'created_at' => date("Y-m-d H:i:s"),
@@ -38,7 +38,7 @@ class DatabaseSeeder extends Seeder
 
         $admin = Role::create([
             'id' => 1,
-            'name' => 'administrador',
+            'name' => 'admin',
             'guard_name' => 'web',
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s"),
@@ -66,9 +66,9 @@ class DatabaseSeeder extends Seeder
         }
 
         $admin->syncPermissions(Permission::all());
-        $administrador->assignRole('administrador');
+        $administrador->assignRole('admin');
         
-        $person->syncPermissions(Permission::where('name', 'like', "%person%")->get());
+        $person->syncPermissions(Permission::where('name', 'like', "%persona%")->get());
         $persona->assignRole('persona');
     }
 }

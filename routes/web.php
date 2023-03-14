@@ -19,4 +19,12 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::group(['prefix' => 'admin', 'middleware' => ['role:admin']], function () {
+    Route::resource('users', App\Http\Controllers\Admin\UsersController::class, ['as' => 'admin']);
+});
+
+Route::post('logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
+Route::post('login', [App\Http\Controllers\Auth\LoginController::class, 'login'])->name('login');
+Route::get('login', [App\Http\Controllers\Auth\LoginController::class, 'showLoginForm']);
+
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
