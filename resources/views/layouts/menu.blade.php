@@ -6,4 +6,11 @@
     </a>
 </li>
 
-@endif
+@endif<li class="nav-item">
+    <a href="{{ route('employes.index') }}"
+       class="nav-link {{ Request::is('employes*') ? 'active' : '' }}">
+        <p>Empleados</p>
+    </a>
+</li>
+
+

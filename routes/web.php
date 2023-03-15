@@ -28,3 +28,6 @@ Route::post('login', [App\Http\Controllers\Auth\LoginController::class, 'login']
 Route::get('login', [App\Http\Controllers\Auth\LoginController::class, 'showLoginForm']);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+Route::resource('employes', App\Http\Controllers\employeController::class);

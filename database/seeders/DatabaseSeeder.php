@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\User;
+use App\Models\employe;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
@@ -35,6 +36,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $usuario = User::factory(100)->create();
+        $empleados = employe::factory(20)->create();
 
         $admin = Role::create([
             'id' => 1,
