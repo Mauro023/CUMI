@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateEmployesTable extends Migration
+class CreateCalendarsTable extends Migration
 {
 
     /**
@@ -14,13 +14,16 @@ class CreateEmployesTable extends Migration
      */
     public function up()
     {
-        Schema::create('employes', function (Blueprint $table) {
+        Schema::create('calendars', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('employe_id');
-            $table->string('name');
-            $table->string('work_position');
+            $table->string('workday');
+            $table->string('entry_time');
+            $table->string('departure_time');
+            $table->string('floor');
+            $table->integer('id_employe')->unsigned();
             $table->timestamps();
             $table->softDeletes();
+            $table->foreign('id_employe')->references('id')->on('employes');
         });
     }
 
@@ -31,6 +34,6 @@ class CreateEmployesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('employes');
+        Schema::drop('calendars');
     }
 }

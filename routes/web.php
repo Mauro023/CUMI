@@ -31,3 +31,6 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 
 Route::resource('employes', App\Http\Controllers\employeController::class);
+
+
+Route::resource('calendars', App\Http\Controllers\calendarController::class);

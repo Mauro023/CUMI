@@ -14,3 +14,11 @@
 </li>
 
 
+<li class="nav-item">
+    <a href="{{ route('calendars.index') }}"
+       class="nav-link {{ Request::is('calendars*') ? 'active' : '' }}">
+        <p>Calendars</p>
+    </a>
+</li>
+
+
