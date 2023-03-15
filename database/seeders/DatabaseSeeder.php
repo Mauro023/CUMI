@@ -34,7 +34,7 @@ class DatabaseSeeder extends Seeder
             'updated_at' => date("Y-m-d H:i:s"),
         ]);
 
-        $usuario = User::factory(5)->create();
+        $usuario = User::factory(100)->create();
 
         $admin = Role::create([
             'id' => 1,

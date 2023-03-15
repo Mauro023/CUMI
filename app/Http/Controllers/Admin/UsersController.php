@@ -26,7 +26,7 @@ class UsersController extends Controller
     }
     public function index(Request $request)
     {
-        $users = $this->usersRepository->all();
+        $users = $this->usersRepository->paginate(10);
 
         return view('admin.users.index')->with('users', $users);
     }
@@ -53,7 +53,10 @@ class UsersController extends Controller
      */
     public function store(CreateUserRequest $request)
     {
-        $input = $request->only('name', 'email', 'password');
+        $input = $request->only('name', 'email')
+                    + [
+                        'password' => bcrypt($request->input('password')),
+                    ];
 
         $user = User::create($input);
 
