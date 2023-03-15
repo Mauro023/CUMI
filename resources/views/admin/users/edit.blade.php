@@ -8,38 +8,12 @@
         <div class="col-md-5 align-self-center">
             <h3 class="text-themecolor">Perfil</h3>
         </div>
-        <div class="col-md-7 align-self-center">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ route('home') }}">Inicio</a></li>
-                <li class="breadcrumb-item"><a href="{{ route('admin.users.index') }}">Usuarios</a></li>
-                <li class="breadcrumb-item">Editar</li>
-                <li class="breadcrumb-item active"><a href="{{ route('admin.users.edit', $user->id) }}">{{ $user->id }}</a></li>
-            </ol>
-        </div>
     </div>
 
 
     <div class="row">
         <!-- Column -->
-        <div class="col-lg-4 col-xlg-3 col-md-5">
-            <div class="card">
-                <div class="card-body">
-                    <center class="m-t-30"> <img src="{{ $user->pathAvatar }}" class="img-circle" width="150" />
-                        <h4 class="card-title m-t-10">{{ $user->name }}</h4>
-                    </center>
-                </div>
-                <div>
-                    <hr> </div>
-                <div class="card-body"> <small class="text-muted">Email </small>
-                    <h6>{{ $user->email }}</h6> 
-                </div>
-                <div class="card-body"> <small class="text-muted">Documento </small>
-                    <h6>{{ $user->document?:'No disponible' }}</h6> 
-                </div>
-            </div>
-        </div>
-        <!-- Column -->
-        <div class="col-lg-8 col-xlg-9 col-md-7">
+        <div class="col-lg-8 col-xlg-9  col-md-7">
             <div class="card">
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs profile-tab" role="tablist">

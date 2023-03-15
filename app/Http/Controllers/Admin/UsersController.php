@@ -103,11 +103,18 @@ class UsersController extends Controller
     public function update(UpdateUserRequest $request, User $user)
     {
 
-        $user->update( $request->validated() );
+        $data = $request->only('name', 'email');
+        $password = $request->input('password');
+        if($password)
+        {
+            $data['password'] = bcrypt($password);
+        }
+
+        $user->update($data);
 
         session()->flash('success', 'Usuario actualizado');
 
-        return redirect()->route('admin.users.edit', $user);
+        return redirect()->route('admin.users.show', $user);
     }
 
     /**
