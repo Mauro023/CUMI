@@ -34,3 +34,6 @@ Route::resource('employes', App\Http\Controllers\employeController::class);
 
 
 Route::resource('calendars', App\Http\Controllers\calendarController::class);
+
+
+Route::resource('attendances', App\Http\Controllers\attendanceController::class);

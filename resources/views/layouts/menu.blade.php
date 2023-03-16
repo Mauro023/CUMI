@@ -1,3 +1,10 @@
+<li class="nav-item">
+    <a href="#"
+       class="nav-link ">
+        <p>Home</p>
+    </a>
+</li>
+
 @if(@Auth::user()->hasRole('admin'))
 <li class="nav-item">
     <a href="{{ route('admin.users.index') }}"
@@ -28,6 +35,14 @@
     <a href="{{ route('calendars.index') }}"
        class="nav-link {{ Request::is('calendars*') ? 'active' : '' }}">
         <p>Calendars</p>
+    </a>
+</li>
+
+
+<li class="nav-item">
+    <a href="{{ route('attendances.index') }}"
+       class="nav-link {{ Request::is('attendances*') ? 'active' : '' }}">
+        <p>Attendances</p>
     </a>
 </li>
 

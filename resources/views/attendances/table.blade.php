@@ -1,32 +1,31 @@
 <div class="table-responsive">
-    <table class="table" id="calendars-table">
+    <table class="table" id="attendances-table">
         <thead>
         <tr>
-            <th>Id Employe</th>
             <th>Workday</th>
-            <th>Entry Time</th>
-            <th>Departure Time</th>
-            <th>Floor</th>
+        <th>Entry Time</th>
+        <th>Departure Time</th>
+        <th>Minutes</th>
+        <th>Id Employe</th>
             <th colspan="3">Action</th>
         </tr>
         </thead>
         <tbody>
-        @foreach($calendars as $calendar)
+        @foreach($attendances as $attendance)
             <tr>
-                <td>{{ $calendar->id_employe }}</td>    
-                <td>{{ $calendar->workday }}</td>
-                <td>{{ $calendar->entry_time }}</td>
-                <td>{{ $calendar->departure_time }}</td>
-                <td>{{ $calendar->floor }}</td>
-            
+                <td>{{ $attendance->workday }}</td>
+            <td>{{ $attendance->entry_time }}</td>
+            <td>{{ $attendance->departure_time }}</td>
+            <td>{{ $attendance->minutes }}</td>
+            <td>{{ $attendance->id_employe }}</td>
                 <td width="120">
-                    {!! Form::open(['route' => ['calendars.destroy', $calendar->id], 'method' => 'delete']) !!}
+                    {!! Form::open(['route' => ['attendances.destroy', $attendance->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>
-                        <a href="{{ route('calendars.show', [$calendar->id]) }}"
+                        <a href="{{ route('attendances.show', [$attendance->id]) }}"
                            class='btn btn-default btn-xs'>
                             <i class="far fa-eye"></i>
                         </a>
-                        <a href="{{ route('calendars.edit', [$calendar->id]) }}"
+                        <a href="{{ route('attendances.edit', [$attendance->id]) }}"
                            class='btn btn-default btn-xs'>
                             <i class="far fa-edit"></i>
                         </a>

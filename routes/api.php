@@ -23,3 +23,6 @@ Route::resource('employes', App\Http\Controllers\API\employeAPIController::class
 
 
 Route::resource('calendars', App\Http\Controllers\API\calendarAPIController::class);
+
+
+Route::resource('attendances', App\Http\Controllers\API\attendanceAPIController::class);
