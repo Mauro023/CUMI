@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\User;
-use App\Models\employe;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
@@ -35,8 +34,7 @@ class DatabaseSeeder extends Seeder
             'updated_at' => date("Y-m-d H:i:s"),
         ]);
 
-        $usuario = User::factory(100)->create();
-        $empleados = employe::factory(20)->create();
+        $usuario = User::factory(5)->create();
 
         $admin = Role::create([
             'id' => 1,
@@ -72,5 +70,9 @@ class DatabaseSeeder extends Seeder
         
         $person->syncPermissions(Permission::where('name', 'like', "%persona%")->get());
         $persona->assignRole('persona');
+
+        $this->call([
+            EmployeSeeder::class
+        ]);
     }
 }

@@ -5,7 +5,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-12">
-                    <h1>Create Employe</h1>
+                    <h1>Agregar empleado</h1>
                 </div>
             </div>
         </div>
@@ -28,8 +28,8 @@
             </div>
 
             <div class="card-footer">
-                {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
-                <a href="{{ route('employes.index') }}" class="btn btn-default">Cancel</a>
+                {!! Form::submit('Agregar', ['class' => 'btn btn-primary']) !!}
+                <a href="{{ route('employes.index') }}" class="btn btn-default">Cancelar</a>
             </div>
 
             {!! Form::close() !!}

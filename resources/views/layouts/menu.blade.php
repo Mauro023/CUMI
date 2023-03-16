@@ -6,13 +6,23 @@
     </a>
 </li>
 
-@endif<li class="nav-item">
+@endif
+<li class="nav-item">
     <a href="{{ route('employes.index') }}"
        class="nav-link {{ Request::is('employes*') ? 'active' : '' }}">
         <p>Empleados</p>
     </a>
 </li>
 
+<!-- <li class="nav-item has-submenu">
+    <a href="" class="nav-link">Horarios</a>
+    <ul class="submenu collapse">
+			<li><a class="nav-link" href="#">Submenu item 4 </a></li>
+			<li><a class="nav-link" href="#">Submenu item 5 </a></li>
+			<li><a class="nav-link" href="#">Submenu item 6 </a></li>
+			<li><a class="nav-link" href="#">Submenu item 7 </a></li>
+		</ul>
+</li> -->
 
 <li class="nav-item">
     <a href="{{ route('calendars.index') }}"
