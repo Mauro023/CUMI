@@ -7,6 +7,7 @@ use App\Http\Requests\UpdatecalendarRequest;
 use App\Repositories\calendarRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Flash;
 use Response;
 use App\Models\employe;
@@ -56,9 +57,19 @@ class calendarController extends AppBaseController
      */
     public function store(CreatecalendarRequest $request)
     {
-        $input = $request->all();
+        // Obtener las fechas del arreglo y concatenarlas en una sola cadena separada por comas
+        $dates = implode(',', $request->workday);
+        $entry_time = $request->input('entry_time');
+        $departure_time = $request->input('departure_time');
+        $floor = $request->input('floor');
+        $id_employe = $request->input('id_employe');
 
-        $calendar = $this->calendarRepository->create($input);
+        // Construir la consulta SQL para insertar las fechas
+        $sql = "INSERT INTO calendars (workday, entry_time, departure_time, floor, id_employe, created_at, updated_at)
+                VALUES ('$dates', '$entry_time', '$departure_time', '$floor', $id_employe, NOW(), NOW())";
+
+        // Ejecutar la consulta SQL
+        DB::insert($sql);
 
         Flash::success('Calendar saved successfully.');
 

@@ -44,8 +44,7 @@ class attendanceController extends AppBaseController
      */
     public function create()
     {
-       $calendars = calendar::pluck('workday', 'id');
-        return view('attendances.create', compact('calendars'));
+        return view('attendances.create');
     }
 
     /**

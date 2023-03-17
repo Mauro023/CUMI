@@ -13,7 +13,7 @@
         <tbody>
         @foreach($attendances as $attendance)
             <tr>
-                <td>{{ $attendance->workday }}</td>
+            <td>{{ $attendance->workday }}</td>
             <td>{{ $attendance->entry_time }}</td>
             <td>{{ $attendance->departure_time }}</td>
             <td>{{ $attendance->minutes }}</td>

@@ -2,19 +2,19 @@
     <table class="table" id="calendars-table">
         <thead>
         <tr>
-            <th>Id Employe</th>
-            <th>Workday</th>
-            <th>Entry Time</th>
-            <th>Departure Time</th>
-            <th>Floor</th>
-            <th colspan="3">Action</th>
+            <th>Empleado</th>
+            <th>Calendario</th>
+            <th>Hora de entrada</th>
+            <th>Hora de salida</th>
+            <th>Piso</th>
+            <th colspan="3">Acciones</th>
         </tr>
         </thead>
         <tbody>
         @foreach($calendars as $calendar)
             <tr>
                 <td>{{ $calendar->id_employe ? $calendar->employe->name : 'Sin ID' }}</td>    
-                <td>{{ $calendar->workday }}</td>
+                <td>{{ implode(', ', explode(', ', $calendar->workday)) }}</td>
                 <td>{{ $calendar->entry_time }}</td>
                 <td>{{ $calendar->departure_time }}</td>
                 <td>{{ $calendar->floor }}</td>

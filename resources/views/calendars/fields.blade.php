@@ -1,15 +1,17 @@
 <!-- Workday Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('workday', 'Workday:') !!}
-    {!! Form::text('workday', null, ['class' => 'form-control','id'=>'workday']) !!}
+    {!! Form::label('workday', 'Calendario:') !!}
+    {!! Form::text('workday[]', null, ['class' => 'form-control','id'=>'workday']) !!}
+    
 </div>
 
 @push('page_scripts')
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script type="text/javascript">
-        $('#workday').datetimepicker({
-            format: 'YYYY-MM-DD',
-            useCurrent: true,
-            sideBySide: true
+        flatpickr('#workday', {
+            dateFormat: "Y-m-d",
+            mode: "multiple",
         })
     </script>
 @endpush
@@ -28,12 +30,12 @@
 
 <!-- Floor Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('floor', 'Floor:') !!}
+    {!! Form::label('floor', 'Piso:') !!}
     {!! Form::text('floor', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Id Employe Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('id_employe', 'Id Employe:') !!}
+    {!! Form::label('id_employe', 'Nombre del empleado:') !!}
     {!! Form::select('id_employe', $employes, null, ['class' => 'form-control custom-select']) !!}
 </div>

@@ -59,8 +59,6 @@ class attendance extends Model
     public static $rules = [
         'workday' => 'required',
         'entry_time' => 'required',
-        'departure_time' => 'required',
-        'minutes' => 'required',
         'id_employe' => 'required'
     ];
 
