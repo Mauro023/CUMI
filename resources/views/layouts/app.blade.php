@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>{{ config('app.name') }}</title>
+    <link rel="icon" type="image/png" href="https://cumi.com.co/wp-content/uploads/2020/12/icono_Mesa-de-trabajo-1.png" sizes="32x32">
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
 
     <!-- Font Awesome -->
