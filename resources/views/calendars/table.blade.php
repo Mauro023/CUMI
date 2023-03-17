@@ -13,7 +13,7 @@
         <tbody>
         @foreach($calendars as $calendar)
             <tr>
-                <td>{{ $calendar->id_employe }}</td>    
+                <td>{{ $calendar->id_employe ? $calendar->employe->name : 'Sin ID' }}</td>    
                 <td>{{ $calendar->workday }}</td>
                 <td>{{ $calendar->entry_time }}</td>
                 <td>{{ $calendar->departure_time }}</td>

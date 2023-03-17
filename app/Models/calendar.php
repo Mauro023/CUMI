@@ -5,6 +5,7 @@ namespace App\Models;
 use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * Class calendar
@@ -25,6 +26,10 @@ class calendar extends Model
 
     public $table = 'calendars';
     
+    public function employe(): BelongsTo
+    {
+        return $this->belongsTo(Employe::class, 'id_employe');
+    }
 
     protected $dates = ['deleted_at'];
 
