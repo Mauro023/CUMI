@@ -44,7 +44,7 @@ class calendarController extends AppBaseController
      */
     public function create()
     {
-        $employes = Employe::pluck('name', 'id');
+        $employes = Employe::orderby('name')->pluck('name', 'id');
         return view('calendars.create', compact('employes'));
     }
 
@@ -106,6 +106,7 @@ class calendarController extends AppBaseController
     public function edit($id)
     {
         $calendar = $this->calendarRepository->find($id);
+        $employes = Employe::pluck('name', 'id');
 
         if (empty($calendar)) {
             Flash::error('Calendar not found');
@@ -113,7 +114,7 @@ class calendarController extends AppBaseController
             return redirect(route('calendars.index'));
         }
 
-        return view('calendars.edit')->with('calendar', $calendar);
+        return view('calendars.edit', compact('employes'))->with('calendar', $calendar);
     }
 
     /**

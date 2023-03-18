@@ -44,7 +44,8 @@ class attendanceController extends AppBaseController
      */
     public function create()
     {
-        return view('attendances.create');
+        $employes = Employe::orderby('name')->pluck('name', 'id');
+        return view('attendances.create', compact('employes'));
     }
 
     /**
@@ -95,6 +96,7 @@ class attendanceController extends AppBaseController
     public function edit($id)
     {
         $attendance = $this->attendanceRepository->find($id);
+        $employes = Employe::pluck('name', 'id');
 
         if (empty($attendance)) {
             Flash::error('Attendance not found');
@@ -102,7 +104,7 @@ class attendanceController extends AppBaseController
             return redirect(route('attendances.index'));
         }
 
-        return view('attendances.edit')->with('attendance', $attendance);
+        return view('attendances.edit', compact('employes'))->with('attendance', $attendance);
     }
 
     /**

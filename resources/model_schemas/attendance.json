@@ -39,7 +39,6 @@
         "name": "departure_time",
         "dbType": "string",
         "htmlType": "time",
-        "validations": "required",
         "searchable": true,
         "fillable": true,
         "primary": false,
