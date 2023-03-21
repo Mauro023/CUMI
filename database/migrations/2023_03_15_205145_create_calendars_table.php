@@ -17,7 +17,7 @@ class CreateCalendarsTable extends Migration
         
         Schema::create('calendars', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('workday');
+            $table->json('workday');
             $table->string('entry_time');
             $table->string('departure_time');
             $table->string('floor');

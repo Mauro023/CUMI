@@ -57,19 +57,16 @@ class calendarController extends AppBaseController
      */
     public function store(CreatecalendarRequest $request)
     {
-        // Obtener las fechas del arreglo y concatenarlas en una sola cadena separada por comas
-        $dates = implode(',', $request->workday);
-        $entry_time = $request->input('entry_time');
-        $departure_time = $request->input('departure_time');
-        $floor = $request->input('floor');
-        $id_employe = $request->input('id_employe');
+        $dates = explode(',', $request->workday);
+        $datesJson = json_encode(array_map('trim', $dates));
 
-        // Construir la consulta SQL para insertar las fechas
-        $sql = "INSERT INTO calendars (workday, entry_time, departure_time, floor, id_employe, created_at, updated_at)
-                VALUES ('$dates', '$entry_time', '$departure_time', '$floor', $id_employe, NOW(), NOW())";
-
-        // Ejecutar la consulta SQL
-        DB::insert($sql);
+        $calendar = CalendarController::create([
+            'workday' => $datesJson,
+            'entry_time' => $request->input('entry_time'),
+            'departure_time' => $request->input('departure_time'),
+            'floor' => $request->input('floor'),
+            'id_employe' => $request->input('id_employe'),
+        ]);
 
         Flash::success('Calendar saved successfully.');
 
@@ -129,13 +126,22 @@ class calendarController extends AppBaseController
     {
         $calendar = $this->calendarRepository->find($id);
 
+        $dates = explode(',', $request->workday);
+        $datesJson = json_encode(array_map('trim', $dates));
+
         if (empty($calendar)) {
             Flash::error('Calendar not found');
 
             return redirect(route('calendars.index'));
         }
 
-        $calendar = $this->calendarRepository->update($request->all(), $id);
+        $calendar->update([
+            'workday' => $datesJson,
+            'entry_time' => $request->input('entry_time'),
+            'departure_time' => $request->input('departure_time'),
+            'floor' => $request->input('floor'),
+            'id_employe' => $request->input('id_employe'),
+        ]);
 
         Flash::success('Calendar updated successfully.');
 

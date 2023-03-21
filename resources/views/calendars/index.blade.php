@@ -37,5 +37,10 @@
         </div>
     </div>
 
+    <script>
+        const datesInput = document.getElementById('workday');
+        const dates = datesInput.value.split(',').map(date => `"${date.trim()}"`);
+        datesInput.value = '[' + dates.join(', ') + ']';
+    </script>
 @endsection
 

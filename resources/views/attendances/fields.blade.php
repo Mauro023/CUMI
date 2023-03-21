@@ -12,7 +12,7 @@
 <!-- Entry time Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('entry_time', 'Hora de entrada:') !!}
-    {!! Form::time('entry_time', date('H:i'), ['class' => 'form-control', 'hidden']) !!}
+    {!! Form::time('entry_time', date('H:i'), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Departure time Field -->
@@ -29,11 +29,10 @@
 <!-- Workday Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('workday', 'Workday:') !!}
-    {!! Form::text('workday', date('Y-m-d'), ['class' => 'form-control','id'=>'workday', 'hidden']) !!}
+    {!! Form::text('workday', date('Y-m-d'), ['class' => 'form-control','id'=>'workday']) !!}
 </div>
 
 <!-- Workday Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('minutes', 'Minutos:') !!}
-    {!! Form::text('minutes', null, ['class' => 'form-control','id'=>'minutes']) !!}
+    {!! Form::text('minutes', null, ['class' => 'form-control','id'=>'minutes', 'hidden']) !!}
 </div>

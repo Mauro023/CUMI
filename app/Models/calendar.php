@@ -62,7 +62,7 @@ class calendar extends Model
      * @var array
      */
     public static $rules = [
-        'workday' => 'required|array',
+        'workday' => 'required',
         'entry_time' => 'required',
         'departure_time' => 'required',
         'floor' => 'required',

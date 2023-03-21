@@ -1,7 +1,7 @@
 <!-- Workday Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('workday', 'Calendario:') !!}
-    {!! Form::text('workday[]', null, ['class' => 'form-control','id'=>'workday']) !!}
+    {!! Form::text('workday', null, ['class' => 'form-control','id'=>'workday']) !!}
     
 </div>
 
