@@ -19,7 +19,6 @@ class CreateAttendancesTable extends Migration
             $table->string('workday');
             $table->string('entry_time');
             $table->string('departure_time');
-            $table->integer('minutes');
             $table->integer('id_employe')->unsigned();
             $table->timestamps();
             $table->softDeletes();

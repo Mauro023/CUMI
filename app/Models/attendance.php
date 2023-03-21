@@ -14,7 +14,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property string $workday
  * @property string $entry_time
  * @property string $departure_time
- * @property integer $minutes
  * @property integer $id_employe
  */
 class attendance extends Model
@@ -34,7 +33,6 @@ class attendance extends Model
         'workday',
         'entry_time',
         'departure_time',
-        'minutes',
         'id_employe'
     ];
 
@@ -47,7 +45,6 @@ class attendance extends Model
         'workday' => 'string',
         'entry_time' => 'string',
         'departure_time' => 'string',
-        'minutes' => 'integer',
         'id_employe' => 'integer'
     ];
 

@@ -31,8 +31,3 @@
     {!! Form::label('workday', 'Workday:') !!}
     {!! Form::text('workday', date('Y-m-d'), ['class' => 'form-control','id'=>'workday']) !!}
 </div>
-
-<!-- Workday Field -->
-<div class="form-group col-sm-6">
-    {!! Form::text('minutes', null, ['class' => 'form-control','id'=>'minutes', 'hidden']) !!}
-</div>
