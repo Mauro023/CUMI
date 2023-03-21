@@ -59,15 +59,14 @@ class calendarController extends AppBaseController
     {
         $dates = explode(',', $request->workday);
         $datesJson = json_encode(array_map('trim', $dates));
-
-        $calendar = CalendarController::create([
+        $calendar = $this->calendarRepository;
+        $calendar->create([
             'workday' => $datesJson,
             'entry_time' => $request->input('entry_time'),
             'departure_time' => $request->input('departure_time'),
             'floor' => $request->input('floor'),
             'id_employe' => $request->input('id_employe'),
         ]);
-
         Flash::success('Calendar saved successfully.');
 
         return redirect(route('calendars.index'));

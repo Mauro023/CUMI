@@ -2,22 +2,20 @@
     <table class="table" id="attendances-table">
         <thead>
         <tr>
-            <th>Workday</th>
-        <th>Entry Time</th>
-        <th>Departure Time</th>
-        <th>Minutes</th>
-        <th>Id Employe</th>
-            <th colspan="3">Action</th>
+        <th>Empleado</th>
+        <th>Fecha</th>
+        <th>Hora de entrada</th>
+        <th>Hora de salida</th>
+            <th colspan="3">Acciones</th>
         </tr>
         </thead>
         <tbody>
         @foreach($attendances as $attendance)
             <tr>
+            <td>{{ $attendance->id_employe ? $attendance->employe->name : 'Sin ID'}}</td>
             <td>{{ $attendance->workday }}</td>
             <td>{{ $attendance->entry_time }}</td>
             <td>{{ $attendance->departure_time }}</td>
-            <td>{{ $attendance->minutes }}</td>
-            <td>{{ $attendance->id_employe }}</td>
                 <td width="120">
                     {!! Form::open(['route' => ['attendances.destroy', $attendance->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>

@@ -5,7 +5,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-12">
-                    <h1>Create Calendar</h1>
+                    <h1>Asignar calendario</h1>
                 </div>
             </div>
         </div>

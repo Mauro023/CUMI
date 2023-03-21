@@ -5,6 +5,7 @@ namespace App\Models;
 use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * Class attendance
@@ -23,6 +24,11 @@ class attendance extends Model
     use HasFactory;
 
     public $table = 'attendances';
+
+    public function employe(): BelongsTo
+    {
+        return $this->belongsTo(Employe::class, 'id_employe');
+    }
     
 
     protected $dates = ['deleted_at'];

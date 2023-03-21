@@ -10,7 +10,6 @@ use Illuminate\Http\Request;
 use Flash;
 use Response;
 use App\Models\employe;
-use App\Models\calendar;
 
 class attendanceController extends AppBaseController
 {

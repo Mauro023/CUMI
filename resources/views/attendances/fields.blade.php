@@ -22,12 +22,12 @@
 </div>
 <!-- Id Employe Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('id_employe', 'Id Employe:') !!}
+    {!! Form::label('id_employe', 'Empleado:') !!}
     {!! Form::select('id_employe', $employes, null, ['class' => 'form-control custom-select']) !!}
 </div>
 
 <!-- Workday Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('workday', 'Workday:') !!}
+    {!! Form::label('workday', 'Fecha:') !!}
     {!! Form::text('workday', date('Y-m-d'), ['class' => 'form-control','id'=>'workday']) !!}
 </div>
