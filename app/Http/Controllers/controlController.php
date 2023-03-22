@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\AppBaseController;
+use Illuminate\Support\Facades\DB;
 use App\Models\Employe;
 use App\Models\Calendar;
 use App\Models\Attendance;
@@ -14,11 +15,16 @@ class controlController extends AppBaseController
     public function index()
     {
         $employes = Employe::all();
-        
-        $resultados = Calendar::join('attendances', 'calendars.id_employe', '=', 'attendances.id_employe')
-            ->select('calendars.*', 'attendances.entry_time')
+        $calendars = Calendar::all();
+        $attendances = Attendance::all();
+
+        $resultados = DB::table('calendars')
+            ->join('attendances', 'calendars.employe_id', '=', 'attendances.employe_id')
+            ->join('employes', 'employes.id', '=', 'attendances.employe_id')
+            ->select('calendars.start_date', 'calendars.end_date', 'attendances.workday', 'attendances.entry_time', 'attendances.departure_time','employes.name')
+            ->whereRaw('attendances.workday BETWEEN calendars.start_date AND calendars.end_date')
             ->get();
-            
-        return view('control.index', compact('employes'))->with('resultados', $resultados);
+
+        return view('control.index', compact('resultados'));
     }
 }

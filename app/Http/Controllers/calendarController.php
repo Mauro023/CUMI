@@ -57,16 +57,10 @@ class calendarController extends AppBaseController
      */
     public function store(CreatecalendarRequest $request)
     {
-        $dates = explode(',', $request->workday);
-        $datesJson = json_encode(array_map('trim', $dates));
-        $calendar = $this->calendarRepository;
-        $calendar->create([
-            'workday' => $datesJson,
-            'entry_time' => $request->input('entry_time'),
-            'departure_time' => $request->input('departure_time'),
-            'floor' => $request->input('floor'),
-            'id_employe' => $request->input('id_employe'),
-        ]);
+        $input = $request->all();
+
+        $calendar = $this->calendarRepository->create($input);
+
         Flash::success('Calendar saved successfully.');
 
         return redirect(route('calendars.index'));
@@ -125,22 +119,13 @@ class calendarController extends AppBaseController
     {
         $calendar = $this->calendarRepository->find($id);
 
-        $dates = explode(',', $request->workday);
-        $datesJson = json_encode(array_map('trim', $dates));
-
         if (empty($calendar)) {
             Flash::error('Calendar not found');
 
             return redirect(route('calendars.index'));
         }
 
-        $calendar->update([
-            'workday' => $datesJson,
-            'entry_time' => $request->input('entry_time'),
-            'departure_time' => $request->input('departure_time'),
-            'floor' => $request->input('floor'),
-            'id_employe' => $request->input('id_employe'),
-        ]);
+        $calendar = $this->calendarRepository->update($request->all(), $id);
 
         Flash::success('Calendar updated successfully.');
 

@@ -1,7 +1,7 @@
 <!-- Employe Id Field -->
 <div class="col-sm-12">
-    {!! Form::label('employe_id', 'Identificacion:') !!}
-    <p>{{ $employe->employe_id }}</p>
+    {!! Form::label('dni', 'Identificacion:') !!}
+    <p>{{ $employe->dni }}</p>
 </div>
 
 <!-- Name Field -->

@@ -22,13 +22,13 @@ class attendanceFactory extends Factory
     public function definition()
     {
         return [
-            'workday' => $this->faker->word,
-        'entry_time' => $this->faker->word,
-        'departure_time' => $this->faker->word,
-        'minutes' => $this->faker->randomDigitNotNull,
-        'id_employe' => $this->faker->randomDigitNotNull,
-        'created_at' => $this->faker->date('Y-m-d H:i:s'),
-        'updated_at' => $this->faker->date('Y-m-d H:i:s')
+            'workday' => $this->faker->date('Y-m-d'),
+            'entry_time' => $this->faker->word,
+            'departure_time' => $this->faker->word,
+            'minutes' => $this->faker->randomDigitNotNull,
+            'employe_id' => $this->faker->randomDigitNotNull,
+            'created_at' => $this->faker->date('Y-m-d H:i:s'),
+            'updated_at' => $this->faker->date('Y-m-d H:i:s')
         ];
     }
 }

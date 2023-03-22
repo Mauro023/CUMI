@@ -21,7 +21,7 @@ class attendanceRepository extends BaseRepository
         'entry_time',
         'departure_time',
         'minutes',
-        'id_employe'
+        'employe_id'
     ];
 
     /**

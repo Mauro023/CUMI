@@ -16,13 +16,13 @@ class CreateAttendancesTable extends Migration
     {
         Schema::create('attendances', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('workday');
+            $table->date('workday');
             $table->string('entry_time');
             $table->string('departure_time');
-            $table->integer('id_employe')->unsigned();
+            $table->integer('employe_id')->unsigned();
             $table->timestamps();
             $table->softDeletes();
-            $table->foreign('id_employe')->references('id')->on('employes');
+            $table->foreign('employe_id')->references('id')->on('employes');
         });
     }
 

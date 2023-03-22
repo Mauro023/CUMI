@@ -24,8 +24,8 @@
 
 <!-- Id Employe Field -->
 <div class="col-sm-12">
-    {!! Form::label('id_employe', 'Id Employe:') !!}
-    <p>{{ $attendance->id_employe }}</p>
+    {!! Form::label('employe_id', 'Id Employe:') !!}
+    <p>{{ $attendance->employe_id }}</p>
 </div>
 
 <!-- Created At Field -->

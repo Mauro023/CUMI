@@ -22,8 +22,8 @@
 </div>
 <!-- Id Employe Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('id_employe', 'Empleado:') !!}
-    {!! Form::select('id_employe', $employes, null, ['class' => 'form-control custom-select']) !!}
+    {!! Form::label('employe_id', 'Empleado:') !!}
+    {!! Form::select('employe_id', $employes, null, ['class' => 'form-control custom-select']) !!}
 </div>
 
 <!-- Workday Field -->

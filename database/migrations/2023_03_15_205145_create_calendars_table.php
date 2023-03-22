@@ -17,14 +17,15 @@ class CreateCalendarsTable extends Migration
         
         Schema::create('calendars', function (Blueprint $table) {
             $table->increments('id');
-            $table->json('workday');
+            $table->date('start_date');
+            $table->date('end_date');
             $table->string('entry_time');
             $table->string('departure_time');
             $table->string('floor');
-            $table->integer('id_employe')->unsigned();
+            $table->integer('employe_id')->unsigned();
             $table->timestamps();
             $table->softDeletes();
-            $table->foreign('id_employe')->references('id')->on('employes');
+            $table->foreign('employe_id')->references('id')->on('employes');
         });
     }
 

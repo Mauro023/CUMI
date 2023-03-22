@@ -11,7 +11,7 @@
         <tbody>
         @foreach($employes as $employe)
             <tr>
-                <td>{{ $employe->employe_id }}</td>
+                <td>{{ $employe->dni }}</td>
             <td>{{ $employe->name }}</td>
             <td>{{ $employe->work_position }}</td>
                 <td width="120">

@@ -1,17 +1,31 @@
-<!-- Workday Field -->
+<!-- start date Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('workday', 'Calendario:') !!}
-    {!! Form::text('workday', null, ['class' => 'form-control','id'=>'workday']) !!}
-    
+    {!! Form::label('start_date', 'Fecha de inicio:') !!}
+    {!! Form::text('start_date', null, ['class' => 'form-control','id'=>'start_date']) !!}
 </div>
 
 @push('page_scripts')
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script type="text/javascript">
-        flatpickr('#workday', {
-            dateFormat: "Y-m-d",
-            mode: "multiple",
+        $('#start_date').datetimepicker({
+            format: 'YYYY-MM-DD',
+            useCurrent: true,
+            sideBySide: true
+        })
+    </script>
+@endpush
+
+<!-- end date Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('end_date', 'Fecha de fin:') !!}
+    {!! Form::text('end_date', null, ['class' => 'form-control','id'=>'end_date']) !!}
+</div>
+
+@push('page_scripts')
+    <script type="text/javascript">
+        $('#end_date').datetimepicker({
+            format: 'YYYY-MM-DD',
+            useCurrent: true,
+            sideBySide: true
         })
     </script>
 @endpush
@@ -36,6 +50,6 @@
 
 <!-- Id Employe Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('id_employe', 'Nombre del empleado:') !!}
-    {!! Form::select('id_employe', $employes, null, ['class' => 'form-control custom-select']) !!}
+    {!! Form::label('employe_id', 'Nombre del empleado:') !!}
+    {!! Form::select('employe_id', $employes, null, ['class' => 'form-control custom-select']) !!}
 </div>

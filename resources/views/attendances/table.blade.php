@@ -12,8 +12,8 @@
         <tbody>
         @foreach($attendances as $attendance)
             <tr>
-            <td>{{ $attendance->id_employe ? $attendance->employe->name : 'Sin ID'}}</td>
-            <td>{{ $attendance->workday }}</td>
+            <td>{{ $attendance->employe_id ? $attendance->employe->name : 'Sin ID'}}</td>
+            <td>{{ $attendance->workday->format('Y-m-d') }}</td>
             <td>{{ $attendance->entry_time }}</td>
             <td>{{ $attendance->departure_time }}</td>
                 <td width="120">

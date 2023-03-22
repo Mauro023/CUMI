@@ -22,13 +22,14 @@ class calendarFactory extends Factory
     public function definition()
     {
         return [
-            'workday' => $this->faker->word,
-        'entry_time' => $this->faker->word,
-        'departure_time' => $this->faker->word,
-        'floor' => $this->faker->word,
-        'id_employe' => $this->faker->randomDigitNotNull,
-        'created_at' => $this->faker->date('Y-m-d H:i:s'),
-        'updated_at' => $this->faker->date('Y-m-d H:i:s')
+            'start_date' => $this->faker->date('Y-m-d'),
+            'end_date' => $this->faker->date('Y-m-d'),
+            'entry_time' => $this->faker->word,
+            'departure_time' => $this->faker->word,
+            'floor' => $this->faker->word,
+            'employe_id' => $this->faker->randomDigitNotNull,
+            'created_at' => $this->faker->date('Y-m-d H:i:s'),
+            'updated_at' => $this->faker->date('Y-m-d H:i:s')
         ];
     }
 }

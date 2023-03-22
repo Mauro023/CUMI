@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @package App\Models
  * @version March 15, 2023, 8:02 pm UTC
  *
- * @property integer $employe_id
+ * @property integer $dni
  * @property string $name
  * @property string $work_position
  */
@@ -22,14 +22,23 @@ class employe extends Model
     use HasFactory;
 
     public $table = 'employes';
-    
+
+    public function calendars()
+    {
+        return $this->hasMany(Calendar::class);
+    }
+
+    public function attendances()
+    {
+        return $this->hasMany(Attendance::class);
+    }
 
     protected $dates = ['deleted_at'];
 
 
 
     public $fillable = [
-        'employe_id',
+        'dni',
         'name',
         'work_position'
     ];
@@ -40,7 +49,7 @@ class employe extends Model
      * @var array
      */
     protected $casts = [
-        'employe_id' => 'integer',
+        'dni' => 'integer',
         'name' => 'string',
         'work_position' => 'string'
     ];
@@ -51,7 +60,7 @@ class employe extends Model
      * @var array
      */
     public static $rules = [
-        'employe_id' => 'required',
+        'dni' => 'required',
         'name' => 'required',
         'work_position' => 'required'
     ];

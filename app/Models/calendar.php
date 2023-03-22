@@ -12,11 +12,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @package App\Models
  * @version March 15, 2023, 8:51 pm UTC
  *
- * @property string $workday
+ * @property date $start_date
+ * @property date $end_date
  * @property string $entry_time
  * @property string $departure_time
  * @property string $floor
- * @property integer $id_employe
+ * @property integer $employe_id
  */
 class calendar extends Model
 {
@@ -28,7 +29,7 @@ class calendar extends Model
     
     public function employe(): BelongsTo
     {
-        return $this->belongsTo(Employe::class, 'id_employe');
+        return $this->belongsTo(Employe::class, 'employe_id');
     }
 
     protected $dates = ['deleted_at'];
@@ -36,11 +37,12 @@ class calendar extends Model
 
 
     public $fillable = [
-        'workday',
+        'start_date',
+        'end_date',
         'entry_time',
         'departure_time',
         'floor',
-        'id_employe'
+        'employe_id'
     ];
 
     /**
@@ -49,11 +51,12 @@ class calendar extends Model
      * @var array
      */
     protected $casts = [
-        'workday' => 'string',
+        'start_date' => 'date',
+        'end_date' => 'date',
         'entry_time' => 'string',
         'departure_time' => 'string',
         'floor' => 'string',
-        'id_employe' => 'integer'
+        'employe_id' => 'integer'
     ];
 
     /**
@@ -62,11 +65,12 @@ class calendar extends Model
      * @var array
      */
     public static $rules = [
-        'workday' => 'required',
+        'start_date' => 'required',
+        'end_date' => 'required',
         'entry_time' => 'required',
         'departure_time' => 'required',
         'floor' => 'required',
-        'id_employe' => 'required'
+        'employe_id' => 'required'
     ];
 
     

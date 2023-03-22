@@ -17,7 +17,7 @@ class employeRepository extends BaseRepository
      * @var array
      */
     protected $fieldSearchable = [
-        'employe_id',
+        'dni',
         'name',
         'work_position'
     ];

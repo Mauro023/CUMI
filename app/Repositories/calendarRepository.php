@@ -17,11 +17,12 @@ class calendarRepository extends BaseRepository
      * @var array
      */
     protected $fieldSearchable = [
-        'workday',
+        'start_date',
+        'end_date',
         'entry_time',
         'departure_time',
         'floor',
-        'id_employe'
+        'employe_id'
     ];
 
     /**

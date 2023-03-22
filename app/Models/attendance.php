@@ -12,10 +12,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @package App\Models
  * @version March 16, 2023, 11:56 am -05
  *
- * @property string $workday
+ * @property date $workday
  * @property string $entry_time
  * @property string $departure_time
- * @property integer $id_employe
+ * @property integer $employe_id
  */
 class attendance extends Model
 {
@@ -27,7 +27,7 @@ class attendance extends Model
 
     public function employe(): BelongsTo
     {
-        return $this->belongsTo(Employe::class, 'id_employe');
+        return $this->belongsTo(Employe::class, 'employe_id');
     }
     
 
@@ -39,7 +39,7 @@ class attendance extends Model
         'workday',
         'entry_time',
         'departure_time',
-        'id_employe'
+        'employe_id'
     ];
 
     /**
@@ -48,10 +48,10 @@ class attendance extends Model
      * @var array
      */
     protected $casts = [
-        'workday' => 'string',
+        'workday' => 'date',
         'entry_time' => 'string',
         'departure_time' => 'string',
-        'id_employe' => 'integer'
+        'employe_id' => 'integer'
     ];
 
     /**
@@ -62,7 +62,7 @@ class attendance extends Model
     public static $rules = [
         'workday' => 'required',
         'entry_time' => 'required',
-        'id_employe' => 'required'
+        'employe_id' => 'required'
     ];
 
     

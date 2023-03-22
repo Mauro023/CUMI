@@ -22,11 +22,11 @@ class employeFactory extends Factory
     public function definition()
     {
         return [
-            'employe_id' => $this->faker->randomDigitNotNull,
-        'name' => $this->faker->word,
-        'work_position' => $this->faker->word,
-        'created_at' => $this->faker->date('Y-m-d H:i:s'),
-        'updated_at' => $this->faker->date('Y-m-d H:i:s')
+            'dni' => $this->faker->randomDigitNotNull,
+            'name' => $this->faker->word,
+            'work_position' => $this->faker->word,
+            'created_at' => $this->faker->date('Y-m-d H:i:s'),
+            'updated_at' => $this->faker->date('Y-m-d H:i:s')
         ];
     }
 }
