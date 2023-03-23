@@ -28,11 +28,21 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-lg-12">
-                            <a href="{{ route('admin.users.create') }}" class="btn btn-info btn-rounded m-t-10 float-right">Agregar usuario</a>
+                        {!! Form::open(['route' => ['users.filter'], 'method' => 'post', 'class' => 'row col-sm-12  mt-4']) !!}
+                        <div class="form-group col-sm-5">
+                            <label>Nombre</label>
+                            <input type="text" name="name" class="form-control" />
                         </div>
+                        <div class="form-group col-sm-2">
+                            <label style="visibility: hidden">Accion</label>
+                            <button class="btn btn-info form-control">Filtrar</button>
+                        </div>
+                        <div class="form-group col-sm-2 float-sm-end">
+                            <label style="visibility: hidden">Boton</label>
+                            <a href="{{ route('admin.users.create') }}" class="btn btn-info form-control">Agregar</a>
+                        </div>
+                        {!! Form::close() !!}
                     </div>
-                    
                     <br>
                     <div class="card-panel">
                         @include('admin.users.table')

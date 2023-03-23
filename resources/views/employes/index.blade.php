@@ -17,13 +17,22 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="row">
-                        <div class="col-lg-12">
-                            <a href="{{ route('employes.create') }}" class="btn btn-info btn-rounded m-t-10 float-right">Agregar usuario</a>
+                        {!! Form::open(['route' => ['employes.filter'], 'method' => 'post', 'class' => 'row col-sm-12  mt-4']) !!}
+                        <div class="form-group col-sm-5">
+                            <label>DNI</label>
+                            <input type="text" name="dni" class="form-control" />
                         </div>
+                        <div class="form-group col-sm-2">
+                            <label style="visibility: hidden">Accion</label>
+                            <button class="btn btn-info form-control">Filtrar</button>
+                        </div>
+                        <div class="form-group col-sm-2">
+                            <label style="visibility: hidden">Boton</label>
+                            <a href="{{ route('employes.create') }}" class="btn btn-info form-control">Agregar</a>
+                        </div>
+                        {!! Form::close() !!}
                     </div>
-                    
                     <br>
                     <div class="card-panel">
                         @include('employes.table')

@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateemployeRequest;
 use App\Repositories\employeRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
+use App\Models\Employe;
 use Flash;
 use Response;
 
@@ -152,5 +153,14 @@ class employeController extends AppBaseController
         Flash::info('¡¡Usuario eliminado correctamente!!.');
 
         return redirect(route('employes.index'));
+    }
+
+    public function filter(Request $request)
+    {
+        $input = $request->input('dni');
+
+        $employes = Employe::where('dni', 'LIKE', '%'.$input.'%')->paginate(10);
+
+        return view('employes.index', ['employes' => $employes]);
     }
 }

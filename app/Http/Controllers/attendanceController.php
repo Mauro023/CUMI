@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Flash;
 use Response;
 use App\Models\employe;
+use App\Models\attendance;
 
 class attendanceController extends AppBaseController
 {
@@ -155,5 +156,15 @@ class attendanceController extends AppBaseController
         Flash::success('Attendance deleted successfully.');
 
         return redirect(route('attendances.index'));
+    }
+
+    public function filter(Request $request)
+    {
+        $input = $request->all();
+
+        $attendances = Attendance::whereBetween('workday', array($input['start_date'] . " 00:00:00", $input['end_date'] . " 23:59:59"))->get();
+
+        return view('attendances.index')
+            ->with('attendances', $attendances);
     }
 }

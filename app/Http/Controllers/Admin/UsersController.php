@@ -132,4 +132,13 @@ class UsersController extends Controller
 
         return redirect()->route('admin.users.index');
     }
+
+    public function filter(Request $request)
+    {
+        $input = $request->input('name');
+
+        $users = USER::where('name', 'LIKE', '%'.$input.'%')->paginate(10);
+
+        return view('admin.users.index', ['users' => $users]);
+    }
 }

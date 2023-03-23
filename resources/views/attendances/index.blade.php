@@ -7,12 +7,26 @@
                 <div class="col-sm-6">
                     <h1>Asistencia</h1>
                 </div>
-                <div class="col-sm-6">
-                    <a class="btn btn-primary float-right"
-                       href="{{ route('attendances.create') }}">
-                        Agregar nueva
-                    </a>
-                </div>
+                <div class="row">
+                        {!! Form::open(['route' => ['attendances.filter'], 'method' => 'post', 'class' => 'row col-sm-12  mt-4']) !!}
+                        <div class="form-group col-sm-4">
+                            {!! Form::label('workday', 'Fecha inicial:') !!}
+                            {!! Form::text('workday', null, ['class' => 'form-control','id'=>'start_date' ,'name'=>'start_date']) !!}
+                        </div>
+                        <div class="form-group col-sm-4">
+                            {!! Form::label('workday', 'Fecha final:') !!}
+                            {!! Form::text('workday', null, ['class' => 'form-control','id'=>'end_date','name'=>'end_date']) !!}
+                        </div>
+                        <div class="form-group col-sm-2">
+                            <label style="visibility: hidden">Accion</label>
+                            <button class="btn btn-info form-control">Filtrar</button>
+                        </div>
+                        <div class="form-group col-sm-2">
+                            <label style="visibility: hidden">Boton</label>
+                            <a href="{{ route('attendances.create') }}" class="btn btn-info form-control">Agregar</a>
+                        </div>
+                        {!! Form::close() !!}
+                    </div>
             </div>
         </div>
     </section>
@@ -36,6 +50,19 @@
 
         </div>
     </div>
-
 @endsection
+@push('page_scripts')
+    <script type="text/javascript">
+        $('#start_date').datetimepicker({
+            format: 'YYYY-MM-DD',
+            useCurrent: true,
+            sideBySide: true
+        })
 
+        $('#end_date').datetimepicker({
+            format: 'YYYY-MM-DD',
+            useCurrent: true,
+            sideBySide: true
+        })
+    </script>
+@endpush

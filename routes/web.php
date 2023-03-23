@@ -39,3 +39,7 @@ Route::resource('calendars', App\Http\Controllers\calendarController::class);
 
 Route::resource('attendances', App\Http\Controllers\attendanceController::class);
 Route::resource('control', App\Http\Controllers\controlController::class);
+
+Route::post('/filterUser', [App\Http\Controllers\Admin\UsersController::class, 'filter'])->name('users.filter');
+Route::post('/filterEmploye', [App\Http\Controllers\EmployeController::class, 'filter'])->name('employes.filter');
+Route::post('/filterAttendance', [App\Http\Controllers\AttendanceController::class, 'filter'])->name('attendances.filter');
