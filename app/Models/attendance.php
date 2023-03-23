@@ -13,8 +13,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @version March 16, 2023, 11:56 am -05
  *
  * @property date $workday
- * @property string $entry_time
- * @property string $departure_time
+ * @property string $aentry_time
+ * @property string $adeparture_time
  * @property integer $employe_id
  */
 class attendance extends Model
@@ -37,8 +37,8 @@ class attendance extends Model
 
     public $fillable = [
         'workday',
-        'entry_time',
-        'departure_time',
+        'aentry_time',
+        'adeparture_time',
         'employe_id'
     ];
 
@@ -49,8 +49,8 @@ class attendance extends Model
      */
     protected $casts = [
         'workday' => 'date',
-        'entry_time' => 'string',
-        'departure_time' => 'string',
+        'aentry_time' => 'string',
+        'adeparture_time' => 'string',
         'employe_id' => 'integer'
     ];
 
@@ -61,7 +61,7 @@ class attendance extends Model
      */
     public static $rules = [
         'workday' => 'required',
-        'entry_time' => 'required',
+        'aentry_time' => 'required',
         'employe_id' => 'required'
     ];
 

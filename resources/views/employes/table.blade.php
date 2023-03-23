@@ -34,3 +34,6 @@
         </tbody>
     </table>
 </div>
+<div class="card-footer mr-auto">
+    {{ $employes->links() }}
+</div>

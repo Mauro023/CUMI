@@ -23,8 +23,8 @@ class attendanceFactory extends Factory
     {
         return [
             'workday' => $this->faker->date('Y-m-d'),
-            'entry_time' => $this->faker->word,
-            'departure_time' => $this->faker->word,
+            'aentry_time' => $this->faker->word,
+            'adeparture_time' => $this->faker->word,
             'minutes' => $this->faker->randomDigitNotNull,
             'employe_id' => $this->faker->randomDigitNotNull,
             'created_at' => $this->faker->date('Y-m-d H:i:s'),

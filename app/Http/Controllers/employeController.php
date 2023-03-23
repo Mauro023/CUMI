@@ -29,7 +29,7 @@ class employeController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $employes = $this->employeRepository->all();
+        $employes = $this->employeRepository->paginate(10);
 
         return view('employes.index')
             ->with('employes', $employes);

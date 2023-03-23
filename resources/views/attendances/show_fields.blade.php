@@ -6,20 +6,14 @@
 
 <!-- Entry Time Field -->
 <div class="col-sm-12">
-    {!! Form::label('entry_time', 'Entry Time:') !!}
-    <p>{{ $attendance->entry_time }}</p>
+    {!! Form::label('aentry_time', 'Entry Time:') !!}
+    <p>{{ $attendance->aentry_time }}</p>
 </div>
 
 <!-- Departure Time Field -->
 <div class="col-sm-12">
-    {!! Form::label('departure_time', 'Departure Time:') !!}
-    <p>{{ $attendance->departure_time }}</p>
-</div>
-
-<!-- Minutes Field -->
-<div class="col-sm-12">
-    {!! Form::label('minutes', 'Minutes:') !!}
-    <p>{{ $attendance->minutes }}</p>
+    {!! Form::label('adeparture_time', 'Departure Time:') !!}
+    <p>{{ $attendance->adeparture_time }}</p>
 </div>
 
 <!-- Id Employe Field -->

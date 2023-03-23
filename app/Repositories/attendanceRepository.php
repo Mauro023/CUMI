@@ -18,8 +18,8 @@ class attendanceRepository extends BaseRepository
      */
     protected $fieldSearchable = [
         'workday',
-        'entry_time',
-        'departure_time',
+        'aentry_time',
+        'adeparture_time',
         'minutes',
         'employe_id'
     ];

@@ -21,7 +21,7 @@ class controlController extends AppBaseController
         $resultados = DB::table('calendars')
             ->join('attendances', 'calendars.employe_id', '=', 'attendances.employe_id')
             ->join('employes', 'employes.id', '=', 'attendances.employe_id')
-            ->select('calendars.start_date', 'calendars.end_date', 'attendances.workday', 'attendances.entry_time', 'attendances.departure_time','employes.name')
+            ->select('*')
             ->whereRaw('attendances.workday BETWEEN calendars.start_date AND calendars.end_date')
             ->get();
 
