@@ -14,6 +14,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property integer $dni
  * @property string $name
  * @property string $work_position
+ * @property string $unit
+ * @property string $cost_center
  */
 class employe extends Model
 {
@@ -40,7 +42,9 @@ class employe extends Model
     public $fillable = [
         'dni',
         'name',
-        'work_position'
+        'work_position',
+        'unit',
+        'cost_center'
     ];
 
     /**
@@ -51,7 +55,9 @@ class employe extends Model
     protected $casts = [
         'dni' => 'integer',
         'name' => 'string',
-        'work_position' => 'string'
+        'work_position' => 'string',
+        'unit' => 'string',
+        'cost_center' => 'string'
     ];
 
     /**
@@ -62,7 +68,9 @@ class employe extends Model
     public static $rules = [
         'dni' => 'required',
         'name' => 'required',
-        'work_position' => 'required'
+        'work_position' => 'required',
+        'unit' => 'required',
+        'cost_center' => 'required'
     ];
 
     

@@ -1,4 +1,4 @@
-<aside class="main-sidebar sidebar-dark-primary elevation-4">
+<aside class="main-sidebar sidebar-dark-success elevation-4">
     <a href="{{ url('/home') }}" class="brand-link">
         <img src="https://cumi.com.co/wp-content/uploads/2020/12/icono_Mesa-de-trabajo-1.png"
              alt="{{ config('app.name') }} Logo"

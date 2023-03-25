@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use Flash;
 use Response;
 use App\Models\employe;
+use App\Models\calendar;
 
 class calendarController extends AppBaseController
 {
@@ -31,7 +32,7 @@ class calendarController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $calendars = $this->calendarRepository->all();
+        $calendars = calendar::orderBy('created_at', 'DESC')->paginate(50);
 
         return view('calendars.index')
             ->with('calendars', $calendars);
@@ -156,5 +157,15 @@ class calendarController extends AppBaseController
         Flash::success('Calendar deleted successfully.');
 
         return redirect(route('calendars.index'));
+    }
+
+    public function filter(Request $request)
+    {
+        $input = $request->all();
+
+        $calendars = calendar::whereBetween('start_date', [$input['start_date'], $input['end_date']])->paginate(100);
+
+        return view('calendars.index')
+            ->with('calendars', $calendars);
     }
 }

@@ -1,0 +1,26 @@
+necesito realizar comparaciones de fechas porque es un sistema de control de asistencias, entonces la idea principal es comparar el rango de fechas start_date y end_date que se encuentran en una tabla llamada calendars con la variable workday de otra tabla llamada attendances para saber si el empleado llegó temprano o tarde, estas dos tablas tienen una llave foranea que apuntan a una tabla llamada employees que contiene la información basica de los empleados, este proyecto lo estoy realizando en laravel
+
+SELECT *
+FROM calendars C
+JOIN attendances A
+ON C.employe_id = A.employe_id
+WHERE A.workday BETWEEN C.start_date AND C.end_date
+
+
+if(Dia de trabajo = hoy && hora de entrada(asistencia) >= 1:30 PM && hora de salida (asistencia) = null y la hora actual = 5:15PM){
+	Registrame en la hora de salida de la tabla asistencia, 5:15 PM
+}else{
+	if(Dia de trabajo = hoy && hora de entrada(asistencia) >= 2:00 PM && hora de salida (asistencia) = null y la hora actual = 5:15PM){
+		Registrame en la hora de salida de la tabla asistencia, 5:15 PM
+	}	
+}
+
+if(Dia de trabajo = hoy && hora de entrada(asistencia) >= 8:00 AM && hora de salida (asistencia) = null && la hora actual = 12:45 PM){
+	Registrame en la hora de salida de la tabla asistencia, 12:45 PM
+}else{
+	if(Dia de trabajo = hoy && hora de entrada(asistencia) >= 7:15 PM && hora de salida (asistencia) = null && la hora actual = 12:15PM){
+		Registrame en la hora de salida de la tabla asistencia, 5:15 PM
+	}	
+}
+
+Muy buenos días, me gustaría realizar la compra del dispositivo Anviz GC150, pero quisiera saber si este dispositivo tiene alguna forma de realizar una conexión directa a MYSQL sin necesidad de utilizar el software gratuito que ustedes proporcionan, esto para capturar estos datos con una aplicación web creada propiamente por mi, espero con ansia su respuesta, muchas gracias

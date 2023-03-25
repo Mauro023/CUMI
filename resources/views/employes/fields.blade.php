@@ -15,3 +15,28 @@
     {!! Form::label('work_position', 'Cargo:') !!}
     {!! Form::text('work_position', null, ['class' => 'form-control']) !!}
 </div>
+
+<!-- Unit Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('unit', 'Unidad:') !!}
+    {!! Form::select('unit', ['Administrativo' => 'Administrativo', 'Asistencial' => 'Asistencial'], null, ['class' => 'form-control']) !!}
+</div>
+
+<!-- Cost center Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('cost_center', 'Centro de costo:') !!}
+    {!! Form::select('cost_center', 
+        [
+            'Piso 1' => 'Piso 1', 
+            'Piso 2' => 'Piso 2', 
+            'Piso 3' => 'Piso 3',
+            'Piso 4' => 'Piso 4',
+            'Piso 5' => 'Piso 5',
+            'Piso 6' => 'Piso 6',
+            'Piso 7' => 'Piso 7',
+            'Piso 8' => 'Piso 8',
+            'Piso 9' => 'Piso 9',
+            'Piso 10' => 'Piso 10',
+            'Piso 11' => 'Piso 11'
+        ], null, ['class' => 'form-control']) !!}
+</div>

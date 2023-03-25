@@ -31,7 +31,7 @@ class attendanceController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $attendances = $this->attendanceRepository->all();
+        $attendances = Attendance::orderBy('created_at', 'DESC')->paginate(50);
 
         return view('attendances.index')
             ->with('attendances', $attendances);
@@ -162,7 +162,7 @@ class attendanceController extends AppBaseController
     {
         $input = $request->all();
 
-        $attendances = Attendance::whereBetween('workday', array($input['start_date'] . " 00:00:00", $input['end_date'] . " 23:59:59"))->get();
+        $attendances = Attendance::orderby('workday', 'DESC')->whereBetween('workday', array($input['start_date'] . " 00:00:00", $input['end_date'] . " 23:59:59"))->paginate(50);
 
         return view('attendances.index')
             ->with('attendances', $attendances);

@@ -16,6 +16,18 @@
     <p>{{ $employe->work_position }}</p>
 </div>
 
+<!-- Unit Field -->
+<div class="col-sm-12">
+    {!! Form::label('Unit', 'Unidad:') !!}
+    <p>{{ $employe->unit }}</p>
+</div>
+
+<!-- Cost center Field -->
+<div class="col-sm-12">
+    {!! Form::label('cost_center', 'Centro de costo:') !!}
+    <p>{{ $employe->cost_center }}</p>
+</div>
+
 <!-- Created At Field -->
 <div class="col-sm-12">
     {!! Form::label('created_at', 'Fecha de creacion:') !!}

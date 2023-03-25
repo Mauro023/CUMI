@@ -3,8 +3,10 @@
         <thead>
         <tr>
             <th>Identificacion</th>
-        <th>Nombre</th>
-        <th>Cargo</th>
+            <th>Nombre</th>
+            <th>Cargo</th>
+            <th>Unidad</th>
+            <th>Centro de costo</th>
             <th colspan="3">Acciones</th>
         </tr>
         </thead>
@@ -12,8 +14,10 @@
         @foreach($employes as $employe)
             <tr>
                 <td>{{ $employe->dni }}</td>
-            <td>{{ $employe->name }}</td>
-            <td>{{ $employe->work_position }}</td>
+                <td>{{ $employe->name }}</td>
+                <td>{{ $employe->work_position }}</td>
+                <td>{{ $employe->unit }}</td>
+                <td>{{ $employe->cost_center }}</td>
                 <td width="120">
                     {!! Form::open(['route' => ['employes.destroy', $employe->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>

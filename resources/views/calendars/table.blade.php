@@ -37,3 +37,6 @@
         </tbody>
     </table>
 </div>
+<div class="card-footer mr-auto">
+    {{ $calendars->links() }}
+</div>

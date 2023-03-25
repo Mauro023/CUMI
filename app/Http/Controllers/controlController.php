@@ -24,6 +24,7 @@ class controlController extends AppBaseController
             ->join('employes', 'employes.id', '=', 'attendances.employe_id')
             ->select('*')
             ->whereRaw('attendances.workday BETWEEN calendars.start_date AND calendars.end_date')
+            ->orderBy('attendances.workday', 'DESC')
             ->get();
 
         return view('control.index', compact('resultados'));

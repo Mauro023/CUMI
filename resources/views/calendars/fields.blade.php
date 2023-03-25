@@ -45,7 +45,20 @@
 <!-- Floor Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('floor', 'Piso:') !!}
-    {!! Form::text('floor', null, ['class' => 'form-control']) !!}
+    {!! Form::select('floor', 
+        [
+            1 => 'Piso 1', 
+            2 => 'Piso 2', 
+            3 => 'Piso 3', 
+            4 => 'Piso 4', 
+            5 => 'Piso 5', 
+            6 => 'Piso 6', 
+            7 => 'Piso 7', 
+            8 => 'Piso 8', 
+            9 => 'Piso 9', 
+            10 => 'Piso 10', 
+            11 => 'Piso 11'
+        ], null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Id Employe Field -->

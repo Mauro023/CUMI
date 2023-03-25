@@ -25,6 +25,8 @@ class employeFactory extends Factory
             'dni' => $this->faker->randomDigitNotNull,
             'name' => $this->faker->word,
             'work_position' => $this->faker->word,
+            'unit' => $this->faker->word,
+            'cost_center' => $this->faker->word,
             'created_at' => $this->faker->date('Y-m-d H:i:s'),
             'updated_at' => $this->faker->date('Y-m-d H:i:s')
         ];

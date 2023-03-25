@@ -7,11 +7,25 @@
                 <div class="col-sm-6">
                     <h1>Calendarios</h1>
                 </div>
-                <div class="col-sm-6">
-                    <a class="btn btn-primary float-right"
-                       href="{{ route('calendars.create') }}">
-                        Asignar calendario
-                    </a>
+                <div class="row">
+                    {!! Form::open(['route' => ['calendars.filter'], 'method' => 'post', 'class' => 'row col-sm-12 mt-4']) !!}
+                    <div class="form-group col-sm-4">
+                        {!! Form::label('start_date', 'Fecha inicial:') !!}
+                        {!! Form::text('start_date', null, ['class' => 'form-control','id'=>'start_date' ,'name'=>'start_date']) !!}
+                    </div>
+                    <div class="form-group col-sm-4">
+                        {!! Form::label('end_date', 'Fecha final:') !!}
+                        {!! Form::text('end_date', null, ['class' => 'form-control','id'=>'end_date','name'=>'end_date']) !!}
+                    </div>
+                    <div class="form-group col-sm-2">
+                        <label style="visibility: hidden">Accion</label>
+                        <button class="btn btn-info form-control">Filtrar</button>
+                    </div>
+                    <div class="form-group col-sm-2">
+                        <label style="visibility: hidden">Boton</label>
+                        <a href="{{ route('calendars.create') }}" class="btn btn-info form-control">Agregar</a>
+                    </div>
+                    {!! Form::close() !!}
                 </div>
             </div>
         </div>
@@ -29,7 +43,7 @@
 
                 <div class="card-footer clearfix">
                     <div class="float-right">
-                        
+
                     </div>
                 </div>
             </div>
@@ -37,10 +51,19 @@
         </div>
     </div>
 
-    <script>
-        const datesInput = document.getElementById('workday');
-        const dates = datesInput.value.split(',').map(date => `"${date.trim()}"`);
-        datesInput.value = '[' + dates.join(', ') + ']';
-    </script>
-@endsection
+    @push('page_scripts')
+        <script type="text/javascript">
+            $('#start_date').datetimepicker({
+                format: 'YYYY-MM-DD',
+                useCurrent: true,
+                sideBySide: true
+            })
 
+            $('#end_date').datetimepicker({
+                format: 'YYYY-MM-DD',
+                useCurrent: true,
+                sideBySide: true
+            })
+        </script>
+    @endpush
+@endsection

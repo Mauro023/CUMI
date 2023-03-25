@@ -19,6 +19,8 @@ class EmployeSeeder extends Seeder
             'dni' => 13213164,
             'name' => 'Pedro Leon',
             'work_position' => 'Coordinador de sistemas',
+            'unit' => 'Administrativo',
+            'cost_center' => 'Piso 2',
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s"),
         ]);
@@ -28,6 +30,8 @@ class EmployeSeeder extends Seeder
             'dni' => 654567,
             'name' => 'Julio Alvarez',
             'work_position' => 'Auxiliar de sistemas',
+            'unit' => 'Administrativo',
+            'cost_center' => 'Piso 2',
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s"),
         ]);
@@ -37,6 +41,8 @@ class EmployeSeeder extends Seeder
             'dni' => 647321,
             'name' => 'Mauricio Camargo',
             'work_position' => 'Ingeniero de soporte',
+            'unit' => 'Administrativo',
+            'cost_center' => 'Piso 2',
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s"),
         ]);
@@ -46,6 +52,8 @@ class EmployeSeeder extends Seeder
             'dni' => 789789,
             'name' => 'Sandra Padilla',
             'work_position' => 'Contadora',
+            'unit' => 'Administrativo',
+            'cost_center' => 'Piso 2',
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s"),
         ]);
@@ -55,6 +63,8 @@ class EmployeSeeder extends Seeder
             'dni' => 6547889,
             'name' => 'Marisol Garcia',
             'work_position' => 'Abogada',
+            'unit' => 'Administrativo',
+            'cost_center' => 'Piso 2',
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s"),
         ]);
