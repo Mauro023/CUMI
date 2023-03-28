@@ -33,13 +33,13 @@
 <!-- Entry time Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('entry_time', 'Hora de entrada:') !!}
-    {!! Form::time('entry_time', null, ['class' => 'form-control']) !!}
+    {!! Form::time('entry_time', null, ['class' => 'form-control', 'step' => '1']) !!}
 </div>
 
 <!-- Departure time Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('departure_time', 'Hora de salida:') !!}
-    {!! Form::time('departure_time', null, ['class' => 'form-control']) !!}
+    {!! Form::time('departure_time', null, ['class' => 'form-control', 'step' => '1']) !!}
 </div>
 
 <!-- Floor Field -->
