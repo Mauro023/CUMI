@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Log;
 
 use Carbon\Carbon;
 use App\Models\Attendance;
+use App\Models\Employes;
 
 class TestTask extends Command
 {
@@ -41,19 +42,31 @@ class TestTask extends Command
      */
     public function handle()
     {
-        $attendances = attendance::where('workday', '2023-03-27')
-                ->whereNull('adeparture_time')
+        $today = Carbon::now()->format('Y-m-d');
+        $attendances = attendance::select('attendances.*')
+                ->join('employes', 'attendances.employe_id', '=', 'employes.id')
+                ->where('attendances.workday', $today)
                 ->where(function($query) {
-                    $query->whereTime('aentry_time', '>=', '07:45:00');
+                    $query->whereNull('attendances.adeparture_time')
+                        ->orWhere('attendances.adeparture_time', '');
                 })
+                ->whereNotNull('attendances.aentry_time')
+                ->where('employes.unit', '=','Administrativo')
                 ->get();
-
+                    
+                Log::info('Found '.count($attendances).' attendances for today and administrative.');
         foreach ($attendances as $attendance) {
+            
             $horaEntrada = Carbon::parse($attendance->aentry_time);
             $horaActual = now();
-            if ($horaActual->greaterThanOrEqualTo(Carbon::parse('10:45:00'))) {
+            if ($horaActual->greaterThanOrEqualTo(Carbon::parse('12:45:00')) && $horaActual->lessThanOrEqualTo(Carbon::parse('13:00:00'))) {
                 $attendance->update(['adeparture_time' => 'NA']);
                 $attendance->save();
+                Log::info("Attendance updated morning: " . $attendance->id);
+            }else if ($horaActual->greaterThanOrEqualTo(Carbon::parse('17:45:00')) && $horaActual->lessThanOrEqualTo(Carbon::parse('18:00:00'))) {
+                $attendance->update(['adeparture_time' => 'NA']);
+                $attendance->save();
+                Log::info("Attendance updated affternon: " . $attendance->id);
             }
         }
     }
