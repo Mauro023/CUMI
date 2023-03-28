@@ -1,5 +1,5 @@
 <div class="table-responsive">
-    <table class="table" id="employes-table">
+    <table class="table " id="employes-table">
         <thead>
         <tr>
             <th>Identificacion</th>

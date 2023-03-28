@@ -52,9 +52,9 @@ class TestTask extends Command
                 })
                 ->whereNotNull('attendances.aentry_time')
                 ->where('employes.unit', '=','Administrativo')
-                ->get();
-                    
+                ->get();                
                 Log::info('Found '.count($attendances).' attendances for today and administrative.');
+
         foreach ($attendances as $attendance) {
             
             $horaEntrada = Carbon::parse($attendance->aentry_time);
