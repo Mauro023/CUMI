@@ -12,7 +12,7 @@
 <!-- Entry time Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('aentry_time', 'Hora de entrada:') !!}
-    {!! Form::time('aentry_time', date('H:i:s'), ['class' => 'form-control', 'step' => '1']) !!}
+    {!! Form::time('aentry_time', null, ['class' => 'form-control', 'step' => '1']) !!}
 </div>
 
 <!-- Departure time Field -->

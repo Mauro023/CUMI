@@ -1,3 +1,11 @@
+<li class="nav-item">
+    <a href="{{ route('home') }}"
+       class="nav-link {{ Request::is('homes*') ? 'active' : '' }}">
+       <span class="fas fa-home"></span>
+        <p>Home</p>
+    </a>
+</li>
+
 @if(@Auth::user()->hasRole('admin'))
 <li class="nav-item" >
     
