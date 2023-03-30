@@ -19,7 +19,7 @@
 <!-- Unit Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('unit', 'Unidad:') !!}
-    {!! Form::select('unit', ['Administrativo' => 'Administrativo', 'Asistencial' => 'Asistencial'], null, ['class' => 'form-control']) !!}
+    {!! Form::select('unit', ['Administrativo' => 'Administrativo', 'Asistencial' => 'Asistencial'], null, ['class' => 'form-control custom-select']) !!}
 </div>
 
 <!-- Cost center Field -->
@@ -38,5 +38,5 @@
             'Piso 9' => 'Piso 9',
             'Piso 10' => 'Piso 10',
             'Piso 11' => 'Piso 11'
-        ], null, ['class' => 'form-control']) !!}
+        ], null, ['class' => 'form-control custom-select']) !!}
 </div>

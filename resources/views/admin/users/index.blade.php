@@ -3,18 +3,17 @@
 @section('title', 'Dashboard')
 
 @section('content')
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h3 class="text-themecolor">Lista de usuarios</h3>
+                </div>
+            </div>
 
-    <div class="row page-titles">
-        <div class="col-md-5 align-self-center">
-            <h3 class="text-themecolor">Lista de usuarios</h3>
-        </div>
-    </div>
-
-    <div class="row">
-        <!-- column -->
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-body">
+            <div class="row">
+                <!-- column -->
+                <div class="col-lg-12">
                     <div class="row m-t-40">
                         <!-- Column -->
                         <div class="col-md-6 col-lg-3 col-xlg-3">
@@ -28,7 +27,8 @@
                     </div>
 
                     <div class="row">
-                        {!! Form::open(['route' => ['users.filter'], 'method' => 'post', 'class' => 'row col-sm-12  mt-4']) !!}
+                        {!! Form::open(['route' => ['users.filter'], 'method' => 'post', 'class' => 'row col-sm-12 mt-4'])
+                        !!}
                         <div class="form-group col-sm-5">
                             <label>Nombre</label>
                             <input type="text" name="name" class="form-control" />
@@ -43,13 +43,27 @@
                         </div>
                         {!! Form::close() !!}
                     </div>
-                    <br>
-                    <div class="card-panel">
-                        @include('admin.users.table')
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="content px-3">
+
+    @include('flash::message')
+
+    <div class="clearfix"></div>
+        <div class="card">
+            <div class="card-body p-0">
+                <div class="card-panel">
+                    @include('admin.users.table')
+
+                    <div class="card-footer clearfix">
+                        <div class="float-right">
+
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 @endsection
-               

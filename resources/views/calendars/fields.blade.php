@@ -58,7 +58,7 @@
             9 => 'Piso 9', 
             10 => 'Piso 10', 
             11 => 'Piso 11'
-        ], null, ['class' => 'form-control']) !!}
+        ], null, ['class' => 'form-control custom-select']) !!}
 </div>
 
 <!-- Id Employe Field -->
