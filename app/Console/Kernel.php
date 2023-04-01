@@ -15,13 +15,15 @@ class Kernel extends ConsoleKernel
      */
 
      protected $commands = [
-        Commands\TestTask::class
+        Commands\TestTask::class,
+        Commands\TestTask2::class
      ];
 
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
-        $schedule->command('test:task')->everyFiveMinutes();
+        $schedule->command('test:task')->everyMinute();
+        $schedule->command('test:task2')->everyMinute();
     }
 
     /**

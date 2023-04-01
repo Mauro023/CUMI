@@ -68,26 +68,20 @@ class attendanceController extends AppBaseController
         
         if (($entry_time->between(Carbon::parse('11:30'), Carbon::parse('13:00')) ||
                 $entry_time->between(Carbon::parse('16:30'), Carbon::parse('18:00')))) {
-            // Si la hora de registro es después de las 3 PM y el campo de entrada está vacío,
-            // entonces asumimos que el registro es una salida y el campo de entrada es NA
-            //$input['aentry_time'] = 'NA';
             $entry_time = 'NA';
             $exit_time = $input['aentry_time'];
         }else {
             $entry_time = $input['aentry_time'];
         }
         
-        // Crear el objeto de asistencia
         $attendance = new Attendance();
         $attendance->workday = $input['workday'];
         $attendance->aentry_time = $entry_time;
         $attendance->adeparture_time = $exit_time;
         $attendance->employe_id = $input['employe_id'];
         
-        // Guardar el objeto de asistencia en la base de datos
         $attendance->save();
         
-        // Redireccionar a la página de asistencias
         Flash::success('¡¡Asistencia guardada exitosamente!!');
 
         return redirect(route('attendances.index'));
