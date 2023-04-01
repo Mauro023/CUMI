@@ -44,33 +44,24 @@ class TestTask2 extends Command
     {
         $today = Carbon::today()->format('Y-m-d');
         $calendars = Calendar::whereDate('start_date', '<=', $today)
-                                ->whereDate('end_date', '>=', $today)
-                                ->get();
+                            ->whereDate('end_date', '>=', $today)
+                            ->get();
 
         foreach ($calendars as $calendar) {
             $attendances = Attendance::whereNull('workday')
-                                        ->whereIn('employe_id', $calendar->employes->pluck('id'))
-                                        ->get();
+                ->whereIn('employe_id', $calendar->employes->pluck('id'))
+                ->get();
 
             $horaActual = Carbon::now();
-            if ($horaActual->hour === 12 && $horaActual->minute === 22) {
+            if ($horaActual->hour === 13 && $horaActual->minute === 01) {
                 foreach ($attendances as $attendance) {
-                    $attendance->update(['aentry_time' => 'NA', 'adeparture_time' => 'NA']);
-                    Log::info('Attendance updated: ' . $attendance->id);
-                }
-
-                $absentEmployees = Employee::whereNotIn('id', $calendar->employes->pluck('id'))
-                                            ->where('active', true)
-                                            ->get();
-
-                foreach ($absentEmployees as $absentEmployee) {
-                    Attendance::create([
-                        'employe_id' => $absentEmployee->id,
-                        'workday' => $today,
+                    $attendance->update([
                         'aentry_time' => 'NA',
-                        'adeparture_time' => 'NA'
+                        'adeparture_time' => 'NA',
+                        'workday' => $today,
+                        'employe_id' => $attendance->employe_id
                     ]);
-                    Log::info('Attendance created for absent employee: ' . $absentEmployee->id);
+                    Log::info('Attendance updated: ' . $attendance->id);
                 }
             }
         }
