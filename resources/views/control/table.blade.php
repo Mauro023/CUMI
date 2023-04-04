@@ -8,7 +8,6 @@
             <th>Horario</th>
             <th>Dia de trabajo</th>
             <th>Entrada-salida</th>
-            <th>Minutos</th>
         </tr>
         </thead>
         <tbody>
@@ -20,9 +19,6 @@
                 <td>{{ $resultado->entry_time }} - {{ $resultado->departure_time }}</td>
                 <td>{{ $resultado->workday}}</td>
                 <td>{{ $resultado->aentry_time }} - {{ $resultado->adeparture_time }}</td>
-                <td>
-                
-                </td>
             </tr>
         @endforeach
         </tbody>

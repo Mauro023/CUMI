@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
 use App\Models\Attendance;
 use App\Models\Calendar;
+use App\Models\Employe;
 
 class TestTask2 extends Command
 {
@@ -48,21 +49,35 @@ class TestTask2 extends Command
                             ->get();
 
         foreach ($calendars as $calendar) {
-            $attendances = Attendance::whereNull('workday')
-                ->whereIn('employe_id', $calendar->employes->pluck('id'))
-                ->get();
-
-            $horaActual = Carbon::now();
-            if ($horaActual->hour === 13 && $horaActual->minute === 01) {
-                foreach ($attendances as $attendance) {
-                    $attendance->update([
+            $employes = $calendar->employe()->where('deleted_at', null)->get();
+            foreach ($employes as $employe) {
+                $attendance = Attendance::where('employe_id', $employe->id)
+                                        ->whereDate('workday', $today)
+                                        ->first();
+                if (!$attendance) {
+                    $attendance = new Attendance([
+                        'employe_id' => $employe->id,
+                        'workday' => $today,
                         'aentry_time' => 'NA',
                         'adeparture_time' => 'NA',
-                        'workday' => $today,
-                        'employe_id' => $attendance->employe_id
                     ]);
-                    Log::info('Attendance updated: ' . $attendance->id);
+                    $attendance->save();
+                    Log::info('Attendance created: ' . $attendance->id);
                 }
+            }
+        }
+
+        $horaActual = Carbon::now();
+        if ($horaActual->hour === 11 && $horaActual->minute === 00) {
+            $attendances = Attendance::whereDate('workday', $today)
+                                    ->where('aentry_time', null)
+                                    ->where('adeparture_time', null)
+                                    ->get();
+            foreach ($attendances as $attendance) {
+                $attendance->aentry_time = 'NA';
+                $attendance->adeparture_time = 'NA';
+                $attendance->save();
+                Log::info('Attendance created: ' . $attendance->id);
             }
         }
     }
