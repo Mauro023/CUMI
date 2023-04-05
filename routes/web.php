@@ -20,8 +20,21 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::group(['prefix' => 'admin', 'middleware' => ['role:admin']], function () {
-    Route::resource('users', App\Http\Controllers\Admin\UsersController::class, ['as' => 'admin']);
+Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function()
+{
+	Route::resource('users', App\Http\Controllers\Admin\UsersController::class, ['as' => 'admin']);
+
+    Route::resource('roles', App\Http\Controllers\Admin\RolesController::class, ['except' => 'show', 'as' => 'admin']);
+    Route::resource('permissions', App\Http\Controllers\Admin\PermissionsController::class, ['only' => ['index', 'edit', 'update'], 'as' => 'admin']);
+
+    Route::middleware('role:Admin')
+    	->put('users/{user}/roles', 'UsersRolesController@update')
+    	->name('admin.users.roles.update');
+
+    Route::middleware('role:Admin')
+        ->put('users/{user}/permissions', 'UsersPermissionsController@update')
+        ->name('admin.users.permissions.update');
+
 });
 
 Route::post('logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');

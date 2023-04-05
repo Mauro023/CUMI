@@ -46,4 +46,15 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function getRoleDisplayNames()
+    {
+        return $this->roles->pluck('display_name')->implode(', ');
+    }
+
+    public function getPermissionDisplayNames()
+    {
+        return $this->permissions->pluck('display_name')->implode(', ');
+    }
+
 }

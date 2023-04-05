@@ -40,9 +40,12 @@ class UsersController extends Controller
     {
         $user = new User;
 
-        $roles = Role::with('permissions')->get();
+        $this->authorize('create_user');
 
-        return view('admin.users.create', compact('user', 'roles'));
+        $roles = Role::with('permissions')->get();
+        $permissions = Permission::select(['id', 'name', 'display_name'])->get();
+
+        return view('admin.users.create', compact('user', 'roles', 'permissions'));
     }
 
     /**
@@ -53,6 +56,7 @@ class UsersController extends Controller
      */
     public function store(CreateUserRequest $request)
     {
+        $this->authorize('create_user');
         $input = $request->only('name', 'email')
                     + [
                         'password' => bcrypt($request->input('password')),
@@ -64,6 +68,10 @@ class UsersController extends Controller
         {
             $user->assignRole($request->roles);
         }        
+        if ($request->filled('permissions'))
+        {
+            $user->givePermissionTo($request->permissions);
+        }
 
         session()->flash('success', 'El usuario ha sido creado');
         return redirect()->route('admin.users.index');
@@ -77,8 +85,12 @@ class UsersController extends Controller
      */
     public function show(User $user)
     {
+        $this->authorize('show_user');
+
         $roles = Role::with('permissions')->get();
-        return view('admin.users.show', compact('user', 'roles'));
+        $permissions = Permission::select(['id', 'name', 'display_name'])->get();
+
+        return view('admin.users.show', compact('user', 'roles', 'permissions'));
     }
 
     /**
@@ -89,8 +101,12 @@ class UsersController extends Controller
      */
     public function edit(User $user)
     {
+        $this->authorize('update_user');
+        
         $roles = Role::with('permissions')->get();
-        return view('admin.users.edit', compact('user', 'roles'));
+        $permissions = Permission::select(['id', 'name', 'display_name'])->get();
+
+        return view('admin.users.edit', compact('user', 'roles', 'permissions'));
     }
 
     /**
@@ -102,6 +118,7 @@ class UsersController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
+        $this->authorize('update_user');
 
         $data = $request->only('name', 'email');
         $password = $request->input('password');
@@ -125,6 +142,7 @@ class UsersController extends Controller
      */
     public function destroy(User $user)
     {
+        $this->authorize('destroy_user');
 
         $user->delete();
 

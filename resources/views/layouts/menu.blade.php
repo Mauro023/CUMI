@@ -6,7 +6,7 @@
     </a>
 </li>
 
-@if(@Auth::user()->hasRole('admin'))
+@if(@Auth::user()->hasRole('Admin'))
 <li class="nav-item" >
     
     <a href="{{ route('admin.users.index') }}"

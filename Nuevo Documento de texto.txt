@@ -23,4 +23,20 @@ if(Dia de trabajo = hoy && hora de entrada(asistencia) >= 8:00 AM && hora de sal
 	}	
 }
 
-Muy buenos días, me gustaría realizar la compra del dispositivo Anviz GC150, pero quisiera saber si este dispositivo tiene alguna forma de realizar una conexión directa a MYSQL sin necesidad de utilizar el software gratuito que ustedes proporcionan, esto para capturar estos datos con una aplicación web creada propiamente por mi, espero con ansia su respuesta, muchas gracias
+
+Dispositivos:
+ZKTeco - Modelo MA500 - Modelo MB10 - Modelo K50 - Modelo UA300 - Modelo UA400 - Modelo G1 - Modelo UA760
+Anviz - GC150
+
+Si un empleado quiere salir a una determinada hora no deberia permitir registro de salida (10:00:00 - 12:00:00)
+
+A nombre de Clinica universitaria medicina integral
+Nit: 900740827-3
+
+Soporte@cumi.com.co
+
+Tiempo de entrega
+
+RUT, CERTIFICADO BANCARIO, CAMARA DE COMERCIO
+
+Número de radicado: 1735715 - cancelación de seguro cardif

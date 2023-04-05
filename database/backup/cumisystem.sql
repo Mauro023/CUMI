@@ -32,9 +32,9 @@ CREATE TABLE IF NOT EXISTS `attendances` (
   PRIMARY KEY (`id`),
   KEY `attendances_employe_id_foreign` (`employe_id`),
   CONSTRAINT `attendances_employe_id_foreign` FOREIGN KEY (`employe_id`) REFERENCES `employes` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=87 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Volcando datos para la tabla cumisystem.attendances: ~58 rows (aproximadamente)
+-- Volcando datos para la tabla cumisystem.attendances: ~60 rows (aproximadamente)
 REPLACE INTO `attendances` (`id`, `workday`, `aentry_time`, `adeparture_time`, `employe_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
 	(6, '2023-04-03', '08:05:00', '12:30:00', 2, '2023-03-24 17:05:58', '2023-03-24 17:05:58', NULL),
 	(7, '2023-04-03', '13:30:00', '17:06:00', 2, '2023-03-24 17:06:43', '2023-03-24 17:06:43', NULL),
@@ -91,15 +91,17 @@ REPLACE INTO `attendances` (`id`, `workday`, `aentry_time`, `adeparture_time`, `
 	(58, '2023-04-08', '08:09:00', '13:10:00', 3, '2023-03-24 19:10:13', '2023-03-24 19:10:13', NULL),
 	(59, '2023-04-08', '08:10:00', '13:10:00', 1, '2023-03-24 19:10:29', '2023-03-24 19:10:29', NULL),
 	(60, '2023-04-08', '08:10:00', '13:10:00', 4, '2023-03-24 19:10:47', '2023-03-24 19:10:47', NULL),
-	(68, '2023-03-27', '08:06:00', NULL, 2, '2023-03-28 15:31:46', '2023-03-28 19:29:36', NULL),
-	(69, '2023-03-27', '07:45:00', NULL, 3, '2023-03-28 15:32:03', '2023-03-28 19:29:36', NULL),
-	(70, '2023-03-28', '08:01:09', 'NA', 3, '2023-03-28 16:24:26', '2023-03-28 19:22:31', NULL);
+	(68, '2023-03-27', '08:06:00', '17:03:46', 2, '2023-03-28 15:31:46', '2023-03-29 13:58:01', NULL),
+	(69, '2023-03-27', '07:45:00', '17:04:26', 3, '2023-03-28 15:32:03', '2023-03-29 13:58:41', NULL),
+	(81, '2023-03-29', 'NA', '17:02:35', 3, '2023-03-29 14:40:06', '2023-03-29 14:40:06', NULL),
+	(82, '2023-04-30', 'NA', '12:37:02', 3, '2023-04-01 17:37:09', '2023-04-01 17:37:09', NULL),
+	(86, '2023-05-01', 'NA', 'NA', 3, '2023-04-04 14:37:01', '2023-04-04 14:37:01', NULL);
 
 -- Volcando estructura para tabla cumisystem.calendars
 CREATE TABLE IF NOT EXISTS `calendars` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `start_date` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
-  `end_date` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `start_date` date NOT NULL,
+  `end_date` date NOT NULL,
   `entry_time` time NOT NULL,
   `departure_time` time NOT NULL,
   `floor` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -110,9 +112,9 @@ CREATE TABLE IF NOT EXISTS `calendars` (
   PRIMARY KEY (`id`),
   KEY `calendars_employe_id_foreign` (`employe_id`),
   CONSTRAINT `calendars_employe_id_foreign` FOREIGN KEY (`employe_id`) REFERENCES `employes` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Volcando datos para la tabla cumisystem.calendars: ~43 rows (aproximadamente)
+-- Volcando datos para la tabla cumisystem.calendars: ~46 rows (aproximadamente)
 REPLACE INTO `calendars` (`id`, `start_date`, `end_date`, `entry_time`, `departure_time`, `floor`, `employe_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
 	(1, '2023-03-23', '2023-03-24', '08:00:00', '17:00:00', '2', 3, '2023-03-23 13:13:02', '2023-03-24 13:11:03', '2023-03-24 13:11:03'),
 	(2, '2023-04-03', '2023-04-07', '08:00:00', '17:00:00', '2', 2, '2023-03-24 13:12:44', '2023-03-24 13:12:44', NULL),
@@ -157,7 +159,10 @@ REPLACE INTO `calendars` (`id`, `start_date`, `end_date`, `entry_time`, `departu
 	(41, '2023-04-29', '2023-04-29', '08:00:00', '13:00:00', '2', 4, '2023-03-24 13:52:48', '2023-03-24 13:52:48', NULL),
 	(42, '2023-03-27', '2023-03-31', '08:00:00', '05:00:00', '2', 2, '2023-03-25 13:11:17', '2023-03-25 13:11:17', NULL),
 	(43, '2023-03-27', '2023-03-31', '08:00:00', '17:00:00', '2', 3, '2023-03-25 13:31:57', '2023-03-25 15:11:57', NULL),
-	(44, '2023-03-28 00:00:00', '2023-03-28 00:00:00', '09:41:53', '09:41:56', '1', 3, '2023-03-28 14:42:02', '2023-03-28 14:42:11', '2023-03-28 14:42:11');
+	(44, '2023-03-28', '2023-03-28', '09:41:53', '09:41:56', '1', 3, '2023-03-28 14:42:02', '2023-03-28 14:42:11', '2023-03-28 14:42:11'),
+	(45, '2023-04-01', '2023-04-01', '08:03:32', '12:09:40', '2', 3, '2023-04-01 17:09:47', '2023-04-01 17:09:47', NULL),
+	(46, '2023-04-30', '2023-04-30', '08:00:00', '17:00:00', '2', 3, '2023-04-01 17:24:03', '2023-04-01 17:24:03', NULL),
+	(47, '2023-05-01', '2023-05-01', '08:49:16', '13:49:22', '2', 3, '2023-04-01 17:49:27', '2023-04-01 17:49:27', NULL);
 
 -- Volcando estructura para tabla cumisystem.employes
 CREATE TABLE IF NOT EXISTS `employes` (
@@ -347,8 +352,8 @@ CREATE TABLE IF NOT EXISTS `users` (
 
 -- Volcando datos para la tabla cumisystem.users: ~7 rows (aproximadamente)
 REPLACE INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-	(1, 'Administrador', 'admin@cumi.com', '2023-03-25 14:38:50', '$2y$10$cXVLvs9JkKIq2OtLJni8jeJf/5wVsmiP2nkD4YrkgsnSa5Opmbkf.', 'WiObdh8ZUK', '2023-03-25 14:38:50', '2023-03-25 14:38:50'),
-	(2, 'Persona', 'persona@cumi.com', '2023-03-25 14:38:50', '$2y$10$cXVLvs9JkKIq2OtLJni8jeJf/5wVsmiP2nkD4YrkgsnSa5Opmbkf.', 'SOflF5GUbo', '2023-03-25 14:38:50', '2023-03-25 14:38:50'),
+	(1, 'Administrador', 'admin@cumi.com', '2023-03-25 14:38:50', '$2y$10$cXVLvs9JkKIq2OtLJni8jeJf/5wVsmiP2nkD4YrkgsnSa5Opmbkf.', '9708SqI6FUX578N0psmliP8AV6wjwigWzId4SAB2dMEOlzR9Ozk1KLI3xMTt', '2023-03-25 14:38:50', '2023-03-25 14:38:50'),
+	(2, 'Persona', 'persona@cumi.com', '2023-03-25 14:38:50', '$2y$10$cXVLvs9JkKIq2OtLJni8jeJf/5wVsmiP2nkD4YrkgsnSa5Opmbkf.', '5ynPN83VOqQPN4UVE3eOHDBUowPcrwI3NKH90ghPOw1VLdBjNy7IJN89NyNe', '2023-03-25 14:38:50', '2023-03-25 14:38:50'),
 	(3, 'Kelley Dach Sr.', 'lowe.wilhelm@example.org', '2023-03-25 14:38:50', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'xRGQmSv4ZU', '2023-03-25 14:38:50', '2023-03-25 14:38:50'),
 	(4, 'Kieran Muller', 'fritz.leuschke@example.org', '2023-03-25 14:38:50', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'fG4fepd8I2', '2023-03-25 14:38:50', '2023-03-25 14:38:50'),
 	(5, 'Omari Block PhD', 'ken.schultz@example.net', '2023-03-25 14:38:50', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'EoEJ7lM9f4', '2023-03-25 14:38:50', '2023-03-25 14:38:50'),
