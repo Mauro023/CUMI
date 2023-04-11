@@ -10,6 +10,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 
 class UsersController extends Controller
@@ -26,7 +27,8 @@ class UsersController extends Controller
     }
     public function index(Request $request)
     {
-        $users = $this->usersRepository->paginate(10);
+        $this->authorize('view_user');
+        $users = $this->usersRepository->paginate(30);
 
         return view('admin.users.index')->with('users', $users);
     }

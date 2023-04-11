@@ -30,7 +30,8 @@ class employeController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $employes = $this->employeRepository->paginate(10);
+        $this->authorize('view_employes');
+        $employes = $this->employeRepository->paginate(30);
 
         return view('employes.index')
             ->with('employes', $employes);
@@ -43,6 +44,7 @@ class employeController extends AppBaseController
      */
     public function create()
     {
+        $this->authorize('create_employes');
         return view('employes.create');
     }
 
@@ -55,6 +57,7 @@ class employeController extends AppBaseController
      */
     public function store(CreateemployeRequest $request)
     {
+        $this->authorize('create_employes');
         $input = $request->all();
 
         $employe = $this->employeRepository->create($input);
@@ -73,6 +76,7 @@ class employeController extends AppBaseController
      */
     public function show($id)
     {
+        $this->authorize('show_employes');
         $employe = $this->employeRepository->find($id);
 
         if (empty($employe)) {
@@ -93,6 +97,7 @@ class employeController extends AppBaseController
      */
     public function edit($id)
     {
+        $this->authorize('update_employes');
         $employe = $this->employeRepository->find($id);
 
         if (empty($employe)) {
@@ -114,6 +119,7 @@ class employeController extends AppBaseController
      */
     public function update($id, UpdateemployeRequest $request)
     {
+        $this->authorize('update_employes');
         $employe = $this->employeRepository->find($id);
 
         if (empty($employe)) {
@@ -140,6 +146,7 @@ class employeController extends AppBaseController
      */
     public function destroy($id)
     {
+        $this->authorize('destroy_employes');
         $employe = $this->employeRepository->find($id);
 
         if (empty($employe)) {

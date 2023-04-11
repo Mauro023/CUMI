@@ -19,15 +19,21 @@
                 <td width="120">
                     {!! Form::open(['route' => ['attendances.destroy', $attendance->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>
-                        <a href="{{ route('attendances.show', [$attendance->id]) }}"
-                           class='btn btn-default btn-xs'>
-                            <i class="far fa-eye"></i>
-                        </a>
-                        <a href="{{ route('attendances.edit', [$attendance->id]) }}"
-                           class='btn btn-default btn-xs'>
-                            <i class="far fa-edit"></i>
-                        </a>
-                        {!! Form::button('<i class="far fa-trash-alt"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
+                        @can('show_attendances')   
+                            <a href="{{ route('attendances.show', [$attendance->id]) }}"
+                            class='btn btn-default btn-xs'>
+                                <i class="far fa-eye"></i>
+                            </a>
+                        @endcan
+                        @can('update_attendances')                     
+                            <a href="{{ route('attendances.edit', [$attendance->id]) }}"
+                            class='btn btn-default btn-xs'>
+                                <i class="far fa-edit"></i>
+                            </a>
+                        @endcan
+                        @can('destroy_attendances')    
+                            {!! Form::button('<i class="far fa-trash-alt"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
+                        @endcan
                     </div>
                     {!! Form::close() !!}
                 </td>

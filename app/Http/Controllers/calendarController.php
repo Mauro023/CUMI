@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\CreatecalendarRequest;
 use App\Http\Requests\UpdatecalendarRequest;
 use App\Repositories\calendarRepository;
@@ -32,6 +33,7 @@ class calendarController extends AppBaseController
      */
     public function index(Request $request)
     {
+        $this->authorize('view_calendars');
         $calendars = calendar::orderBy('created_at', 'DESC')->paginate(50);
 
         return view('calendars.index')
@@ -45,6 +47,7 @@ class calendarController extends AppBaseController
      */
     public function create()
     {
+        $this->authorize('create_calendars');
         $employes = Employe::orderby('name')->pluck('name', 'id');
         return view('calendars.create', compact('employes'));
     }
@@ -58,6 +61,7 @@ class calendarController extends AppBaseController
      */
     public function store(CreatecalendarRequest $request)
     {
+        $this->authorize('create_calendars');
         $input = $request->all();
 
         $calendar = $this->calendarRepository->create($input);
@@ -76,6 +80,7 @@ class calendarController extends AppBaseController
      */
     public function show($id)
     {
+        $this->authorize('show_calendars');
         $calendar = $this->calendarRepository->find($id);
 
         if (empty($calendar)) {
@@ -96,6 +101,7 @@ class calendarController extends AppBaseController
      */
     public function edit($id)
     {
+        $this->authorize('update_calendars');
         $calendar = $this->calendarRepository->find($id);
         $employes = Employe::pluck('name', 'id');
 
@@ -118,6 +124,7 @@ class calendarController extends AppBaseController
      */
     public function update($id, UpdatecalendarRequest $request)
     {
+        $this->authorize('update_calendars');
         $calendar = $this->calendarRepository->find($id);
 
         if (empty($calendar)) {
@@ -144,6 +151,7 @@ class calendarController extends AppBaseController
      */
     public function destroy($id)
     {
+        $this->authorize('destroy_employes');
         $calendar = $this->calendarRepository->find($id);
 
         if (empty($calendar)) {

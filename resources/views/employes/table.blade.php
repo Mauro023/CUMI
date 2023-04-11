@@ -21,15 +21,21 @@
                 <td width="120">
                     {!! Form::open(['route' => ['employes.destroy', $employe->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>
-                        <a href="{{ route('employes.show', [$employe->id]) }}"
-                           class='btn btn-default btn-xs'>
-                            <i class="far fa-eye"></i>
-                        </a>
-                        <a href="{{ route('employes.edit', [$employe->id]) }}"
-                           class='btn btn-default btn-xs'>
-                            <i class="far fa-edit"></i>
-                        </a>
-                        {!! Form::button('<i class="far fa-trash-alt"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Se necesita confirmacion para realizar este proceso')"]) !!}
+                        @can('show_employes')
+                            <a href="{{ route('employes.show', [$employe->id]) }}"
+                            class='btn btn-default btn-xs'>
+                                <i class="far fa-eye"></i>
+                            </a>
+                        @endcan
+                        @can('update_employes')
+                            <a href="{{ route('employes.edit', [$employe->id]) }}"
+                            class='btn btn-default btn-xs'>
+                                <i class="far fa-edit"></i>
+                            </a>
+                        @endcan
+                        @can('destroy_employes')
+                            {!! Form::button('<i class="far fa-trash-alt"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Se necesita confirmacion para realizar este proceso')"]) !!}
+                        @endcan
                     </div>
                     {!! Form::close() !!}
                 </td>

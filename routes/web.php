@@ -28,11 +28,11 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function()
     Route::resource('permissions', App\Http\Controllers\Admin\PermissionsController::class, ['only' => ['index', 'edit', 'update'], 'as' => 'admin']);
 
     Route::middleware('role:Admin')
-    	->put('users/{user}/roles', 'UsersRolesController@update')
+    	->put('users/{user}/roles', 'App\Http\Controllers\Admin\UsersRolesController@update')
     	->name('admin.users.roles.update');
 
     Route::middleware('role:Admin')
-        ->put('users/{user}/permissions', 'UsersPermissionsController@update')
+        ->put('users/{user}/permissions', 'App\Http\Controllers\Admin\UsersPermissionsController@update')
         ->name('admin.users.permissions.update');
 
 });

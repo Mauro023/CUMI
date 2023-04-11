@@ -35,7 +35,9 @@
                     </div>
                     <div class="form-group col-sm-2">
                         <label style="visibility: hidden">Boton</label>
-                        <a href="{{ route('employes.create') }}" class="btn btn-info form-control">Agregar</a>
+                        @can('create_employes')
+                          <a href="{{ route('employes.create') }}" class="btn btn-info form-control">Agregar</a>
+                        @endcan
                     </div>
                     {!! Form::close() !!}
                 </div>

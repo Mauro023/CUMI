@@ -33,6 +33,7 @@ class attendanceController extends AppBaseController
      */
     public function index(Request $request)
     {
+        $this->authorize('view_attendances');
         $attendances = Attendance::orderBy('created_at', 'DESC')->paginate(50);
 
         return view('attendances.index')
@@ -46,6 +47,7 @@ class attendanceController extends AppBaseController
      */
     public function create()
     {
+        $this->authorize('create_attendances');
         $employes = Employe::orderby('name')->pluck('name', 'id');
         return view('attendances.create', compact('employes'));
     }
@@ -59,6 +61,7 @@ class attendanceController extends AppBaseController
      */
     public function store(CreateattendanceRequest $request)
     {
+        $this->authorize('create_attendances');
         // Obtener los datos del formulario
         $input = $request->all();
         
@@ -96,6 +99,7 @@ class attendanceController extends AppBaseController
      */
     public function show($id)
     {
+        $this->authorize('show_attendances');
         $attendance = $this->attendanceRepository->find($id);
 
         if (empty($attendance)) {
@@ -116,6 +120,7 @@ class attendanceController extends AppBaseController
      */
     public function edit($id)
     {
+        $this->authorize('update_attendances');
         $attendance = $this->attendanceRepository->find($id);
         $employes = Employe::pluck('name', 'id');
 
@@ -138,6 +143,7 @@ class attendanceController extends AppBaseController
      */
     public function update($id, UpdateattendanceRequest $request)
     {
+        $this->authorize('update_attendances');
         $attendance = $this->attendanceRepository->find($id);
 
         if (empty($attendance)) {
@@ -164,6 +170,7 @@ class attendanceController extends AppBaseController
      */
     public function destroy($id)
     {
+        $this->authorize('destroy_attendances');
         $attendance = $this->attendanceRepository->find($id);
 
         if (empty($attendance)) {

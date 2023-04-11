@@ -57,4 +57,13 @@ class User extends Authenticatable
         return $this->permissions->pluck('display_name')->implode(', ');
     }
 
+    public function hasPermission($permission)
+    {
+        foreach ($this->roles as $role) {
+            if ($role->hasPermission($permission)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

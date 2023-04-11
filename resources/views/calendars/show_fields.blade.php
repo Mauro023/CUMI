@@ -1,7 +1,7 @@
 <!-- Workday Field -->
 <div class="col-sm-12">
-    {!! Form::label('workday', 'Workday:') !!}
-    <p>{{ $calendar->workday }}</p>
+    {!! Form::label('workday', 'Calendario:') !!}
+    <p>{{ $calendar->start_date->format('Y-m-d') }} - {{ $calendar->end_date->format('Y-m-d') }}</p>
 </div>
 
 <!-- Entry Time Field -->

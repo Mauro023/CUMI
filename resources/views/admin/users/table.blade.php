@@ -13,7 +13,7 @@
                 <tr>
                     <td>{{ $user->name }}</td>
                     <td>{{ $user->email }}</td>
-                    <td>Private</td>
+                    <td>{{ $user->getRoleDisplayNames() }}</td>
                     <td>
                         <a href="{{ route('admin.users.show', $user) }}"
                             class="btn btn-sm btn-outline-primary"

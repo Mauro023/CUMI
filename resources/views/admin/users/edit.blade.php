@@ -9,8 +9,6 @@
             <h3 class="text-themecolor">Perfil</h3>
         </div>
     </div>
-
-
     <div class="row">
         <!-- Column -->
         <div class="col-lg-8 col-xlg-9  col-md-7">
@@ -38,12 +36,40 @@
                     </div>
                     <div class="tab-pane" id="roles" role="tabpanel">
                         <div class="card-body">
-                           @role('Admin')
+                           @role('Root|Admin')
+                           {!! Form::open(['route' => ['admin.users.roles.update', $user], 'method' => 'PUT', 'class' => 'form-material m-t-40 row']) !!}
+
+                                @include('admin.roles.checkboxes')
+
+                                <button class="btn btn-primary btn-block">Actualizar roles</button>
+                            {!! Form::close() !!}
+                            @else
                                 <ul class="list-group">
                                     @forelse ($user->roles as $role)
                                         <li class="list-group-item">{{ $role->name }}</li>
                                     @empty
                                         <li class="list-group-item">No tiene roles</li>
+                                    @endforelse
+                                </ul>
+                            @endrole
+                        </div>
+                    </div>
+                    <!--second tab-->
+                    <div class="tab-pane" id="permissions" role="tabpanel">
+                        <div class="card-body">
+                            @role('Root|Admin')
+                             {!! Form::open(['route' => ['admin.users.permissions.update', $user], 'method' => 'PUT', 'class' => 'form-material m-t-40 row']) !!}
+
+                                @include('admin.permissions.checkboxes', ['model' => $user])
+
+                                <button class="btn btn-primary btn-block">Actualizar permisos</button>
+                            {!! Form::close() !!}
+                            @else
+                                <ul class="list-group">
+                                    @forelse ($user->permissions as $permission)
+                                        <li class="list-group-item">{{ $permission->name }}</li>
+                                    @empty
+                                        <li class="list-group-item">No tiene permisos</li>
                                     @endforelse
                                 </ul>
                             @endrole
