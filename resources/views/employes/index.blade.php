@@ -26,17 +26,21 @@
                     {!! Form::open(['route' => ['employes.filter'], 'method' => 'post', 'class' => 'row col-sm-12
                     mt-4']) !!}
                     <div class="form-group col-sm-5">
-                        <label>DNI</label>
+                        <label>DNI - NOMBRE</label>
                         <input type="text" name="dni" class="form-control" />
                     </div>
                     <div class="form-group col-sm-2">
                         <label style="visibility: hidden">Accion</label>
-                        <button class="btn btn-info form-control">Filtrar</button>
+                        <button class="btn btn-info form-control">
+                            <span class="fas fa-filter"></span>
+                            <strong>Filtrar</strong></button>
                     </div>
                     <div class="form-group col-sm-2">
                         <label style="visibility: hidden">Boton</label>
                         @can('create_employes')
-                          <a href="{{ route('employes.create') }}" class="btn btn-info form-control">Agregar</a>
+                          <a href="{{ route('employes.create') }}" class="btn btn-info form-control">
+                            <span class="fas fa-user-plus"></span>
+                            <strong>Agregar</strong></a>
                         @endcan
                     </div>
                     {!! Form::close() !!}

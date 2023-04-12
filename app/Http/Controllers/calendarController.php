@@ -169,11 +169,24 @@ class calendarController extends AppBaseController
 
     public function filter(Request $request)
     {
-        $input = $request->all();
+        $query = Calendar::query();
 
-        $calendars = calendar::whereBetween('start_date', [$input['start_date'], $input['end_date']])->paginate(100);
+        // Búsqueda por nombre de empleado
+        if ($request->filled('name')) {
+            $query->join('employes', 'calendars.employe_id', '=', 'employes.id')
+                ->where('employes.name', 'LIKE', '%'.$request->input('name').'%');
+        }
 
-        return view('calendars.index')
-            ->with('calendars', $calendars);
+        // Búsqueda por fecha
+        if ($request->filled('start_date') && $request->filled('end_date')) {
+            $query->whereBetween('start_date', [$request->input('start_date'), $request->input('end_date')]);
+        }
+
+        // Ordenar por fecha de inicio ascendente
+        $query->orderBy('start_date', 'desc');
+        
+        $calendars = $query->paginate(100);
+
+        return view('calendars.index')->with('calendars', $calendars);
     }
 }

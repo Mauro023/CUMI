@@ -10,21 +10,29 @@
             <div class="row">
                 {!! Form::open(['route' => ['attendances.filter'], 'method' => 'post', 'class' => 'row col-sm-12 mt-4']) !!}
                 <div class="form-group col-sm-4">
+                    {!! Form::label('name', 'Nombre:') !!}
+                    {!! Form::text('name', null, ['class' => 'form-control','id'=>'name' ,'name'=>'name']) !!}
+                </div>
+                <div class="form-group col-sm-2">
                     {!! Form::label('workday', 'Fecha inicial:') !!}
                     {!! Form::text('workday', null, ['class' => 'form-control','id'=>'start_date' ,'name'=>'start_date']) !!}
                 </div>
-                <div class="form-group col-sm-4">
+                <div class="form-group col-sm-2">
                     {!! Form::label('workday', 'Fecha final:') !!}
                     {!! Form::text('workday', null, ['class' => 'form-control','id'=>'end_date','name'=>'end_date']) !!}
                 </div>
                 <div class="form-group col-sm-2">
                     <label style="visibility: hidden">Accion</label>
-                    <button class="btn btn-info form-control">Filtrar</button>
+                    <button class="btn btn-info form-control">
+                        <span class="fas fa-filter"></span>
+                        <strong>Filtrar</strong></button>
                 </div>
                 <div class="form-group col-sm-2">
                     <label style="visibility: hidden">Boton</label>
                     @can('create_attendances')             
-                        <a href="{{ route('attendances.create') }}" class="btn btn-info form-control">Agregar</a>
+                        <a href="{{ route('attendances.create') }}" class="btn btn-info form-control">
+                            <span class="fas fa-calendar-plus"></span>
+                            <strong>Agregar</strong></a>
                     @endcan
                 </div>
                 {!! Form::close() !!}
