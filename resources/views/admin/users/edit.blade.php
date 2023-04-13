@@ -40,8 +40,10 @@
                            {!! Form::open(['route' => ['admin.users.roles.update', $user], 'method' => 'PUT', 'class' => 'form-material m-t-40 row']) !!}
 
                                 @include('admin.roles.checkboxes')
-
-                                <button class="btn btn-primary btn-block">Actualizar roles</button>
+                                <br><br>
+                                <div class="d-grid gap-2 d-md-block">
+                                    <button class="btn btn-primary btn-sm">Actualizar roles</button>
+                                </div>
                             {!! Form::close() !!}
                             @else
                                 <ul class="list-group">
@@ -61,8 +63,10 @@
                              {!! Form::open(['route' => ['admin.users.permissions.update', $user], 'method' => 'PUT', 'class' => 'form-material m-t-40 row']) !!}
 
                                 @include('admin.permissions.checkboxes', ['model' => $user])
-
-                                <button class="btn btn-primary btn-block">Actualizar permisos</button>
+                                <br><br>
+                                <div class="d-grid gap-2 d-md-block">
+                                    <button class="btn btn-primary btn-sm">Actualizar permisos</button>
+                                </div>
                             {!! Form::close() !!}
                             @else
                                 <ul class="list-group">

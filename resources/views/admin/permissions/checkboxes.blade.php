@@ -1,14 +1,17 @@
-<a href="#" id="select-all">Seleccionar Todos</a>
+<div class="d-grid gap-2 d-md-block">
+    <button type="button" class="btn btn-primary btn-sm" id="select-all">Seleccionar Todos</button>
+</div>
+<br><br>
 @foreach ($permissions as $per)
     <div class="col-sm-12">
     	<div class="m-b-10">
-	        <label class="custom-control custom-checkbox">
-	            <input name="permissions[]" type="checkbox" value="{{ $per->name }}"  class="custom-control-input"
+	        <label class="form-check form-switch">
+	            <input name="permissions[]" type="checkbox" role="switch" value="{{ $per->name }}"  class="form-check-input"
 	                {{ $model->permissions->contains($per->id)
 	                    || collect( old('permissions') )->contains($per->name)
 	                    ? 'checked':'' }}
 	            >
-	            <span class="custom-control-label">{{ $per->display_name }}</span>
+	            <span class="form-check-label">{{ $per->display_name }}</span>
 	        </label>
     	</div>
     </div>

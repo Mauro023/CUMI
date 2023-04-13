@@ -6,7 +6,9 @@
             <th>Calendario laboral</th>
             <th>Horario laboral</th>
             <th>Piso</th>
-            <th colspan="3">Acciones</th>
+            @canany(['show_calendars', 'update_calendars', 'destroy_calendars'])
+                <th colspan="3">Acciones</th>
+            @endcan
         </tr>
         </thead>
         <tbody>
@@ -17,7 +19,7 @@
                 <td>{{ $calendar->entry_time }} - {{ $calendar->departure_time }}</td>
                 <td>{{ $calendar->floor }}</td>
             
-                <td width="120">
+                <td>
                     {!! Form::open(['route' => ['calendars.destroy', $calendar->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>
                         @can('show_calendars')

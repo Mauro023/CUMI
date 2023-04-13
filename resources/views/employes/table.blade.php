@@ -7,7 +7,9 @@
             <th>Cargo</th>
             <th>Unidad</th>
             <th>Centro de costo</th>
-            <th colspan="3">Acciones</th>
+            @canany(['show_employes', 'update_employes', 'destroy_employes'])
+                <th colspan="3">Acciones</th>
+            @endcan
         </tr>
         </thead>
         <tbody>
@@ -18,7 +20,7 @@
                 <td>{{ $employe->work_position }}</td>
                 <td>{{ $employe->unit }}</td>
                 <td>{{ $employe->cost_center }}</td>
-                <td width="120">
+                <td>
                     {!! Form::open(['route' => ['employes.destroy', $employe->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>
                         @can('show_employes')
