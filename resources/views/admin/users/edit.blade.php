@@ -15,7 +15,7 @@
             <div class="card">
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs profile-tab" role="tablist">
-                    <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#settings" role="tab">Preferencias de la cuenta</a> </li>
+                    <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#settings" role="tab">Cuenta</a> </li>
                     <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#roles" role="tab">Roles</a> </li>
                     <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#permissions" role="tab">Permisos</a> </li>
                 </ul>
@@ -27,9 +27,11 @@
                             
                                 @include('admin.users.fields')
 
-                                <div class="form-group col-md-12 m-t-20 ">
-                                    <button type="submit" class="btn btn-primary btn-block">Actualizar Usuario</button>
-                            </div>
+                                <div class="card-footer">
+                                    {!! Form::submit('Actualizar', ['class' => 'btn btn-primary']) !!}
+                                    <a href="{{ route('admin.users.index') }}" class="btn btn-default">Cancelar</a>
+                                </div>
+                                
 
                             {!! Form::close() !!}
                         </div>

@@ -16,8 +16,8 @@
             <tr>
                 <td>{{ $attendance->employe_id ? $attendance->employe->name : 'Sin ID'}}</td>
                 <td>{{ $attendance->workday->format('Y-m-d') }}</td>
-                <td>{{ $attendance->aentry_time }}</td>
-                <td>{{ $attendance->adeparture_time }}</td>
+                <td><span class="badge bg-green">{{ $attendance->aentry_time }}</span></td>
+                <td><span class="badge bg-danger">{{ $attendance->adeparture_time }}</span></td>
                 <td>
                     {!! Form::open(['route' => ['attendances.destroy', $attendance->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>
