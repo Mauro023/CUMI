@@ -19,7 +19,6 @@
                 <td><span class="badge bg-green">{{ $attendance->aentry_time }}</span></td>
                 <td><span class="badge bg-danger">{{ $attendance->adeparture_time }}</span></td>
                 <td>
-                    {!! Form::open(['route' => ['attendances.destroy', $attendance->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>
                         @can('show_attendances')
                         <a href="{{ route('attendances.show', [$attendance->id]) }}" class='btn btn-default btn-xs'>
@@ -32,11 +31,12 @@
                         </a>
                         @endcan
                         @can('destroy_attendances')
-                        {!! Form::button('<i class="far fa-trash-alt"></i>', ['type' => 'submit', 'class' => 'btn
-                        btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
+                        {!! Form::open(['route' => ['attendances.destroy', $attendance->id], 'method' => 'delete']) !!}
+                            {!! Form::button('<i class="far fa-trash-alt"></i>', ['type' => 'submit', 'class' => 'btn
+                            btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
+                        {!! Form::close() !!}
                         @endcan
                     </div>
-                    {!! Form::close() !!}
                 </td>
             </tr>
             @endforeach

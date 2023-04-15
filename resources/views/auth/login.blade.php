@@ -2,127 +2,148 @@
 <html>
 
 <head>
+    <base href="./">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>{{ config('app.name') }} | LOGIN</title>
+    <meta name="description" content="CoreUI Template - InfyOm Laravel Generator">
+    <meta name="keyword" content="CoreUI,Bootstrap,Admin,Template,InfyOm,Open,Source,jQuery,CSS,HTML,RWD,Dashboard">
+    <!-- Bootstrap-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="https://unpkg.com/@coreui/coreui/dist/css/coreui.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://unpkg.com/@coreui/icons/css/coreui-icons.min.css">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.css"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.3.0/css/flag-icon.min.css">
 
-    <!-- Tell the browser to be responsive to screen width -->
-    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <style media="screen">
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: auto;
+            height: 100%;
+        }
 
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
-        integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url(/photos/fondo.jpg);
+            z-index: -1;
+            background-size: cover;
+        }
 
-    <!-- AdminLTE -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.1.0/css/adminlte.min.css"
-        integrity="sha512-mxrUXSjrxl8vm5GwafxcqTrEwO1/oBNU25l20GODsysHReZo4uhVISzAKzaABH6/tTfAxZrY2FprmeAP5UZY8A=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-    <!-- iCheck -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/icheck-bootstrap/3.0.1/icheck-bootstrap.min.css"
-        integrity="sha512-8vq2g5nHE062j3xor4XxPeZiPjmRDh6wlufQlfC6pdQ/9urJkU07NM0tEREeymP++NczacJ/Q59ul+/K2eYvcg=="
-        crossorigin="anonymous" />
-
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
+        .icon-richard {
+            text-align: center;
+            background: #fff;
+        }
+    </style>
 </head>
 
-<body class="hold-transition login-page bg-white">
-        <div class="row container-fluid">
-            <div class="col d-flex flex-column align-items-center">
-                <div class="login-box">
-                    <div class="login-logo">
-                        <a href="{{ url('/home') }}">
-                            <img height="100%" width="270"
-                                src="https://cumi.com.co/wp-content/uploads/2021/07/LOGO_cumi_Mesa-de-trabajo-1.png"
-                                alt="CUMI" title>
-                        </a>
-                    </div>
-
-                    <!-- /.login-logo -->
-
-                    <!-- /.login-box-body -->
-
+<body class="app flex-row align-items-center">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card-group">
+                    <div class="card p-4">
+                        <div class="card-body">
                             <form method="post" action="{{ url('/login') }}">
-                                @csrf
-                                <span>Usuario</span>
+                                <div class="login-logo">
+                                    <a href="{{ url('/home') }}">
+                                        <img height="100%" width="270"
+                                            src="https://cumi.com.co/wp-content/uploads/2021/07/LOGO_cumi_Mesa-de-trabajo-1.png"
+                                            alt="CUMI" title>
+                                    </a>
+                                </div>
+                                {!! csrf_field() !!}
+                                <h1>Iniciar sesión</h1>
+                                <p class="text-muted">Ingresa tus datos para iniciar sesión</p>
                                 <div class="input-group mb-3">
-                                    <div class="input-group-append">
-                                        <div class="input-group-text bg-white border-0">
-                                            <span class="fas fa-user"></span>
-                                        </div>
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="icon-user"></i>
+                                        </span>
                                     </div>
-                                    <input type="email" name="email" value="{{ old('email') }}"
-                                        class="form-control @error('email') is-invalid @enderror">
-                                    @error('email')
-                                    <span class="error invalid-feedback">{{ $message }}</span>
-                                    @enderror
+                                    <input type="email" class="form-control {{ $errors->has('email')?'is-invalid':'' }}"
+                                        name="email" value="{{ old('email') }}" placeholder="Email">
+                                    @if ($errors->has('email'))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('email') }}</strong>
+                                    </span>
+                                    @endif
                                 </div>
-
-                                <span>Contraseña</span>
-                                <div class="input-group mb-3"><div class="input-group-append">
-                                    <div class="input-group-text bg-white border-0">
-                                        <span class="fas fa-lock"></span>
+                                <div class="input-group mb-4">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="icon-lock"></i>
+                                        </span>
                                     </div>
+                                    <input type="password"
+                                        class="form-control {{ $errors->has('password')?'is-invalid':'' }}"
+                                        placeholder="Password" name="password">
+                                    @if ($errors->has('password'))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('password') }}</strong>
+                                    </span>
+                                    @endif
                                 </div>
-                                    <input type="password" name="password" 
-                                        class="form-control @error('password') is-invalid @enderror">
-                                    @error('password')
-                                    <span class="error invalid-feedback">{{ $message }}</span>
-                                    @enderror
-
-                                </div>
-
                                 <div class="row">
-                                    <div class="col-12">
-                                        <button type="submit" class="btn btn-primary btn-lg btn-block">Iniciar sesion</button>
+                                    <div class="col-6">
+                                        <button class="btn btn-primary px-4" type="submit"><strong>Iniciar
+                                                sesión</strong></button>
                                     </div>
-                                    <div class="col-8">
-                                        <div class="icheck-primary">
-                                            <input type="checkbox" id="remember">
-                                            <label for="remember">Recuerdame</label>
-                                        </div>
-                                    </div>
-
                                 </div>
                             </form>
-                        <!-- /.login-card-body -->
-
+                        </div>
+                    </div>
+                    <div class="card text-white py-5 d-md-down-none" style="width:44%">
+                        <div id="carouselExampleInterval" class="carousel slide" data-ride="carousel">
+                            <ol class="carousel-indicators">
+                                <li data-target="#carouselExampleInterval" data-slide-to="0" class="active"></li>
+                                <li data-target="#carouselExampleInterval" data-slide-to="1"></li>
+                                <li data-target="#carouselExampleInterval" data-slide-to="2"></li>
+                              </ol>
+                            <div class="carousel-inner">
+                                <div class="carousel-item active" data-interval="1000">
+                                    <img src="{{ asset('images/1.jpg') }}" class="d-block w-100" alt="Primera imagen">
+                                </div>
+                                <div class="carousel-item" data-interval="1000">
+                                    <img src="{{ asset('images/2.jpg') }}" class="d-block w-100" alt="Segunda imagen">
+                                </div>
+                                <div class="carousel-item" data-interval="1000">
+                                    <img src="{{ asset('images/3.jpg') }}" class="d-block w-100" alt="Tercera imagen">
+                                </div>
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-target="#carouselExampleInterval"
+                                data-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-target="#carouselExampleInterval"
+                                data-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Next</span>
+                            </button>
+                        </div>
+                    </div>
                 </div>
-                <!-- /.login-box -->
-            </div>
-            <div class="col h-100 bg-dark">
-
             </div>
         </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
-        integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
-        crossorigin="anonymous"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
-        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous">
-    </script>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"
-        integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous">
-    </script>
-
-    <!-- AdminLTE App -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.1.0/js/adminlte.min.js"
-        integrity="sha512-AJUWwfMxFuQLv1iPZOTZX0N/jTCIrLxyZjTRKQostNU71MzZTEPHjajSK20Kj1TwJELpP7gl+ShXw5brpnKwEg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" 
-        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" 
-        crossorigin="anonymous"></script>
+    </div>
+    <!-- CoreUI and necessary plugins-->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/@coreui/coreui/dist/js/coreui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/1.4.0/perfect-scrollbar.js"></script>
 </body>
 
 </html>

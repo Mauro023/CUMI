@@ -2,13 +2,7 @@
 
 @section('content')
     <section class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-12">
-                    <h1>Editar asistencia</h1>
-                </div>
-            </div>
-        </div>
+        
     </section>
 
     <div class="content px-3">
@@ -16,7 +10,9 @@
         @include('adminlte-templates::common.errors')
 
         <div class="card">
-
+            <div class="card-header">
+                <strong>Editar asistencia</strong>
+            </div>
             {!! Form::model($attendance, ['route' => ['attendances.update', $attendance->id], 'method' => 'patch']) !!}
 
             <div class="card-body">

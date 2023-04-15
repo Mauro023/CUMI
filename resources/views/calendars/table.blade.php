@@ -20,7 +20,6 @@
                 <td>{{ $calendar->floor }}</td>
             
                 <td>
-                    {!! Form::open(['route' => ['calendars.destroy', $calendar->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>
                         @can('show_calendars')
                             <a href="{{ route('calendars.show', [$calendar->id]) }}"
@@ -35,10 +34,11 @@
                             </a>
                         @endcan
                         @can('destroy_calendars')
+                        {!! Form::open(['route' => ['calendars.destroy', $calendar->id], 'method' => 'delete']) !!}
                             {!! Form::button('<i class="far fa-trash-alt"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
+                        {!! Form::close() !!}
                         @endcan
                     </div>
-                    {!! Form::close() !!}
                 </td>
             </tr>
         @endforeach

@@ -13,18 +13,21 @@
         <tbody>
             @foreach ($users as $user)
                 <tr>
-                    <td>{{ $user->name }}</td>
+                    <td> 
+                       <a>{{ $user->name }}</a>
+                        <br>
+                        <small>Creado {{ $user->created_at->format('Y-m-d')}}</small></td>
                     <td>{{ $user->email }}</td>
                     <td>{{ $user->getRoleDisplayNames() }}</td>
                     <td>
                         @can('show_user')
                             <a href="{{ route('admin.users.show', $user) }}"
-                                class="btn btn-sm btn-outline-primary"
+                                class="btn btn-sm btn-primary"
                             ><i class="fa fa-eye"></i></a>
                         @endcan
                         @can('update_user')
                             <a href="{{ route('admin.users.edit', $user) }}"
-                                class="btn btn-sm btn-outline-info"
+                                class="btn btn-sm btn-info text-white"
                             ><i class="far fa-edit"></i></a>
                         @endcan
                         <form method="POST"
@@ -32,7 +35,7 @@
                             style="display: inline">
                             {{ csrf_field() }} {{ method_field('DELETE') }}
                             @can('destroy_user')
-                                <button class="btn btn-sm btn-outline-danger"
+                                <button class="btn btn-sm btn-danger"
                                     onclick="return confirm('¿Estás seguro de querer eliminar esta usuario?')"
                                 ><i class="far fa-trash-alt"></i></button>
                             @endcan

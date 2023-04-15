@@ -4,7 +4,7 @@
 
 @section('content')
 <section class="content-header">
-    
+
 </section>
 <div class="content px-3">
 

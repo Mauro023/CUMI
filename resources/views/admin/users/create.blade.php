@@ -3,14 +3,14 @@
 @section('title', 'Dashboard')
 
 @section('content')
-
-<div class="row page-titles">
-    <div class="col-md-7 align-self-center">
-        <h3 class="text-themecolor">Registro</h3>
-    </div>
-</div>
+<section class="content-header">
+    
+</section>
 <div class="content px-3">
     <div class="card">
+        <div class="card-header">
+           <strong>Registrar usuario</strong>
+        </div>
         <div class="card-body">
             {!! Form::open(['route' => 'admin.users.store', 'enctype' => 'multipart/form-data', 'class' =>
             'form-material m-t-40 row']) !!}
@@ -22,7 +22,7 @@
                 
             </div>
             <div class="card-footer">
-                {!! Form::submit('Create', ['class' => 'btn btn-primary']) !!}
+                {!! Form::submit('Crear', ['class' => 'btn btn-primary']) !!}
                 <a href="{{ route('admin.users.index') }}" class="btn btn-default">Cancelar</a>
             </div>
             {!! Form::close() !!}
