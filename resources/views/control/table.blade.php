@@ -16,13 +16,15 @@
                     {{ $resultado->name }}
                     <br>
                     <small>{{ $resultado->work_position }}</small>
+                    <br>
+                    <small>{{ $resultado->cost_center }}</small>
                 </td>
-                <td>{{ $resultado->start_date }} - {{ $resultado->end_date }}</td>
-                <td>
-                    <span class="badge bg-green">{{ $resultado->entry_time }}</span> - 
-                    <span class="badge bg-danger">{{ $resultado->departure_time }}</span></td>
-                <td>{{ $resultado->workday}}</td>
-                <td>
+                <td class="align-middle">{{ $resultado->start_date }} - {{ $resultado->end_date }}</td>
+                <td class="align-middle">
+                    <span class="badge bg-gray-dark">{{ $resultado->entry_time }}</span> - 
+                    <span class="badge bg-indigo">{{ $resultado->departure_time }}</span></td>
+                <td class="align-middle">{{ $resultado->workday}}</td>
+                <td class="align-middle">
                     <span class="badge bg-green">{{ $resultado->aentry_time }}</span> -
                     <span class="badge bg-danger">{{ $resultado->adeparture_time }}</span></td>
             </tr>

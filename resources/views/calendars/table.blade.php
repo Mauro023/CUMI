@@ -16,7 +16,7 @@
             <tr>
                 <td>{{ $calendar->employe_id ? $calendar->employe->name : 'Sin ID' }}</td>
                 <td>{{ $calendar->start_date->format('Y-m-d') }} - {{ $calendar->end_date->format('Y-m-d') }}</td>
-                <td><span class="badge bg-green">{{ $calendar->entry_time }}</span> - <span class="badge bg-danger">{{ $calendar->departure_time }}</span></td>
+                <td><span class="badge bg-gray-dark text-white">{{ $calendar->entry_time }}</span> - <span class="badge bg-indigo text-white">{{ $calendar->departure_time }}</span></td>
                 <td>{{ $calendar->floor }}</td>
             
                 <td>

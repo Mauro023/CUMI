@@ -58,8 +58,8 @@ class TestTask2 extends Command
                     $attendance = new Attendance([
                         'employe_id' => $employe->id,
                         'workday' => $today,
-                        'aentry_time' => 'NA',
-                        'adeparture_time' => 'NA',
+                        'aentry_time' => '00:00:00',
+                        'adeparture_time' => '00:00:00',
                     ]);
                     $attendance->save();
                     Log::info('Attendance created: ' . $attendance->id);
@@ -74,8 +74,8 @@ class TestTask2 extends Command
                                     ->where('adeparture_time', null)
                                     ->get();
             foreach ($attendances as $attendance) {
-                $attendance->aentry_time = 'NA';
-                $attendance->adeparture_time = 'NA';
+                $attendance->aentry_time = '00:00:00';
+                $attendance->adeparture_time = '00:00:00';
                 $attendance->save();
                 Log::info('Attendance created: ' . $attendance->id);
             }

@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Flash;
 use Response;
+use Carbon\Carbon;
 use App\Models\employe;
 use App\Models\calendar;
 
@@ -170,7 +171,8 @@ class calendarController extends AppBaseController
     public function filter(Request $request)
     {
         $query = Calendar::query();
-
+        $start_date = Carbon::parse($request->input('start_date'));
+        $end_date = Carbon::parse($request->input('end_date'));
         // Búsqueda por nombre de empleado
         if ($request->filled('name')) {
             $query->join('employes', 'calendars.employe_id', '=', 'employes.id')
@@ -178,14 +180,9 @@ class calendarController extends AppBaseController
         }
 
         // Búsqueda por fecha
-        if ($request->filled('start_date') && $request->filled('end_date')) {
-            $query->whereBetween('start_date', [$request->input('start_date'), $request->input('end_date')]);
-        }
-
-        // Ordenar por fecha de inicio ascendente
-        $query->orderBy('start_date', 'desc');
+        $query->whereDate('start_date', [$start_date->startOfDay(), $end_date->endOfDay()]);
         
-        $calendars = $query->paginate(100);
+        $calendars = $query->orderBy('start_date', 'desc')->paginate(100);
 
         return view('calendars.index')->with('calendars', $calendars);
     }
