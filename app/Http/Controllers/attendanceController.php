@@ -34,7 +34,7 @@ class attendanceController extends AppBaseController
     public function index(Request $request)
     {
         $this->authorize('view_attendances');
-        $attendances = Attendance::orderBy('created_at', 'DESC')->paginate(50);
+        $attendances = Attendance::paginate(50);
 
         return view('attendances.index')
             ->with('attendances', $attendances);
@@ -69,9 +69,8 @@ class attendanceController extends AppBaseController
         $entry_time = Carbon::parse($input['aentry_time']);
         $exit_time = $input['adeparture_time'];
         
-        if (($entry_time->between(Carbon::parse('11:30'), Carbon::parse('13:00')) ||
-                $entry_time->between(Carbon::parse('16:30'), Carbon::parse('18:00')))) {
-            $entry_time = 'NA';
+        if (($entry_time->between(Carbon::parse('16:30'), Carbon::parse('18:00')))) {
+            $entry_time = '01:00:00';
             $exit_time = $input['aentry_time'];
         }else {
             $entry_time = $input['aentry_time'];

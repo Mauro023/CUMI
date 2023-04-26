@@ -68,7 +68,8 @@
                                                 use Carbon\Carbon;
                                                 $today = Carbon::now();
                                                 $cant_attendances = Attendance::where('workday',
-                                                $today->format('Y-m-d'))->count();
+                                                $today->format('Y-m-d'))
+                                                ->where('aentry_time', '!=', '00:00:00')->count();
                                                 @endphp
                                                 <h2 class="text-center"><i
                                                         class="fa fa-user-clock f-left"></i><span>{{$cant_attendances}}</span>
@@ -84,7 +85,9 @@
                                         <div class="card-block">
                                             <h5>Trabajando</h5>
                                             @php
-                                            $cant_attendance = Attendance::where('adeparture_time', null)->count();
+                                            $today = Carbon::now();
+                                            $cant_attendance = Attendance::where('adeparture_time', null)
+                                            ->where('workday', $today->format('Y-m-d'))->count();
                                             @endphp
                                             <h2 class="text-center"><i
                                                     class="fa fa-user-clock f-left"></i><span>{{$cant_attendance}}</span>
@@ -99,8 +102,9 @@
                                         <div class="card-block">
                                             <h5>Turno acabado</h5>
                                             @php
-                                            $cant_attendance = Attendance::whereNotNull('adeparture_time')->where('workday',
-                                            $today->format('Y-m-d'))->count();
+                                            $cant_attendance = Attendance::whereNotNull('adeparture_time')
+                                            ->where('workday', $today->format('Y-m-d'))
+                                            ->where('adeparture_time', '!=', '00:00:00')->count();
                                             @endphp
                                             <h2 class="text-center"><i
                                                     class="fa fa-user-clock f-left"></i><span>{{$cant_attendance}}</span>
@@ -148,11 +152,15 @@
                                         <div class="card-block">
                                             <h5>Sin asistencia</h5>
                                             @php
-                                            $cant_attendance = Attendance::whereNotNull('adeparture_time')->where('workday',
-                                            $today->format('Y-m-d'))->count();
+                                            $today = Carbon::now();
+                                                $cant_no_attendances = Attendance::where('workday',
+                                                $today->format('Y-m-d'))
+                                                ->where('aentry_time', '00:00:00')
+                                                ->where('adeparture_time', '00:00:00')
+                                                ->whereColumn('aentry_time', '=', 'adeparture_time')->count();
                                             @endphp
                                             <h2 class="text-center"><i
-                                                    class="fa fa-calendar-times f-left"></i><span>{{$cant_attendance}}</span>
+                                                    class="fa fa-calendar-times f-left"></i><span>{{$cant_no_attendances}}</span>
                                             </h2>
                                             <br>
                                         </div>

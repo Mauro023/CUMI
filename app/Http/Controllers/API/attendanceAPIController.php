@@ -9,6 +9,8 @@ use App\Repositories\attendanceRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
 use Response;
+use Carbon\Carbon;
+use Symfony\Component\HttpClient\HttpClient;
 
 /**
  * Class attendanceController
@@ -60,6 +62,69 @@ class attendanceAPIController extends AppBaseController
         return $this->sendResponse($attendance->toArray(), 'Attendance saved successfully');
     }
 
+    public function updateEntrance(CreateattendanceAPIRequest $request)
+    {
+        $input = $request->all();
+        
+        if ($input['action'] === 128) {
+
+            $findAttendance = attendance::whereBetween('workday', array($input['workday'] . " 00:00:00", $input['workday'] . " 23:59:59"))
+                    ->where('employe_id', $input['employe_id'])
+                    ->orderBy('workday', 'desc')
+                    ->first();
+            if (
+                empty($findAttendance) ||
+                (!empty($findAttendance['aentry_time']) && !empty($findAttendance['adeparture_time']))
+            ) {
+                // Verificar si el registro ya existe
+                $attendanceExists = attendance::where('workday', $input['workday'])
+                ->where('aentry_time', $input['aentry_time'])
+                ->where('employe_id', $input['employe_id'])
+                ->exists();
+
+                if ($attendanceExists) {
+                    return $this->sendError('Este registro ya existe.');
+                } else {
+                    $attendance = $this->attendanceRepository->create($input);
+                }
+            } else {
+                return $this->sendError('Este usuario ya registro una entrada y no ha generado una salida.');
+            }
+        } else {
+
+            if ($input['action'] === 129) {
+                
+                $findAttendanceByDay = attendance::whereBetween('workday', array($input['workday'] . " 00:00:00", $input['workday'] . " 23:59:59"))
+                        ->where('employe_id', $input['employe_id'])
+                        ->whereNull('adeparture_time')
+                        ->orderBy('workday', 'desc')
+                        ->first();
+
+                if ($findAttendanceByDay && $findAttendanceByDay['aentry_time'] < $input['aentry_time']) {
+                    $findAttendanceByDay->adeparture_time = $input['aentry_time'];
+                    $findAttendanceByDay->save();
+                }
+
+                $findAttendance = attendance::whereBetween('workday', array($input['workday'] . " " . $findAttendanceByDay['aentry_time'], $input['workday'] . " 23:59:59"))
+                        ->where('employe_id', $input['employe_id'])
+                        ->orderBy('workday', 'desc')
+                        ->first();
+
+                if (empty($findAttendance)) {
+                    return $this->sendError('Attendance not found');
+                }
+
+                if (!empty($findAttendance['adeparture_time'])) {
+                    return $this->sendError('Este usuario ya registro una salida.');
+                }
+
+                $findAttendance['adeparture_time'] = $input['aentry_time'];
+                $findAttendance->save();
+            }
+        }
+
+        return $this->sendResponse($findAttendance->toArray(), 'Attendance saved successfully');
+    }
     /**
      * Display the specified attendance.
      * GET|HEAD /attendances/{id}

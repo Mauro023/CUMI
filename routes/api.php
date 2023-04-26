@@ -26,3 +26,5 @@ Route::resource('calendars', App\Http\Controllers\API\calendarAPIController::cla
 
 
 Route::resource('attendances', App\Http\Controllers\API\attendanceAPIController::class);
+
+Route::post('updateEntrance', [App\Http\Controllers\API\attendanceAPIController::class, 'updateEntrance']);

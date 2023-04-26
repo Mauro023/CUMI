@@ -59,12 +59,8 @@ class TestTask extends Command
             
             $horaEntrada = Carbon::parse($attendance->aentry_time);
             $horaActual = now();
-            if ($horaActual->greaterThanOrEqualTo(Carbon::parse('12:45:00')) && $horaActual->lessThanOrEqualTo(Carbon::parse('13:00:00'))) {
-                $attendance->update(['adeparture_time' => 'NA']);
-                $attendance->save();
-                Log::info("Attendance updated morning: " . $attendance->id);
-            }else if ($horaActual->greaterThanOrEqualTo(Carbon::parse('19:00:00')) && $horaActual->lessThanOrEqualTo(Carbon::parse('20:00:00'))) {
-                $attendance->update(['adeparture_time' => 'NA']);
+            if ($horaActual->greaterThanOrEqualTo(Carbon::parse('20:00:00')) && $horaActual->lessThanOrEqualTo(Carbon::parse('21:00:00'))) {
+                $attendance->update(['adeparture_time' => '17:00:00']);
                 $attendance->save();
                 Log::info("Attendance updated affternon: " . $attendance->id);
             }
