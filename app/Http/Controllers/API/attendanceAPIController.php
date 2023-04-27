@@ -83,7 +83,7 @@ class attendanceAPIController extends AppBaseController
                 ->exists();
 
                 if ($attendanceExists) {
-                    return $this->sendError('Este registro ya existe.');
+                    return $this->sendError('Este usuario ya registro una entrada.');
                 } else {
                     $attendance = $this->attendanceRepository->create($input);
                 }

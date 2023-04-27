@@ -34,7 +34,9 @@ class attendanceController extends AppBaseController
     public function index(Request $request)
     {
         $this->authorize('view_attendances');
-        $attendances = Attendance::paginate(50);
+        $attendances = Attendance::orderBy('workday', 'DESC')
+        ->orderBy('aentry_time', 'desc')
+        ->paginate(50);
 
         return view('attendances.index')
             ->with('attendances', $attendances);
