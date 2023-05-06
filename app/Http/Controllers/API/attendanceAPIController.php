@@ -100,9 +100,10 @@ class attendanceAPIController extends AppBaseController
                         ->orderBy('workday', 'desc')
                         ->first();
 
-                if ($findAttendanceByDay && $findAttendanceByDay['aentry_time'] < $input['aentry_time']) {
+                if ($findAttendanceByDay && $findAttendanceByDay['aentry_time'] <= $input['aentry_time']) {
                     $findAttendanceByDay->adeparture_time = $input['aentry_time'];
                     $findAttendanceByDay->save();
+                    return $this->sendResponse('Asistencia actualizada');
                 }
 
                 $findAttendance = attendance::whereBetween('workday', array($input['workday'] . " " . $findAttendanceByDay['aentry_time'], $input['workday'] . " 23:59:59"))
