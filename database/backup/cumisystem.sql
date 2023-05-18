@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `attendances` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1597 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Volcando datos para la tabla cumisystem.attendances: ~534 rows (aproximadamente)
-INSERT INTO `attendances` (`id`, `workday`, `aentry_time`, `adeparture_time`, `employe_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
+REPLACE INTO `attendances` (`id`, `workday`, `aentry_time`, `adeparture_time`, `employe_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
 	(1057, '2023-04-27', '15:20:23', '15:21:18', 1, '2023-05-10 13:19:45', '2023-05-10 13:19:46', NULL),
 	(1058, '2023-04-27', '15:24:48', '15:25:16', 1, '2023-05-10 13:19:47', '2023-05-10 13:19:47', NULL),
 	(1059, '2023-04-27', '15:24:54', '15:25:22', 2, '2023-05-10 13:19:47', '2023-05-10 13:19:47', NULL),
@@ -589,7 +589,7 @@ CREATE TABLE IF NOT EXISTS `calendars` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1287 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Volcando datos para la tabla cumisystem.calendars: ~290 rows (aproximadamente)
-INSERT INTO `calendars` (`id`, `start_date`, `end_date`, `entry_time`, `departure_time`, `floor`, `employe_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
+REPLACE INTO `calendars` (`id`, `start_date`, `end_date`, `entry_time`, `departure_time`, `floor`, `employe_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
 	(994, '2023-05-01', '2023-05-05', '08:00:00', '17:00:00', 'Piso 2', 1, '2023-05-17 19:58:40', '2023-05-17 19:58:40', NULL),
 	(995, '2023-05-08', '2023-05-12', '08:00:00', '17:00:00', 'Piso 2', 1, '2023-05-17 19:58:40', '2023-05-17 19:58:40', NULL),
 	(996, '2023-05-15', '2023-05-19', '08:00:00', '17:00:00', 'Piso 2', 1, '2023-05-17 19:58:40', '2023-05-17 20:09:26', NULL),
@@ -896,7 +896,7 @@ CREATE TABLE IF NOT EXISTS `employes` (
 ) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Volcando datos para la tabla cumisystem.employes: ~58 rows (aproximadamente)
-INSERT INTO `employes` (`id`, `dni`, `name`, `work_position`, `unit`, `cost_center`, `created_at`, `updated_at`, `deleted_at`) VALUES
+REPLACE INTO `employes` (`id`, `dni`, `name`, `work_position`, `unit`, `cost_center`, `created_at`, `updated_at`, `deleted_at`) VALUES
 	(1, 13213164, 'Mauricio Camargo', 'Ingeniero de soporte', 'Administrativo', 'Piso 2', '2023-04-08 00:10:52', '2023-04-27 15:15:25', NULL),
 	(2, 654567, 'Julio Alvarez', 'Auxiliar de sistemas', 'Administrativo', 'Piso 2', '2023-04-08 00:10:52', '2023-04-08 00:10:52', NULL),
 	(3, 647321, 'Jesus David Ruiz Peralta', 'Analista  de datos', 'Administrativo', 'Piso 2', '2023-04-08 00:10:52', '2023-04-27 16:39:15', NULL),
@@ -980,7 +980,7 @@ CREATE TABLE IF NOT EXISTS `migrations` (
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Volcando datos para la tabla cumisystem.migrations: ~8 rows (aproximadamente)
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
+REPLACE INTO `migrations` (`id`, `migration`, `batch`) VALUES
 	(1, '2014_10_12_000000_create_users_table', 1),
 	(2, '2014_10_12_100000_create_password_resets_table', 1),
 	(3, '2019_08_19_000000_create_failed_jobs_table', 1),
@@ -1001,7 +1001,7 @@ CREATE TABLE IF NOT EXISTS `model_has_permissions` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Volcando datos para la tabla cumisystem.model_has_permissions: ~27 rows (aproximadamente)
-INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) VALUES
+REPLACE INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) VALUES
 	(1, 'App\\Models\\User', 1),
 	(2, 'App\\Models\\User', 1),
 	(3, 'App\\Models\\User', 1),
@@ -1041,7 +1041,7 @@ CREATE TABLE IF NOT EXISTS `model_has_roles` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Volcando datos para la tabla cumisystem.model_has_roles: ~5 rows (aproximadamente)
-INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
+REPLACE INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
 	(1, 'App\\Models\\User', 1),
 	(2, 'App\\Models\\User', 2),
 	(1, 'App\\Models\\User', 8),
@@ -1071,7 +1071,7 @@ CREATE TABLE IF NOT EXISTS `permissions` (
 ) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Volcando datos para la tabla cumisystem.permissions: ~25 rows (aproximadamente)
-INSERT INTO `permissions` (`id`, `name`, `display_name`, `guard_name`, `created_at`, `updated_at`) VALUES
+REPLACE INTO `permissions` (`id`, `name`, `display_name`, `guard_name`, `created_at`, `updated_at`) VALUES
 	(1, 'view_user', 'Listar Usuario', 'web', NULL, NULL),
 	(2, 'show_user', 'Ver Usuario', 'web', NULL, NULL),
 	(3, 'create_user', 'Crear Usuario', 'web', NULL, NULL),
@@ -1129,7 +1129,7 @@ CREATE TABLE IF NOT EXISTS `roles` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Volcando datos para la tabla cumisystem.roles: ~2 rows (aproximadamente)
-INSERT INTO `roles` (`id`, `name`, `display_name`, `guard_name`, `created_at`, `updated_at`) VALUES
+REPLACE INTO `roles` (`id`, `name`, `display_name`, `guard_name`, `created_at`, `updated_at`) VALUES
 	(1, 'Admin', 'Administrador', 'web', '2023-04-08 00:10:52', '2023-04-08 00:10:52'),
 	(2, 'User', 'Usuario', 'web', '2023-04-08 00:10:52', '2023-04-08 00:10:52');
 
@@ -1144,7 +1144,7 @@ CREATE TABLE IF NOT EXISTS `role_has_permissions` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Volcando datos para la tabla cumisystem.role_has_permissions: ~25 rows (aproximadamente)
-INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
+REPLACE INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 	(1, 1),
 	(2, 1),
 	(3, 1),
@@ -1186,7 +1186,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Volcando datos para la tabla cumisystem.users: ~10 rows (aproximadamente)
-INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
+REPLACE INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
 	(1, 'Administrador', 'admin@cumi.com', NULL, '$2y$10$cXVLvs9JkKIq2OtLJni8jeJf/5wVsmiP2nkD4YrkgsnSa5Opmbkf.', NULL, '2023-04-08 00:10:52', '2023-04-08 00:10:52'),
 	(2, 'Persona', 'persona@cumi.com', NULL, '$2y$10$cXVLvs9JkKIq2OtLJni8jeJf/5wVsmiP2nkD4YrkgsnSa5Opmbkf.', NULL, '2023-04-08 00:10:52', '2023-04-08 00:10:52'),
 	(3, 'Palma Ledner', 'braxton.smitham@example.com', '2023-04-08 00:10:52', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Zn5DRXP4aF', '2023-04-08 00:10:52', '2023-04-08 00:10:52'),
