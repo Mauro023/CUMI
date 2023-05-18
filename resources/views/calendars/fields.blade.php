@@ -47,17 +47,17 @@
     {!! Form::label('floor', 'Piso:') !!}
     {!! Form::select('floor', 
         [
-            1 => 'Piso 1', 
-            2 => 'Piso 2', 
-            3 => 'Piso 3', 
-            4 => 'Piso 4', 
-            5 => 'Piso 5', 
-            6 => 'Piso 6', 
-            7 => 'Piso 7', 
-            8 => 'Piso 8', 
-            9 => 'Piso 9', 
-            10 => 'Piso 10', 
-            11 => 'Piso 11'
+            'Piso 1' => 'Piso 1', 
+            'Piso 2' => 'Piso 2', 
+            'Piso 3' => 'Piso 3',
+            'Piso 4' => 'Piso 4',
+            'Piso 5' => 'Piso 5',
+            'Piso 6' => 'Piso 6',
+            'Piso 7' => 'Piso 7',
+            'Piso 8' => 'Piso 8',
+            'Piso 9' => 'Piso 9',
+            'Piso 10' => 'Piso 10',
+            'Piso 11' => 'Piso 11'
         ], null, ['class' => 'form-control custom-select']) !!}
 </div>
 

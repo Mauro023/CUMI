@@ -53,7 +53,16 @@ Route::resource('calendars', App\Http\Controllers\calendarController::class);
 Route::resource('attendances', App\Http\Controllers\attendanceController::class);
 Route::resource('control', App\Http\Controllers\controlController::class);
 
+//Ruta Reportes
+Route::get('/attendanceReport/attendanceToday', [App\Http\Controllers\AttendanceReportController::class, 'attendanceToday'])->name('attendanceReport.attendanceToday');
+Route::get('/attendanceReport/workingAndFinished', [App\Http\Controllers\AttendanceReportController::class, 'getWorkingAndFinished'])->name('attendanceReport.workingAndFinished');
+Route::get('/attendanceReport/finished', [App\Http\Controllers\AttendanceReportController::class, 'getFinished'])->name('attendanceReport.finished');
+
+//Ruta filtros
 Route::post('/filterUser', [App\Http\Controllers\Admin\UsersController::class, 'filter'])->name('users.filter');
 Route::post('/filterEmploye', [App\Http\Controllers\EmployeController::class, 'filter'])->name('employes.filter');
 Route::post('/filterAttendance', [App\Http\Controllers\AttendanceController::class, 'filter'])->name('attendances.filter');
 Route::post('/filterCalendar', [App\Http\Controllers\CalendarController::class, 'filter'])->name('calendars.filter');
+
+//Generar calendarios
+Route::get('/generar-calendarios', [App\Http\Controllers\CalendarController::class, 'calendarGenerator'])->name('calendars.generate');

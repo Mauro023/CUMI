@@ -1,33 +1,30 @@
 @extends('layouts.app')
 
-@section('title', 'Dashboard')
-
 @section('content')
 <section class="content-header">
 
 </section>
 <div class="content px-3">
-
-    @include('flash::message')
-
-    <div class="clearfix"></div>
-    <div class="card">
-        <div class="card-header d-flex justify-content-between align-items-center">
-            <h4 class="card-title m-0"><strong>Lista de usuarios</strong></h4>
-            <div class="ml-auto">
-                @can('create_user')
-                <a href="{{ route('admin.users.create') }}" class="btn btn-success">
-                    <span class="fas fa-user-plus"></span>
-                </a>
-                @endcan
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                    <span class="fas fa-search"></span>
-                </button>
+    <div class="container-fluid">
+        @include('flash::message')
+        <div class="card shadow-none border-0">
+            <div class="card-header d-flex justify-content-between align-items-center" style="background-color: white">
+                <h4 class="card-title m-0" style="color: #69C5A0"><strong>Lista de usuarios</strong></h4>
+                <div class="ml-auto">
+                    @can('create_user')
+                    <a href="{{ route('admin.users.create') }}" class="btn btn-deafult">
+                        <span class="fas fa-user-plus" style="color: #69C5A0"></span>
+                    </a>
+                    @endcan
+                    <button type="button" class="btn btn-default" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                        <span class="fas fa-search" style="color: #69C5A0"></span>
+                    </button>
+                </div>
             </div>
-        </div>
-        <div class="card-body p-0">
-            <div class="card-panel">
-                @include('admin.users.table')
+            <div class="card-body p-0">
+                <div class="card-panel">
+                    @include('admin.users.table')
+                </div>
             </div>
         </div>
     </div>

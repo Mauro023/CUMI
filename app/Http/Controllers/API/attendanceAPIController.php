@@ -67,31 +67,32 @@ class attendanceAPIController extends AppBaseController
         $input = $request->all();
         
         if ($input['action'] === 128) {
+            $lastAttendance = attendance::where('employe_id', $input['employe_id'])
+                ->whereDate('workday', $input['workday'])
+                ->orderBy('id', 'desc')
+                ->first();
+        
+            // Verificar si el registro ya existe
+            $attendanceExists = attendance::where('workday', $input['workday'])
+            ->where('aentry_time', $input['aentry_time'])
+            ->where('employe_id', $input['employe_id'])
+            ->exists();
 
-            $findAttendance = attendance::whereBetween('workday', array($input['workday'] . " 00:00:00", $input['workday'] . " 23:59:59"))
-                    ->where('employe_id', $input['employe_id'])
-                    ->orderBy('workday', 'desc')
-                    ->first();
-            if (
-                empty($findAttendance) ||
-                (!empty($findAttendance['aentry_time']) && !empty($findAttendance['adeparture_time']))
-            ) {
-                // Verificar si el registro ya existe
-                $attendanceExists = attendance::where('workday', $input['workday'])
-                ->where('aentry_time', $input['aentry_time'])
-                ->where('employe_id', $input['employe_id'])
-                ->exists();
-
-                if ($attendanceExists) {
-                    return $this->sendError('Este usuario ya registro una entrada.');
-                } else {
-                    $attendance = $this->attendanceRepository->create($input);
-                }
+            if ($attendanceExists) {
+                return $this->sendError('Este usuario ya registro una entrada.');
             } else {
-                return $this->sendError('Este usuario ya registro una entrada y no ha generado una salida.');
+                if (!$lastAttendance) {
+                    // No hay registros anteriores, permitimos la entrada
+                    $attendance = $this->attendanceRepository->create($input);
+                } else if ($lastAttendance->adeparture_time) {
+                    // El último registro ya tiene salida, permitimos la entrada
+                    $attendance = $this->attendanceRepository->create($input);
+                } else {
+                    // El último registro no tiene salida, no permitimos la entrada
+                    return $this->sendError('Este usuario ya registró una entrada y no ha generado una salida.');
+                }
             }
-        } else {
-
+        }else {
             if ($input['action'] === 129) {
                 
                 $findAttendanceByDay = attendance::whereBetween('workday', array($input['workday'] . " 00:00:00", $input['workday'] . " 23:59:59"))
@@ -103,7 +104,11 @@ class attendanceAPIController extends AppBaseController
                 if ($findAttendanceByDay && $findAttendanceByDay['aentry_time'] <= $input['aentry_time']) {
                     $findAttendanceByDay->adeparture_time = $input['aentry_time'];
                     $findAttendanceByDay->save();
-                    return $this->sendResponse('Asistencia actualizada');
+                    return $this->sendResponse($findAttendanceByDay->toArray(), 'Asistencia actualizada');
+                }
+
+                if (!$findAttendanceByDay) {
+                    return $this->sendError('No se encontró ninguna entrada para el usuario en la fecha especificada.');
                 }
 
                 $findAttendance = attendance::whereBetween('workday', array($input['workday'] . " " . $findAttendanceByDay['aentry_time'], $input['workday'] . " 23:59:59"))
@@ -124,7 +129,7 @@ class attendanceAPIController extends AppBaseController
             }
         }
 
-        return $this->sendResponse($findAttendance->toArray(), 'Attendance saved successfully');
+        return $this->sendResponse($attendance->toArray(), 'Attendance saved successfully');
     }
     /**
      * Display the specified attendance.

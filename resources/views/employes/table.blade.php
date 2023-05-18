@@ -1,45 +1,47 @@
 <div class="table-responsive">
-    <table class="table table-hover" id="employes-table">
+    <table class="table table-hover mb-0" id="employes-table">
         <thead>
         <tr>
-            <th>Empleado</th>
-            <th>Cargo</th>
-            <th>Unidad</th>
-            <th class="text-center">Centro de costo</th>
+            <th scope="col">#</th>
+            <th scope="col">Empleado</th>
+            <th scope="col">Cargo</th>
+            <th scope="col">Unidad</th>
+            <th class="text-center" scope="col">Centro de costo</th>
             @canany(['show_employes', 'update_employes', 'destroy_employes'])
                 <th colspan="3">Acciones</th>
             @endcan
         </tr>
         </thead>
-        <tbody>
-        @foreach($employes as $employe)
+        <tbody class="table-group-divider">
+        @foreach($employes as $employe)  
             <tr>
+                <td><strong>{{$employe->id}}</strong></td>
                 <td>
                     {{ $employe->name }}
                     <br>
-                    <small>{{ $employe->dni }}</small>
+                    <small style="color: #69C5A0"><strong>{{ $employe->dni }}</strong></small>
                 </td>
-                <td>{{ $employe->work_position }}</td>
-                <td>{{ $employe->unit }}</td>
-                <td class="text-center">{{ $employe->cost_center }}</td>
+                <td scope="row" style="vertical-align: middle">{{ $employe->work_position }}</td>
+                <td scope="row" style="vertical-align: middle">{{ $employe->unit }}</td>
+                <td class="text-center" style="vertical-align: middle">{{ $employe->cost_center }}</td>
                 <td>
                     
                     <div class='btn-group'>
                         @can('show_employes')
                         <button type="button" class='btn btn-default btn-xs' 
                             data-bs-toggle="modal" data-bs-target="#staticShow{{ $employe->id }}">
-                            <i class="far fa-eye"></i>
+                            <i class="far fa-eye" style="color: #13A4DA"></i>
                         </button>
                         @endcan
                         @can('update_employes')
                             <a href="{{ route('employes.edit', [$employe->id]) }}"
                             class='btn btn-default btn-xs'>
-                                <i class="far fa-edit"></i>
+                                <i class="far fa-edit" style="color: #6c6d77"></i>
                             </a>
                         @endcan
                         @can('destroy_employes')
                         {!! Form::open(['route' => ['employes.destroy', $employe->id], 'method' => 'delete']) !!}
-                            {!! Form::button('<i class="far fa-trash-alt"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Se necesita confirmacion para realizar este proceso')"]) !!}
+                            {!! Form::button('<i class="far fa-trash-alt" style="color: #da1b1b"></i>', ['type' => 'submit', 'class' => 'btn btn-default btn-xs', 'onclick' => "return confirm('Se necesita confirmacion para realizar este proceso')"]) !!}
                         {!! Form::close() !!}
                         @endcan
                     </div>     
@@ -49,7 +51,7 @@
         </tbody>
     </table>
 </div>
-<div class="card-footer mr-auto">
+<div class="card-footer mr-auto" style="background-color: white">
     {{ $employes->links() }}
 </div>
 
@@ -62,7 +64,7 @@
             <div class="modal-dialog modal-sm">
                 <div class="modal-content">
                     <div class="ribbon-wrapper">
-                        <div class="ribbon bg-primary">
+                        <div class="ribbon bg-green">
                             Perfil
                         </div>
                     </div>
@@ -76,19 +78,24 @@
                             <p class="text-muted text-center">{{ $employe->work_position }}</p>
                             <ul class="list-group list-group-unbordered mb-3">
                                 <li class="list-group-item">
-                                    <b>DNI</b> <p class="float-right">{{ $employe->dni }}</p>
+                                    <span class="far fa-address-card" style="color: #69C5A0"></span>
+                                    <b style="color: #69C5A0"><strong>DNI</strong></b> <p class="float-right">{{ $employe->dni }}</p>
                                 </li>
                                 <li class="list-group-item">
-                                    <b>Unidad</b> <p class="float-right">{{ $employe->unit }}</p>
+                                    <span class="far fa-user-circle" style="color: #69C5A0"></span>
+                                    <b style="color: #69C5A0"><strong>Unidad</strong></b> <p class="float-right">{{ $employe->unit }}</p>
                                 </li>
                                 <li class="list-group-item">
-                                    <b>Centro de costos</b> <p class="float-right">{{ $employe->cost_center }}</p>
+                                    <span class="far fa-hospital" style="color: #69C5A0"></span>
+                                    <b style="color: #69C5A0"><strong>Centro de costos</strong></b> <p class="float-right">{{ $employe->cost_center }}</p>
                                 </li>
                                 <li class="list-group-item">
-                                    <b>Creado</b> <p class="float-right">{{ $employe->created_at->format('Y-m-d') }}</p>
+                                    <span class="far fa-calendar-check" style="color: #69C5A0"></span>
+                                    <b style="color: #69C5A0"><strong>Creado</strong></b> <p class="float-right">{{ $employe->created_at->format('Y-m-d') }}</p>
                                 </li>
                                 <li class="list-group-item">
-                                    <b>Modificado</b> <p class="float-right">{{ $employe->updated_at->format('Y-m-d') }}</p>
+                                    <span class="far fa-edit" style="color: #69C5A0"></span>
+                                    <b style="color: #69C5A0"><strong>Modificado</strong></b> <p class="float-right">{{ $employe->updated_at->format('Y-m-d') }}</p>
                                 </li>
                             </ul>
                         </div>

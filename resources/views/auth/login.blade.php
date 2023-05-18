@@ -48,7 +48,7 @@
                 <div class="login-logo">
                     <a href="{{ url('/home') }}">
                         <img height="100%" width="270"
-                            src="https://cumi.com.co/wp-content/uploads/2021/07/LOGO_cumi_Mesa-de-trabajo-1.png"
+                            src="{{ asset('images/LOGO_cumi_Mesa-de-trabajo-1.png') }}"
                             alt="CUMI" title>
                     </a>
                 </div>

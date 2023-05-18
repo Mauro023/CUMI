@@ -19,7 +19,12 @@
 <!-- Unit Field -->
 <div class="form-group col-sm-5">
     {!! Form::label('unit', 'Unidad:') !!}
-    {!! Form::select('unit', ['Administrativo' => 'Administrativo', 'Asistencial' => 'Asistencial'], null, ['class' => 'form-control custom-select']) !!}
+    {!! Form::select('unit', 
+        [
+            'Administrativo' => 'Administrativo', 
+            'Administrativo asistencial' => 'Administrativo asistencial', 
+            'Asistencial' => 'Asistencial'
+        ], null, ['class' => 'form-control custom-select']) !!}
 </div>
 
 <!-- Cost center Field -->

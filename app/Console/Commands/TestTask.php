@@ -51,7 +51,10 @@ class TestTask extends Command
                         ->orWhere('attendances.adeparture_time', '');
                 })
                 ->whereNotNull('attendances.aentry_time')
-                ->where('employes.unit', '=','Administrativo')
+                ->where(function($query) {
+                    $query->where('employes.unit', '=','Administrativo')
+                        ->orWhere('employes.unit', '=','Administrativo asistencial');
+                })
                 ->get();                
                 Log::info('Found '.count($attendances).' attendances for today and administrative.');
 
@@ -59,7 +62,11 @@ class TestTask extends Command
             
             $horaEntrada = Carbon::parse($attendance->aentry_time);
             $horaActual = now();
-            if ($horaActual->greaterThanOrEqualTo(Carbon::parse('20:00:00')) && $horaActual->lessThanOrEqualTo(Carbon::parse('21:00:00'))) {
+            if ($horaActual->greaterThanOrEqualTo(Carbon::parse('12:00:00')) && $horaActual->lessThanOrEqualTo(Carbon::parse('13:05:00'))) {
+                $attendance->update(['adeparture_time' => '13:00:00']);
+                $attendance->save();
+                Log::info("Attendance updated affternon: " . $attendance->id);
+            }elseif ($horaActual->greaterThanOrEqualTo(Carbon::parse('21:00:00')) && $horaActual->lessThanOrEqualTo(Carbon::parse('22:00:00'))) {
                 $attendance->update(['adeparture_time' => '17:00:00']);
                 $attendance->save();
                 Log::info("Attendance updated affternon: " . $attendance->id);

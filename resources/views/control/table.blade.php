@@ -4,29 +4,33 @@
         <tr>
             <th>Empleado</th>
             <th>Calendario</th>
-            <th>Horario</th>
-            <th>Dia de trabajo</th>
-            <th>Entrada-salida</th>
+            <th>Día de trabajo</th>
+            <th class="text-center">Llegada tarde</th>
+            <th class="text-center">Salida temprano</th>
         </tr>
         </thead>
         <tbody>
-        @foreach ($resultados as $resultado)
+        @foreach ($tablaAsistencias as $asistencia)
             <tr>
                 <td>
-                    {{ $resultado->name }}
+                    {{ $asistencia['name'] }}
                     <br>
-                    <small>{{ $resultado->work_position }}</small>
-                    <br>
-                    <small>{{ $resultado->cost_center }}</small>
+                    <small>{{ $asistencia['work_position'] }}</small>
                 </td>
-                <td class="align-middle">{{ $resultado->start_date }} - {{ $resultado->end_date }}</td>
                 <td class="align-middle">
-                    <span class="badge bg-gray-dark">{{ $resultado->entry_time }}</span> - 
-                    <span class="badge bg-indigo">{{ $resultado->departure_time }}</span></td>
-                <td class="align-middle">{{ $resultado->workday}}</td>
+                    <small>{{ $asistencia['start_date'] }} - {{ $asistencia['end_date'] }}</small>
+                    <br>
+                    <span class="badge bg-gray-dark">{{ $asistencia['entry_time'] }}</span> - 
+                    <span class="badge bg-indigo">{{ $asistencia['departure_time'] }}</span>
+                </td>
                 <td class="align-middle">
-                    <span class="badge bg-green">{{ $resultado->aentry_time }}</span> -
-                    <span class="badge bg-danger">{{ $resultado->adeparture_time }}</span></td>
+                    <small>{{ $asistencia['workday'] }}</small>
+                    <br>
+                    <span class="badge bg-green">{{ $asistencia['aentry_time'] }}</span> -
+                    <span class="badge bg-primary">{{ $asistencia['adeparture_time'] }}</span>
+                </td>
+                <td class="align-middle text-center">{{ $asistencia['entrada_tarde'] }}</td>
+                <td class="align-middle text-center">{{ $asistencia['salida_temprana'] }}</td>
             </tr>
         @endforeach
         </tbody>
