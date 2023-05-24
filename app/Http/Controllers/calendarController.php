@@ -233,6 +233,8 @@ class calendarController extends AppBaseController
             }
         }
         $this->calendarGeneratorAsis(new Request());
+        $this->calendarGeneratorSaturday(new Request());
+        $this->calendarGeneratorAsiSaturday(new Request());
         return redirect(route('calendars.index'));
     }
 
@@ -279,7 +281,99 @@ class calendarController extends AppBaseController
             }
         }
     }
-    
 
+    public function calendarGeneratorSaturday(Request $request)
+    {
+        // Obtener la lista de empleados
+        $employees = Employe::where('unit', 'Administrativo')->get();
+
+        // Obtener el año y mes actual
+        $currentYear = Carbon::now()->year;
+        $currentMonth = Carbon::now()->month;
+
+        foreach ($employees as $employee) {
+            // Obtener el primer y último día del mes actual
+            $firstDayOfMonth = Carbon::createFromDate($currentYear, $currentMonth, 1)->startOfDay();
+            $lastDayOfMonth = $firstDayOfMonth->copy()->endOfMonth()->startOfDay();
+
+            // Buscar el primer sábado del mes
+            $firstSaturday = $firstDayOfMonth->copy()->modify('first saturday');
+
+            // Verificar si el primer sábado cae dentro del mes actual
+            if ($firstSaturday->lte($lastDayOfMonth)) {
+                $date = $firstSaturday;
+                while ($date->lte($lastDayOfMonth)) {
+                    // Buscar un calendario existente para la fecha y empleado actual
+                    $existingCalendar = Calendar::where('start_date', $date->toDateString())
+                        ->where('end_date', $date->toDateString())
+                        ->where('employe_id', $employee->id)
+                        ->where('entry_time', '08:00:00')
+                        ->where('departure_time', '13:00:00')
+                        ->first();
+
+                    if (!$existingCalendar) {
+                        // Crear el registro en la tabla 'calendars' solo si no existe
+                        Calendar::create([
+                            'start_date' => $date,
+                            'end_date' => $date,
+                            'entry_time' => '08:00:00',
+                            'departure_time' => '13:00:00',
+                            'floor' => $employee->cost_center,
+                            'employe_id' => $employee->id,
+                        ]);
+                    }
+
+                    $date->addWeek(); // Avanzar al siguiente sábado
+                }
+            }
+        }
+    }
+    
+    public function calendarGeneratorAsiSaturday(Request $request)
+    {
+        // Obtener la lista de empleados
+        $employees = Employe::where('unit', 'Administrativo asistencial')->get();
+
+        // Obtener el año y mes actual
+        $currentYear = Carbon::now()->year;
+        $currentMonth = Carbon::now()->month;
+
+        foreach ($employees as $employee) {
+            // Obtener el primer y último día del mes actual
+            $firstDayOfMonth = Carbon::createFromDate($currentYear, $currentMonth, 1)->startOfDay();
+            $lastDayOfMonth = $firstDayOfMonth->copy()->endOfMonth()->startOfDay();
+
+            // Buscar el primer sábado del mes
+            $firstSaturday = $firstDayOfMonth->copy()->modify('first saturday');
+
+            // Verificar si el primer sábado cae dentro del mes actual
+            if ($firstSaturday->lte($lastDayOfMonth)) {
+                $date = $firstSaturday;
+                while ($date->lte($lastDayOfMonth)) {
+                    // Buscar un calendario existente para la fecha y empleado actual
+                    $existingCalendar = Calendar::where('start_date', $date->toDateString())
+                        ->where('end_date', $date->toDateString())
+                        ->where('employe_id', $employee->id)
+                        ->where('entry_time', '07:00:00')
+                        ->where('departure_time', '12:00:00')
+                        ->first();
+
+                    if (!$existingCalendar) {
+                        // Crear el registro en la tabla 'calendars' solo si no existe
+                        Calendar::create([
+                            'start_date' => $date,
+                            'end_date' => $date,
+                            'entry_time' => '07:00:00',
+                            'departure_time' => '12:00:00',
+                            'floor' => $employee->cost_center,
+                            'employe_id' => $employee->id,
+                        ]);
+                    }
+
+                    $date->addWeek(); // Avanzar al siguiente sábado
+                }
+            }
+        }
+    }
  
 }

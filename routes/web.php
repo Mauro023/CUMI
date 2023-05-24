@@ -57,6 +57,7 @@ Route::resource('control', App\Http\Controllers\controlController::class);
 Route::get('/attendanceReport/attendanceToday', [App\Http\Controllers\AttendanceReportController::class, 'attendanceToday'])->name('attendanceReport.attendanceToday');
 Route::get('/attendanceReport/workingAndFinished', [App\Http\Controllers\AttendanceReportController::class, 'getWorkingAndFinished'])->name('attendanceReport.workingAndFinished');
 Route::get('/attendanceReport/finished', [App\Http\Controllers\AttendanceReportController::class, 'getFinished'])->name('attendanceReport.finished');
+Route::get('/attendanceTime/attendanceNot', [App\Http\Controllers\AttendanceTimeController::class, 'attendanceNot'])->name('attendanceTime.attendanceNot');
 
 //Ruta filtros
 Route::post('/filterUser', [App\Http\Controllers\Admin\UsersController::class, 'filter'])->name('users.filter');
@@ -66,3 +67,6 @@ Route::post('/filterCalendar', [App\Http\Controllers\CalendarController::class, 
 
 //Generar calendarios
 Route::get('/generar-calendarios', [App\Http\Controllers\CalendarController::class, 'calendarGenerator'])->name('calendars.generate');
+
+//Importar excel
+Route::post('import', [App\Http\Controllers\ImportController::class, 'import'])->name('import');

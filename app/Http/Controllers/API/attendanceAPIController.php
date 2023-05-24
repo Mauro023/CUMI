@@ -94,39 +94,73 @@ class attendanceAPIController extends AppBaseController
             }
         }else {
             if ($input['action'] === 129) {
+                $entryDate = $input['workday'];
+                $entryTime = $input['aentry_time'];
                 
-                $findAttendanceByDay = attendance::whereBetween('workday', array($input['workday'] . " 00:00:00", $input['workday'] . " 23:59:59"))
-                        ->where('employe_id', $input['employe_id'])
-                        ->whereNull('adeparture_time')
-                        ->orderBy('workday', 'desc')
-                        ->first();
-
-                if ($findAttendanceByDay && $findAttendanceByDay['aentry_time'] <= $input['aentry_time']) {
-                    $findAttendanceByDay->adeparture_time = $input['aentry_time'];
+                $findAttendanceByDay = attendance::whereDate('workday', $entryDate)
+                    ->where('employe_id', $input['employe_id'])
+                    ->whereNull('adeparture_time')
+                    ->orderBy('workday', 'desc')
+                    ->first();
+            
+                if ($findAttendanceByDay && $findAttendanceByDay['aentry_time'] <= $entryTime) {
+                    $findAttendanceByDay->adeparture_time = $entryTime;
                     $findAttendanceByDay->save();
                     return $this->sendResponse($findAttendanceByDay->toArray(), 'Asistencia actualizada');
                 }
-
+            
                 if (!$findAttendanceByDay) {
-                    return $this->sendError('No se encontró ninguna entrada para el usuario en la fecha especificada.');
-                }
-
-                $findAttendance = attendance::whereBetween('workday', array($input['workday'] . " " . $findAttendanceByDay['aentry_time'], $input['workday'] . " 23:59:59"))
-                        ->where('employe_id', $input['employe_id'])
+                    $findAttendanceByPreviousDay = attendance::where('employe_id', $input['employe_id'])
+                        ->where(function ($query) use ($entryDate, $entryTime) {
+                            $query->where(function ($subquery) use ($entryDate, $entryTime) {
+                                $subquery->whereDate('workday', Carbon::parse($entryDate)->subDay())
+                                    ->whereTime('aentry_time', '>', $entryTime);
+                            })->orWhere(function ($subquery) use ($entryDate, $entryTime) {
+                                $subquery->whereDate('workday', Carbon::parse($entryDate)->subDay());
+                            });
+                        })
                         ->orderBy('workday', 'desc')
                         ->first();
-
+            
+                    if (!$findAttendanceByPreviousDay) {
+                        return $this->sendError('No se encontró ninguna entrada para el usuario en la fecha especificada.');
+                    }
+            
+                    if (!empty($findAttendanceByPreviousDay['adeparture_time'])) {
+                        return $this->sendError('Este usuario ya registró una salida.');
+                    }
+            
+                    $findAttendanceByPreviousDay->adeparture_time = $entryTime;
+                    $findAttendanceByPreviousDay->save();
+                    return $this->sendResponse($findAttendanceByPreviousDay->toArray(), 'Asistencia actualizada');
+                }
+            
+                $findAttendance = attendance::where('employe_id', $input['employe_id'])
+                    ->where(function ($query) use ($entryDate, $entryTime) {
+                        $query->where(function ($subquery) use ($entryDate, $entryTime) {
+                            $subquery->whereDate('workday', $entryDate)
+                                ->whereTime('aentry_time', '>', $entryTime);
+                        })->orWhere(function ($subquery) use ($entryDate, $entryTime) {
+                            $subquery->whereDate('workday', '>', $entryDate);
+                        });
+                    })
+                    ->orderBy('workday', 'desc')
+                    ->first();
+            
                 if (empty($findAttendance)) {
                     return $this->sendError('Attendance not found');
                 }
-
+            
                 if (!empty($findAttendance['adeparture_time'])) {
-                    return $this->sendError('Este usuario ya registro una salida.');
+                    return $this->sendError('Este usuario ya registró una salida.');
                 }
-
-                $findAttendance['adeparture_time'] = $input['aentry_time'];
+            
+                $findAttendance['adeparture_time'] = $entryTime;
                 $findAttendance->save();
+                return $this->sendResponse($findAttendance->toArray(), 'Attendance saved successfully');
             }
+            
+            
         }
 
         return $this->sendResponse($attendance->toArray(), 'Attendance saved successfully');

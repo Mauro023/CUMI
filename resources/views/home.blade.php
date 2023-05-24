@@ -17,7 +17,7 @@
                                                 <h5>Total empleados</h5>
                                                 @php
                                                 use App\Models\Employe;
-                                                $cant_emplo = Employe::count();
+                                                $cant_emplo = Employe::where('unit', '!=', 'Deshabilitado')->count();
                                                 @endphp
                                                 <h2 class="text-center"><i
                                                         class="fa fa-users f-left"></i><span>{{$cant_emplo}}</span></h2>
@@ -173,19 +173,21 @@
                                 <div class="col-md-4 col-xl-3">
                                     <div class="card card-outline card-danger   order-card text-center mx-auto">
                                         <div class="card-block">
-                                            <h5>Sin asistencia</h5>
-                                            @php
-                                            $today = Carbon::now();
-                                                $cant_no_attendances = Attendance::where('workday',
-                                                $today->format('Y-m-d'))
-                                                ->where('aentry_time', '00:00:00')
-                                                ->where('adeparture_time', '00:00:00')
-                                                ->whereColumn('aentry_time', '=', 'adeparture_time')->count();
-                                            @endphp
-                                            <h2 class="text-center"><i
-                                                    class="fa fa-calendar-times f-left"></i><span>{{$cant_no_attendances}}</span>
-                                            </h2>
-                                            <br>
+                                            <a href="{{ route('attendanceTime.attendanceNot') }}" style="color: black">
+                                                <h5>Sin asistencia</h5>
+                                                @php
+                                                $today = Carbon::now();
+                                                    $cant_no_attendances = Attendance::where('workday',
+                                                    $today->format('Y-m-d'))
+                                                    ->where('aentry_time', '00:00:00')
+                                                    ->where('adeparture_time', '00:00:00')
+                                                    ->whereColumn('aentry_time', '=', 'adeparture_time')->count();
+                                                @endphp
+                                                <h2 class="text-center"><i
+                                                        class="fa fa-calendar-times f-left"></i><span>{{$cant_no_attendances}}</span>
+                                                </h2>
+                                                <br>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>

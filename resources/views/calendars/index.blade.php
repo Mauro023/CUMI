@@ -21,6 +21,7 @@
                         <span class="fas fa-search" style="color: #69C5A0"></span>
                     </button>
                     <a href="{{ route('calendars.generate') }}" class="boton-redondeado"><b>Generar calendarios</b></a>
+                    <a class="boton-redondeado" data-bs-toggle="modal" data-bs-target="#importar"><b>Importar</b></a>
                 </div>
             </div>
             <div class="card-body p-0">
@@ -37,7 +38,7 @@
     aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header bg-green">
+            <div class="modal-header bg-default">
                 <h5 class="modal-title" id="staticBackdropLabel"><strong>Filtrar en calendario</strong></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -79,6 +80,38 @@
         </div>
     </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="importar" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-default>
+                <h5 class="modal-title" id="staticBackdropLabel"><strong>Importar archivo excel</strong></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {!! Form::open(['route' => ['import'], 'method' => 'post', 'class' => 'row
+                col-sm-12
+                mt-4'])
+                !!}
+                <div class="row">
+                    <div class="form-group col-sm-6">
+                        {!! Form::file('file', null, ['class' => 'form-control','id'=>'file'
+                        ,'name'=>'file', 'placeholder'=>'file']) !!}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-sm-6">
+                        <button class="btn btn-default" type="submit" style="background-color: #69C5A0; color: white"><strong>Importar</strong></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
 @push('page_scripts')
 <script type="text/javascript">
     $('#start_date').datetimepicker({

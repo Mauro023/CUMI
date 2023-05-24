@@ -39,34 +39,20 @@ class controlController extends AppBaseController
             $diferenciaSalida = $horaSalidaRegistrada->diffInMinutes($horaSalidaProgramada);
             $diferenciaSalida = $horaSalidaRegistrada->lessThan($horaSalidaProgramada) ? $diferenciaSalida : 0;
 
-            if ($resultado->work_position == 'Administrativo asistencial' && $resultado->departure_time >= '12:00:00') {
-                $horaSalidaAlmuerzoProgramada = Carbon::parse('12:00:00');
-                $horaSalidaAlmuerzoRegistrada = Carbon::parse($resultado->adeparture_time);
-                $diferenciaSalidaAlmuerzo = $horaSalidaAlmuerzoRegistrada->diffInMinutes($horaSalidaAlmuerzoProgramada);
-                $diferenciaSalidaAlmuerzo = $horaSalidaAlmuerzoRegistrada->lessThan($horaSalidaAlmuerzoProgramada) ? $diferenciaSalidaAlmuerzo : 0;
-    
-                $horaEntradaAlmuerzoProgramada = Carbon::parse('14:00:00');
-                $horaEntradaAlmuerzoRegistrada = Carbon::parse($resultado->aentry_time);
-                $diferenciaEntradaAlmuerzo = $horaEntradaAlmuerzoRegistrada->diffInMinutes($horaEntradaAlmuerzoProgramada);
-                $diferenciaEntradaAlmuerzo = $horaEntradaAlmuerzoRegistrada->greaterThan($horaEntradaAlmuerzoProgramada) ? $diferenciaEntradaAlmuerzo : 0;
-    
-                $tablaAsistencias[] = [
-                    'name' => $resultado->name,
-                    'work_position' => $resultado->work_position,
-                    'cost_center' => $resultado->cost_center,
-                    'start_date' => $resultado->start_date,
-                    'end_date' => $resultado->end_date,
-                    'entry_time' => $resultado->entry_time,
-                    'departure_time' => $resultado->departure_time,
-                    'workday' => $resultado->workday,
-                    'aentry_time' => $resultado->aentry_time,
-                    'adeparture_time' => $resultado->adeparture_time,
-                    'entrada_tarde' => $diferenciaEntrada,
-                    'salida_temprana' => $diferenciaSalida,
-                    'salida_almuerzo_temprana' => $diferenciaSalidaAlmuerzo,
-                    'llegada_almuerzo_tarde' => $diferenciaEntradaAlmuerzo,
-                ];
-            }
+            $tablaAsistencias[] = [
+                'name' => $resultado->name,
+                'work_position' => $resultado->work_position,
+                'cost_center' => $resultado->cost_center,
+                'start_date' => $resultado->start_date,
+                'end_date' => $resultado->end_date,
+                'entry_time' => $resultado->entry_time,
+                'departure_time' => $resultado->departure_time,
+                'workday' => $resultado->workday,
+                'aentry_time' => $resultado->aentry_time,
+                'adeparture_time' => $resultado->adeparture_time,
+                'entrada_tarde' => $diferenciaEntrada,
+                'salida_temprana' => $diferenciaSalida,
+            ];
         }
 
         return view('control.index', compact('tablaAsistencias'));

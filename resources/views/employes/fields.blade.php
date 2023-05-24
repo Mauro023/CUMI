@@ -23,7 +23,8 @@
         [
             'Administrativo' => 'Administrativo', 
             'Administrativo asistencial' => 'Administrativo asistencial', 
-            'Asistencial' => 'Asistencial'
+            'Asistencial' => 'Asistencial',
+            'Deshabilitado' => 'Deshabilitado'
         ], null, ['class' => 'form-control custom-select']) !!}
 </div>
 
