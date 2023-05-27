@@ -19,7 +19,6 @@ class UsersTableSeeder extends Seeder
     {
         DB::table('users')->insert([
             [
-                'id' => 1,
                 'name' => 'Administrador',
                 'email' => 'admin@cumi.com',
                 'password' => '$2y$10$cXVLvs9JkKIq2OtLJni8jeJf/5wVsmiP2nkD4YrkgsnSa5Opmbkf.',
@@ -27,7 +26,6 @@ class UsersTableSeeder extends Seeder
                 'updated_at' => date("Y-m-d H:i:s"),
             ],
             [
-                'id' => 2,
                 'name' => 'Persona',
                 'email' => 'persona@cumi.com',
                 'password' => '$2y$10$cXVLvs9JkKIq2OtLJni8jeJf/5wVsmiP2nkD4YrkgsnSa5Opmbkf.',

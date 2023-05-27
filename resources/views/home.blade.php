@@ -126,21 +126,7 @@
                                     <div class="card card-outline card-danger order-card text-center mx-auto">
                                         <div class="card-block">
                                             <h5>Llegada tarde</h5>
-                                            @php
-                                                $lateEmployeesCount = DB::table('attendances')
-                                                    ->join('calendars', function ($join) {
-                                                        $join->on('attendances.employe_id', '=', 'calendars.employe_id')
-                                                            ->whereRaw('attendances.workday BETWEEN calendars.start_date AND calendars.end_date');
-                                                    })
-                                                    ->join('employes', 'attendances.employe_id', '=', 'employes.id')
-                                                    ->whereDate('attendances.workday', '=', date('Y-m-d'))
-                                                    ->whereRaw('TIME(attendances.aentry_time) > ADDTIME(calendars.entry_time, "00:15:00")')
-                                                    ->whereRaw('TIME(attendances.aentry_time) <= calendars.departure_time')
-                                                    ->count();
-                                            @endphp
-                                            <h2 class="text-center"><i
-                                                    class="fa fa-hourglass-half f-left"></i><span>{{$lateEmployeesCount}}</span>
-                                            </h2>
+                                           
                                             <br>
                                         </div>
                                     </div>
@@ -150,21 +136,7 @@
                                     <div class="card card-outline card-danger   order-card text-center mx-auto">
                                         <div class="card-block">
                                             <h5>Salida temprano</h5>
-                                            @php
-                                                $earlyEmployeesCount = DB::table('attendances')
-                                                    ->join('calendars', function ($join) {
-                                                        $join->on('attendances.employe_id', '=', 'calendars.employe_id')
-                                                            ->whereRaw('attendances.workday BETWEEN calendars.start_date AND calendars.end_date');
-                                                    })
-                                                    ->join('employes', 'attendances.employe_id', '=', 'employes.id')
-                                                    ->whereDate('attendances.workday', '=', date('Y-m-d'))
-                                                    ->whereRaw('TIME(attendances.adeparture_time) < SUBTIME(calendars.departure_time, "00:15:00")')
-                                                    ->whereRaw('TIME(attendances.adeparture_time) >= calendars.entry_time')
-                                                    ->count();
-                                            @endphp
-                                            <h2 class="text-center"><i
-                                                    class="fa fa-hourglass-half f-left"></i><span>{{$earlyEmployeesCount}}</span>
-                                            </h2>
+                                            
                                             <br>
                                         </div>
                                     </div>

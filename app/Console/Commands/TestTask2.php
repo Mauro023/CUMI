@@ -68,8 +68,7 @@ class TestTask2 extends Command
         }
 
         $horaActual = Carbon::now();
-        if (($horaActual->greaterThanOrEqualTo(Carbon::parse('11:00:00')) && $horaActual->lessThanOrEqualTo(Carbon::parse('12:00:00'))) ||
-            ($horaActual->greaterThanOrEqualTo(Carbon::parse('21:00:00')) && $horaActual->lessThanOrEqualTo(Carbon::parse('22:00:00')))) {
+        if (($horaActual->greaterThanOrEqualTo(Carbon::parse('11:00:00')) && $horaActual->lessThanOrEqualTo(Carbon::parse('12:00:00')))) {
             
             $attendances = Attendance::whereDate('workday', $today)
                                     ->where('aentry_time', null)

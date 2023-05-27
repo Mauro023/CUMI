@@ -62,7 +62,7 @@ class TestTask extends Command
             
             $horaEntrada = Carbon::parse($attendance->aentry_time);
             $horaActual = now();
-            if ($horaActual->greaterThanOrEqualTo(Carbon::parse('12:00:00')) && $horaActual->lessThanOrEqualTo(Carbon::parse('13:05:00'))) {
+            if ($horaActual->greaterThanOrEqualTo(Carbon::parse('13:00:00')) && $horaActual->lessThanOrEqualTo(Carbon::parse('13:30:00'))) {
                 $attendance->update(['adeparture_time' => '13:00:00']);
                 $attendance->save();
                 Log::info("Attendance updated affternon: " . $attendance->id);
@@ -70,8 +70,30 @@ class TestTask extends Command
                 $attendance->update(['adeparture_time' => '17:00:00']);
                 $attendance->save();
                 Log::info("Attendance updated affternon: " . $attendance->id);
+            }elseif ($horaActual->greaterThanOrEqualTo(Carbon::parse('15:00:00')) && $horaActual->lessThanOrEqualTo(Carbon::parse('16:00:00'))) {
+               
+                // Verifica si es domingo o sábado
+                if (Carbon::now()->isWeekend() || $horaEntrada->equalTo(Carbon::parse('00:00:00'))) {
+                    Log::info('No se cumplieron las condiciones para crear la asistencia');
+                    continue;
+                }else {
+                    // Verifica si ya existe una entrada para la tarde en la base de datos
+                    $existingAttendance = Attendance::where('employe_id', $attendance->employe_id)
+                    ->where('workday', $attendance->workday)
+                    ->where('aentry_time', '>=', '13:00:00') // Verifica la hora de entrada
+                    ->first();
+    
+                    if (!$existingAttendance) {
+                        $newAttendance = new Attendance([
+                            'employe_id' => $employe->id,
+                            'workday' => $today,
+                            'aentry_time' => '13:00:00',
+                        ]);
+                        $newAttendance->save();
+                        Log::info("Attendance created for evening: " . $newAttendance->id);
+                    }                         
+                }
             }
         }
     }
-
 }

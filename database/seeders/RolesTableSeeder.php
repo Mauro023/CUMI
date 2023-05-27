@@ -18,7 +18,6 @@ class RolesTableSeeder extends Seeder
         \DB::table('roles')->insert(array (
             0 =>
             array (
-                'id' => 1,
                 'name' => 'Admin',
                 'display_name' => 'Administrador',
                 'guard_name' => 'web',
@@ -27,7 +26,6 @@ class RolesTableSeeder extends Seeder
             ),
             1 =>
             array (
-                'id' => 2,
                 'name' => 'User',
                 'display_name' => 'Usuario',
                 'guard_name' => 'web',
