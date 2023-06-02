@@ -205,7 +205,7 @@ class calendarController extends AppBaseController
             $lastDayOfMonth = $firstDayOfMonth->copy()->endOfMonth()->startOfDay();
         
             $startDate = $firstDayOfMonth->copy()->startOfWeek()->setTime(8, 0, 0);
-            $endDate = $startDate->copy()->endOfWeek()->subDays(2)->setTime(17, 0, 0);
+            $endDate = $startDate->copy()->endOfWeek()->subDays(2)->setTime(12, 30, 0);
             
             while ($startDate->lte($lastDayOfMonth)) {
                 // Buscar un calendario existente para la fecha y empleado actual
@@ -227,42 +227,86 @@ class calendarController extends AppBaseController
                         'employe_id' => $employee->id,
                     ]);
                 }
-        
                 $startDate->addWeek();
-                $endDate = $startDate->copy()->endOfWeek()->subDays(2)->setTime(17, 0, 0);
+                $endDate = $startDate->copy()->endOfWeek()->subDays(2)->setTime(12, 30, 0);
             }
         }
+        $this->calendarGeneratorAf(new Request());
         $this->calendarGeneratorAsis(new Request());
+        $this->calendarGeneratorAsisAf(new Request());
         $this->calendarGeneratorSaturday(new Request());
         $this->calendarGeneratorAsiSaturday(new Request());
         return redirect(route('calendars.index'));
     }
 
-    public function calendarGeneratorAsis(Request $request)
+    public function calendarGeneratorAf(Request $request)
     {
         // Obtener la lista de empleados
-        $employees = Employe::where('unit', 'Administrativo asistencial')->get();
-
+        $employees = Employe::where('unit', 'Administrativo')->get();
+    
         // Obtener el año y mes actual
         $currentYear = Carbon::now()->year;
         $currentMonth = Carbon::now()->month;
-
+    
         foreach ($employees as $employee) {
             // Obtener el primer y último día del mes actual
             $firstDayOfMonth = Carbon::createFromDate($currentYear, $currentMonth, 1)->startOfDay();
             $lastDayOfMonth = $firstDayOfMonth->copy()->endOfMonth()->startOfDay();
+    
+            $startDateAf = $firstDayOfMonth->copy()->startOfWeek()->setTime(13, 30, 0);
+            $endDateAf = $startDateAf->copy()->endOfWeek()->subDays(2)->setTime(17, 0, 0);
+                
+            while ($startDateAf->lte($lastDayOfMonth)) {
+                // Buscar un calendario existente para la fecha y empleado actual
+                $existingCalendar = Calendar::where('start_date', $startDateAf->toDateString())
+                    ->where('end_date', $endDateAf->toDateString())
+                    ->where('employe_id', $employee->id)
+                    ->where('entry_time', $startDateAf->format('H:i:s'))
+                    ->where('departure_time', $endDateAf->format('H:i:s'))
+                    ->first();
         
+                    if (!$existingCalendar) {
+                        Calendar::create([
+                            'start_date' => $startDateAf,
+                            'end_date' => $endDateAf,
+                            'entry_time' => $startDateAf->format('H:i:s'),
+                            'departure_time' => $endDateAf->format('H:i:s'),
+                            'floor' => $employee->cost_center,
+                            'employe_id' => $employee->id,
+                        ]);
+                    }
+            
+                $startDateAf->addWeek();
+                $endDateAf = $startDateAf->copy()->endOfWeek()->subDays(2)->setTime(17, 0, 0);
+            }
+        }
+    }
+    
+    public function calendarGeneratorAsis(Request $request)
+    {
+        // Obtener la lista de empleados
+        $employees = Employe::where('unit', 'Administrativo asistencial')->get();
+        
+        // Obtener el año y mes actual
+        $currentYear = Carbon::now()->year;
+        $currentMonth = Carbon::now()->month;
+        
+        foreach ($employees as $employee) {
+            // Obtener el primer y último día del mes actual
+            $firstDayOfMonth = Carbon::createFromDate($currentYear, $currentMonth, 1)->startOfDay();
+            $lastDayOfMonth = $firstDayOfMonth->copy()->endOfMonth()->startOfDay();
+            
             $startDate = $firstDayOfMonth->copy()->startOfWeek()->setTime(7, 0, 0);
-            $endDate = $startDate->copy()->endOfWeek()->subDays(2)->setTime(17, 0, 0);
+            $endDate = $startDate->copy()->endOfWeek()->subDays(2)->setTime(12, 0, 0);
             
             while ($startDate->lte($lastDayOfMonth)) {
                 // Buscar un calendario existente para la fecha y empleado actual
                 $existingCalendar = Calendar::where('start_date', $startDate->toDateString())
-                    ->where('end_date', $endDate->toDateString())
-                    ->where('employe_id', $employee->id)
-                    ->where('entry_time', $startDate->format('H:i:s'))
-                    ->where('departure_time', $endDate->format('H:i:s'))
-                    ->first();
+                ->where('end_date', $endDate->toDateString())
+                ->where('employe_id', $employee->id)
+                ->where('entry_time', $startDate->format('H:i:s'))
+                ->where('departure_time', $endDate->format('H:i:s'))
+                ->first();
                     
                 if (!$existingCalendar) {
                     // Crear el registro en la tabla 'calendars' solo si no existe
@@ -275,18 +319,61 @@ class calendarController extends AppBaseController
                         'employe_id' => $employee->id,
                     ]);
                 }
-        
+                    
                 $startDate->addWeek();
-                $endDate = $startDate->copy()->endOfWeek()->subDays(2)->setTime(17, 0, 0);
+                $endDate = $startDate->copy()->endOfWeek()->subDays(2)->setTime(12, 0, 0);
             }
         }
     }
-
+        
+    public function calendarGeneratorAsisAf(Request $request)
+    {
+        // Obtener la lista de empleados
+        $employees = Employe::where('unit', 'Administrativo asistencial')->get();
+    
+        // Obtener el año y mes actual
+        $currentYear = Carbon::now()->year;
+        $currentMonth = Carbon::now()->month;
+    
+        foreach ($employees as $employee) {
+            // Obtener el primer y último día del mes actual
+            $firstDayOfMonth = Carbon::createFromDate($currentYear, $currentMonth, 1)->startOfDay();
+            $lastDayOfMonth = $firstDayOfMonth->copy()->endOfMonth()->startOfDay();
+    
+            $startDateAf = $firstDayOfMonth->copy()->startOfWeek()->setTime(14, 0, 0);
+            $endDateAf = $startDateAf->copy()->endOfWeek()->subDays(2)->setTime(17, 0, 0);
+                
+            while ($startDateAf->lte($lastDayOfMonth)) {
+                // Buscar un calendario existente para la fecha y empleado actual
+                $existingCalendar = Calendar::where('start_date', $startDateAf->toDateString())
+                    ->where('end_date', $endDateAf->toDateString())
+                    ->where('employe_id', $employee->id)
+                    ->where('entry_time', $startDateAf->format('H:i:s'))
+                    ->where('departure_time', $endDateAf->format('H:i:s'))
+                    ->first();
+        
+                    if (!$existingCalendar) {
+                        Calendar::create([
+                            'start_date' => $startDateAf,
+                            'end_date' => $endDateAf,
+                            'entry_time' => $startDateAf->format('H:i:s'),
+                            'departure_time' => $endDateAf->format('H:i:s'),
+                            'floor' => $employee->cost_center,
+                            'employe_id' => $employee->id,
+                        ]);
+                    }
+            
+                $startDateAf->addWeek();
+                $endDateAf = $startDateAf->copy()->endOfWeek()->subDays(2)->setTime(17, 0, 0);
+            }
+        }
+    }
+        
     public function calendarGeneratorSaturday(Request $request)
     {
         // Obtener la lista de empleados
         $employees = Employe::where('unit', 'Administrativo')->get();
-
+            
         // Obtener el año y mes actual
         $currentYear = Carbon::now()->year;
         $currentMonth = Carbon::now()->month;
