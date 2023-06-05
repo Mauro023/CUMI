@@ -33,6 +33,6 @@ class CreateAttendancesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('attendances');
+        //Schema::drop('attendances');
     }
 }

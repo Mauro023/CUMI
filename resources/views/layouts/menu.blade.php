@@ -70,3 +70,19 @@
     </div>
 </div>
 
+<li class="nav-item">
+    <a href="{{ route('contracts.index') }}"
+       class="nav-link {{ Request::is('contracts*') ? 'active' : '' }}">
+        <p>Contracts</p>
+    </a>
+</li>
+
+
+<li class="nav-item">
+    <a href="{{ route('endowments.index') }}"
+       class="nav-link {{ Request::is('endowments*') ? 'active' : '' }}">
+        <p>Endowments</p>
+    </a>
+</li>
+
+

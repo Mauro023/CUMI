@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateEmployesTable extends Migration
+class CreateContractsTable extends Migration
 {
 
     /**
@@ -14,15 +14,14 @@ class CreateEmployesTable extends Migration
      */
     public function up()
     {
-        Schema::create('employes', function (Blueprint $table) {
+        Schema::create('contracts', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('dni');
-            $table->string('name');
-            $table->string('work_position');
-            $table->string('unit');
-            $table->string('cost_center');
+            $table->decimal('salary', 15, 2);
+            $table->date('start_date_contract');
+            $table->integer('employe_id')->unsigned();
             $table->timestamps();
             $table->softDeletes();
+            $table->foreign('employe_id')->references('id')->on('employes');
         });
     }
 
@@ -33,6 +32,6 @@ class CreateEmployesTable extends Migration
      */
     public function down()
     {
-        //Schema::drop('employes');
+        Schema::drop('contracts');
     }
 }

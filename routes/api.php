@@ -28,3 +28,8 @@ Route::resource('calendars', App\Http\Controllers\API\calendarAPIController::cla
 Route::resource('attendances', App\Http\Controllers\API\attendanceAPIController::class);
 
 Route::post('updateEntrance', [App\Http\Controllers\API\attendanceAPIController::class, 'updateEntrance']);
+
+Route::resource('contracts', App\Http\Controllers\API\contractsAPIController::class);
+
+
+Route::resource('endowments', App\Http\Controllers\API\endowmentAPIController::class);

@@ -36,6 +36,6 @@ class CreateCalendarsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('calendars');
+        //Schema::drop('calendars');
     }
 }

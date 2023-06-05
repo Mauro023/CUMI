@@ -70,3 +70,8 @@ Route::get('/generar-calendarios', [App\Http\Controllers\CalendarController::cla
 
 //Importar excel
 Route::post('import', [App\Http\Controllers\ImportController::class, 'import'])->name('import');
+
+Route::resource('contracts', App\Http\Controllers\contractsController::class);
+
+
+Route::resource('endowments', App\Http\Controllers\endowmentController::class);
