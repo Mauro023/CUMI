@@ -20,7 +20,7 @@ class endowmentRepository extends BaseRepository
         'item',
         'deliver_date',
         'employe_signature',
-        'contract_id:unsigned:foreign,contracts,id'
+        'contract_id'
     ];
 
     /**

@@ -46,8 +46,9 @@ class endowment extends Model
      * @var array
      */
     protected $casts = [
+        'item' => 'json',
         'deliver_date' => 'date',
-        'employe_signature' => 'string',
+        'employe_signature' => 'text',
         'contract_id' => 'integer'
     ];
 
@@ -57,7 +58,7 @@ class endowment extends Model
      * @var array
      */
     public static $rules = [
-        'item' => 'required',
+        'checkboxInput' => 'required|array|min:1',
         'deliver_date' => 'required',
         'employe_signature' => 'required',
         'contract_id' => 'required'

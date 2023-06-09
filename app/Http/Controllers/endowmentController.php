@@ -11,6 +11,7 @@ use Flash;
 use Response;
 
 use App\Models\Contracts;
+use App\Models\Endowment;
 
 class endowmentController extends AppBaseController
 {
@@ -56,12 +57,20 @@ class endowmentController extends AppBaseController
      *
      * @return Response
      */
-    public function store(CreateendowmentRequest $request)
+    public function store(Request $request)
     {
         $input = $request->all();
+        dd($input);
+        if (empty($request->input('checkboxInput'))) {
+            return redirect()->back()
+                ->withInput($request->except('checkboxInput'))
+                ->withErrors(['checkboxInput' => 'Debe seleccionar al menos un elemento del checkbox.']);
+        }
+    
+        $input['item'] = json_encode($request->input('checkboxInput'));
 
         $endowment = $this->endowmentRepository->create($input);
-
+        
         Flash::success('Endowment saved successfully.');
 
         return redirect(route('endowments.index'));
@@ -98,13 +107,16 @@ class endowmentController extends AppBaseController
     {
         $endowment = $this->endowmentRepository->find($id);
 
+        $contracts = Contracts::with('employe')->get();
+        // Obtener los valores seleccionados almacenados en la base de datos
+        $selectedItems = json_decode($endowment->item);
         if (empty($endowment)) {
             Flash::error('Endowment not found');
 
             return redirect(route('endowments.index'));
         }
 
-        return view('endowments.edit')->with('endowment', $endowment);
+        return view('endowments.edit', compact('contracts', 'selectedItems'))->with('endowment', $endowment);
     }
 
     /**
@@ -118,14 +130,16 @@ class endowmentController extends AppBaseController
     public function update($id, UpdateendowmentRequest $request)
     {
         $endowment = $this->endowmentRepository->find($id);
-
         if (empty($endowment)) {
             Flash::error('Endowment not found');
 
             return redirect(route('endowments.index'));
         }
 
-        $endowment = $this->endowmentRepository->update($request->all(), $id);
+        $input = $request->all();
+        $input['item'] = json_encode($request->input('checkboxInput'));
+    
+        $this->endowmentRepository->update($input, $id);
 
         Flash::success('Endowment updated successfully.');
 
