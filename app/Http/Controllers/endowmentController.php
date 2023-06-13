@@ -60,7 +60,6 @@ class endowmentController extends AppBaseController
     public function store(Request $request)
     {
         $input = $request->all();
-        dd($input);
         if (empty($request->input('checkboxInput'))) {
             return redirect()->back()
                 ->withInput($request->except('checkboxInput'))

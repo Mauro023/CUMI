@@ -5,6 +5,7 @@ namespace App\Models;
 use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * Class endowment
@@ -24,9 +25,9 @@ class endowment extends Model
 
     public $table = 'endowments';
     
-    public function contract(): BelongsTo
+    public function contracts(): BelongsTo
     {
-        return $this->belongsTo(contract::class, 'contract_id');
+        return $this->belongsTo(contracts::class, 'contract_id');
     }
 
     protected $dates = ['deleted_at'];
@@ -48,7 +49,7 @@ class endowment extends Model
     protected $casts = [
         'item' => 'json',
         'deliver_date' => 'date',
-        'employe_signature' => 'text',
+        'employe_signature' => 'string',
         'contract_id' => 'integer'
     ];
 
@@ -63,6 +64,4 @@ class endowment extends Model
         'employe_signature' => 'required',
         'contract_id' => 'required'
     ];
-
-    
 }

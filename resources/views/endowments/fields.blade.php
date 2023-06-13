@@ -24,15 +24,12 @@
 <div id="app">
     <div class="form-group col-sm-3">
         {!! Form::label('Item', 'Item:') !!}
-        {!! Form::hidden('checkboxInput', null, ['class' => 'form-control d-none', 'v-model' => 'checkboxInput']) !!}
-        <input-component v-model="checkboxInput" :selected-items='@json($selectedItems ?? [])'></input-component>
+        <input-component :selected-items='@json($selectedItems ?? [])'></input-component>
     </div>
     <div class="form-group col-sm-3">
         <template>
             {!! Form::label('signature', 'Firma del empleado:') !!}
-            {!! Form::hidden('employe_signature', null, ['class' => 'form-control d-none', 'v-model' =>
-            'signatureInput']) !!}
-            <signature-pad ref="signaturePad" v-model="signatureInput"></signature-pad>
+            <signature-pad ref="signaturePad"></signature-pad>
         </template>
     </div>
 </div>
