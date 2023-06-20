@@ -9,6 +9,7 @@ use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
+use PDF;
 
 use App\Models\Contracts;
 use App\Models\Endowment;
@@ -69,10 +70,9 @@ class endowmentController extends AppBaseController
         $input['item'] = json_encode($request->input('checkboxInput'));
 
         $endowment = $this->endowmentRepository->create($input);
-        
         Flash::success('Endowment saved successfully.');
 
-        return redirect(route('endowments.index'));
+        return redirect()->action([endowmentController::class, 'generarActaEntrega'], ['id' => $endowment->id]);
     }
 
     /**
@@ -109,13 +109,14 @@ class endowmentController extends AppBaseController
         $contracts = Contracts::with('employe')->get();
         // Obtener los valores seleccionados almacenados en la base de datos
         $selectedItems = json_decode($endowment->item);
+        $signature = $endowment->employe_signature;
         if (empty($endowment)) {
             Flash::error('Endowment not found');
 
             return redirect(route('endowments.index'));
         }
 
-        return view('endowments.edit', compact('contracts', 'selectedItems'))->with('endowment', $endowment);
+        return view('endowments.edit', compact('contracts', 'selectedItems', 'signature'))->with('endowment', $endowment);
     }
 
     /**
@@ -142,7 +143,7 @@ class endowmentController extends AppBaseController
 
         Flash::success('Endowment updated successfully.');
 
-        return redirect(route('endowments.index'));
+        return redirect()->action([endowmentController::class, 'generarActaEntrega'], ['id' => $endowment->id]);
     }
 
     /**
@@ -169,5 +170,35 @@ class endowmentController extends AppBaseController
         Flash::success('Endowment deleted successfully.');
 
         return redirect(route('endowments.index'));
+    }
+
+    public function generarActaEntrega($id)
+    {
+        $endowment = $this->endowmentRepository->find($id);
+
+        if (empty($endowment)) {
+            Flash::error('Endowment not found');
+            return redirect(route('endowments.index'));
+        }
+
+        // Obtener los datos necesarios del endowment
+        $id = $endowment->id;
+        $contractId = $endowment->contract_id;
+        $deliverDate = $endowment->deliver_date;
+        $item = $endowment->item;
+        $signature = $endowment->employe_signature;
+        // Obtener el contrato y el empleado asociado
+        $contract = Contracts::with('employe')->find($contractId);
+        $employeeName = $contract->employe->name;
+        $employeeDni = $contract->employe->dni;
+        $employeeWork = $contract->employe->work_position;
+
+
+        // Cargar la vista PDF y pasar los datos necesarios
+        $pdf = PDF::loadView('endowments.acta_entrega', compact('id','deliverDate','contractId',
+        'item','signature', 'employeeName', 'employeeDni', 'employeeWork'));
+
+        // Retornar el PDF para su visualización en el navegador
+        return $pdf->stream('acta_entrega.pdf');
     }
 }

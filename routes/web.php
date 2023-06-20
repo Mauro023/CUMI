@@ -75,3 +75,11 @@ Route::resource('contracts', App\Http\Controllers\contractsController::class);
 
 
 Route::resource('endowments', App\Http\Controllers\endowmentController::class);
+
+//Generar PDF
+Route::get('/generar-acta-entrega/{id}', [App\Http\Controllers\endowmentController::class, 'generarActaEntrega'])->name('generar.acta.entrega');
+
+//Generar PDF
+Route::get('/generar-acta-entrega-card/{id}', [App\Http\Controllers\cardController::class, 'generarActaEntregaCard'])->name('generar.acta.entrega.card');
+
+Route::resource('cards', App\Http\Controllers\cardController::class);

@@ -18,7 +18,7 @@ class CreateEndowmentsTable extends Migration
             $table->increments('id');
             $table->json('item');
             $table->date('deliver_date');
-            $table->text('employe_signature');
+            $table->longText('employe_signature');
             $table->integer('contract_id')->unsigned();
             $table->timestamps();
             $table->softDeletes();

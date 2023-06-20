@@ -40,6 +40,11 @@ class employe extends Model
         return $this->hasOne(Contracts::class, 'employe_id');
     }
 
+    public function cards()
+    {
+        return $this->hasMany(Card::class, 'employe_id');
+    }
+
     protected $dates = ['deleted_at'];
 
 

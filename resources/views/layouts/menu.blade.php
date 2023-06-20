@@ -56,7 +56,32 @@
             </a>
         </li>
         @endcan
+
+        <li class="nav-item">
+            <a href="{{ route('contracts.index') }}"
+               class="nav-link {{ Request::is('contracts*') ? 'active' : '' }}">
+               <span class="fas fa-file-alt"></span>
+                <p><strong>Contratos</strong></p>
+            </a>
+        </li>
         
+        
+        <li class="nav-item">
+            <a href="{{ route('endowments.index') }}"
+               class="nav-link {{ Request::is('endowments*') ? 'active' : '' }}">
+               <span class="fas fa-tshirt"></span>
+                <p><strong>Dotacion</strong></p>
+            </a>
+        </li>
+        
+        <li class="nav-item">
+            <a href="{{ route('cards.index') }}"
+               class="nav-link {{ Request::is('cards*') ? 'active' : '' }}">
+               <span class="fas fa-address-card"></span>
+                <p><strong>Carnet</strong></p>
+            </a>
+        </li>
+
         <li class="nav-item">
             <a href="#" class="nav-link"
                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
@@ -70,19 +95,7 @@
     </div>
 </div>
 
-<li class="nav-item">
-    <a href="{{ route('contracts.index') }}"
-       class="nav-link {{ Request::is('contracts*') ? 'active' : '' }}">
-        <p>Contracts</p>
-    </a>
-</li>
 
 
-<li class="nav-item">
-    <a href="{{ route('endowments.index') }}"
-       class="nav-link {{ Request::is('endowments*') ? 'active' : '' }}">
-        <p>Endowments</p>
-    </a>
-</li>
 
 

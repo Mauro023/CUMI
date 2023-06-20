@@ -5,7 +5,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-12">
-                    <h1>Create Endowment</h1>
+                    <h1>Create Card</h1>
                 </div>
             </div>
         </div>
@@ -17,19 +17,19 @@
 
         <div class="card">
 
-            {!! Form::open(['route' => 'endowments.store']) !!}
+            {!! Form::open(['route' => 'cards.store']) !!}
 
             <div class="card-body">
 
                 <div class="row">
-                    @include('endowments.fields')
+                    @include('cards.fields')
                 </div>
 
             </div>
 
             <div class="card-footer">
                 {!! Form::submit('Guardar', ['class' => 'btn btn-primary']) !!}
-                <a href="{{ route('endowments.index') }}" class="btn btn-default">Cancelar</a>
+                <a href="{{ route('cards.index') }}" class="btn btn-default">Cancelar</a>
             </div>
 
             {!! Form::close() !!}

@@ -33,3 +33,6 @@ Route::resource('contracts', App\Http\Controllers\API\contractsAPIController::cl
 
 
 Route::resource('endowments', App\Http\Controllers\API\endowmentAPIController::class);
+
+
+Route::resource('cards', App\Http\Controllers\API\cardAPIController::class);

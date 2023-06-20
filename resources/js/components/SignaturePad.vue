@@ -9,8 +9,8 @@
       ref="signaturePad"
     ></vueSignaturePad>
     <div class="buttons"> 
-      <button @click.prevent="save">Save</button>
-      <button @click.prevent="clear">Clear</button>
+      <button @click.prevent="save">Guardar firma</button>
+      <button @click.prevent="clear">Borrar firma</button>
     </div>
     <div>
       <label>
@@ -27,9 +27,15 @@ import { VueSignaturePad } from 'vue-signature-pad';
 export default defineComponent({
   name: 'MySignaturePad',
   components: { VueSignaturePad },
+  props: {
+    initialSignature: {
+      type: String,
+      default: null
+    }
+  },
   data() {
     return {
-      employe_signature: ''
+      employe_signature: this.initialSignature || ''
     };
   },
   mounted() {

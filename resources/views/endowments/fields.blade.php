@@ -8,7 +8,7 @@
 <!-- Deliver Date Field -->
 <div class="form-group col-sm-3">
     {!! Form::label('deliver_date', 'Fecha de entrega:') !!}
-    {!! Form::text('deliver_date', now()->format('Y-m-d'), ['class' => 'form-control','id'=>'deliver_date']) !!}
+    {!! Form::text('deliver_date', null, ['class' => 'form-control','id'=>'deliver_date']) !!}
 </div>
 
 @push('page_scripts')
@@ -29,7 +29,7 @@
     <div class="form-group col-sm-3">
         <template>
             {!! Form::label('signature', 'Firma del empleado:') !!}
-            <signature-pad ref="signaturePad"></signature-pad>
+            <signature-pad :initial-signature='@json($signature ?? null)' ref="signaturePad"></signature-pad>
         </template>
     </div>
 </div>

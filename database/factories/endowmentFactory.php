@@ -24,7 +24,7 @@ class endowmentFactory extends Factory
         return [
             'item' => $this->faker->word,
             'deliver_date' => $this->faker->word,
-            'employe_signature' => $this->faker->word,
+            'employe_signature' => $this->faker->text,
             'contract_id' => $this->faker->randomDigitNotNull,
             'created_at' => $this->faker->date('Y-m-d H:i:s'),
             'updated_at' => $this->faker->date('Y-m-d H:i:s')

@@ -4,7 +4,7 @@
             <tr>
                 <th>Empleado</th>
                 <th>Dotacion</th>
-                <th>Fecha e entrega</th>
+                <th>Fecha de entrega</th>
                 <th>Firma del empleado</th>
                 <th colspan="3">Action</th>
             </tr>
