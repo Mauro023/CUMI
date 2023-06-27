@@ -18,6 +18,7 @@ class CreateContractsTable extends Migration
             $table->increments('id');
             $table->decimal('salary', 15, 2);
             $table->date('start_date_contract');
+            $table->string('disable');
             $table->integer('employe_id')->unsigned();
             $table->timestamps();
             $table->softDeletes();

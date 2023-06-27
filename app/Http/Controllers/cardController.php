@@ -32,10 +32,12 @@ class cardController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $cards = $this->cardRepository->all();
+        $employees = Employe::where('unit', '!=', 'pendiente')
+        ->Where('unit', '!=', 'Deshabilitado')
+        ->orderBy('name')->get();
 
         return view('cards.index')
-            ->with('cards', $cards);
+            ->with('employees', $employees);
     }
 
     /**
@@ -45,7 +47,10 @@ class cardController extends AppBaseController
      */
     public function create()
     {
-        $employes = Employe::orderby('name')->pluck('name', 'id');
+        $employes = Employe::where('unit', '!=', 'pendiente')
+                        ->Where('unit', '!=', 'Deshabilitado')
+                        ->orderBy('name')
+                        ->pluck('name', 'id');
         return view('cards.create', compact('employes'));
     }
 
@@ -64,7 +69,7 @@ class cardController extends AppBaseController
 
         Flash::success('Card saved successfully.');
 
-        return redirect()->action([cardController::class, 'generarActaEntrega'], ['id' => $card->id]);
+        return redirect()->action([cardController::class, 'generarActaEntregaCard'], ['id' => $card->id]);
     }
 
     /**
@@ -86,6 +91,16 @@ class cardController extends AppBaseController
 
         return view('cards.show')->with('card', $card);
     }
+
+    public function showEmploye($id)
+    {
+        $employee = Employe::findOrFail($id);
+        $cards = $employee->cards;
+
+        return view('cards.card_show_employe')
+            ->with('employee', $employee)
+            ->with('cards', $cards);
+        }
 
     /**
      * Show the form for editing the specified card.

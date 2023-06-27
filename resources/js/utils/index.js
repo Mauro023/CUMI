@@ -1,4 +1,4 @@
-const Aerosol_Frasco_Ampolla_Jarabe_solucion = [
+const EmpaqueLiquido = [
     {
         description: 'Empaque',
         value: '',
@@ -9,7 +9,7 @@ const Aerosol_Frasco_Ampolla_Jarabe_solucion = [
     }
 ]
 
-const Caja_crema_emulsion_gel_Lata_Liquido_Mezclado_Otico_Suspension = [
+const EmpaqueCierreLiquido = [
     {
         description: 'Empaque',
         value: '',
@@ -179,14 +179,13 @@ const Unguento = [
 ]
 
 export default {
-    Aerosol_Frasco_Ampolla_Jarabe_solucion,
-    Caja_crema_emulsion_gel_Lata_Liquido_Mezclado_Otico_Suspension,
+    EmpaqueLiquido,
+    EmpaqueCierreLiquido,
     Capsula,
     Comprimido,
     Gotas_ParcheTermico,
     Granulado,
     Ovulo,
-    ParcheTermico,
     Polvo,
     Pomada,
     Pote,

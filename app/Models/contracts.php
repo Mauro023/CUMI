@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  *
  * @property decimal $salary
  * @property string $start_date_contract
+ * @property string $disable
  * @property integer $employe_id
  */
 class contracts extends Model
@@ -43,6 +44,7 @@ class contracts extends Model
     public $fillable = [
         'salary',
         'start_date_contract',
+        'disable',
         'employe_id'
     ];
 
@@ -53,6 +55,7 @@ class contracts extends Model
      */
     protected $casts = [
         'start_date_contract' => 'date',
+        'disable' => 'string',
         'employe_id' => 'integer'
     ];
 

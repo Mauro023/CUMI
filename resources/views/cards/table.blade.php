@@ -1,32 +1,28 @@
 <div class="table-responsive">
-    <table class="table" id="cards-table">
+    <table class="table table-hover mb-0" id="cards-table">
         <thead>
             <tr>
-                <th>Empleado</th>
-                <th>Fecha de entrega</th>
-                <th>Firma del empleado</th>
-                <th colspan="3">Action</th>
+                <th scope="col">Empleado</th>
+                <th scope="col">Cargo</th>
+                <th scope="col">Carnets entregados</th>
+                <th colspan="3">Acciones</th>
             </tr>
         </thead>
         <tbody>
-            @foreach($cards as $card)
+            @foreach ($employees as $employee)
             <tr>
-                <td>{{ $card->employe_id ? $card->employe->name : 'Sin ID'}}</td>
-                <td>{{ $card->delivery_date_card->format('Y-m-d') }}</td>
-                <td><img src="{{ $card->signature_employe_card }}" alt="Firma del empleado"></td>
+                <td>
+                    {{ $employee->name }}
+                    <br>
+                    <small style="color: #69C5A0"><strong>{{ $employee->dni }}</strong></small>
+                <td>{{ $employee->work_position }}</td>
+                <td class="text-center"><strong>{{ $employee->cards->count() }}</strong></td>
                 <td width="120">
-                    {!! Form::open(['route' => ['cards.destroy', $card->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>
-                        <a href="{{ route('cards.show', [$card->id]) }}" class='btn btn-default btn-xs'>
-                            <i class="far fa-eye"></i>
+                        <a href="{{ route('cards.employe', $employee->id) }}" class='btn btn-default btn-xs'>
+                            <i class="far fa-eye" style="color: #13A4DA"></i>
                         </a>
-                        <a href="{{ route('cards.edit', [$card->id]) }}" class='btn btn-default btn-xs'>
-                            <i class="far fa-edit"></i>
-                        </a>
-                        {!! Form::button('<i class="far fa-trash-alt"></i>', ['type' => 'submit', 'class' => 'btn
-                        btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
                     </div>
-                    {!! Form::close() !!}
                 </td>
             </tr>
             @endforeach

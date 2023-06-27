@@ -24,6 +24,7 @@ class contractsFactory extends Factory
         return [
             'salary' => $this->faker->word,
             'start_date_contract' => $this->faker->word,
+            'disable' => $this->faker->word,
             'employe_id' => $this->faker->randomDigitNotNull,
             'created_at' => $this->faker->date('Y-m-d H:i:s'),
             'updated_at' => $this->faker->date('Y-m-d H:i:s')

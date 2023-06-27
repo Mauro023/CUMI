@@ -36,3 +36,6 @@ Route::resource('endowments', App\Http\Controllers\API\endowmentAPIController::c
 
 
 Route::resource('cards', App\Http\Controllers\API\cardAPIController::class);
+
+
+Route::resource('medicines', App\Http\Controllers\API\MedicineAPIController::class);

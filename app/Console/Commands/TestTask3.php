@@ -60,7 +60,6 @@ class TestTask3 extends Command
             $horaEntrada = Carbon::parse($attendance->aentry_time);
             $horaActual = now();
             if ($horaActual->greaterThanOrEqualTo(Carbon::parse('15:00:00')) && $horaActual->lessThanOrEqualTo(Carbon::parse('16:00:00'))) {
-                Log::info("El codigo si está ejecutando");
                 // Verifica si es domingo o sábado
                 if (Carbon::now()->isWeekend() || $horaEntrada->equalTo(Carbon::parse('00:00:00'))) {
                     Log::info('No se cumplieron las condiciones para crear la asistencia');

@@ -83,3 +83,9 @@ Route::get('/generar-acta-entrega/{id}', [App\Http\Controllers\endowmentControll
 Route::get('/generar-acta-entrega-card/{id}', [App\Http\Controllers\cardController::class, 'generarActaEntregaCard'])->name('generar.acta.entrega.card');
 
 Route::resource('cards', App\Http\Controllers\cardController::class);
+
+Route::get('/cards/employe/{id}', [App\Http\Controllers\CardController::class, 'showEmploye'])->name('cards.employe');
+
+Route::resource('medicines', App\Http\Controllers\MedicineController::class);
+
+Route::get('/employees', [App\Http\Controllers\EmployeController::class, 'getEmployees'])->name('get.employee');

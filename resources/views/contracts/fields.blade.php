@@ -10,10 +10,16 @@
     {!! Form::text('start_date_contract', null, ['class' => 'form-control','id'=>'start_date_contract']) !!}
 </div>
 
+<!-- Disable -->
+<div class="form-group col-sm-6">
+    {!! Form::label('disable', 'Disable:') !!}
+    {!! Form::text('disable', null, ['class' => 'form-control']) !!}
+</div>
+
 @push('page_scripts')
     <script type="text/javascript">
         $('#start_date_contract').datetimepicker({
-            format: 'YYYY-MM-DD HH:mm:ss',
+            format: 'YYYY-MM-DD',
             useCurrent: true,
             sideBySide: true
         })

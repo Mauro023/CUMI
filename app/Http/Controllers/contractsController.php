@@ -7,6 +7,7 @@ use App\Http\Requests\UpdatecontractsRequest;
 use App\Repositories\contractsRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
+use App\Models\Contracts;
 use Flash;
 use Response;
 
@@ -58,6 +59,17 @@ class contractsController extends AppBaseController
     public function store(CreatecontractsRequest $request)
     {
         $input = $request->all();
+
+        $existing = Contracts::where('employe_id', $input['employe_id'])
+        ->where('start_date_contract', '<', $input['start_date_contract'])
+        ->orderBy('start_date_contract', 'desc')
+        ->first();
+
+        if ($existing) {
+            // Actualizar el contrato anterior deshabilitándolo
+            $existing->disable = "3";
+            $existing->save();
+        }
 
         $contracts = $this->contractsRepository->create($input);
 

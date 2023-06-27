@@ -20,6 +20,7 @@
                         data-bs-target="#staticBackdrop">
                         <span class="fas fa-search" style="color: #69C5A0"></span>
                     </button>
+                    <a href="{{ route('get.employee') }}" class="boton-redondeado"><b>Actualizar empleados</b></a>
                 </div>
             </div>
             <div class="card-body p-0">
@@ -61,3 +62,22 @@
     </div>
 </div>
 @endsection
+
+<style>
+    .boton-redondeado {
+        border-radius: 30px;
+        padding: 7px 20px;
+        background-color: #69C5A0;
+        color: white;
+        border: none;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 14px;
+        cursor: pointer;
+    }
+
+    .boton-redondeado:hover {
+        color: white;
+    }
+</style>

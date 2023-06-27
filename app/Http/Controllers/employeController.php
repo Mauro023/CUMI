@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateemployeRequest;
 use App\Repositories\employeRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Models\Employe;
 use Flash;
 use Response;
@@ -31,7 +32,7 @@ class employeController extends AppBaseController
     public function index(Request $request)
     {
         $this->authorize('view_employes');
-        $employes = $this->employeRepository->paginate(30);
+        $employes = $this->employeRepository->paginate(50);
 
         return view('employes.index')
             ->with('employes', $employes);
@@ -59,6 +60,14 @@ class employeController extends AppBaseController
     {
         $this->authorize('create_employes');
         $input = $request->all();
+
+        $existingEmploye = Employe::where('dni', $input['dni'])->first();
+    
+        if ($existingEmploye) {
+            Flash::error('El empleado ya existe.');
+            return redirect(route('employes.index'));
+        }
+
 
         $employe = $this->employeRepository->create($input);
 
@@ -173,4 +182,32 @@ class employeController extends AppBaseController
 
         return view('employes.index', ['employes' => $employes]);
     }
+
+    public function getEmployees()
+    {
+        $results = DB::connection('sqlsrv')->select("SELECT e.identificacion, e.nombre_completo, c.codigo, c.fecha_inicio_contrato, c.sueldo_basico, c.deshabilitar
+            FROM contratos c 
+            JOIN empleado e ON c.codigo = e.identificacion OR c.codigo = CONCAT(e.identificacion, '-1')
+            WHERE c.deshabilitar != 3");
+
+        foreach ($results as $result) {
+            //Se valida que el empleado esté registrado
+            $existingEmploye = Employe::where('dni', $result->identificacion)->first();
+            
+            if (!$existingEmploye) {
+                $newEmploye = new Employe();
+                $newEmploye->dni = $result->identificacion;
+                $newEmploye->name = $result->nombre_completo;
+                $newEmploye->work_position = 'Pendiente';
+                $newEmploye->unit = 'Pendiente';
+                $newEmploye->cost_center = 'Piso 1';
+                
+                $newEmploye->save();
+            }
+        }
+
+        Flash::success('¡Empleados guardados exitosamente!');
+        return redirect(route('employes.index'));
+    }
+
 }
