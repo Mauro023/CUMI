@@ -8,7 +8,7 @@
 
     <style>
         body {
-            background-image: url('/images/Fondo.jpg');
+            background-image: url("{{ asset('images/Fondo.jpg') }}");
             background-size: cover;
         }
     </style>
