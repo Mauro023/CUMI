@@ -63,21 +63,19 @@ class TestTask extends Command
             $horaEntrada = Carbon::parse($attendance->aentry_time);
             $horaActual = now();
             if ($horaActual->greaterThanOrEqualTo(Carbon::parse('13:00:00')) && $horaActual->lessThanOrEqualTo(Carbon::parse('13:30:00'))) {
-                $attendance->update(['adeparture_time' => '00:00:00']);
-                $attendance->save();
-                Log::info("Attendance updated affternon: " . $attendance->id);
+                // Verifica si es domingo o sábado
+                if (Carbon::now()->isWeekend()) {
+                    Log::info('No se cumplieron las condiciones para crear la salida');
+                    continue;
+                }else {
+                    $attendance->update(['adeparture_time' => '00:00:00']);
+                    $attendance->save();
+                    Log::info("Attendance updated morning: " . $attendance->id);
+                }
             }elseif ($horaActual->greaterThanOrEqualTo(Carbon::parse('21:00:00')) && $horaActual->lessThanOrEqualTo(Carbon::parse('22:00:00'))) {
                 $attendance->update(['adeparture_time' => '00:00:00']);
                 $attendance->save();
                 Log::info("Attendance updated affternon: " . $attendance->id);
-            }else {
-               
-                Log::info("El codigo si está ejecutando");
-                // Verifica si es domingo o sábado
-                if (Carbon::now()->isWeekend() || $horaEntrada->equalTo(Carbon::parse('00:00:00'))) {
-                    Log::info('No se cumplieron las condiciones para crear la asistencia');
-                    continue;
-                }
             }
         }
     }

@@ -33,7 +33,6 @@ class UsersTableSeeder extends Seeder
                 'updated_at' => date("Y-m-d H:i:s"),
             ],
         ]);
-        $usuario = User::factory(5)->create();
         $adminUsers = User::whereIn('id', [1])->get();
 
         foreach ($adminUsers as $adminUser) {

@@ -33,6 +33,7 @@ class endowmentController extends AppBaseController
      */
     public function index(Request $request)
     {
+        $this->authorize('view_endowments');
         $endowments = $this->endowmentRepository->all();
 
         return view('endowments.index')
@@ -46,6 +47,7 @@ class endowmentController extends AppBaseController
      */
     public function create()
     {
+        $this->authorize('create_endowments');
         $contracts = Contracts::with('employe')->get();
         
         return view('endowments.create', compact('contracts'));
@@ -60,6 +62,7 @@ class endowmentController extends AppBaseController
      */
     public function store(Request $request)
     {
+        $this->authorize('create_endowments');
         $input = $request->all();
         if (empty($request->input('checkboxInput'))) {
             return redirect()->back()
@@ -84,6 +87,7 @@ class endowmentController extends AppBaseController
      */
     public function show($id)
     {
+        $this->authorize('show_endowments');
         $endowment = $this->endowmentRepository->find($id);
 
         if (empty($endowment)) {
@@ -104,6 +108,7 @@ class endowmentController extends AppBaseController
      */
     public function edit($id)
     {
+        $this->authorize('update_endowments');
         $endowment = $this->endowmentRepository->find($id);
 
         $contracts = Contracts::with('employe')->get();
@@ -129,6 +134,7 @@ class endowmentController extends AppBaseController
      */
     public function update($id, UpdateendowmentRequest $request)
     {
+        $this->authorize('update_endowments');
         $endowment = $this->endowmentRepository->find($id);
         if (empty($endowment)) {
             Flash::error('Endowment not found');
@@ -157,6 +163,7 @@ class endowmentController extends AppBaseController
      */
     public function destroy($id)
     {
+        $this->authorize('destroy_endowments');
         $endowment = $this->endowmentRepository->find($id);
 
         if (empty($endowment)) {

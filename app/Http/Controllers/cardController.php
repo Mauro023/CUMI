@@ -9,6 +9,7 @@ use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use App\Models\employe;
 use App\Models\card;
+use Illuminate\Support\Facades\Redirect;
 use Flash;
 use Response;
 use PDF;
@@ -32,6 +33,7 @@ class cardController extends AppBaseController
      */
     public function index(Request $request)
     {
+        $this->authorize('view_cards');
         $employees = Employe::where('unit', '!=', 'pendiente')
         ->Where('unit', '!=', 'Deshabilitado')
         ->orderBy('name')->get();
@@ -47,6 +49,7 @@ class cardController extends AppBaseController
      */
     public function create()
     {
+        $this->authorize('create_cards');
         $employes = Employe::where('unit', '!=', 'pendiente')
                         ->Where('unit', '!=', 'Deshabilitado')
                         ->orderBy('name')
@@ -63,13 +66,22 @@ class cardController extends AppBaseController
      */
     public function store(CreatecardRequest $request)
     {
+        $this->authorize('create_cards');
         $input = $request->all();
         $input['signature_employe_card'] = $request->input('employe_signature');
         $card = $this->cardRepository->create($input);
+        $employees = Employe::where('unit', '!=', 'pendiente')
+        ->Where('unit', '!=', 'Deshabilitado')
+        ->orderBy('name')->get();
 
-        Flash::success('Card saved successfully.');
+        Flash::success('Entrega guardada con exito.');
 
-        return redirect()->action([cardController::class, 'generarActaEntregaCard'], ['id' => $card->id]);
+        $pdfUrl = route('generar.acta.entrega.card', ['id' => $card->id]);
+
+        return view('cards.index')
+        ->with('pdfUrl', $pdfUrl)
+        ->with('card', $card)
+        ->with('employees', $employees);
     }
 
     /**
@@ -81,19 +93,23 @@ class cardController extends AppBaseController
      */
     public function show($id)
     {
+        $this->authorize('show_cards');
         $card = $this->cardRepository->find($id);
 
         if (empty($card)) {
-            Flash::error('Card not found');
+            Flash::error('Tarjeta no encontrada');
 
             return redirect(route('cards.index'));
         }
 
-        return view('cards.show')->with('card', $card);
+        $pdfUrl = route('generar.acta.entrega.card', ['id' => $card->id]);
+
+        return view('cards.show', compact('pdfUrl', 'card'));
     }
 
     public function showEmploye($id)
     {
+        $this->authorize('view_cards');
         $employee = Employe::findOrFail($id);
         $cards = $employee->cards;
 
@@ -111,11 +127,12 @@ class cardController extends AppBaseController
      */
     public function edit($id)
     {
+        $this->authorize('update_cards');
         $card = $this->cardRepository->find($id);
         $employes = Employe::pluck('name', 'id');
         $signature = $card->signature_employe_card;
         if (empty($card)) {
-            Flash::error('Card not found');
+            Flash::error('Tarjeta no encontrada');
 
             return redirect(route('cards.index'));
         }
@@ -133,21 +150,30 @@ class cardController extends AppBaseController
      */
     public function update($id, UpdatecardRequest $request)
     {
+        $this->authorize('update_cards');
         $card = $this->cardRepository->find($id);
 
         if (empty($card)) {
-            Flash::error('Card not found');
+            Flash::error('Tarjeta no encontrada');
 
             return redirect(route('cards.index'));
         }
         $input = $request->all();
         $input['signature_employe_card'] = $request->input('employe_signature');
+        $employees = Employe::where('unit', '!=', 'pendiente')
+        ->Where('unit', '!=', 'Deshabilitado')
+        ->orderBy('name')->get();
 
         $this->cardRepository->update($input, $id);
 
-        Flash::success('Card updated successfully.');
+        Flash::success('Entrega modificada con exito.');
 
-        return redirect()->action([cardController::class, 'generarActaEntregaCard'], ['id' => $card->id]);
+        $pdfUrl = route('generar.acta.entrega.card', ['id' => $card->id]);
+
+        return view('cards.index')
+        ->with('pdfUrl', $pdfUrl)
+        ->with('card', $card)
+        ->with('employees', $employees);
     }
 
     /**
@@ -161,17 +187,18 @@ class cardController extends AppBaseController
      */
     public function destroy($id)
     {
+        $this->authorize('destroy_cards');
         $card = $this->cardRepository->find($id);
 
         if (empty($card)) {
-            Flash::error('Card not found');
+            Flash::error('Tarjeta no encontrada');
 
             return redirect(route('cards.index'));
         }
 
         $this->cardRepository->delete($id);
 
-        Flash::success('Card deleted successfully.');
+        Flash::success('Entrega eliminada con exito.');
 
         return redirect(route('cards.index'));
     }
@@ -201,7 +228,8 @@ class cardController extends AppBaseController
         $pdf = PDF::loadView('cards.acta_entrega_carnet', compact('id','deliverDate','employeId',
         'signature', 'employeeName', 'employeeDni', 'employeeWork'));
 
-        // Retornar el PDF para su visualización en el navegador
-        return $pdf->stream('acta_entrega_carnet.pdf');
+        return response($pdf->output())
+        ->header('Content-Type', 'application/pdf')
+        ->header('Content-Disposition', 'inline; filename="acta_entrega_carnet.pdf"');
     }
 }

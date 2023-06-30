@@ -28,14 +28,20 @@
                 <td width="120">
                     {!! Form::open(['route' => ['endowments.destroy', $endowment->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>
+                        @can('show_endowments')
                         <a href="{{ route('endowments.show', [$endowment->id]) }}" class='btn btn-default btn-xs'>
                             <i class="far fa-eye"></i>
                         </a>
+                        @endcan
+                        @can('update_endowments')
                         <a href="{{ route('endowments.edit', [$endowment->id]) }}" class='btn btn-default btn-xs'>
                             <i class="far fa-edit"></i>
                         </a>
+                        @endcan
+                        @can('destroy_endowments')
                         {!! Form::button('<i class="far fa-trash-alt"></i>', ['type' => 'submit', 'class' => 'btn
                         btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
+                        @endcan
                     </div>
                     {!! Form::close() !!}
                 </td>

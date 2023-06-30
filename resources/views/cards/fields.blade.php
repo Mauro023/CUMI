@@ -15,7 +15,7 @@
 @endpush
 
 <!-- Employe Id Field -->
-<div class="form-group col-sm-3">
+<div class="form-group col-sm-4">
     {!! Form::label('employe_id', 'Empleado:') !!}
     {!! Form::select('employe_id', $employes, null, ['class' => 'form-control custom-select', 'placeholder' =>
     'Seleccione un empleado']) !!}
@@ -35,4 +35,4 @@
     </div>
 </div>
 
-<script src="{{ mix('js/app.js') }}"></script>
+<script src="{{ asset('js/app.js') }}"></script>

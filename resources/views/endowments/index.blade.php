@@ -8,10 +8,12 @@
                     <h1>Endowments</h1>
                 </div>
                 <div class="col-sm-6">
+                    @can('create_endowments')
                     <a class="btn btn-primary float-right"
                        href="{{ route('endowments.create') }}">
                         Add New
                     </a>
+                    @endcan
                 </div>
             </div>
         </div>

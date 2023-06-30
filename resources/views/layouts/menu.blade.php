@@ -23,6 +23,7 @@
         @endcan
 
         <!-- Sidebar -->
+        @canany(['view_employes', 'view_contracts'])
         <li class="nav-item has-treeview">
             <a class="nav-link">
                 <i class="fas fa-user-tie"></i>
@@ -42,17 +43,21 @@
                     @endcan
                 </li>
                 <li class="nav-item">
+                    @can('view_contracts')
                     <a href="{{ route('contracts.index') }}"
                         class="nav-link {{ Request::is('contracts*') ? 'active' : '' }}">
                         <span class="fas fa-file-alt"></span>
                         <p><strong>Contratos</strong></p>
                     </a>
+                    @endcan
                 </li>
             </ul>
         </li>
+        @endcanany
         <!-- Fin Sidebar -->
 
         <!-- Sidebar -->
+        @canany(['view_calendars', 'view_attendances'])
         <li class="nav-item has-treeview">
             <a class="nav-link">
                 <i class="fas fa-hourglass-half"></i>
@@ -75,13 +80,13 @@
                     @can('view_attendances')
                     <a href="{{ route('attendances.index') }}"
                         class="nav-link {{ Request::is('attendances*') ? 'active' : '' }}">
-                        <span class="fas fa-clock"></span>
+                        <span class="fas fa-fingerprint"></span>
                         <p><strong>Asistencias</strong></p>
                     </a>
                     @endcan
                 </li>
                 <li class="nav-item">
-                    @can('view_attendances')
+                    @can('view_user')
                     <a href="{{ route('control.index') }}"
                         class="nav-link {{ Request::is('control*') ? 'active' : '' }}">
                         <span class="fas fa-calendar-check"></span>
@@ -91,9 +96,11 @@
                 </li>
             </ul>
         </li>
+        @endcanany
         <!-- Fin Sidebar -->
 
         <!-- Sidebar -->
+        @canany(['view_endowments', 'view_cards'])
         <li class="nav-item has-treeview">
             <a class="nav-link">
                 <i class="fas fa-clipboard-check"></i>
@@ -104,25 +111,32 @@
             </a>
             <ul class="nav nav-treeview">
                 <li class="nav-item">
+                    @can('view_endowments')
                     <a href="{{ route('endowments.index') }}" class="nav-link">
                         <span class="fas fa-tshirt"></span>
                         <p><strong>Dotacion</strong></p>
                     </a>
+                    @endcan
                 </li>
                 <li class="nav-item">
+                    @can('view_cards')
                     <a href="{{ route('cards.index') }}" class="nav-link">
                         <span class="fas fa-address-card"></span>
                         <p><strong>Carnet</strong></p>
                     </a>
+                    @endcan
                 </li>
             </ul>
         </li>
+        @endcanany
         <!-- Fin Sidebar -->
 
         <li class="nav-item">
+            @can('view_medicines')
             <a href="{{ route('medicines.index') }}" class="nav-link {{ Request::is('medicines*') ? 'active' : '' }}">
                 <p>Medicinas</p>
             </a>
+            @endcan
         </li>
 
         <li class="nav-item">

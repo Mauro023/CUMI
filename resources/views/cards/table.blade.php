@@ -19,9 +19,11 @@
                 <td class="text-center"><strong>{{ $employee->cards->count() }}</strong></td>
                 <td width="120">
                     <div class='btn-group'>
+                        @can('show_cards')
                         <a href="{{ route('cards.employe', $employee->id) }}" class='btn btn-default btn-xs'>
                             <i class="far fa-eye" style="color: #13A4DA"></i>
                         </a>
+                        @endcan
                     </div>
                 </td>
             </tr>

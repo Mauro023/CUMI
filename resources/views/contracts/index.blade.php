@@ -8,10 +8,12 @@
                     <h1>Contracts</h1>
                 </div>
                 <div class="col-sm-6">
+                    @can('create_contracts')
                     <a class="btn btn-primary float-right"
                        href="{{ route('contracts.create') }}">
                         Add New
                     </a>
+                    @endcan
                 </div>
             </div>
         </div>

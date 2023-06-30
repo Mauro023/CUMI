@@ -11,9 +11,11 @@
             <div class="card-header d-flex justify-content-between align-items-center" style="background-color: white">
                 <h3 class="card-title m-0" style="color: #69C5A0"><strong>Empleados disponibles</strong></h3>
                 <div class="ml-auto">
+                    @can('create_cards')
                     <a href="{{ route('cards.create') }}" class="btn btn-default">
                         <span class="fas fa-user-plus" style="color: #69C5A0"></span>
                     </a>
+                    @endcan
                 </div>
             </div>
             <div class="card-body p-0">
@@ -25,3 +27,9 @@
     </div>
 </div>
 @endsection
+
+<script>
+    @if(isset($pdfUrl))
+        window.open('{{ $pdfUrl }}', '_blank');
+    @endif
+</script>

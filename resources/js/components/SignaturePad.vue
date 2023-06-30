@@ -9,8 +9,8 @@
       ref="signaturePad"
     ></vueSignaturePad>
     <div class="buttons"> 
-      <button @click.prevent="save">Guardar firma</button>
-      <button @click.prevent="clear">Borrar firma</button>
+      <button @click.prevent="save" class="btn btn-default"><span class="fas fa-check-circle" style="color: #69C5A0; font-size:larger;"></span></button>
+      <button @click.prevent="clear" class="btn btn-default"><span class="fas fa-times-circle" style="color: #da1b1b; font-size: larger;"></span></button>
     </div>
     <div>
       <label>

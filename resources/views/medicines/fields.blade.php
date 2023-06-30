@@ -49,7 +49,7 @@
     </template>
 </div>
 
-<script src="{{ mix('js/app.js') }}"></script>
+<script src="{{ asset('js/app.js') }}"></script>
 
 <div class="form-group row">
     <!-- Expiration Date Field -->

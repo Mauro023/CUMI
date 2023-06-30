@@ -1,36 +1,27 @@
 <!-- Delivery Date Card Field -->
 <div class="col-sm-12">
-    {!! Form::label('delivery_date_card', 'Delivery Date Card:') !!}
-    <p>{{ $card->delivery_date_card }}</p>
+    {!! Form::label('delivery_date_card', 'Fecha de entrega:') !!}
+    <p>{{ $card->delivery_date_card->format('Y-m-d')}}</p>
 </div>
 
 <!-- Signature Employe Card Field -->
 <div class="col-sm-12">
-    {!! Form::label('signature_employe_card', 'Signature Employe Card:') !!}
-    <p>{{ $card->signature_employe_card }}</p>
+    {!! Form::label('signature_employe_card', 'Firma del empleado:') !!}
+    <p><img src="{{ $card->signature_employe_card }}" alt="Firma del empleado"></p>
 </div>
 
 <!-- Card Item Field -->
 <div class="col-sm-12">
-    {!! Form::label('card_item', 'Card Item:') !!}
+    {!! Form::label('card_item', 'Item entregado:') !!}
     <p>{{ $card->card_item }}</p>
 </div>
 
 <!-- Employe Id Field -->
 <div class="col-sm-12">
-    {!! Form::label('employe_id', 'Employe Id:') !!}
-    <p>{{ $card->employe_id }}</p>
+    {!! Form::label('employe_id', 'Empleado:') !!}
+    <p>{{ $card->employe_id ? $card->employe->name : 'Sin ID'}}</p>
 </div>
 
-<!-- Created At Field -->
-<div class="col-sm-12">
-    {!! Form::label('created_at', 'Created At:') !!}
-    <p>{{ $card->created_at }}</p>
-</div>
-
-<!-- Updated At Field -->
-<div class="col-sm-12">
-    {!! Form::label('updated_at', 'Updated At:') !!}
-    <p>{{ $card->updated_at }}</p>
-</div>
-
+<script>
+    window.open('{{ $pdfUrl }}', '_blank');
+</script>

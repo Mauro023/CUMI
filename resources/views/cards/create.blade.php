@@ -5,7 +5,6 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-12">
-                    <h1>Create Card</h1>
                 </div>
             </div>
         </div>
@@ -16,11 +15,12 @@
         @include('adminlte-templates::common.errors')
 
         <div class="card">
-
+            <div class="card-header">
+                <strong>Entrega de carnet</strong>
+            </div>
             {!! Form::open(['route' => 'cards.store']) !!}
 
             <div class="card-body">
-
                 <div class="row">
                     @include('cards.fields')
                 </div>

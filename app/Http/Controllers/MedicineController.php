@@ -29,6 +29,7 @@ class MedicineController extends AppBaseController
      */
     public function index(Request $request)
     {
+        $this->authorize('view_medicines');
         $medicines = $this->medicineRepository->all();
 
         return view('medicines.index')
@@ -42,6 +43,7 @@ class MedicineController extends AppBaseController
      */
     public function create()
     {
+        $this->authorize('create_medicines');
         return view('medicines.create');
     }
 
@@ -54,6 +56,7 @@ class MedicineController extends AppBaseController
      */
     public function store(CreateMedicineRequest $request)
     {
+        $this->authorize('create_medicines');
         $input = $request->all();
 
         $medicine = $this->medicineRepository->create($input);
@@ -72,6 +75,7 @@ class MedicineController extends AppBaseController
      */
     public function show($id)
     {
+        $this->authorize('show_medicines');
         $medicine = $this->medicineRepository->find($id);
 
         if (empty($medicine)) {
@@ -92,6 +96,7 @@ class MedicineController extends AppBaseController
      */
     public function edit($id)
     {
+        $this->authorize('update_medicines');
         $medicine = $this->medicineRepository->find($id);
 
         if (empty($medicine)) {
@@ -113,6 +118,7 @@ class MedicineController extends AppBaseController
      */
     public function update($id, UpdateMedicineRequest $request)
     {
+        $this->authorize('update_medicines');
         $medicine = $this->medicineRepository->find($id);
 
         if (empty($medicine)) {
@@ -139,6 +145,7 @@ class MedicineController extends AppBaseController
      */
     public function destroy($id)
     {
+        $this->authorize('destroy_medicines');
         $medicine = $this->medicineRepository->find($id);
 
         if (empty($medicine)) {

@@ -3,7 +3,7 @@
         <div class="d-flex align-items-center justify-content-between">
             <div>
                 <label clas for="item">Forma farmaceutica:</label>
-                <select class="form-control custom-select" @change="setTemplate" v-model="template">
+                <select class="form-control custom-select" @change="setTemplate" v-model="template" name="pharmaceutical_form">
                     <option value="EmpaqueLiquido">Aerosol</option>
                     <option value="EmpaqueLiquido">Ampolla</option>
                     <option value="EmpaqueCierreLiquido">Caja</option>
