@@ -236,13 +236,17 @@ class cardController extends AppBaseController
     public function filter(Request $request)
     {
         $input = $request->input('dni');
-        $cards = Card::join('employes', 'employes.id', '=', 'cards.employe_id')
-        ->select('cards.*') 
-        ->where(function ($query) use ($input) {
-            $query->where('employes.dni', 'LIKE', '%'.$input.'%')
-                ->orWhere('employes.name', 'LIKE', '%'.$input.'%');
-        })
-        ->paginate(10);
-        return view('cards.card_show_employe', ['cards' => $cards]);
+        if ($input) {
+            $cards = Card::join('employes', 'employes.id', '=', 'cards.employe_id')
+            ->select('cards.*') 
+            ->where(function ($query) use ($input) {
+                $query->where('employes.dni', 'LIKE', '%'.$input.'%')
+                    ->orWhere('employes.name', 'LIKE', '%'.$input.'%');
+            })
+            ->paginate(10);
+            return view('cards.card_show_employe', ['cards' => $cards]);
+        }else {
+            return redirect(route('cards.index'));
+        }
     }
 }

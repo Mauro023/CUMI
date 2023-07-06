@@ -222,4 +222,21 @@ class contractsController extends AppBaseController
         Flash::success('¡Contratos guardados exitosamente!');
         return redirect(route('contracts.index'));
     }
+
+    public function filter(Request $request)
+    {
+        $input = $request->input('dni');
+        if ($input) {
+            $contracts = contracts::join('employes', 'employes.id', '=', 'contracts.employe_id')
+            ->select('contracts.*') 
+            ->where(function ($query) use ($input) {
+                $query->where('employes.dni', 'LIKE', '%'.$input.'%')
+                    ->orWhere('employes.name', 'LIKE', '%'.$input.'%');
+            })
+            ->paginate(10);
+            return view('contracts.index', ['contracts' => $contracts]);
+        }else{
+            return redirect(route('contracts.index'));
+        }
+    }
 }

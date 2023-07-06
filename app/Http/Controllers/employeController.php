@@ -174,12 +174,15 @@ class employeController extends AppBaseController
     public function filter(Request $request)
     {
         $input = $request->input('dni');
-
-        $employes = Employe::where(function($query) use ($input) {
-            $query->where('dni', 'LIKE', '%'.$input.'%')
-                ->orWhere('name', 'LIKE', '%'.$input.'%');
-        })->paginate(10);
-        return view('employes.index', ['employes' => $employes]);
+        if ($input) {
+            $employes = Employe::where(function($query) use ($input) {
+                $query->where('dni', 'LIKE', '%'.$input.'%')
+                    ->orWhere('name', 'LIKE', '%'.$input.'%');
+            })->paginate(10);
+            return view('employes.index', ['employes' => $employes]);
+        }else {
+            return redirect(route('employes.index'));
+        }
     }
 
     public function getEmployees()

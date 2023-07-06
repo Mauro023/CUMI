@@ -66,6 +66,7 @@ Route::post('/filterEmploye', [App\Http\Controllers\EmployeController::class, 'f
 Route::post('/filterAttendance', [App\Http\Controllers\AttendanceController::class, 'filter'])->name('attendances.filter');
 Route::post('/filterCalendar', [App\Http\Controllers\CalendarController::class, 'filter'])->name('calendars.filter');
 Route::post('/filterCard', [App\Http\Controllers\CardController::class, 'filter'])->name('card.filter');
+Route::post('/filterContract', [App\Http\Controllers\ContractsController::class, 'filter'])->name('contract.filter');
 
 //Generar calendarios
 Route::get('/generar-calendarios', [App\Http\Controllers\CalendarController::class, 'calendarGenerator'])->name('calendars.generate');

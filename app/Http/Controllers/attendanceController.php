@@ -190,26 +190,29 @@ class attendanceController extends AppBaseController
     public function filter(Request $request)
     {
         $input = $request->all();
-
-        $query = Attendance::query();
-
-        // Búsqueda por nombre de empleado
-        if ($request->filled('name')) {
-            $query->join('employes', 'attendances.employe_id', '=', 'employes.id')
-                ->where('employes.name', 'LIKE', '%'.$request->input('name').'%');
+        if ($input) {
+            $query = Attendance::query();
+    
+            // Búsqueda por nombre de empleado
+            if ($request->filled('name')) {
+                $query->join('employes', 'attendances.employe_id', '=', 'employes.id')
+                    ->where('employes.name', 'LIKE', '%'.$request->input('name').'%');
+            }
+    
+            // Búsqueda por fecha
+            if ($request->filled('start_date') && $request->filled('end_date')) {
+                $query->whereBetween('workday', [$request->input('start_date'), $request->input('end_date')]);
+            }
+    
+            // Ordenar por fecha de inicio ascendente
+            $query->orderBy('workday', 'desc');
+    
+            $attendances = $query->paginate(100);
+    
+            return view('attendances.index')
+                ->with('attendances', $attendances);  
+        }else {
+            return redirect(route('attendances.index'));
         }
-
-        // Búsqueda por fecha
-        if ($request->filled('start_date') && $request->filled('end_date')) {
-            $query->whereBetween('workday', [$request->input('start_date'), $request->input('end_date')]);
-        }
-
-        // Ordenar por fecha de inicio ascendente
-        $query->orderBy('workday', 'desc');
-
-        $attendances = $query->paginate(100);
-
-        return view('attendances.index')
-            ->with('attendances', $attendances);
     }
 }
