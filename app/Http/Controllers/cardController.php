@@ -232,4 +232,17 @@ class cardController extends AppBaseController
         ->header('Content-Type', 'application/pdf')
         ->header('Content-Disposition', 'inline; filename="acta_entrega_carnet.pdf"');
     }
+
+    public function filter(Request $request)
+    {
+        $input = $request->input('dni');
+        $cards = Card::join('employes', 'employes.id', '=', 'cards.employe_id')
+        ->select('cards.*') 
+        ->where(function ($query) use ($input) {
+            $query->where('employes.dni', 'LIKE', '%'.$input.'%')
+                ->orWhere('employes.name', 'LIKE', '%'.$input.'%');
+        })
+        ->paginate(10);
+        return view('cards.card_show_employe', ['cards' => $cards]);
+    }
 }

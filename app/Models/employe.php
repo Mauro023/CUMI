@@ -35,7 +35,7 @@ class employe extends Model
         return $this->hasMany(Attendance::class);
     }
 
-    public function contract()
+    public function contracts()
     {
         return $this->hasOne(Contracts::class, 'employe_id');
     }

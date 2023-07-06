@@ -12,6 +12,8 @@
             </a>
         </li>
 
+
+
         @can('view_user')
         <li class="nav-item">
             <a href="{{ route('admin.users.index') }}"
@@ -91,6 +93,15 @@
                         class="nav-link {{ Request::is('control*') ? 'active' : '' }}">
                         <span class="fas fa-calendar-check"></span>
                         <p><strong>Control</strong></p>
+                    </a>
+                    @endcan
+                </li>
+                <li class="nav-item">
+                    @can('view_user')
+                    <a href="{{ route('attendances.count') }}"
+                        class="nav-link {{ Request::is('contadores*') ? 'active' : '' }}">
+                        <span class="fas fa-info"></span>
+                        <p><strong>Contadores</strong></p>
                     </a>
                     @endcan
                 </li>

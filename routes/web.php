@@ -58,12 +58,14 @@ Route::get('/attendanceReport/attendanceToday', [App\Http\Controllers\Attendance
 Route::get('/attendanceReport/workingAndFinished', [App\Http\Controllers\AttendanceReportController::class, 'getWorkingAndFinished'])->name('attendanceReport.workingAndFinished');
 Route::get('/attendanceReport/finished', [App\Http\Controllers\AttendanceReportController::class, 'getFinished'])->name('attendanceReport.finished');
 Route::get('/attendanceTime/attendanceNot', [App\Http\Controllers\AttendanceTimeController::class, 'attendanceNot'])->name('attendanceTime.attendanceNot');
+Route::view('/counts', 'attendances.count')->name('attendances.count');
 
 //Ruta filtros
 Route::post('/filterUser', [App\Http\Controllers\Admin\UsersController::class, 'filter'])->name('users.filter');
 Route::post('/filterEmploye', [App\Http\Controllers\EmployeController::class, 'filter'])->name('employes.filter');
 Route::post('/filterAttendance', [App\Http\Controllers\AttendanceController::class, 'filter'])->name('attendances.filter');
 Route::post('/filterCalendar', [App\Http\Controllers\CalendarController::class, 'filter'])->name('calendars.filter');
+Route::post('/filterCard', [App\Http\Controllers\CardController::class, 'filter'])->name('card.filter');
 
 //Generar calendarios
 Route::get('/generar-calendarios', [App\Http\Controllers\CalendarController::class, 'calendarGenerator'])->name('calendars.generate');
@@ -89,3 +91,7 @@ Route::get('/cards/employe/{id}', [App\Http\Controllers\CardController::class, '
 Route::resource('medicines', App\Http\Controllers\MedicineController::class);
 
 Route::get('/employees', [App\Http\Controllers\EmployeController::class, 'getEmployees'])->name('get.employee');
+Route::get('/updateemployees', [App\Http\Controllers\EmployeController::class, 'updateEmployees'])->name('update.employee');
+
+//Contracts
+Route::get('/getContracts', [App\Http\Controllers\contractsController::class, 'getContracts'])->name('get.contracts');

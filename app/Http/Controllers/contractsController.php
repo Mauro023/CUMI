@@ -7,6 +7,7 @@ use App\Http\Requests\UpdatecontractsRequest;
 use App\Repositories\contractsRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Models\Contracts;
 use Flash;
 use Response;
@@ -32,7 +33,10 @@ class contractsController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $contracts = $this->contractsRepository->all();
+        $this->authorize('view_contracts');
+        $contracts = contracts::join('employes', 'contracts.employe_id', '=', 'employes.id')
+        ->orderBy('employes.name', 'asc')
+        ->paginate(50);
 
         return view('contracts.index')
             ->with('contracts', $contracts);
@@ -45,6 +49,7 @@ class contractsController extends AppBaseController
      */
     public function create()
     {
+        $this->authorize('create_contracts');
         $employes = Employe::orderby('name')->pluck('name', 'id');
         return view('contracts.create', compact('employes'));
     }
@@ -58,6 +63,7 @@ class contractsController extends AppBaseController
      */
     public function store(CreatecontractsRequest $request)
     {
+        $this->authorize('create_contracts');
         $input = $request->all();
 
         $existing = Contracts::where('employe_id', $input['employe_id'])
@@ -87,6 +93,7 @@ class contractsController extends AppBaseController
      */
     public function show($id)
     {
+        $this->authorize('show_contracts');
         $contracts = $this->contractsRepository->find($id);
 
         if (empty($contracts)) {
@@ -107,6 +114,7 @@ class contractsController extends AppBaseController
      */
     public function edit($id)
     {
+        $this->authorize('update_contracts');
         $contracts = $this->contractsRepository->find($id);
 
         if (empty($contracts)) {
@@ -128,6 +136,7 @@ class contractsController extends AppBaseController
      */
     public function update($id, UpdatecontractsRequest $request)
     {
+        $this->authorize('update_contracts');
         $contracts = $this->contractsRepository->find($id);
 
         if (empty($contracts)) {
@@ -154,6 +163,7 @@ class contractsController extends AppBaseController
      */
     public function destroy($id)
     {
+        $this->authorize('destroy_contracts');
         $contracts = $this->contractsRepository->find($id);
 
         if (empty($contracts)) {
@@ -166,6 +176,50 @@ class contractsController extends AppBaseController
 
         Flash::success('Contracts deleted successfully.');
 
+        return redirect(route('contracts.index'));
+    }
+
+    public function getContracts()
+    {
+        $results = DB::connection('sqlsrv')->select("SELECT e.id, e.identificacion, e.nombre_completo, c.codigo, c.fecha_inicio_contrato, c.sueldo_basico, c.deshabilitar, c.id_empleado
+            FROM contratos c 
+            JOIN empleado e ON e.id = c.id_empleado
+            WHERE c.deshabilitar != 3");
+
+        foreach ($results as $result) {
+            //Se valida que el contrato exista
+            $idEmploye = Employe::where('dni', $result->identificacion)->first();
+
+            $existingContracts = Contracts::where('salary', $result->sueldo_basico)
+            ->where('start_date_contract', $result->fecha_inicio_contrato)
+            ->where('employe_id', $idEmploye->id)
+            ->first();
+            
+            if (!$existingContracts) {
+                if ($idEmploye) {
+                    $existing = Contracts::where('employe_id', $idEmploye->id)
+                    ->where('start_date_contract', '<', $result->fecha_inicio_contrato)
+                    ->orderBy('start_date_contract', 'desc')
+                    ->first();
+    
+                    if ($existing) {
+                        // Actualizar el contrato anterior deshabilitándolo
+                        $existing->disable = "3";
+                        $existing->save();
+                    }
+                    
+                    $newContract = new Contracts();
+                    $newContract->salary = $result->sueldo_basico;
+                    $newContract->start_date_contract = $result->fecha_inicio_contrato;
+                    $newContract->disable = '0';
+                    $newContract->employe_id = $idEmploye->id;
+                    
+                    $newContract->save();         
+                }
+            }
+        }
+
+        Flash::success('¡Contratos guardados exitosamente!');
         return redirect(route('contracts.index'));
     }
 }

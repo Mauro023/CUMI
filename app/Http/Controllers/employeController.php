@@ -179,7 +179,6 @@ class employeController extends AppBaseController
             $query->where('dni', 'LIKE', '%'.$input.'%')
                 ->orWhere('name', 'LIKE', '%'.$input.'%');
         })->paginate(10);
-
         return view('employes.index', ['employes' => $employes]);
     }
 
@@ -187,7 +186,7 @@ class employeController extends AppBaseController
     {
         $results = DB::connection('sqlsrv')->select("SELECT e.identificacion, e.nombre_completo, c.codigo, c.fecha_inicio_contrato, c.sueldo_basico, c.deshabilitar
             FROM contratos c 
-            JOIN empleado e ON c.codigo = e.identificacion OR c.codigo = CONCAT(e.identificacion, '-1')
+            JOIN empleado e ON e.id = c.id_empleado
             WHERE c.deshabilitar != 3");
 
         foreach ($results as $result) {
@@ -206,8 +205,40 @@ class employeController extends AppBaseController
             }
         }
 
+        $this->updateEmployees();
         Flash::success('¡Empleados guardados exitosamente!');
         return redirect(route('employes.index'));
     }
 
+    public function updateEmployees()
+    {
+        $results = DB::connection('sqlsrv')->select("SELECT e.identificacion, e.nombre_completo, c.codigo, c.fecha_inicio_contrato, c.sueldo_basico, c.deshabilitar
+        FROM contratos c 
+        JOIN empleado e ON e.id = c.id_empleado");
+
+        foreach ($results as $result) {
+            $empleadoId = $result->identificacion;
+            $allDisable = true;
+
+            foreach ($results as $contrato) {
+                if ($contrato->identificacion === $empleadoId && $contrato->deshabilitar != 3) {
+                    $allDisable = false;
+                    break;
+                }
+            }
+
+            if ($allDisable) {
+                $employe = Employe::where('dni', $empleadoId)->first();
+
+                    if ($employe) {
+                        $employe->unit = 'Deshabilitado';
+                        $employe->save();
+        
+                        $employe->contracts()
+                            //->orderBy('start_date_contract', 'desc')
+                            ->update(['disable' => 3]);
+                    }
+            }
+        }
+    }
 }

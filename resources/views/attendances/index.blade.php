@@ -11,15 +11,15 @@
             <div class="card-header d-flex justify-content-between align-items-center" style="background-color: white">
                 <h4 class="card-title m-0" style="color: #69C5A0"><strong>Lista de asistencias</strong></h4>
                 <div class="ml-auto">
+                    <button type="button" class="btn btn-default" data-bs-toggle="modal"
+                        data-bs-target="#staticBackdrop">
+                        <span class="fas fa-search" style="color: #69C5A0"></span>
+                    </button>
                     @can('create_attendances')
                     <a href="{{ route('attendances.create') }}" class="btn btn-default">
                         <span class="fas fa-calendar-plus" style="color: #69C5A0"></span>
                     </a>
                     @endcan
-                    <button type="button" class="btn btn-default" data-bs-toggle="modal"
-                        data-bs-target="#staticBackdrop">
-                        <span class="fas fa-search" style="color: #69C5A0"></span>
-                    </button>
                 </div>
             </div>
             <div class="card-body p-0">
