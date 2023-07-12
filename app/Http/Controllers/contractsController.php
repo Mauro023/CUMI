@@ -233,7 +233,7 @@ class contractsController extends AppBaseController
                 $query->where('employes.dni', 'LIKE', '%'.$input.'%')
                     ->orWhere('employes.name', 'LIKE', '%'.$input.'%');
             })
-            ->paginate(10);
+            ->paginate(500);
             return view('contracts.index', ['contracts' => $contracts]);
         }else{
             return redirect(route('contracts.index'));

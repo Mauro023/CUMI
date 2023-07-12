@@ -33,8 +33,9 @@
 @endsection
 
 <script>
-    @if(isset($pdfUrl))
-        window.open('{{ $pdfUrl }}', '_blank');
+    @if(session('pdfUrl'))
+        var pdfUrl = '{{ session('pdfUrl') }}';
+        window.open(pdfUrl, '_blank');
     @endif
 </script>
 

@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property json $item
  * @property string $deliver_date
  * @property string $employe_signature
+ * @property string $period
  * @property integer $contract_id
  */
 class endowment extends Model
@@ -38,6 +39,7 @@ class endowment extends Model
         'item',
         'deliver_date',
         'employe_signature',
+        'period',
         'contract_id'
     ];
 
@@ -50,6 +52,7 @@ class endowment extends Model
         'item' => 'json',
         'deliver_date' => 'date',
         'employe_signature' => 'string',
+        'period' => 'string',
         'contract_id' => 'integer'
     ];
 
@@ -62,6 +65,7 @@ class endowment extends Model
         'checkboxInput' => 'required|array|min:1',
         'deliver_date' => 'required',
         'employe_signature' => 'required',
+        'period' => 'required',
         'contract_id' => 'required'
     ];
 }

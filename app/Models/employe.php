@@ -37,7 +37,7 @@ class employe extends Model
 
     public function contracts()
     {
-        return $this->hasOne(Contracts::class, 'employe_id');
+        return $this->hasMany(Contracts::class, 'employe_id');
     }
 
     public function cards()

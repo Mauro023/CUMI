@@ -5,7 +5,6 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-12">
-                    <h1>Edit Endowment</h1>
                 </div>
             </div>
         </div>
@@ -16,7 +15,9 @@
         @include('adminlte-templates::common.errors')
 
         <div class="card">
-
+            <div class="card-header">
+                <strong>Editar entrega</strong>
+            </div>
             {!! Form::model($endowment, ['route' => ['endowments.update', $endowment->id], 'method' => 'patch']) !!}
 
             <div class="card-body">

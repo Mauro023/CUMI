@@ -78,10 +78,9 @@ class cardController extends AppBaseController
 
         $pdfUrl = route('generar.acta.entrega.card', ['id' => $card->id]);
 
-        return view('cards.index')
+        return redirect()->route('cards.index')
         ->with('pdfUrl', $pdfUrl)
-        ->with('card', $card)
-        ->with('employees', $employees);
+        ->with('card', $card);
     }
 
     /**
@@ -116,7 +115,7 @@ class cardController extends AppBaseController
         return view('cards.card_show_employe')
             ->with('employee', $employee)
             ->with('cards', $cards);
-        }
+    }
 
     /**
      * Show the form for editing the specified card.
@@ -170,10 +169,9 @@ class cardController extends AppBaseController
 
         $pdfUrl = route('generar.acta.entrega.card', ['id' => $card->id]);
 
-        return view('cards.index')
+        return redirect()->route('cards.index')
         ->with('pdfUrl', $pdfUrl)
-        ->with('card', $card)
-        ->with('employees', $employees);
+        ->with('card', $card);
     }
 
     /**
@@ -243,7 +241,7 @@ class cardController extends AppBaseController
                 $query->where('employes.dni', 'LIKE', '%'.$input.'%')
                     ->orWhere('employes.name', 'LIKE', '%'.$input.'%');
             })
-            ->paginate(10);
+            ->paginate(500);
             return view('cards.card_show_employe', ['cards' => $cards]);
         }else {
             return redirect(route('cards.index'));

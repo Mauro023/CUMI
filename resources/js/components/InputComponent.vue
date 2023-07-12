@@ -24,7 +24,8 @@ export default {
       options: [
         { label: 'Zapatos', value: 'zapatos' },
         { label: 'Pantalon', value: 'pantalon' },
-        { label: 'Camisa', value: 'camisa' }
+        { label: 'Camisa', value: 'camisa' },
+        { label: 'Cinturon', value: 'cinturon' }
       ],
       modelValue: []
     };

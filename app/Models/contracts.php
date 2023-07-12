@@ -33,7 +33,7 @@ class contracts extends Model
 
     public function endowment()
     {
-        return $this->hasMany(Endowment::class);
+        return $this->hasMany(Endowment::class, 'contract_id');
     }
 
 

@@ -1,51 +1,34 @@
 <div class="table-responsive">
-    <table class="table" id="endowments-table">
+    <table class="table table-hover mb-0" id="cards-table">
         <thead>
             <tr>
-                <th>Empleado</th>
-                <th>Dotacion</th>
-                <th>Fecha de entrega</th>
-                <th>Firma del empleado</th>
-                <th colspan="3">Action</th>
+                <th scope="col">Empleado</th>
+                <th scope="col">Cargo</th>
+                <th scope="col">Dotaciones entregados</th>
+                <th colspan="3">Acciones</th>
             </tr>
         </thead>
         <tbody>
-            @foreach($endowments as $endowment)
+            @foreach ($contracts->sortBy('employe.name') as $contract)
+            @if ($contract->employe->work_position != 'Pendiente')
             <tr>
-                <td>{{ $endowment->contract_id ? $endowment->contracts->employe->name : 'SIN ID'}}</td>
                 <td>
-                    @php
-                        $items = json_decode($endowment->item);
-                        if (is_array($items)) {
-                            echo implode(', ', $items);
-                        } else {
-                            echo $items;
-                        }
-                    @endphp
-                </td>
-                <td>{{ $endowment->deliver_date->format('Y-m-d') }}</td>
-                <td><img src="{{ $endowment->employe_signature }}" alt="Firma del empleado"></td>
+                    {{ $contract->employe->name }}
+                    <br>
+                    <small style="color: #69C5A0"><strong>{{ $contract->employe->dni }}</strong></small>
+                <td>{{ $contract->employe->work_position }}</td>
+                <td class="text-center"><strong>{{ $contract->endowment->count() }}</strong></td>
                 <td width="120">
-                    {!! Form::open(['route' => ['endowments.destroy', $endowment->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>
-                        @can('show_endowments')
-                        <a href="{{ route('endowments.show', [$endowment->id]) }}" class='btn btn-default btn-xs'>
-                            <i class="far fa-eye"></i>
+                        @can('show_cards')
+                        <a href="{{ route('endowment.employe', $contract->employe->id) }}" class='btn btn-default btn-xs'>
+                            <i class="far fa-eye" style="color: #13A4DA"></i>
                         </a>
-                        @endcan
-                        @can('update_endowments')
-                        <a href="{{ route('endowments.edit', [$endowment->id]) }}" class='btn btn-default btn-xs'>
-                            <i class="far fa-edit"></i>
-                        </a>
-                        @endcan
-                        @can('destroy_endowments')
-                        {!! Form::button('<i class="far fa-trash-alt"></i>', ['type' => 'submit', 'class' => 'btn
-                        btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
                         @endcan
                     </div>
-                    {!! Form::close() !!}
                 </td>
             </tr>
+            @endif
             @endforeach
         </tbody>
     </table>

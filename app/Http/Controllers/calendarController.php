@@ -185,7 +185,7 @@ class calendarController extends AppBaseController
             // Búsqueda por fecha
             $query->whereDate('start_date', [$start_date->startOfDay(), $end_date->endOfDay()]);
         }
-        $calendars = $query->orderBy('start_date', 'desc')->paginate(100);
+        $calendars = $query->orderBy('start_date', 'desc')->paginate(500);
 
         return view('calendars.index')->with('calendars', $calendars);
     }

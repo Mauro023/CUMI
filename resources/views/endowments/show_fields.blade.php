@@ -13,13 +13,13 @@
 <!-- Employe Signature Field -->
 <div class="col-sm-12">
     {!! Form::label('employe_signature', 'Employe Signature:') !!}
-    <p>{{ $endowment->employe_signature }}</p>
+    <p><img src="{{ $endowment->employe_signature }}" alt="Firma del empleado"></p>
 </div>
 
-<!-- Contract Id:unsigned:foreign,Contracts,Id Field -->
+<!-- Contract Id -->
 <div class="col-sm-12">
-    {!! Form::label('contract_id:unsigned:foreign,contracts,id', 'Contract Id:unsigned:foreign,Contracts,Id:') !!}
-    <p>{{ $endowment->contract_id:unsigned:foreign,contracts,id }}</p>
+    {!! Form::label('contract_id', 'Contract Id, Contracts,Id:') !!}
+    <p>{{ $endowment->contract_id }}</p>
 </div>
 
 <!-- Created At Field -->
@@ -34,3 +34,7 @@
     <p>{{ $endowment->updated_at }}</p>
 </div>
 
+<script>
+    var pdfUrl = '{{ session('pdfUrl') }}';
+    window.open('{{ $pdfUrl }}', '_blank');
+</script>

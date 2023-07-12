@@ -1,14 +1,17 @@
-<!-- Contract id Field -->
-<div class="form-group col-sm-3">
-    {!! Form::label('contract_id', 'Empleado:') !!}
-    {!! Form::select('contract_id', $contracts->pluck('employe.name', 'id'), null, ['class' => 'form-control
-    custom-select', 'placeholder' => 'Seleccione un empleado']) !!}
+<div class="col-5">
+    <!-- Contract id Field -->
+    <div class="form-group col-sm-12">
+        {!! Form::label('contract_id', 'Empleado:') !!}
+        {!! Form::select('contract_id', $contracts, null, ['class' => 'form-control
+        custom-select', 'placeholder' => 'Seleccione un empleado']) !!}
+    </div>
 </div>
-
-<!-- Deliver Date Field -->
-<div class="form-group col-sm-3">
-    {!! Form::label('deliver_date', 'Fecha de entrega:') !!}
-    {!! Form::text('deliver_date', null, ['class' => 'form-control','id'=>'deliver_date']) !!}
+<div class="col-3">
+    <!-- Deliver Date Field -->
+    <div class="form-group col-sm-12">
+        {!! Form::label('deliver_date', 'Fecha de entrega:') !!}
+        {!! Form::text('deliver_date', null, ['class' => 'form-control','id'=>'deliver_date']) !!}
+    </div>
 </div>
 
 @push('page_scripts')
@@ -20,6 +23,19 @@
     })
 </script>
 @endpush
+
+<!-- Period Field -->
+<div>
+    <div class="form-group col-sm-3">
+        {!! Form::label('Period', 'Periodo:') !!}
+        {!! Form::select('period',  [
+            'Abril' => 'Abril', 
+            'Agosto' => 'Agosto', 
+            'Diciembre' => 'Diciembre'
+        ], null, ['class' => 'form-control
+        custom-select', 'placeholder' => 'Seleccione un periodo']) !!}
+    </div>
+</div>
 
 <div id="app">
     <div class="form-group col-sm-3">

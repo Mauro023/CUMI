@@ -207,7 +207,7 @@ class attendanceController extends AppBaseController
             // Ordenar por fecha de inicio ascendente
             $query->orderBy('workday', 'desc');
     
-            $attendances = $query->paginate(100);
+            $attendances = $query->paginate(500);
     
             return view('attendances.index')
                 ->with('attendances', $attendances);  

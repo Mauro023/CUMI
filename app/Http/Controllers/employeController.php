@@ -178,7 +178,7 @@ class employeController extends AppBaseController
             $employes = Employe::where(function($query) use ($input) {
                 $query->where('dni', 'LIKE', '%'.$input.'%')
                     ->orWhere('name', 'LIKE', '%'.$input.'%');
-            })->paginate(10);
+            })->paginate(500);
             return view('employes.index', ['employes' => $employes]);
         }else {
             return redirect(route('employes.index'));

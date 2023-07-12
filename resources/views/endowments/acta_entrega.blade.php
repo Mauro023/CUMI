@@ -108,9 +108,9 @@
     </div>
 
     <h2>ACTA DE ENTREGA</h2>
-    <p>En la ciudad de Montería, a los {{ $deliverDate->format('d') }} días del mes {{ $deliverDate->format('m') }} del
-        año {{ $deliverDate->format('Y') }}, se lleva a cabo la entrega de la dotación correspondiente al empleado
-        <strong>{{$employeeName}}</strong>, identificado con C.C <strong>{{$employeeDni}}</strong> y desempeñándose en el cargo de <strong>{{$employeeWork}}</strong>, con el
+    <p>En la ciudad de <strong>Montería</strong>, a los <strong>{{ $deliverDate->format('d') }}</strong> días del mes <strong>{{ $deliverDate->format('m') }}</strong> del
+        año <strong>{{ $deliverDate->format('Y') }}</strong>, se lleva a cabo la entrega de la dotación correspondiente al periodo de <strong>{{ $period }}</strong> 
+        del año <strong>{{ $deliverDate->format('Y') }}</strong> al empleado <strong>{{$employeeName}}</strong>, identificado con C.C <strong>{{$employeeDni}}</strong> y desempeñándose en el cargo de <strong>{{$employeeWork}}</strong>, con el
         fin de cumplir con las disposiciones legales y
         garantizar las condiciones laborales adecuadas para el desarrollo de sus funciones.</p>
 
@@ -121,11 +121,10 @@
                 <th>CODIGO</th>
                 <th>DESCRIPCION</th>
                 <th>UBICACIÓN</th>
-                <th>CENTRO COSTOS</th>
+                <th>PERIODO</th>
             </tr>
         </thead>
         <tbody>
-            <!-- Aquí puedes iterar sobre los activos entregados y mostrarlos en filas de la tabla -->
             <tr>
                 <td>{{ $id }}</td>
                 <td>
@@ -139,7 +138,7 @@
                     @endphp
                 </td>
                 <td>AREA ADMINISTRATIVA GENERAL SISTEMAS</td>
-                <td></td>
+                <td>{{ $period }} {{ $deliverDate->format('Y') }}</td>
             </tr>
         </tbody>
     </table>
@@ -152,8 +151,9 @@
         <div class="signature-section float-left">
             <h2 class="signature-title">Entrega:</h2>
             <img src="images/firma-superior.jpg" alt="Entrega" class="signature-image">
-        </div>
-        <div class="signature-section float-right">
+            <h3 class="signature-title">Marcela Garcia Gonzalez</h3>
+            <h3 class="signature-title">Directora de talento humano</h3>
+        </div>        <div class="signature-section float-right">
             <h2 class="signature-title">Recibe:</h2>
             <img src="{{ $signature }}" alt="Recibe" class="signature-image">
         </div>

@@ -145,6 +145,8 @@
         <div class="signature-section float-left">
             <h2 class="signature-title">Entrega:</h2>
             <img src="images/firma-superior.jpg" alt="Entrega" class="signature-image">
+            <h3 class="signature-title">Marcela Garcia Gonzalez</h3>
+            <h3 class="signature-title">Directora de talento humano</h3>
         </div>
         <div class="signature-section float-right">
             <h2 class="signature-title">Recibe:</h2>
