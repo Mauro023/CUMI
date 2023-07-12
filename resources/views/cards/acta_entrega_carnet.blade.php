@@ -108,8 +108,8 @@
     </div>
 
     <h2>ACTA DE ENTREGA</h2>
-    <p>En la ciudad de Montería, a los {{ $deliverDate->format('d') }} días del mes {{ $deliverDate->format('m') }} del
-        año {{ $deliverDate->format('Y') }}, se lleva a cabo la entrega del carnet institusional correspondiente al empleado
+    <p>En la ciudad de <strong>Montería</strong>, a los <strong>{{ $deliverDate->format('d') }}</strong> días del mes <strong>{{ $deliverDate->format('m') }}</strong> del
+        año <strong>{{ $deliverDate->format('Y') }}</strong>, se lleva a cabo la entrega del carnet institusional correspondiente al empleado
         <strong>{{$employeeName}}</strong>, identificado con C.C <strong>{{$employeeDni}}</strong> y desempeñándose en el cargo de <strong>{{$employeeWork}}</strong>, con el
         fin de cumplir con las disposiciones legales y
         garantizar las condiciones laborales adecuadas para el desarrollo de sus funciones.</p>
