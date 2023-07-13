@@ -99,6 +99,13 @@ class endowmentController extends AppBaseController
         $input = $request->except('checkboxInput');
         $input['item'] = json_encode($request->input('checkboxInput'));
         $period = $input['period'];
+
+        $validateDate = $this->validationDate($input['period'], $input['deliver_date'], $input['contract_id']);
+        if($validateDate = true){
+            Flash::error("Dotacion no registrada");
+            return redirect()->route('endowments.index');
+        }
+
         $existingItems = $this->validationRules2($input['period'], $input['contract_id'], $input['deliver_date'], $input['item']);
         if ($existingItems) {
             $existingItemsString = implode(', ', $existingItems);
@@ -215,7 +222,7 @@ class endowmentController extends AppBaseController
         $input['item'] = json_encode($request->input('checkboxInput'));
 
         $period = $input['period'];
-        $count = $this->validationRules($input['period'], $input['contract_id'], $input['deliver_date'], $input['item']);
+        $count = $this->validationRules2($input['period'], $input['contract_id'], $input['deliver_date'], $input['item']);
         if ($count >= 3) {
             Flash::error("Ya se ha realizado el máximo de entregas permitidas en el periodo de '$period'");
             return redirect()->route('endowments.index');
@@ -290,28 +297,30 @@ class endowmentController extends AppBaseController
         ->header('Content-Disposition', 'inline; filename="acta_entrega.pdf"');
     }
 
-    public static function validationRules($period, $id, $deliver_date, $item)
+    public static function validationDate($period, $deliver_date, $id)
     {
+        $validate = false;
         $carbonDate = Carbon::parse($deliver_date);
+
+        $start_date = Contracts::select('start_date_contract')
+        ->where('id', $id)
+        ->first();
+        $start_date = $start_date->start_date_contract;
+
         $year = $carbonDate->format('Y');
-        $items = json_decode($item, true);
-        $itemBD = Endowment::select('item')
-        ->where('period', $period)
-        ->whereYear('deliver_date', $year)
-        ->where('contract_id', $id)
-        ->pluck('item')
-        ->toArray();
+        $month = '';
+        $day = '01';
+        if($period == 'Abril'){$month = '04';}elseif ($period == 'Agosto') {$month = '08';}else {$month = '12';}
 
-        $itemBDArray = [];
+        $date = Carbon::parse(sprintf("%s-%s-%s", $year, $month, $day));
 
-        foreach ($itemBD as $item2) {
-            $decodedItem = json_decode($item2, true);
-            $itemBDArray = array_merge($itemBDArray, $decodedItem);
+        $months_diff = $start_date->diffInMonths($carbonDate);
+        $period_diff = $start_date->diffInMonths($date);
+        if ($carbonDate->lessThan($start_date) || $months_diff < 3 || $period_diff < 3) {
+            $validate = true;
         }
-
-        $existingItems = array_intersect($items, $itemBDArray);
         
-        return $existingItems;
+        return $validate;
     }
 
     public static function validationRules2($period, $id, $deliver_date, $item)
@@ -338,4 +347,21 @@ class endowmentController extends AppBaseController
         
         return $existingItems;
     }
+
+    public function filter(Request $request)
+    {
+        $input = $request->input('dni');
+
+        if ($input) {
+            $endowments = Endowment::whereHas('contracts.employe', function ($query) use ($input) {
+                $query->where('dni', 'LIKE', '%'.$input.'%')
+                    ->orWhere('name', 'LIKE', '%'.$input.'%');
+            })->orderBy('deliver_date')->paginate(500);
+
+            return view('endowments.endowment_show', ['endowments' => $endowments]);
+        } else {
+            return redirect(route('endowments.index'));
+        }
+    }
+
 }

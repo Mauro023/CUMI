@@ -41,7 +41,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($endowments as $endowment)
+                        @foreach($endowments->sortBy('deliver_date') as $endowment)
                         <tr>
                             <td>{{ $endowment->contract_id ? $endowment->contracts->employe->name : 'SIN ID'}}</td>
                             <td>

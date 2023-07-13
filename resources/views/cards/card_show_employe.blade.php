@@ -40,7 +40,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($cards as $card)
+                        @foreach($cards->sortBy('delivery_date_card') as $card)
                         <tr>
                             <td>{{ $card->employe_id ? $card->employe->name : 'Sin ID'}}</td>
                             <td>{{ $card->delivery_date_card->format('Y-m-d') }}</td>

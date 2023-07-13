@@ -34,9 +34,7 @@ class contractsController extends AppBaseController
     public function index(Request $request)
     {
         $this->authorize('view_contracts');
-        $contracts = contracts::join('employes', 'contracts.employe_id', '=', 'employes.id')
-        ->orderBy('employes.name', 'asc')
-        ->paginate(50);
+        $contracts = $this->contractsRepository->paginate(50);
 
         return view('contracts.index')
             ->with('contracts', $contracts);
@@ -116,6 +114,7 @@ class contractsController extends AppBaseController
     {
         $this->authorize('update_contracts');
         $contracts = $this->contractsRepository->find($id);
+        $employes = Employe::orderby('name')->pluck('name', 'id');
 
         if (empty($contracts)) {
             Flash::error('Contracts not found');
@@ -123,7 +122,9 @@ class contractsController extends AppBaseController
             return redirect(route('contracts.index'));
         }
 
-        return view('contracts.edit')->with('contracts', $contracts);
+        return view('contracts.edit')
+        ->with('contracts', $contracts)
+        ->with('employes', $employes);
     }
 
     /**
@@ -187,34 +188,41 @@ class contractsController extends AppBaseController
             WHERE c.deshabilitar != 3");
 
         foreach ($results as $result) {
-            //Se valida que el contrato exista
+            // Se valida que el contrato exista
             $idEmploye = Employe::where('dni', $result->identificacion)->first();
 
-            $existingContracts = Contracts::where('salary', $result->sueldo_basico)
-            ->where('start_date_contract', $result->fecha_inicio_contrato)
-            ->where('employe_id', $idEmploye->id)
-            ->first();
-            
+            //Se busca el contrato del empleado
+            $existingContracts = Contracts::where('start_date_contract', $result->fecha_inicio_contrato)
+                ->where('employe_id', $idEmploye->id)
+                ->first();
+
+            //Si no existe
             if (!$existingContracts) {
                 if ($idEmploye) {
                     $existing = Contracts::where('employe_id', $idEmploye->id)
-                    ->where('start_date_contract', '<', $result->fecha_inicio_contrato)
-                    ->orderBy('start_date_contract', 'desc')
-                    ->first();
-    
+                        ->where('start_date_contract', '<', $result->fecha_inicio_contrato)
+                        ->orderBy('start_date_contract', 'desc')
+                        ->first();
+
                     if ($existing) {
                         // Actualizar el contrato anterior deshabilitándolo
                         $existing->disable = "3";
                         $existing->save();
                     }
-                    
+
                     $newContract = new Contracts();
                     $newContract->salary = $result->sueldo_basico;
                     $newContract->start_date_contract = $result->fecha_inicio_contrato;
                     $newContract->disable = '0';
                     $newContract->employe_id = $idEmploye->id;
-                    
+
                     $newContract->save();         
+                }
+            } else {
+                // Actualizar el contrato existente con el nuevo sueldo
+                if ($existingContracts->salary != $result->sueldo_basico) {
+                    $existingContracts->salary = $result->sueldo_basico;
+                    $existingContracts->save();
                 }
             }
         }
@@ -222,6 +230,7 @@ class contractsController extends AppBaseController
         Flash::success('¡Contratos guardados exitosamente!');
         return redirect(route('contracts.index'));
     }
+
 
     public function filter(Request $request)
     {
