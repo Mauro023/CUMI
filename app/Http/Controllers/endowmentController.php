@@ -101,7 +101,7 @@ class endowmentController extends AppBaseController
         $period = $input['period'];
 
         $validateDate = $this->validationDate($input['period'], $input['deliver_date'], $input['contract_id']);
-        if($validateDate = true){
+        if($validateDate == true){
             Flash::error("Dotacion no registrada");
             return redirect()->route('endowments.index');
         }
@@ -362,6 +362,21 @@ class endowmentController extends AppBaseController
         } else {
             return redirect(route('endowments.index'));
         }
+    }
+
+    public function getItems($period, $deliver_date, $id)
+    {
+        $carbonDate = Carbon::parse($deliver_date);
+        $year = $carbonDate->format('Y');
+        // Realiza la consulta a la base de datos para obtener los items entregados en el periodo especificado
+        $items = Endowment::where('period', $period)
+        ->whereYear('deliver_date', $deliver_date)
+        ->where('contract_id', $id)
+        ->get();
+
+        // Aquí puedes incluir la lógica necesaria para relacionar los items entregados con los empleados correspondientes si es necesario
+
+        return response()->json($items);
     }
 
 }

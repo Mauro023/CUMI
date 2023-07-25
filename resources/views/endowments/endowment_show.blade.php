@@ -3,11 +3,21 @@
 @section('content')
 <section class="content-header">
     <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-            </div>
-            <div class="col-sm-6">
-
+        <div class="row m-t-40">
+            <!-- Column -->
+            <div class="col-md-6 col-lg-3 col-xlg-3">
+                <div class="card">
+                    <div class="card-header bg-gradient-primary content-center text-white">
+                        <i class="fas fa-tshirt fa-3x"></i>
+                    </div>
+                    <div class="card-body row text-center">
+                        <div class="col">
+                            <div class="text-value-xl text-muted"><strong>{{ $endowments->count() }}</strong></div>
+                            <div class="text-uppercase text-muted text-description-card">Dotaciones entregadas
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

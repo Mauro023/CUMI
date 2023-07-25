@@ -17,7 +17,8 @@ class Kernel extends ConsoleKernel
      protected $commands = [
         Commands\TestTask::class,
         Commands\TestTask2::class,
-        Commands\TestTask3::class
+        Commands\TestTask3::class,
+        Commands\TestTask4::class
      ];
 
     protected function schedule(Schedule $schedule)
@@ -26,6 +27,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('test:task')->everyminute();
         $schedule->command('test:task2')->everyminute();
         $schedule->command('test:task3')->everyminute();
+        $schedule->command('test:task4')->everyminute();
     }
 
     /**
