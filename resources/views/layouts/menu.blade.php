@@ -59,7 +59,7 @@
         <!-- Fin Sidebar -->
 
         <!-- Sidebar -->
-        @canany(['view_calendars', 'view_attendances'])
+        @canany(['view_calendars', 'view_attendances', 'view_logistic'])
         <li class="nav-item has-treeview">
             <a class="nav-link">
                 <i class="fas fa-hourglass-half"></i>
@@ -84,6 +84,15 @@
                         class="nav-link {{ Request::is('attendances*') ? 'active' : '' }}">
                         <span class="fas fa-fingerprint"></span>
                         <p><strong>Asistencias</strong></p>
+                    </a>
+                    @endcan
+                </li>
+                <li class="nav-item">
+                    @can('view_logistic')
+                    <a href="{{ route('attendanceReport.logistic') }}"
+                        class="nav-link {{ Request::is('logistic*') ? 'active' : '' }}">
+                        <span class="fas fa-cannabis"></span>
+                        <p><strong>Logistica</strong></p>
                     </a>
                     @endcan
                 </li>

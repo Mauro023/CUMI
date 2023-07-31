@@ -56,7 +56,7 @@
         <p class="text-center"><strong>Bienvenido a CumiSystem, una página para la gestión de datos.</strong></p>
         <p class="text-center"><strong>Para iniciar sesión haga click en el botòn de abajo</strong></p>
         <div class="text-center">
-          <a class="btn btn-access" href="http://CumiSystem/CUMI/public">Acceder a CumiSystem</a>
+          <a class="btn btn-access" href="http://10.1.11.239:8383/CUMI/public">Acceder a CumiSystem</a>
         </div>
       </div>
     </div>

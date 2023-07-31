@@ -50,4 +50,16 @@ class AttendanceReportController extends Controller
 
         return view('attendanceReports.finished', compact('attendances'));
     }
+
+    public function logistics() {
+        $attendances = Attendance::join('employes', 'attendances.employe_id', '=', 'employes.id')
+            ->where('employes.work_position', 'Logistica')
+            ->orWhere('employes.work_position', 'Auxiliar de servicios generales')
+            ->orWhere('employes.work_position', 'Auxiliar de ropa hospitalaria')
+            ->orderBy('workday', 'DESC')
+            ->orderBy('aentry_time', 'desc')
+            ->paginate(50);
+        
+            return view('attendanceReports.logistic', compact('attendances'));
+    }
 }

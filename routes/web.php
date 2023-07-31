@@ -59,6 +59,8 @@ Route::get('/attendanceReport/workingAndFinished', [App\Http\Controllers\Attenda
 Route::get('/attendanceReport/finished', [App\Http\Controllers\AttendanceReportController::class, 'getFinished'])->name('attendanceReport.finished');
 Route::get('/attendanceTime/attendanceNot', [App\Http\Controllers\AttendanceTimeController::class, 'attendanceNot'])->name('attendanceTime.attendanceNot');
 Route::view('/counts', 'attendances.count')->name('attendances.count');
+Route::get('/attendanceReport/logistic', [App\Http\Controllers\AttendanceReportController::class, 'logistics'])->name('attendanceReport.logistic');
+
 
 //Ruta filtros
 Route::post('/filterUser', [App\Http\Controllers\Admin\UsersController::class, 'filter'])->name('users.filter');
