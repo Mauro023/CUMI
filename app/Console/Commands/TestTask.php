@@ -72,7 +72,7 @@ class TestTask extends Command
                     $attendance->save();
                     Log::info("Attendance updated morning: " . $attendance->id);
                 }
-            }elseif ($horaActual->greaterThanOrEqualTo(Carbon::parse('21:00:00')) && $horaActual->lessThanOrEqualTo(Carbon::parse('22:00:00'))) {
+            }elseif ($horaActual->greaterThanOrEqualTo(Carbon::parse('22:00:00')) && $horaActual->lessThanOrEqualTo(Carbon::parse('22:30:00'))) {
                 $attendance->update(['adeparture_time' => '00:00:00']);
                 $attendance->save();
                 Log::info("Attendance updated affternon: " . $attendance->id);

@@ -59,7 +59,7 @@ class TestTask4 extends Command
             
             $horaEntrada = Carbon::parse($attendance->aentry_time);
             $horaActual = now();
-            if ($horaActual->greaterThanOrEqualTo(Carbon::parse('21:00:00')) && $horaActual->lessThanOrEqualTo(Carbon::parse('22:00:00'))) {
+            if ($horaActual->greaterThanOrEqualTo(Carbon::parse('22:00:00')) && $horaActual->lessThanOrEqualTo(Carbon::parse('23:00:00'))) {
                 $attendance->update(['adeparture_time' => '00:00:00']);
                     $attendance->save();
                     Log::info("Attendance updated care: " . $attendance->id);
