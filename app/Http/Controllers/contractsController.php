@@ -182,11 +182,16 @@ class contractsController extends AppBaseController
 
     public function getContracts()
     {
-        $results = DB::connection('sqlsrv')->select("SELECT e.id, e.identificacion, e.nombre_completo, c.codigo, c.fecha_inicio_contrato, c.sueldo_basico, c.deshabilitar, c.id_empleado
-            FROM contratos c 
-            JOIN empleado e ON e.id = c.id_empleado
-            WHERE c.deshabilitar != 3");
-
+        $results = DB::connection('sqlsrv')->select("SELECT e.identificacion, e.nombre_completo, 
+            c.codigo, ca.descripcion AS cargo, 
+            u.descripcion AS UFuncional, c.fecha_inicio_contrato, 
+            c.sueldo_basico, c.deshabilitar 
+            FROM contratos c
+            JOIN empleado e ON c.id_empleado = e.id
+            JOIN cargos ca ON ca.id = c.id_cargos
+            JOIN unidades_funcionales u ON u.id = c.id_unidades_funcionales
+            WHERE c.sueldo_basico > 900000 AND c.deshabilitar != 3 AND c.deshabilitar != 1");
+                    
         foreach ($results as $result) {
             // Se valida que el contrato exista
             $idEmploye = Employe::where('dni', $result->identificacion)->first();

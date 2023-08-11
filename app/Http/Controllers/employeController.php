@@ -187,11 +187,16 @@ class employeController extends AppBaseController
 
     public function getEmployees()
     {
-        $results = DB::connection('sqlsrv')->select("SELECT e.identificacion, e.nombre_completo, c.codigo, c.fecha_inicio_contrato, c.sueldo_basico, c.deshabilitar
-            FROM contratos c 
-            JOIN empleado e ON e.id = c.id_empleado
-            WHERE c.deshabilitar != 3");
-
+        $results = DB::connection('sqlsrv')->select("SELECT e.identificacion, e.nombre_completo, 
+        c.codigo, ca.descripcion AS cargo, 
+        u.descripcion AS UFuncional, c.fecha_inicio_contrato, 
+        c.sueldo_basico, c.deshabilitar 
+        FROM contratos c
+        JOIN empleado e ON c.id_empleado = e.id
+        JOIN cargos ca ON ca.id = c.id_cargos
+        JOIN unidades_funcionales u ON u.id = c.id_unidades_funcionales
+        WHERE c.sueldo_basico > 900000 AND c.deshabilitar != 3 AND c.deshabilitar != 1");
+        dd($results);
         foreach ($results as $result) {
             //Se valida que el empleado esté registrado
             $existingEmploye = Employe::where('dni', $result->identificacion)->first();
@@ -200,9 +205,9 @@ class employeController extends AppBaseController
                 $newEmploye = new Employe();
                 $newEmploye->dni = $result->identificacion;
                 $newEmploye->name = $result->nombre_completo;
-                $newEmploye->work_position = 'Pendiente';
+                $newEmploye->work_position = $result->cargo;
                 $newEmploye->unit = 'Pendiente';
-                $newEmploye->cost_center = 'Piso 1';
+                $newEmploye->cost_center = $result->UFuncional;
                 
                 $newEmploye->save();
             }
@@ -215,9 +220,15 @@ class employeController extends AppBaseController
 
     public function updateEmployees()
     {
-        $results = DB::connection('sqlsrv')->select("SELECT e.identificacion, e.nombre_completo, c.codigo, c.fecha_inicio_contrato, c.sueldo_basico, c.deshabilitar
-        FROM contratos c 
-        JOIN empleado e ON e.id = c.id_empleado");
+        $results = DB::connection('sqlsrv')->select("SELECT e.identificacion, e.nombre_completo, 
+        c.codigo, ca.descripcion AS cargo, 
+        u.descripcion AS UFuncional, c.fecha_inicio_contrato, 
+        c.sueldo_basico, c.deshabilitar 
+        FROM contratos c
+        JOIN empleado e ON c.id_empleado = e.id
+        JOIN cargos ca ON ca.id = c.id_cargos
+        JOIN unidades_funcionales u ON u.id = c.id_unidades_funcionales
+        WHERE c.sueldo_basico > 900000 AND c.deshabilitar != 3 AND c.deshabilitar != 1");
 
         foreach ($results as $result) {
             $empleadoId = $result->identificacion;

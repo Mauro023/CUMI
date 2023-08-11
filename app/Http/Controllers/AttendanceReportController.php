@@ -53,9 +53,9 @@ class AttendanceReportController extends Controller
 
     public function logistics() {
         $attendances = Attendance::join('employes', 'attendances.employe_id', '=', 'employes.id')
-            ->where('employes.work_position', 'Logistica')
+            ->where('employes.work_position', 'PROFESIONAL LOGISTICA')
             ->orWhere('employes.work_position', 'Auxiliar de servicios generales')
-            ->orWhere('employes.work_position', 'Auxiliar de ropa hospitalaria')
+            ->orWhere('employes.work_position', 'Auxiliar de ropa intrahospitalaria')
             ->orderBy('workday', 'DESC')
             ->orderBy('aentry_time', 'desc')
             ->paginate(50);

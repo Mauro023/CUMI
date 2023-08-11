@@ -12,8 +12,6 @@
             </a>
         </li>
 
-
-
         @can('view_user')
         <li class="nav-item">
             <a href="{{ route('admin.users.index') }}"
@@ -91,7 +89,7 @@
                     @can('view_logistic')
                     <a href="{{ route('attendanceReport.logistic') }}"
                         class="nav-link {{ Request::is('logistic*') ? 'active' : '' }}">
-                        <span class="fas fa-cannabis"></span>
+                        <span class="fas fa-tree"></span>
                         <p><strong>Logistica</strong></p>
                     </a>
                     @endcan
