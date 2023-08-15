@@ -70,12 +70,16 @@ Route::post('/filterCalendar', [App\Http\Controllers\CalendarController::class, 
 Route::post('/filterCard', [App\Http\Controllers\CardController::class, 'filter'])->name('card.filter');
 Route::post('/filterContract', [App\Http\Controllers\ContractsController::class, 'filter'])->name('contract.filter');
 Route::post('/filterEndowment', [App\Http\Controllers\EndowmentController::class, 'filter'])->name('endowment.filter');
+Route::post('/filterLogistic', [App\Http\Controllers\AttendanceReportController::class, 'filterLogistic'])->name('logistic.filter');
 
 //Generar calendarios
 Route::get('/generar-calendarios', [App\Http\Controllers\CalendarController::class, 'calendarGenerator'])->name('calendars.generate');
 
 //Importar excel
 Route::post('import', [App\Http\Controllers\ImportController::class, 'import'])->name('import');
+
+//Exportar excel
+Route::post('export', [App\Http\Controllers\endowmentController::class, 'export'])->name('export');
 
 Route::resource('contracts', App\Http\Controllers\contractsController::class);
 

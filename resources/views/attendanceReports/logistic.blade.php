@@ -63,4 +63,54 @@
         </div>
     </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-green">
+                <h5 class="modal-title" id="staticBackdropLabel"><strong>Filtrar asistencias</strong></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {!! Form::open(['route' => ['logistic.filter'], 'method' => 'post', 'class' => 'row
+                col-sm-12
+                mt-4'])!!}
+                <div class="row">
+                    <div class="form-group col-sm-6">
+                        {!! Form::label('workday', 'Fecha inicial:') !!}
+                        {!! Form::text('workday', null, ['class' => 'form-control','id'=>'start_date'
+                        ,'name'=>'start_date',
+                        'placeholder'=>'Fecha de inicio']) !!}
+                    </div>
+                    <div class="form-group col-sm-6">
+                        {!! Form::label('workday', 'Fecha final:') !!}
+                        {!! Form::text('workday', null, ['class' =>
+                        'form-control','id'=>'end_date','name'=>'end_date',
+                        'placeholder'=>'Fecha de finalizacion']) !!}
+                    </div>
+                </div>
+                <div class="row">
+
+                    <label>Nombre:</label>
+                    <div class="input-group mb-3">
+                        <div class="sm-4">
+
+                            {!! Form::label('name', 'Nombre:', 'hidden') !!}
+                            {!! Form::text('name', null, ['class' => 'form-control','id'=>'name'
+                            ,'name'=>'name',
+                            'placeholder'=>'Digite el nombre']) !!}
+                        </div>
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-dark form-control">
+                                <span class="fas fa-search"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {!! Form::close() !!}
+        </div>
+    </div>
+</div>
 @endsection

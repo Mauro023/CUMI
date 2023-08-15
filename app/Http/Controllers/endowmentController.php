@@ -8,6 +8,8 @@ use App\Repositories\endowmentRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\EmployeExport;
 use Flash;
 use Response;
 use PDF;
@@ -377,6 +379,11 @@ class endowmentController extends AppBaseController
         // Aquí puedes incluir la lógica necesaria para relacionar los items entregados con los empleados correspondientes si es necesario
 
         return response()->json($items);
+    }
+
+    public function export() 
+    {
+        return Excel::download(new EmployeExport, 'Empleados.xlsx');
     }
 
 }

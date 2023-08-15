@@ -62,4 +62,37 @@ class AttendanceReportController extends Controller
         
             return view('attendanceReports.logistic', compact('attendances'));
     }
+
+    public function filterLogistic(Request $request)
+    {
+        $input = $request->all();
+        if ($input) {
+            $query = Attendance::query();
+    
+            // Búsqueda por nombre de empleado
+            if ($request->filled('name')) {
+                $query->join('employes', 'attendances.employe_id', '=', 'employes.id')
+                ->where('employes.name', 'LIKE', '%'.$request->input('name').'%')
+                ->whereIn('employes.work_position', ['PROFESIONAL LOGISTICA', 'Auxiliar de servicios generales', 'Auxiliar de ropa intrahospitalaria'])
+                ->orderBy('workday', 'DESC');
+            }
+    
+            // Búsqueda por fecha
+            if ($request->filled('start_date') && $request->filled('end_date')) {
+                $query->whereBetween('workday', [$request->input('start_date'), $request->input('end_date')]);
+            }
+    
+            // Ordenar por fecha de inicio ascendente
+            $query->orderBy('workday', 'desc');
+    
+            $attendances = $query->paginate(500);
+    
+            return view('attendanceReports.logistic')
+                ->with('attendances', $attendances);  
+        }else {
+            return redirect(route('attendanceReports.logistic'));
+        }
+    }
+
+    
 }
