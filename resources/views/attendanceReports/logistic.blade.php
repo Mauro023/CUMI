@@ -78,18 +78,6 @@
                 col-sm-12
                 mt-4'])!!}
                 <div class="row">
-                    <div class="form-group col-sm-6">
-                        {!! Form::label('workday', 'Fecha inicial:') !!}
-                        {!! Form::text('workday', null, ['class' => 'form-control','id'=>'start_date'
-                        ,'name'=>'start_date',
-                        'placeholder'=>'Fecha de inicio']) !!}
-                    </div>
-                    <div class="form-group col-sm-6">
-                        {!! Form::label('workday', 'Fecha final:') !!}
-                        {!! Form::text('workday', null, ['class' =>
-                        'form-control','id'=>'end_date','name'=>'end_date',
-                        'placeholder'=>'Fecha de finalizacion']) !!}
-                    </div>
                 </div>
                 <div class="row">
 

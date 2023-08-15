@@ -78,9 +78,9 @@ class AttendanceReportController extends Controller
             }
     
             // Búsqueda por fecha
-            if ($request->filled('start_date') && $request->filled('end_date')) {
-                $query->whereBetween('workday', [$request->input('start_date'), $request->input('end_date')]);
-            }
+            //if ($request->filled('start_date') && $request->filled('end_date')) {
+                //$query->whereBetween('workday', [$request->input('start_date'), $request->input('end_date')]);
+            //}
     
             // Ordenar por fecha de inicio ascendente
             $query->orderBy('workday', 'desc');
