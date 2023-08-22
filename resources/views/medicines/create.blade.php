@@ -57,8 +57,9 @@
         </div>
 
         <div class="card-footer">
-            {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
+            {!! Form::submit('Save', ['class' => 'btn btn-success']) !!}
             <a href="{{ route('medicines.index') }}" class="btn btn-default">Cancel</a>
+            <a href="{{ route('medicines.index') }}" class="btn btn-primary">Agregar plantilla</a>
         </div>
 
         {!! Form::close() !!}

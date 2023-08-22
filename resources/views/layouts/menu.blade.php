@@ -152,7 +152,8 @@
         <li class="nav-item">
             @can('view_medicines')
             <a href="{{ route('medicines.index') }}" class="nav-link {{ Request::is('medicines*') ? 'active' : '' }}">
-                <p>Medicinas</p>
+                <span class="fas fa-capsules"></span>
+                <p><strong>Medicamentos</strong></p>
             </a>
             @endcan
         </li>

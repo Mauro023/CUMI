@@ -196,7 +196,6 @@ class employeController extends AppBaseController
         JOIN cargos ca ON ca.id = c.id_cargos
         JOIN unidades_funcionales u ON u.id = c.id_unidades_funcionales
         WHERE c.sueldo_basico > 900000 AND c.deshabilitar != 3 AND c.deshabilitar != 1");
-        dd($results);
         foreach ($results as $result) {
             //Se valida que el empleado esté registrado
             $existingEmploye = Employe::where('dni', $result->identificacion)->first();
