@@ -2,88 +2,45 @@
     <table class="table" id="medicines-table">
         <thead>
         <tr>
-            <th>Admission Date</th>
-        <th>Act Number</th>
-        <th>Generic Name</th>
-        <th>Tradename</th>
-        <th>Concentration</th>
-        <th>Pharmaceutical Form</th>
-        <th>Presentation</th>
-        <th>Expiration Date</th>
-        <th>Lot Number</th>
-        <th>Health Register</th>
-        <th>Registration Validity</th>
-        <th>Observation Record</th>
-        <th>Manufacturer Laboratory</th>
-        <th>Supplier</th>
-        <th>Invoice Number</th>
-        <th>Received Amount</th>
-        <th>Purchase Order</th>
-        <th>Entered By</th>
-        <th>Sample</th>
-        <th>Lettering</th>
-        <th>Packing</th>
-        <th>Laminate</th>
-        <th>Closing</th>
-        <th>All</th>
-        <th>Liquids</th>
-        <th>Semisolid</th>
-        <th>Dust</th>
-        <th>Tablet</th>
-        <th>Capsule</th>
-        <th>Arrival Temperature</th>
-        <th>Observations</th>
-        <th>State</th>
-            <th colspan="3">Action</th>
+            <th>Fecha ingreso</th>
+            <th># Acta</th>
+            <th>Nombre generico</th>
+            <th>Numero lote</th>
+            <th>Registro sanitario</th>
+            <th>Ingresado por</th>
+            <th>Estado</th>
+            <th colspan="3">Acciones</th>
         </tr>
         </thead>
         <tbody>
         @foreach($medicines as $medicine)
             <tr>
-                <td>{{ $medicine->admission_date }}</td>
-            <td>{{ $medicine->act_number }}</td>
-            <td>{{ $medicine->generic_name }}</td>
-            <td>{{ $medicine->tradename }}</td>
-            <td>{{ $medicine->concentration }}</td>
-            <td>{{ $medicine->pharmaceutical_form }}</td>
-            <td>{{ $medicine->presentation }}</td>
-            <td>{{ $medicine->expiration_date }}</td>
-            <td>{{ $medicine->lot_number }}</td>
-            <td>{{ $medicine->health_register }}</td>
-            <td>{{ $medicine->registration_validity }}</td>
-            <td>{{ $medicine->observation_record }}</td>
-            <td>{{ $medicine->manufacturer_laboratory }}</td>
-            <td>{{ $medicine->supplier }}</td>
-            <td>{{ $medicine->invoice_number }}</td>
-            <td>{{ $medicine->received_amount }}</td>
-            <td>{{ $medicine->purchase_order }}</td>
-            <td>{{ $medicine->entered_by }}</td>
-            <td>{{ $medicine->sample }}</td>
-            <td>{{ $medicine->lettering }}</td>
-            <td>{{ $medicine->packing }}</td>
-            <td>{{ $medicine->laminate }}</td>
-            <td>{{ $medicine->closing }}</td>
-            <td>{{ $medicine->all }}</td>
-            <td>{{ $medicine->liquids }}</td>
-            <td>{{ $medicine->semisolid }}</td>
-            <td>{{ $medicine->dust }}</td>
-            <td>{{ $medicine->tablet }}</td>
-            <td>{{ $medicine->capsule }}</td>
-            <td>{{ $medicine->arrival_temperature }}</td>
-            <td>{{ $medicine->observations }}</td>
-            <td>{{ $medicine->state }}</td>
+                <td>{{ $medicine->admission_date->format('Y-m-d') }}</td>
+                <td class="text-center">{{ $medicine->act_number }}</td>
+                <td>{{ $medicine->generic_name }}
+                    <br>
+                    <small style="color: #69C5A0"><strong>{{ $medicine->concentration }}</strong></small>
+                    <small style="color: #69C5A0"><strong>{{ $medicine->pharmaceutical_form }}</strong></small></td>
+                <td>{{ $medicine->lot_number }}</td>
+                <td>{{ $medicine->invima_registrations_id ? $medicine->invima_registration->health_register : 'Sin ID'}}
+                <br>
+                <small style="color: #69C5A0"><strong>
+                    {{ $medicine->invima_registrations_id ? $medicine->invima_registration->laboratory_manufacturer : 'Sin ID'}}</strong></small>
+                </td>
+                <td>{{ $medicine->entered_by }}</td>
+                <td>{{ $medicine->state }}</td>
                 <td width="120">
                     {!! Form::open(['route' => ['medicines.destroy', $medicine->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>
                         <a href="{{ route('medicines.show', [$medicine->id]) }}"
                            class='btn btn-default btn-xs'>
-                            <i class="far fa-eye"></i>
+                            <i class="far fa-eye" style="color: #13A4DA"></i>
                         </a>
                         <a href="{{ route('medicines.edit', [$medicine->id]) }}"
                            class='btn btn-default btn-xs'>
-                            <i class="far fa-edit"></i>
+                            <i class="far fa-edit" style="color: #6c6d77"></i>
                         </a>
-                        {!! Form::button('<i class="far fa-trash-alt"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
+                        {!! Form::button('<i class="far fa-trash-alt" style="color: #da1b1b"></i>', ['type' => 'submit', 'class' => 'btn btn-default btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
                     </div>
                     {!! Form::close() !!}
                 </td>

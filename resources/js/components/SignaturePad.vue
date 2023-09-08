@@ -63,7 +63,7 @@ export default defineComponent({
   border: double 3px transparent;
   border-radius: 5px;
   background-image: linear-gradient(white, white),
-    radial-gradient(circle at top left, #A3BF18, #00B0EA);
+    radial-gradient(circle at top left, lightgreen, #14ABE3);
   background-origin: border-box;
   background-clip: content-box, border-box;
 }

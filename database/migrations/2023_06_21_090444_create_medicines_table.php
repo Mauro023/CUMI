@@ -15,7 +15,7 @@ class CreateMedicinesTable extends Migration
     public function up()
     {
         Schema::create('medicines', function (Blueprint $table) {
-            $table->id('id');
+            $table->increments('id');
             $table->date('admission_date');
             $table->integer('act_number');
             $table->string('generic_name');
@@ -25,7 +25,7 @@ class CreateMedicinesTable extends Migration
             $table->string('presentation');
             $table->date('expiration_date');
             $table->string('lot_number');
-            $table->string('health_register');
+            $table->integer('invima_registrations_id')->unsigned();
             $table->date('registration_validity');
             $table->string('observation_record');
             $table->string('manufacturer_laboratory');
@@ -35,21 +35,22 @@ class CreateMedicinesTable extends Migration
             $table->string('purchase_order');
             $table->string('entered_by');
             $table->integer('sample');
-            $table->string('lettering');
-            $table->string('packing');
-            $table->string('laminate');
-            $table->string('closing');
-            $table->string('all');
-            $table->string('liquids');
-            $table->string('semisolid');
-            $table->string('dust');
-            $table->string('tablet');
-            $table->string('capsule');
+            $table->string('lettering')->nullable();
+            $table->string('packing')->nullable();
+            $table->string('laminate')->nullable();
+            $table->string('closing')->nullable();
+            $table->string('all')->nullable();
+            $table->string('liquids')->nullable();
+            $table->string('semisolid')->nullable();
+            $table->string('dust')->nullable();
+            $table->string('tablet')->nullable();
+            $table->string('capsule')->nullable();
             $table->string('arrival_temperature');
-            $table->string('observations');
+            $table->string('observations')->nullable();
             $table->string('state');
             $table->timestamps();
             $table->softDeletes();
+            $table->foreign('invima_registrations_id')->references('id')->on('invima_registration');
         });
     }
 

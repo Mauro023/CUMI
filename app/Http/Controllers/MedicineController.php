@@ -9,6 +9,9 @@ use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
+use App\Models\Invima_registration;
+use App\Models\MedicationTemplate;
+use App\Models\Medicine;
 
 class MedicineController extends AppBaseController
 {
@@ -44,7 +47,13 @@ class MedicineController extends AppBaseController
     public function create()
     {
         $this->authorize('create_medicines');
-        return view('medicines.create');
+        $invima = Invima_registration::all();
+        $plantilla = MedicationTemplate::all();
+        $lastActNumber = Medicine::latest('act_number')->value('act_number');
+        $temperature = 'N/A';
+        $today = now()->format('Y-m-d');
+        $lastFact = Medicine::latest('invoice_number')->value('invoice_number');
+        return view('medicines.create', compact('invima', 'plantilla', 'lastActNumber', 'temperature', 'today', 'lastFact'));
     }
 
     /**
@@ -58,7 +67,7 @@ class MedicineController extends AppBaseController
     {
         $this->authorize('create_medicines');
         $input = $request->all();
-
+        //dd($input);
         $medicine = $this->medicineRepository->create($input);
 
         Flash::success('Medicine saved successfully.');
@@ -105,7 +114,14 @@ class MedicineController extends AppBaseController
             return redirect(route('medicines.index'));
         }
 
-        return view('medicines.edit')->with('medicine', $medicine);
+        $temperature = $medicine->arrival_temperature;
+        $today = $medicine->admission_date;
+        $lastActNumber = $medicine->act_number;
+        $lastFact = $medicine->invoice_number;
+        $invima = Invima_registration::all();
+        $plantilla = MedicationTemplate::all();
+
+        return view('medicines.edit', compact('medicine', 'temperature', 'today', 'lastActNumber', 'lastFact', 'plantilla', 'invima'));
     }
 
     /**

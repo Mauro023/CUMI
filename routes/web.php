@@ -104,3 +104,11 @@ Route::get('/updateemployees', [App\Http\Controllers\EmployeController::class, '
 
 //Contracts
 Route::get('/getContracts', [App\Http\Controllers\contractsController::class, 'getContracts'])->name('get.contracts');
+
+
+
+
+Route::resource('invimaRegistrations', App\Http\Controllers\invima_registrationController::class);
+
+
+Route::resource('medicationTemplates', App\Http\Controllers\medicationTemplateController::class);

@@ -26,7 +26,7 @@ class MedicineRepository extends BaseRepository
         'presentation',
         'expiration_date',
         'lot_number',
-        'health_register',
+        'invima_registrations_id',
         'registration_validity',
         'observation_record',
         'manufacturer_laboratory',

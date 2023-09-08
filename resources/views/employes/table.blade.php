@@ -26,6 +26,7 @@
                 <td class="text-center" style="vertical-align: middle">{{ $employe->cost_center }}</td>
                 <td>
                     
+                    {!! Form::open(['route' => ['employes.destroy', $employe->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>
                         @can('show_employes')
                         <button type="button" class='btn btn-default btn-xs' 
@@ -40,7 +41,6 @@
                             </a>
                         @endcan
                         @can('destroy_employes')
-                        {!! Form::open(['route' => ['employes.destroy', $employe->id], 'method' => 'delete']) !!}
                             {!! Form::button('<i class="far fa-trash-alt" style="color: #da1b1b"></i>', ['type' => 'submit', 'class' => 'btn btn-default btn-xs', 'onclick' => "return confirm('Se necesita confirmacion para realizar este proceso')"]) !!}
                         {!! Form::close() !!}
                         @endcan

@@ -1,13 +1,13 @@
 <div class="form-group row">
     <!-- Admission Date Field -->
-    {!! Form::label('admission_date', 'Fecha de ingreso:', ['class' => 'col-sm-2 col-form-label']) !!}
-    <div class="col-sm-3">
-        {!! Form::text('admission_date', now()->format('Y-m-d'), ['class' => 'form-control','id'=>'admission_date']) !!}
+    <div class="form-group col-sm-3">
+        {!! Form::label('admission_date', 'Fecha de ingreso:') !!}
+        {!! Form::text('admission_date', $today ?? '', ['class' => 'form-control','id'=>'admission_date']) !!}
     </div>
     <!-- Act Number Field -->
-    {!! Form::label('act_number', 'Número de acta:', ['class' => 'col-sm-2 col-form-label']) !!}
-    <div class="col-sm-3">
-        {!! Form::number('act_number', null, ['class' => 'form-control']) !!}
+    <div class="form-group col-sm-3">
+        {!! Form::label('act_number', 'Número de acta:') !!}
+        {!! Form::number('act_number', $lastActNumber ?? '', ['class' => 'form-control']) !!}
     </div>
 </div>
 
@@ -21,31 +21,10 @@
 </script>
 @endpush
 
-<div class="form-group row">
-    <!-- Generic Name Field -->
-    {!! Form::label('generic_name', 'Nombre generico:', ['class' => 'col-sm-2 col-form-label']) !!}
-    <div class="col-sm-3">
-        {!! Form::text('generic_name', null, ['class' => 'form-control']) !!}
-    </div>
-    <!-- Tradename Field -->
-    {!! Form::label('tradename', 'Nombre comercial:', ['class' => 'col-sm-2 col-form-label']) !!}
-    <div class="col-sm-3">
-        {!! Form::text('tradename', null, ['class' => 'form-control']) !!}
-    </div>
-</div>
-
-<!-- Concentration Field -->
-<div class="form-group row">
-    {!! Form::label('concentration', 'Concentracion:', ['class' => 'col-sm-2 col-form-label']) !!}
-    <div class="col-sm-3">
-        {!! Form::text('concentration', null, ['class' => 'form-control']) !!}
-    </div>
-</div>
-
 <!-- Medicine Field -->
 <div id="app">
     <template>
-        <reception-medicines></reception-medicines>
+        <reception-medicines :data='@json($plantilla ?? null)' :invima='@json($invima ?? null)' :medicine='@json($medicine ?? null)'></reception-medicines>
     </template>
 </div>
 
@@ -53,21 +32,12 @@
 
 <div class="form-group row">
     <!-- Expiration Date Field -->
-    {!! Form::label('expiration_date', 'Fecha de vencimiento:', ['class' => 'col-sm-2 col-form-label']) !!}
-    <div class="col-sm-3">
-        {!! Form::text('expiration_date', null, ['class' => 'form-control','id'=>'expiration_date']) !!}
-    </div>
-    <!-- Presentation Field -->
-    {!! Form::label('presentation', 'Presentacion:', ['class' => 'col-sm-2 col-form-label']) !!}
-    <div class="col-sm-3">
-        {!! Form::text('presentation', null, ['class' => 'form-control']) !!}
-    </div>
 </div>
 
 @push('page_scripts')
 <script type="text/javascript">
     $('#expiration_date').datetimepicker({
-            format: 'YYYY-MM-DD',
+        format: 'YYYY-MM-DD',
             useCurrent: true,
             sideBySide: true
         })
@@ -76,27 +46,23 @@
 
 <!-- Lot Number Field -->
 <div class="form-group row">
-    {!! Form::label('lot_number', 'Número de lote:', ['class' => 'col-sm-2 col-form-label']) !!}
     <div class="col-sm-3">
+        {!! Form::label('expiration_date', 'Fecha de vencimiento:') !!}
+        {!! Form::text('expiration_date', null, ['class' => 'form-control','id'=>'expiration_date']) !!}
+    </div>
+    <div class="col-sm-3">
+        {!! Form::label('lot_number', 'Número de lote:') !!}
         {!! Form::text('lot_number', null, ['class' => 'form-control']) !!}
     </div>
-    <!-- Health Register Field -->
-    {!! Form::label('health_register', 'Registro sanitario:', ['class' => 'col-sm-2 col-form-label']) !!}
+    <!-- Supplier Field -->
     <div class="col-sm-3">
-        {!! Form::text('health_register', null, ['class' => 'form-control']) !!}
+        {!! Form::label('supplier', 'Proveedor:') !!}
+        {!! Form::text('supplier', null, ['class' => 'form-control']) !!}
     </div>
-</div>
-
-<div class="form-group row">
-    <!-- Registration Validity Field -->
-    {!! Form::label('registration_validity', 'Vigencia de registro:', ['class' => 'col-sm-2 col-form-label']) !!}
+    <!-- Invoice Number Field -->
     <div class="col-sm-3">
-        {!! Form::text('registration_validity', null, ['class' => 'form-control','id'=>'registration_validity']) !!}
-    </div>
-    <!-- Observation Record -->
-    {!! Form::label('observation_record', 'Observacion de registro:', ['class' => 'col-sm-2 col-form-label']) !!}
-    <div class="col-sm-3">
-        {!! Form::textArea('observation_record', null, ['class' => 'form-control', 'style' => 'height:40px']) !!}
+        {!! Form::label('invoice_number', 'Número de factura:') !!}
+        {!! Form::text('invoice_number', $lastFact ?? '', ['class' => 'form-control']) !!}
     </div>
 </div>
 
@@ -109,32 +75,6 @@
         })
 </script>
 @endpush
-
-<div class="form-group row">
-    <!-- Manufacturer Laboratory Field -->
-    {!! Form::label('manufacturer_laboratory', 'Laboratorio fabricante:', ['class' => 'col-sm-2 col-form-label']) !!}
-    <div class="col-sm-3">
-        {!! Form::text('manufacturer_laboratory', null, ['class' => 'form-control']) !!}
-    </div>
-    <!-- Supplier Field -->
-    {!! Form::label('supplier', 'Proveedor:', ['class' => 'col-sm-2 col-form-label']) !!}
-    <div class="col-sm-3">
-        {!! Form::text('supplier', null, ['class' => 'form-control']) !!}
-    </div>
-</div>
-
-<div class="form-group row">
-    <!-- Invoice Number Field -->
-    {!! Form::label('invoice_number', 'Número de factura:', ['class' => 'col-sm-2 col-form-label']) !!}
-    <div class="col-sm-3">
-        {!! Form::text('invoice_number', null, ['class' => 'form-control']) !!}
-    </div>
-    <!-- Received Amount Field -->
-    {!! Form::label('received_amount', 'Cantidad recibida:', ['class' => 'col-sm-2 col-form-label']) !!}
-    <div class="col-sm-3">
-        {!! Form::number('received_amount', null, ['class' => 'form-control']) !!}
-    </div>
-</div>
 
 <!-- Purchase Order Field -->
 <div class="form-group row">
@@ -170,26 +110,19 @@
 
 <!-- Sample Field -->
 <div class="form-group row">
-    {!! Form::label('sample', 'Muestras recibidas:', ['class' => 'col-sm-2 col-form-label']) !!}
-    <div class="col-sm-3">
-        {!! Form::number('sample', null, ['class' => 'form-control']) !!}
-    </div>
     <!-- Arrival Temperature Field -->
-    {!! Form::label('arrival_temperature', 'Temperatura de llegada (°C):', ['class' => 'col-sm-2 col-form-label']) !!}
     <div class="col-sm-3">
-        {!! Form::text('arrival_temperature', null, ['class' => 'form-control']) !!}
+        {!! Form::label('arrival_temperature', 'Temperatura de llegada (°C):') !!}
+        {!! Form::text('arrival_temperature', $temperature ?? '', ['class' => 'form-control']) !!}
     </div>
-</div>
-
-<!-- Observations Field -->
-<div class="form-group row">
-    {!! Form::label('observations', 'Observaciones:', ['class' => 'col-sm-2 col-form-label']) !!}
+    <!-- Observations Field -->
     <div class="col-sm-3">
+        {!! Form::label('observations', 'Observaciones:') !!}
         {!! Form::textArea('observations', null, ['class' => 'form-control', 'style' => 'height:40px']) !!}
     </div>
     <!-- Entered By Field -->
-    {!! Form::label('entered_by', 'Ingresado por:', ['class' => 'col-sm-2 col-form-label']) !!}
     <div class="col-sm-3">
+        {!! Form::label('entered_by', 'Ingresado por:') !!}
         {!! Form::text('entered_by', Auth::user()->name, ['class' => 'form-control', 'readonly' => 'readonly']) !!}
     </div>
 </div>
@@ -210,14 +143,16 @@
                     <td>{!! Form::label('state', 'Estado:', ['class' => 'col-sm-6 col-form-label']) !!}</td>
                     <td>
                         <div class="form-check">
-                            {!! Form::radio('state', 'Aceptado', true, ['class' => 'form-check-input']) !!}</td>
-                        </div>
-                    <td>
-                        <div class="form-check">
-                            {!! Form::radio('state', 'Rechazado', null, ['class' => 'form-check-input']) !!}</td>
-                        </div>
-                </tr>
-            </tbody>
-        </table>
+                            {!! Form::radio('state', 'Aceptado', true, ['class' => 'form-check-input']) !!}
+                    </td>
     </div>
+    <td>
+        <div class="form-check">
+            {!! Form::radio('state', 'Rechazado', null, ['class' => 'form-check-input']) !!}
+    </td>
+</div>
+</tr>
+</tbody>
+</table>
+</div>
 </div>

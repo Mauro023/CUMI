@@ -5,6 +5,7 @@ namespace App\Models;
 use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * Class Medicine
@@ -20,9 +21,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property string $presentation
  * @property string $expiration_date
  * @property string $lot_number
- * @property string $health_register
+ * @property string $invima_registrations_id
  * @property string $registration_validity
- * @property string $observation_record
  * @property string $manufacturer_laboratory
  * @property string $supplier
  * @property string $invoice_number
@@ -51,6 +51,11 @@ class Medicine extends Model
     use HasFactory;
 
     public $table = 'medicines';
+
+    public function invima_registration()
+    {
+        return $this->belongsTo(Invima_registration::class, 'invima_registrations_id');
+    }
     
 
     protected $dates = ['deleted_at'];
@@ -67,9 +72,8 @@ class Medicine extends Model
         'presentation',
         'expiration_date',
         'lot_number',
-        'health_register',
+        'invima_registrations_id',
         'registration_validity',
-        'observation_record',
         'manufacturer_laboratory',
         'supplier',
         'invoice_number',
@@ -107,9 +111,8 @@ class Medicine extends Model
         'presentation' => 'string',
         'expiration_date' => 'date',
         'lot_number' => 'string',
-        'health_register' => 'string',
+        'invima_registrations_id' => 'integer',
         'registration_validity' => 'date',
-        'observation_record' => 'string',
         'manufacturer_laboratory' => 'string',
         'supplier' => 'string',
         'invoice_number' => 'string',
@@ -146,7 +149,7 @@ class Medicine extends Model
         'presentation' => 'required',
         'expiration_date' => 'required',
         'lot_number' => 'required',
-        'health_register' => 'required',
+        'invima_registrations_id' => 'required',
         'registration_validity' => 'required',
         'manufacturer_laboratory' => 'required',
         'supplier' => 'required',

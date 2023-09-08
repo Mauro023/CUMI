@@ -5,9 +5,9 @@
     <div class="container-fluid">
         <div class="container mt-4">
             <div class="row border">
-                <div class="col-3 border">
-                    <img src="https://clinicamedicinaintegral.000webhostapp.com/clinica/img/logo.png" class="img-fluid"
-                        alt="Responsive image font-weight-bold">
+                <div class="col-3 border d-flex justify-content-center align-items-center">
+                    <img src="{{ asset('images/LOGO_cumi_Mesa-de-trabajo-1.png') }}" class="img-fluid"
+                        alt="Responsive image font-weight-bold" style="max-width: 90%;">
                 </div>
                 <div class="col-6 border">
                     <div class="row">
@@ -57,9 +57,9 @@
         </div>
 
         <div class="card-footer">
-            {!! Form::submit('Save', ['class' => 'btn btn-success']) !!}
+            {!! Form::submit('Guardar', ['class' => 'btn btn-success']) !!}
             <a href="{{ route('medicines.index') }}" class="btn btn-default">Cancel</a>
-            <a href="{{ route('medicines.index') }}" class="btn btn-primary">Agregar plantilla</a>
+            <a href="{{ route('medicationTemplates.create') }}" class="btn btn-primary">Agregar plantilla</a>
         </div>
 
         {!! Form::close() !!}

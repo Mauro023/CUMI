@@ -39,3 +39,10 @@ Route::resource('cards', App\Http\Controllers\API\cardAPIController::class);
 
 
 Route::resource('medicines', App\Http\Controllers\API\MedicineAPIController::class);
+
+
+
+Route::resource('invima_registrations', App\Http\Controllers\API\invima_registrationAPIController::class);
+
+
+Route::resource('medication_templates', App\Http\Controllers\API\medicationTemplateAPIController::class);
