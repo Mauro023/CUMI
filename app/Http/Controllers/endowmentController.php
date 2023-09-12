@@ -75,8 +75,10 @@ class endowmentController extends AppBaseController
         ->where('unit', '!=', 'Deshabilitado')
         ->orderBy('employes.name')
         ->pluck('employes.name', 'contracts.id');
+
+        $today = now()->format('Y-m-d');
         
-        return view('endowments.create', compact('contracts'));
+        return view('endowments.create', compact('contracts', 'today'));
     }
 
     /**
@@ -91,37 +93,39 @@ class endowmentController extends AppBaseController
         $this->authorize('create_endowments');
         $input = $request->all();
         $contracts = Contracts::find($request->contract_id);
+        $name = Employe::where('id', '=', $contracts->employe_id)
+        ->value('name');
 
         // Verificar selección de checkboxes
-        if (empty($request->input('checkboxInput'))) {
-            $validator->errors()->add('checkboxInput', 'Debe seleccionar al menos un elemento del checkbox.');
-            return redirect()->back()->withErrors($validator)->withInput($request->except('checkboxInput'));
+        if (!$request->has('item') || empty($request->input('item'))) {
+            session()->flash('error', "¡¡Debe seleccionar al menos un item!!");
+            return redirect()->back();
         }
 
-        $input = $request->except('checkboxInput');
-        $input['item'] = json_encode($request->input('checkboxInput'));
+        $input = $request->except('item');
+        $input['item'] = json_encode($request->input('item'));
         $period = $input['period'];
 
         $validateDate = $this->validationDate($input['period'], $input['deliver_date'], $input['contract_id']);
         if($validateDate == true){
-            Flash::error("Dotacion no registrada");
-            return redirect()->route('endowments.index');
+            session()->flash('error', "¡¡El empleado $name tiene menos de 3 meses de antiguedad!!");
+            return redirect()->back();
         }
 
         $existingItems = $this->validationRules2($input['period'], $input['contract_id'], $input['deliver_date'], $input['item']);
         if ($existingItems) {
             $existingItemsString = implode(', ', $existingItems);
-            Flash::error("La entrega de '$existingItemsString' correspondiente al periodo de '{$input['period']}' ya existe");
-            return redirect()->route('endowments.index');
+            session()->flash('error', "¡¡La entrega de $existingItemsString correspondiente al periodo de {$input['period']} al empleado $name ya existe!!");
+            return redirect()->back();
         }else {
             $endowments = $this->endowmentRepository->create($input);
-            Flash::success('¡¡Dotación registrada con exito!!.');
+            session()->flash('success', "¡¡Entrega de dotación registrada con éxito al empleado $name!!");
     
             $pdfUrl = route('generar.acta.entrega', ['id' => $endowments->id]);
     
-            return redirect()->route('endowments.index')
+            return redirect()->route('endowment.employe', ['id' => $contracts->employe_id])
             ->with('pdfUrl', $pdfUrl);
-        }
+        } 
     }
 
 
@@ -144,7 +148,8 @@ class endowmentController extends AppBaseController
         }
         
         $pdfUrl = route('generar.acta.entrega', ['id' => $endowment->id]);
-        return view('endowments.show', compact('pdfUrl', 'endowment'));
+
+        return redirect()->back()->with('pdfUrl', $pdfUrl);
     }
 
     public function showEmploye($id)
@@ -190,16 +195,17 @@ class endowmentController extends AppBaseController
         ->where('unit', '!=', 'Deshabilitado')
         ->orderBy('employes.name')
         ->pluck('employes.name', 'contracts.id');
+        $today = $endowment->deliver_date;
         // Obtener los valores seleccionados almacenados en la base de datos
         $selectedItems = json_decode($endowment->item);
         $signature = $endowment->employe_signature;
         if (empty($endowment)) {
-            Flash::error('Endowment not found');
+            session()->flash('error', "¡¡Empleado no encontrado!!");
 
             return redirect(route('endowments.index'));
         }
 
-        return view('endowments.edit', compact('contracts', 'selectedItems', 'signature'))->with('endowment', $endowment);
+        return view('endowments.edit', compact('contracts', 'selectedItems', 'signature', 'today'))->with('endowment', $endowment);
     }
 
     /**
@@ -214,27 +220,35 @@ class endowmentController extends AppBaseController
     {
         $this->authorize('update_endowments');
         $endowment = $this->endowmentRepository->find($id);
+        $contracts = Contracts::find($request->contract_id);
         if (empty($endowment)) {
             Flash::error('Endowment not found');
-
+            
             return redirect(route('endowments.index'));
         }
-
+        
         $input = $request->all();
-        $input['item'] = json_encode($request->input('checkboxInput'));
-
+        $input['item'] = json_encode($request->input('item'));
+        
         $period = $input['period'];
-        $count = $this->validationRules2($input['period'], $input['contract_id'], $input['deliver_date'], $input['item']);
-        if ($count >= 3) {
-            Flash::error("Ya se ha realizado el máximo de entregas permitidas en el periodo de '$period'");
-            return redirect()->route('endowments.index');
+
+        $validateDate = $this->validationDate($input['period'], $input['deliver_date'], $input['contract_id']);
+        if ($validateDate == true) {
+            session()->flash('error', "¡¡El empleado tiene menos de 3 meses de antiguedad!!");
+            return redirect()->back();
+        }
+        $existingItems = $this->validationUpdate($input['period'], $input['contract_id'], $input['deliver_date'], $input['item'], $id);
+        if ($existingItems) {
+            $existingItemsString = implode(', ', $existingItems);
+            session()->flash('error', "¡¡La entrega de $existingItemsString correspondiente al periodo de {$input['period']} ya existe!!");
+            return redirect()->back();
         }else {
             $this->endowmentRepository->update($input, $id);
-            Flash::success('¡¡Entrega modificada con exito!!');
+            session()->flash('success', "¡¡Registro de dotación modificada con éxito!!");
 
             $pdfUrl = route('generar.acta.entrega', ['id' => $endowment->id]);
 
-            return redirect()->route('endowments.index')
+            return redirect()->route('endowment.employe', ['id' => $contracts->employe_id])
             ->with('pdfUrl', $pdfUrl);
         }
     }
@@ -261,9 +275,9 @@ class endowmentController extends AppBaseController
 
         $this->endowmentRepository->delete($id);
 
-        Flash::success('Endowment deleted successfully.');
+        session()->flash('success', "¡¡Registro de dotacion eliminado con exito!!");
 
-        return redirect(route('endowments.index'));
+        return redirect()->back();
     }
 
     public function generarActaEntrega($id)
@@ -332,13 +346,40 @@ class endowmentController extends AppBaseController
         $items = json_decode($item, true);
 
         $itemBD = Endowment::select('item')
-        ->where('period', $period)
-        ->whereYear('deliver_date', $year)
-        ->where('contract_id', $id)
-        ->pluck('item')
-        ->toArray();
+            ->where('period', $period)
+            ->whereYear('deliver_date', $year)
+            ->where('contract_id', $id)
+            ->pluck('item')
+            ->toArray();
+        
 
         $itemBDArray = [];
+
+        foreach ($itemBD as $item2) {
+            $decodedItem = json_decode($item2, true);
+            $itemBDArray = array_merge($itemBDArray, $decodedItem);
+        }
+
+        $existingItems = array_intersect($items, $itemBDArray);
+        
+        return $existingItems;
+    }
+
+    public static function validationUpdate($period, $id, $deliver_date, $item, $idEndowment)
+    {
+        $carbonDate = Carbon::parse($deliver_date);
+        $year = $carbonDate->format('Y');
+        $items = json_decode($item, true);
+        
+        $itemBD = Endowment::select('item')
+            ->where('period', $period)
+            ->whereYear('deliver_date', $year)
+            ->where('contract_id', $id)
+            ->where('id', '!=', $idEndowment)
+            ->pluck('item')
+            ->toArray();
+        
+            $itemBDArray = [];
 
         foreach ($itemBD as $item2) {
             $decodedItem = json_decode($item2, true);

@@ -1,18 +1,18 @@
 <!-- Salary Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('salary', 'Salary:') !!}
+    {!! Form::label('salary', 'Salario:') !!}
     {!! Form::number('salary', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Start Date Contract Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('start_date_contract', 'Start Date Contract:') !!}
+    {!! Form::label('start_date_contract', 'Fecha de inicio de contrato:') !!}
     {!! Form::text('start_date_contract', null, ['class' => 'form-control','id'=>'start_date_contract']) !!}
 </div>
 
 <!-- Disable -->
 <div class="form-group col-sm-6">
-    {!! Form::label('disable', 'Disable:') !!}
+    {!! Form::label('disable', 'Deshabilitado:') !!}
     {!! Form::text('disable', null, ['class' => 'form-control']) !!}
 </div>
 
@@ -28,6 +28,6 @@
 
 <!-- Employe Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('employe_id', 'Employe Id:') !!}
+    {!! Form::label('employe_id', 'Empleado:') !!}
     {!! Form::select('employe_id', $employes, null, ['class' => 'form-control custom-select']) !!}
 </div>

@@ -26,7 +26,8 @@
     },
     "dependencies": {
         "flatpickr": "^4.6.13",
+        "sweetalert2": "^11.7.27",
         "vue-fragment": "^1.6.0",
-        "vue-signature-pad": "^3.0.2"
+        "vue-signature-pad": "^2.0.5"
     }
 }

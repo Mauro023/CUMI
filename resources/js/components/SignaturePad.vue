@@ -1,13 +1,16 @@
 <template>
   <div id="app">
-    <vueSignaturePad
-      id="employe_signature" 
-      width="300px" 
-      height="120px" 
-      name="employe_signature" 
-      v-model="employe_signature" 
-      ref="signaturePad"
-    ></vueSignaturePad>
+    <div class="signature-container">
+      <vueSignaturePad
+        id="employe_signature" 
+        width="100%" 
+        height="140px" 
+        name="employe_signature" 
+        v-model="employe_signature" 
+        ref="signaturePad"
+      ></vueSignaturePad>
+    </div>
+
     <div class="buttons"> 
       <button @click.prevent="save" class="btn btn-default"><span class="fas fa-check-circle" style="color: #69C5A0; font-size:larger;"></span></button>
       <button @click.prevent="clear" class="btn btn-default"><span class="fas fa-times-circle" style="color: #da1b1b; font-size: larger;"></span></button>
@@ -43,6 +46,7 @@ export default defineComponent({
     this.$refs.signaturePad.$on('signatureInput', (signatureData) => {
       this.employe_signature = signatureData;
     });
+
   },
   methods: {
     clear() {
@@ -66,6 +70,8 @@ export default defineComponent({
     radial-gradient(circle at top left, lightgreen, #14ABE3);
   background-origin: border-box;
   background-clip: content-box, border-box;
+  width: 100%;
+  height: auto; /* Esto mantiene la proporción de la altura según el ancho */
 }
 
 .buttons {
@@ -73,5 +79,11 @@ export default defineComponent({
   gap: 8px;
   justify-content: center;
   margin-top: 8px;
+}
+
+.signature-container {
+  max-width: 1000px; /* Define el ancho máximo deseado para el lienzo de la firma en dispositivos móviles */
+  margin: 0 auto;   /* Centra el contenedor horizontalmente */
+  padding: 10px;    /* Agrega un espacio alrededor del lienzo de la firma */
 }
 </style>

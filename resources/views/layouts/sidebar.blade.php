@@ -6,7 +6,7 @@
             <div class="widget-user-image">
                 <img class="img-circle elevation-2" src="{{ asset('images/icono_Mesa-de-trabajo-1.png') }}"
                     alt="{{ config('app.name') }} Logo" class="brand-image"
-                    style="background-color: white; max-width: 90%;">
+                    style="background-color: white; max-width: 85%;">
             </div>
             <div>
                 <a class="nav-link">

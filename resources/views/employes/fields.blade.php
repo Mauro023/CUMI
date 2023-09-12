@@ -120,7 +120,9 @@
             'ADMINISTRACION' => 'ADMINISTRACION',
             'AYUDAS DIAGNOSTICAS' => 'AYUDAS DIAGNOSTICAS',
             'CIRUGIA' =>  'CIRUGIA',
+            'FARMACIA'  => 'FARMACIA',
             'CONSULTA EXTERNA'  => 'CONSULTA EXTERNA',
+            'HEMODINAMIA ' => 'HEMODINAMIA ',
             'HOSPITALIZACION' => 'HOSPITALIZACION',
             'UCI' => 'UCI',
             'URGENCIAS' => 'URGENCIAS'

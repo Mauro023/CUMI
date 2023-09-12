@@ -6,7 +6,6 @@
 
 <div class="content px-3">
     <div class="container-fluid">
-        @include('flash::message')
         <div class="card shadow-none border-0">
             <div class="card-header d-flex justify-content-between align-items-center" style="background-color: white">
                 <h3 class="card-title m-0" style="color: #69C5A0"><strong>Empleados disponibles</strong></h3>
@@ -31,13 +30,6 @@
     </div>
 </div>
 @endsection
-
-<script>
-    @if(session('pdfUrl'))
-        var pdfUrl = '{{ session('pdfUrl') }}';
-        window.open(pdfUrl, '_blank');
-    @endif
-</script>
 
 <!-- Modal -->
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"

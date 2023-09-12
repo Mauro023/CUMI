@@ -26,7 +26,8 @@
                 <td class="text-center" style="vertical-align: middle">{{ $employe->cost_center }}</td>
                 <td>
                     
-                    {!! Form::open(['route' => ['employes.destroy', $employe->id], 'method' => 'delete']) !!}
+                    {!! Form::open(['route' => ['employes.destroy', $employe->id], 'method' => 'delete'
+                    , 'class' => "eliminarEmloyeForm"]) !!}
                     <div class='btn-group'>
                         @can('show_employes')
                         <button type="button" class='btn btn-default btn-xs' 
@@ -41,7 +42,7 @@
                             </a>
                         @endcan
                         @can('destroy_employes')
-                            {!! Form::button('<i class="far fa-trash-alt" style="color: #da1b1b"></i>', ['type' => 'submit', 'class' => 'btn btn-default btn-xs', 'onclick' => "return confirm('Se necesita confirmacion para realizar este proceso')"]) !!}
+                            {!! Form::button('<i class="far fa-trash-alt" style="color: #da1b1b"></i>', ['type' => 'submit', 'class' => 'btn btn-default btn-xs']) !!}
                         {!! Form::close() !!}
                         @endcan
                     </div>     
@@ -50,6 +51,9 @@
         @endforeach
         </tbody>
     </table>
+    <div id="app">
+    </div>
+    <script src="{{ asset('js/app.js') }}"></script>
 </div>
 <div class="card-footer mr-auto" style="background-color: white">
     {{ $employes->links() }}
@@ -105,3 +109,49 @@
         </div>
     </div>
 @endforeach
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const eliminarUsuarioForms = document.querySelectorAll('.eliminarEmloyeForm');
+    
+        eliminarUsuarioForms.forEach((form) => {
+            form.addEventListener('submit', function (event) {
+                event.preventDefault(); // Previene la acción por defecto del formulario
+                const currentForm = this; // Obtén el formulario actual
+    
+                Swal.fire({
+                    title: '¿Estás seguro de querer eliminar este registro?',
+                    html: 'Esta acción eliminará permanentemente el contrato del empleado.<br><strong style= "color: red";>Esta acción no se puede deshacer.</strong>',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Sí, eliminarlo',
+                    cancelButtonText: 'Cancelar',
+                    customClass: {
+                        title: 'custom-title', // Clase personalizada para el título
+                        content: 'custom-content', // Clase personalizada para el contenido
+                        icon: 'custom-icon' // Clase personalizada para el icono
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // El usuario confirmó la eliminación, envía el formulario actual
+                        currentForm.submit();
+                    }
+                });
+            });
+        });
+    });
+</script>
+
+<style>
+    .custom-title {
+        color: #14ABE3;
+        /* Cambia el color del título a rojo */
+    }
+
+    .custom-icon::before {
+        color: #cf33ff;
+        /* Cambia el color del icono a rojo */
+    }
+</style>

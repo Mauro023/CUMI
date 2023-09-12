@@ -62,7 +62,7 @@ class endowment extends Model
      * @var array
      */
     public static $rules = [
-        'checkboxInput' => 'required|array|min:1',
+        'item' => 'required',
         'deliver_date' => 'required',
         'employe_signature' => 'required',
         'period' => 'required',

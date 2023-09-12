@@ -64,14 +64,14 @@ class employeController extends AppBaseController
         $existingEmploye = Employe::where('dni', $input['dni'])->first();
     
         if ($existingEmploye) {
-            Flash::error('El empleado ya existe.');
+            session()->flash('error', "¡¡Empleado ya existe!!");
             return redirect(route('employes.index'));
         }
 
 
         $employe = $this->employeRepository->create($input);
 
-        Flash::success('¡¡Empleado guardado exitosamente!!.');
+        session()->flash('success', "¡¡Empleado registrado con éxito!!");
 
         return redirect(route('employes.index'));
     }
@@ -139,7 +139,7 @@ class employeController extends AppBaseController
 
         $employe = $this->employeRepository->update($request->all(), $id);
 
-        Flash::success('¡¡Empleado modificado exitosamente!!.');
+        session()->flash('success', "¡¡Empleado modificado con éxito!!");
 
         return redirect(route('employes.index'));
     }
@@ -163,10 +163,10 @@ class employeController extends AppBaseController
 
             return redirect(route('employes.index'));
         }
-
+        $name = $employe->name;
         $this->employeRepository->delete($id);
 
-        Flash::info('¡¡Usuario eliminado correctamente!!.');
+        session()->flash('success', "¡¡$name ELIMINADO CORRECTAMENTE!!");
 
         return redirect(route('employes.index'));
     }
@@ -213,7 +213,7 @@ class employeController extends AppBaseController
         }
 
         $this->updateEmployees();
-        Flash::success('¡Empleados guardados exitosamente!');
+        session()->flash('success', "¡¡Empleados actualizados correctamente!!");
         return redirect(route('employes.index'));
     }
 

@@ -77,7 +77,7 @@ class contractsController extends AppBaseController
 
         $contracts = $this->contractsRepository->create($input);
 
-        Flash::success('Contracts saved successfully.');
+        session()->flash('success', "¡¡Contrato registrado con éxito!!");
 
         return redirect(route('contracts.index'));
     }
@@ -148,7 +148,7 @@ class contractsController extends AppBaseController
 
         $contracts = $this->contractsRepository->update($request->all(), $id);
 
-        Flash::success('Contracts updated successfully.');
+        session()->flash('success', "¡¡Contrato modificado con éxito!!");
 
         return redirect(route('contracts.index'));
     }
@@ -175,7 +175,7 @@ class contractsController extends AppBaseController
 
         $this->contractsRepository->delete($id);
 
-        Flash::success('Contracts deleted successfully.');
+        session()->flash('success', "¡¡Contrato eliminado con éxito!!");
 
         return redirect(route('contracts.index'));
     }
@@ -232,7 +232,7 @@ class contractsController extends AppBaseController
             }
         }
 
-        Flash::success('¡Contratos guardados exitosamente!');
+        session()->flash('success', "¡¡Contratos actualizados con éxito!!");
         return redirect(route('contracts.index'));
     }
 

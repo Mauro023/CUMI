@@ -2,7 +2,7 @@
   <div class="custom-checkbox">
     <div v-for="(option, index) in options" :key="index">
       <label class="custom-control custom-checkbox">
-        <input type="checkbox" :value="option.value" v-model="modelValue" name="checkboxInput[]" class="custom-control-input">
+        <input type="checkbox" :value="option.value" v-model="modelValue" name="item[]" class="custom-control-input">
         <span class="custom-control-label">{{ option.label }}</span>
       </label>
     </div>

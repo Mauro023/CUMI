@@ -74,8 +74,8 @@ class UsersController extends Controller
         {
             $user->givePermissionTo($request->permissions);
         }
-
-        session()->flash('success', 'El usuario ha sido creado');
+        $name = $request->name;
+        session()->flash('success', "¡¡El usuario $name se ha creado con éxito!!");
         return redirect()->route('admin.users.index');
     }
 
@@ -124,6 +124,7 @@ class UsersController extends Controller
 
         $data = $request->only('name', 'email');
         $password = $request->input('password');
+        $name = $request->name;
         if($password)
         {
             $data['password'] = bcrypt($password);
@@ -131,9 +132,9 @@ class UsersController extends Controller
 
         $user->update($data);
 
-        session()->flash('success', 'Usuario actualizado');
+        session()->flash('success', "¡¡El usuario $name se ha modificado con éxito!!");
 
-        return redirect()->route('admin.users.show', $user);
+        return redirect()->route('admin.users.index');
     }
 
     /**
@@ -145,10 +146,10 @@ class UsersController extends Controller
     public function destroy(User $user)
     {
         $this->authorize('destroy_user');
-
+        $name = $user->name;
         $user->delete();
 
-        session()->flash('success', 'Usuario eliminado');
+        session()->flash('success', "¡¡El usuario $name se ha eliminado con éxito!!");
 
         return redirect()->route('admin.users.index');
     }

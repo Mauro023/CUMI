@@ -81,7 +81,7 @@
             <li class="nav-item">
                 @can('view_logistic')
                 <a href="{{ route('attendanceReport.logistic') }}"
-                    class="nav-link {{ Request::is('logistic*') ? 'active' : '' }}">
+                    class="nav-link {{ Route::currentRouteName() === 'attendanceReport.logistic' ? 'active' : '' }}">
                     <span class="fas fa-tree"></span>
                     <p><strong>Logistica</strong></p>
                 </a>
@@ -98,7 +98,7 @@
             <li class="nav-item">
                 @can('view_user')
                 <a href="{{ route('attendances.count') }}"
-                    class="nav-link {{ Request::is('contadores*') ? 'active' : '' }}">
+                    class="nav-link {{ Route::currentRouteName() === 'attendances.count' ? 'active' : '' }}">
                     <span class="fas fa-info"></span>
                     <p><strong>Contadores</strong></p>
                 </a>

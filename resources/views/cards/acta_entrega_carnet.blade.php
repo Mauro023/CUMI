@@ -127,12 +127,12 @@
         <tbody>
             <!-- Aquí puedes iterar sobre los activos entregados y mostrarlos en filas de la tabla -->
             <tr>
-                <td>{{ $id }}</td>
-                <td>
+                <td style="text-align: center">{{ $id }}</td>
+                <td style="text-align: center">
                     Carnet institusional
                 </td>
-                <td>AREA ADMINISTRATIVA GENERAL SISTEMAS</td>
-                <td></td>
+                <td style="text-align: center">AREA ADMINISTRATIVA GENERAL SISTEMAS</td>
+                <td style="text-align: center">{{ $employeecost }}</td>
             </tr>
         </tbody>
     </table>

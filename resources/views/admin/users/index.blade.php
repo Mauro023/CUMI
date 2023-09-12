@@ -6,7 +6,6 @@
 </section>
 <div class="content px-3">
     <div class="container-fluid">
-        @include('flash::message')
         <div class="card shadow-none border-0">
             <div class="card-header d-flex justify-content-between align-items-center" style="background-color: white">
                 <h4 class="card-title m-0" style="color: #69C5A0"><strong>Lista de usuarios</strong></h4>
@@ -16,7 +15,8 @@
                         <span class="fas fa-user-plus" style="color: #69C5A0"></span>
                     </a>
                     @endcan
-                    <button type="button" class="btn btn-default" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                    <button type="button" class="btn btn-default" data-bs-toggle="modal"
+                        data-bs-target="#staticBackdrop">
                         <span class="fas fa-search" style="color: #69C5A0"></span>
                     </button>
                 </div>
@@ -28,6 +28,10 @@
             </div>
         </div>
     </div>
+    <div id="app">
+    </div>
+    <script src="{{ asset('js/app.js') }}"></script>
+    @include('layouts.alerts')
 </div>
 
 <!-- Modal -->

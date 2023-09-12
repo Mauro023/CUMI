@@ -126,8 +126,8 @@
         </thead>
         <tbody>
             <tr>
-                <td>{{ $id }}</td>
-                <td>
+                <td style="text-align: center">{{ $id }}</td>
+                <td style="text-align: center">
                     @php
                     $items = json_decode($item);
                     if (is_array($items)) {
@@ -137,8 +137,8 @@
                     }
                     @endphp
                 </td>
-                <td>AREA ADMINISTRATIVA GENERAL SISTEMAS</td>
-                <td>{{ $period }} {{ $deliverDate->format('Y') }}</td>
+                <td style="text-align: center">AREA ADMINISTRATIVA GENERAL SISTEMAS</td>
+                <td style="text-align: center">{{ $period }} {{ $deliverDate->format('Y') }}</td>
             </tr>
         </tbody>
     </table>

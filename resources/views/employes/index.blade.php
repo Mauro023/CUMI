@@ -2,15 +2,15 @@
 
 @section('content')
 <section class="content-header">
+
 </section>
 
 <div class="content px-3">
     <div class="container-fluid">
-        @include('flash::message')
         <div class="card shadow-none border-0">
             <div class="card-header d-flex justify-content-between align-items-center" style="background-color: white">
                 <h3 class="card-title m-0" style="color: #69C5A0"><strong>Empleados disponibles</strong></h3>
-                <div class="ml-auto d-flex align-items-center gap-2">
+                <div class="ml-auto">
                     <button type="button" class="btn btn-default" data-bs-toggle="modal"
                         data-bs-target="#staticBackdrop">
                         <span class="fas fa-search" style="color: #69C5A0"></span>
@@ -30,6 +30,10 @@
             </div>
         </div>
     </div>
+    <div id="app">
+    </div>
+    <script src="{{ asset('js/app.js') }}"></script>
+    @include('layouts.alerts')
 </div>
 <!-- Modal -->
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
@@ -62,6 +66,8 @@
     </div>
 </div>
 @endsection
+
+
 
 <style>
     .boton-redondeado {

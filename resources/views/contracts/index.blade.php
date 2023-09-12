@@ -27,6 +27,10 @@
             </div>
         </div>
     </div>
+    <div id="app">
+    </div>
+    <script src="{{ asset('js/app.js') }}"></script>
+    @include('layouts.alerts')
 </div>
 <!-- Modal -->
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"

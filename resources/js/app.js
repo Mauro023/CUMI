@@ -1,5 +1,10 @@
 require('./bootstrap');
 
+//SweetAlert2
+import Swal from 'sweetalert2';
+window.Swal = Swal;
+
+//Vue
 import Vue from 'vue';
 import InputComponent from './components/InputComponent.vue';
 import SignaturePad from './components/SignaturePad.vue';

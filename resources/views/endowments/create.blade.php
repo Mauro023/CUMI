@@ -35,5 +35,6 @@
             {!! Form::close() !!}
 
         </div>
+        @include('layouts.alerts')
     </div>
 @endsection

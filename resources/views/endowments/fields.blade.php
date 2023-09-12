@@ -1,16 +1,14 @@
-<div class="col-5">
+<div class="form-group row">
     <!-- Contract id Field -->
-    <div class="form-group col-sm-12">
+    <div class="form-group col-sm-4">
         {!! Form::label('contract_id', 'Empleado:') !!}
         {!! Form::select('contract_id', $contracts, null, ['class' => 'form-control
         custom-select', 'placeholder' => 'Seleccione un empleado']) !!}
     </div>
-</div>
-<div class="col-3">
     <!-- Deliver Date Field -->
-    <div class="form-group col-sm-12">
-        {!! Form::label('deliver_date', 'Fecha de entrega:') !!}
-        {!! Form::text('deliver_date', null, ['class' => 'form-control','id'=>'deliver_date']) !!}
+    <div class="form-group col-sm-3">
+        {!! Form::label('deliver_date', 'Fecha entrega:') !!}
+        {!! Form::text('deliver_date', $today, ['class' => 'form-control','id'=>'deliver_date']) !!}
     </div>
 </div>
 
@@ -28,21 +26,21 @@
 <div>
     <div class="form-group col-sm-3">
         {!! Form::label('Period', 'Periodo:') !!}
-        {!! Form::select('period',  [
-            'Abril' => 'Abril', 
-            'Agosto' => 'Agosto', 
-            'Diciembre' => 'Diciembre'
+        {!! Form::select('period', [
+        'Abril' => 'Abril',
+        'Agosto' => 'Agosto',
+        'Diciembre' => 'Diciembre'
         ], null, ['class' => 'form-control
         custom-select', 'placeholder' => 'Seleccione un periodo']) !!}
     </div>
 </div>
 
 <div id="app">
-    <div class="form-group col-sm-3">
+    <div class="form-group col-sm-6">
         {!! Form::label('Item', 'Item:') !!}
         <input-component :selected-items='@json($selectedItems ?? [])'></input-component>
     </div>
-    <div class="form-group col-sm-3">
+    <div class="form-group col-sm-7">
         <template>
             {!! Form::label('signature', 'Firma del empleado:') !!}
             <signature-pad :initial-signature='@json($signature ?? null)' ref="signaturePad"></signature-pad>

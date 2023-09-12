@@ -54,7 +54,8 @@ class cardController extends AppBaseController
                         ->Where('unit', '!=', 'Deshabilitado')
                         ->orderBy('name')
                         ->pluck('name', 'id');
-        return view('cards.create', compact('employes'));
+        $today = now()->format('Y-m-d');
+        return view('cards.create', compact('employes', 'today'));
     }
 
     /**
@@ -70,15 +71,14 @@ class cardController extends AppBaseController
         $input = $request->all();
         $input['signature_employe_card'] = $request->input('employe_signature');
         $card = $this->cardRepository->create($input);
-        $employees = Employe::where('unit', '!=', 'pendiente')
-        ->Where('unit', '!=', 'Deshabilitado')
-        ->orderBy('name')->get();
-
-        Flash::success('Entrega guardada con exito.');
-
+        $name = Employe::where('id', '=', $card->employe_id)
+        ->value('name');
+        
+        session()->flash('success', "¡¡Carnet registrado al empleado $name!!");
+        
         $pdfUrl = route('generar.acta.entrega.card', ['id' => $card->id]);
-
-        return redirect()->route('cards.index')
+        
+        return redirect()->route('cards.employe', ['id' => $card->employe_id])
         ->with('pdfUrl', $pdfUrl)
         ->with('card', $card);
     }
@@ -103,7 +103,7 @@ class cardController extends AppBaseController
 
         $pdfUrl = route('generar.acta.entrega.card', ['id' => $card->id]);
 
-        return view('cards.show', compact('pdfUrl', 'card'));
+        return redirect()->back()->with('pdfUrl', $pdfUrl);
     }
 
     public function showEmploye($id)
@@ -130,13 +130,14 @@ class cardController extends AppBaseController
         $card = $this->cardRepository->find($id);
         $employes = Employe::pluck('name', 'id');
         $signature = $card->signature_employe_card;
+        $today = $card->delivery_date_card;
         if (empty($card)) {
             Flash::error('Tarjeta no encontrada');
 
             return redirect(route('cards.index'));
         }
 
-        return view('cards.edit', compact('employes', 'signature'))->with('card', $card);
+        return view('cards.edit', compact('employes', 'signature', 'today'))->with('card', $card);
     }
 
     /**
@@ -159,17 +160,17 @@ class cardController extends AppBaseController
         }
         $input = $request->all();
         $input['signature_employe_card'] = $request->input('employe_signature');
-        $employees = Employe::where('unit', '!=', 'pendiente')
-        ->Where('unit', '!=', 'Deshabilitado')
-        ->orderBy('name')->get();
-
+        
+        $name = Employe::where('id', '=', $card->employe_id)
+        ->value('name');
+        
         $this->cardRepository->update($input, $id);
 
-        Flash::success('Entrega modificada con exito.');
+        session()->flash('success', "¡¡Entrega de carnet modificada al empleado $name!!");
 
         $pdfUrl = route('generar.acta.entrega.card', ['id' => $card->id]);
 
-        return redirect()->route('cards.index')
+        return redirect()->route('cards.employe', ['id' => $card->employe_id])
         ->with('pdfUrl', $pdfUrl)
         ->with('card', $card);
     }
@@ -196,9 +197,9 @@ class cardController extends AppBaseController
 
         $this->cardRepository->delete($id);
 
-        Flash::success('Entrega eliminada con exito.');
+        session()->flash('success', "¡¡Registro de carnet eliminado con exito!!");
 
-        return redirect(route('cards.index'));
+        return redirect()->back();
     }
 
     public function generarActaEntregaCard($id)
@@ -207,7 +208,7 @@ class cardController extends AppBaseController
 
         if (empty($card)) {
             Flash::error('employe not found');
-            return redirect(route('card.index'));
+            return redirect(route('card.create'));
         }
 
         // Obtener los datos necesarios del endowment
@@ -220,11 +221,12 @@ class cardController extends AppBaseController
         $employeeName = $card->employe->name;
         $employeeDni = $card->employe->dni;
         $employeeWork = $card->employe->work_position;
+        $employeecost = $card->employe->cost_center;
 
 
         // Cargar la vista PDF y pasar los datos necesarios
         $pdf = PDF::loadView('cards.acta_entrega_carnet', compact('id','deliverDate','employeId',
-        'signature', 'employeeName', 'employeeDni', 'employeeWork'));
+        'signature', 'employeeName', 'employeeDni', 'employeeWork', 'employeecost'));
 
         return response($pdf->output())
         ->header('Content-Type', 'application/pdf')
