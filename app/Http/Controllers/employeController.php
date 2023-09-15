@@ -32,7 +32,7 @@ class employeController extends AppBaseController
     public function index(Request $request)
     {
         $this->authorize('view_employes');
-        $employes = $this->employeRepository->paginate(50);
+        $employes = $this->employeRepository->all();
 
         return view('employes.index')
             ->with('employes', $employes);
@@ -157,7 +157,7 @@ class employeController extends AppBaseController
     {
         $this->authorize('destroy_employes');
         $employe = $this->employeRepository->find($id);
-
+        dd($employe);
         if (empty($employe)) {
             Flash::error('Employe not found');
 
@@ -169,20 +169,6 @@ class employeController extends AppBaseController
         session()->flash('success', "¡¡$name ELIMINADO CORRECTAMENTE!!");
 
         return redirect(route('employes.index'));
-    }
-
-    public function filter(Request $request)
-    {
-        $input = $request->input('dni');
-        if ($input) {
-            $employes = Employe::where(function($query) use ($input) {
-                $query->where('dni', 'LIKE', '%'.$input.'%')
-                    ->orWhere('name', 'LIKE', '%'.$input.'%');
-            })->paginate(500);
-            return view('employes.index', ['employes' => $employes]);
-        }else {
-            return redirect(route('employes.index'));
-        }
     }
 
     public function getEmployees()

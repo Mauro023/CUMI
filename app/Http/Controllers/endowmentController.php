@@ -391,22 +391,6 @@ class endowmentController extends AppBaseController
         return $existingItems;
     }
 
-    public function filter(Request $request)
-    {
-        $input = $request->input('dni');
-
-        if ($input) {
-            $endowments = Endowment::whereHas('contracts.employe', function ($query) use ($input) {
-                $query->where('dni', 'LIKE', '%'.$input.'%')
-                    ->orWhere('name', 'LIKE', '%'.$input.'%');
-            })->orderBy('deliver_date')->paginate(500);
-
-            return view('endowments.endowment_show', ['endowments' => $endowments]);
-        } else {
-            return redirect(route('endowments.index'));
-        }
-    }
-
     public function getItems($period, $deliver_date, $id)
     {
         $carbonDate = Carbon::parse($deliver_date);

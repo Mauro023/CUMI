@@ -37,7 +37,7 @@ class calendarController extends AppBaseController
         $this->authorize('view_calendars');
         $calendars = calendar::orderBy('start_date', 'DESC')
         ->orderBy('entry_time', 'DESC') 
-        ->paginate(50);
+        ->get();
 
         return view('calendars.index')
             ->with('calendars', $calendars);

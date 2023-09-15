@@ -58,7 +58,7 @@ class AttendanceReportController extends Controller
             ->orWhere('employes.work_position', 'Auxiliar de ropa intrahospitalaria')
             ->orderBy('workday', 'DESC')
             ->orderBy('aentry_time', 'desc')
-            ->paginate(50);
+            ->get();
         
             return view('attendanceReports.logistic', compact('attendances'));
     }

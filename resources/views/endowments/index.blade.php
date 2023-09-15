@@ -8,13 +8,9 @@
     <div class="container-fluid">
         @include('flash::message')
         <div class="card shadow-none border-0">
-            <div class="card-header d-flex justify-content-between align-items-center" style="background-color: white">
-                <h3 class="card-title m-0" style="color: #69C5A0"><strong>Empleados disponibles</strong></h3>
+            <div class="card-header d-flex justify-content-between align-items-center" style="background-color: white; padding: 0 0;">
+                <h3 class="card-title m-0" style="color: #69C5A0; font-size: 25px;"><strong>Empleados disponibles</strong></h3>
                 <div class="ml-auto d-flex align-items-center gap-2">
-                    <button type="button" class="btn btn-default" data-bs-toggle="modal"
-                        data-bs-target="#staticBackdrop">
-                        <span class="fas fa-search" style="color: #69C5A0"></span>
-                    </button>
                     <form action="{{ route('export') }}" method="post" style="margin-bottom: 0;">
                         @csrf
                         <button type="submit" class="btn btn-default">
@@ -44,36 +40,5 @@
         window.open(pdfUrl, '_blank');
     @endif
 </script>
-
-<!-- Modal -->
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-    aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header bg-green">
-                <h5 class="modal-title" id="staticBackdropLabel"><strong>Filtrar asistencias</strong></h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                {!! Form::open(['route' => ['endowment.filter'], 'method' => 'post', 'class' => 'row
-                col-sm-12']) !!}
-                <label>Nombre o DNI:</label>
-                <div class="input-group mb-3">
-                    <div class="sm-2">
-                        {!! Form::label('dni', 'Dni:', 'hidden') !!}
-                        {!! Form::text('dni', null, ['class' => 'form-control','id'=>'dni'
-                        ,'name'=>'dni',
-                        'placeholder'=>'Digite el DNI o el nombre']) !!}
-                    </div>
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-dark form-control">
-                            <span class="fas fa-search"></span>
-                    </div>
-                </div>
-                {!! Form::close() !!}
-            </div>
-        </div>
-    </div>
-</div>
 </div>
 

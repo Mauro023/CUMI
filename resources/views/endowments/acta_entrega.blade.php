@@ -118,7 +118,7 @@
     <table class="table">
         <thead class="table-header">
             <tr>
-                <th>CODIGO</th>
+                <th>CÓDIGO</th>
                 <th>DESCRIPCION</th>
                 <th>UBICACIÓN</th>
                 <th>PERIODO</th>

@@ -1,14 +1,17 @@
+@section('css')
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+@endsection
 <div class="table-responsive">
-    <table class="table table-hover mb-0" id="employes-table">
+    <table class="table table-hover shadow mb-5 rounded" id="employesTable">
         <thead>
         <tr>
-            <th scope="col">#</th>
-            <th scope="col">Empleado</th>
-            <th scope="col">Cargo</th>
-            <th scope="col">Unidad</th>
-            <th class="text-center" scope="col">Centro de costo</th>
+            <th>#</th>
+            <th>Empleado</th>
+            <th>Cargo</th>
+            <th>Unidad</th>
+            <th class="text-center">Centro de costo</th>
             @canany(['show_employes', 'update_employes', 'destroy_employes'])
-                <th colspan="3">Acciones</th>
+                <th>Acciones</th>
             @endcan
         </tr>
         </thead>
@@ -22,7 +25,7 @@
                     <small style="color: #69C5A0"><strong>{{ $employe->dni }}</strong></small>
                 </td>
                 <td scope="row" style="vertical-align: middle">{{ $employe->work_position }}</td>
-                <td scope="row" style="vertical-align: middle">{{ $employe->unit }}</td>
+                <td scope="row" style="vertical-align: middle" class="text-uppercase">{{ $employe->unit }}</td>
                 <td class="text-center" style="vertical-align: middle">{{ $employe->cost_center }}</td>
                 <td>
                     
@@ -51,12 +54,31 @@
         @endforeach
         </tbody>
     </table>
+    @section('js')
+        <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+        <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+
+        <script>
+            new DataTable('#employesTable', {
+                language: {
+                    search: '<Strong style="color: #69C5A0">Buscar</Strong>',
+                    info: '<strong>Página</strong> <strong>_PAGE_</strong> <strong>de</strong> <strong>_PAGES_</strong>',
+                    lengthMenu: '<strong style="color: #69C5A0">Mostrar _MENU_</Strong>',
+                    infoEmpty: '',
+                    infoFiltered: 'Filtrado de _MAX_ registros totales',
+                    zeroRecords: 'No se encontraron resultados',
+                    paginate: {
+                        previous: 'Anterior',
+                        next: 'Siguiente'
+                    }
+                }
+            });
+        </script>
+    @endsection
     <div id="app">
     </div>
     <script src="{{ asset('js/app.js') }}"></script>
-</div>
-<div class="card-footer mr-auto" style="background-color: white">
-    {{ $employes->links() }}
 </div>
 
 @foreach($employes as $employe)       
@@ -121,7 +143,7 @@
     
                 Swal.fire({
                     title: '¿Estás seguro de querer eliminar este registro?',
-                    html: 'Esta acción eliminará permanentemente el contrato del empleado.<br><strong style= "color: red";>Esta acción no se puede deshacer.</strong>',
+                    html: 'Esta acción eliminará permanentemente el registro del empleado.<br><strong style= "color: red";>Esta acción no se puede deshacer.</strong>',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
@@ -153,5 +175,22 @@
     .custom-icon::before {
         color: #cf33ff;
         /* Cambia el color del icono a rojo */
+    }
+
+    .pagination .page-item.active .page-link {
+        background-color: #69C5A0;
+        border-color: #69C5A0;
+        color: white;
+    }
+
+    .dataTables_wrapper .dataTables_filter input {
+        border-radius: 10px; 
+        margin-top: 10px;
+        margin-right: 4px;
+    }
+
+    .dataTables_length select {
+        border-radius: 10px; 
+        margin-top: 10px;
     }
 </style>

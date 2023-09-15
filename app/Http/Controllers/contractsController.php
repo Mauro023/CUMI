@@ -34,7 +34,7 @@ class contractsController extends AppBaseController
     public function index(Request $request)
     {
         $this->authorize('view_contracts');
-        $contracts = $this->contractsRepository->paginate(50);
+        $contracts = $this->contractsRepository->all();
 
         return view('contracts.index')
             ->with('contracts', $contracts);

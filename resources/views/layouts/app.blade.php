@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+    @yield('css')
     <title>{{ config('app.name') }}</title>
     <link rel="icon" type="image/png" href="{{ asset('images/icono_Mesa-de-trabajo-1.png') }}" sizes="32x32">
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
@@ -43,6 +44,7 @@
 
     @stack('page_css')
     @yield('scripts')
+
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -104,10 +106,6 @@
         integrity="sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6TNwh/hx/iSByxNENtj3WVE6o/9Lj4TJeVXPi4bnOIMXFIJJAeufa0A=="
         crossorigin="anonymous"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/1.3/bootstrapSwitch.min.js"
-        integrity="sha512-DAc/LqVY2liDbikmJwUS1MSE3pIH0DFprKHZKPcJC7e3TtAOzT55gEMTleegwyuIWgCfOPOM8eLbbvFaG9F/cA=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
     </script>
@@ -125,6 +123,8 @@
     @stack('third_party_scripts')
 
     @stack('page_scripts')
+
+    @yield('js')
 </body>
 
 </html>

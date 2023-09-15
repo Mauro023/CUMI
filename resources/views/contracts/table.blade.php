@@ -1,12 +1,15 @@
+@section('css')
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+@endsection
 <div class="table-responsive">
-    <table class="table" id="contracts-table">
+    <table class="table table-hover shadow mb-5 rounded" id="contractsTable">
         <thead>
             <tr>
                 <th>Empleado</th>
                 <th>Salario</th>
                 <th>Inicio de contrato</th>
                 <th>Deshabilitado</th>
-                <th colspan="3">Action</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -41,9 +44,28 @@
             @endforeach
         </tbody>
     </table>
-</div>
-<div class="card-footer mr-auto" style="background-color: white">
-    {{ $contracts->links() }}
+    @section('js')
+        <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+        <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+
+        <script>
+            new DataTable('#contractsTable', {
+                language: {
+                    search: '<Strong style="color: #69C5A0">Buscar</Strong>',
+                    info: '<strong>Página</strong> <strong>_PAGE_</strong> <strong>de</strong> <strong>_PAGES_</strong>',
+                    lengthMenu: '<strong style="color: #69C5A0">Mostrar _MENU_</Strong>',
+                    infoEmpty: '',
+                    infoFiltered: 'Filtrado de _MAX_ registros totales',
+                    zeroRecords: 'No se encontraron resultados',
+                    paginate: {
+                        previous: 'Anterior',
+                        next: 'Siguiente'
+                    }
+                }
+            });
+        </script>
+    @endsection
 </div>
 
 <script>
@@ -89,5 +111,22 @@
     .custom-icon::before {
         color: #cf33ff;
         /* Cambia el color del icono a rojo */
+    }
+
+    .pagination .page-item.active .page-link {
+        background-color: #69C5A0;
+        border-color: #69C5A0;
+        color: white;
+    }
+
+    .dataTables_wrapper .dataTables_filter input {
+        border-radius: 10px; 
+        margin-top: 10px;
+        margin-right: 4px;
+    }
+
+    .dataTables_length select {
+        border-radius: 10px; 
+        margin-top: 10px;
     }
 </style>

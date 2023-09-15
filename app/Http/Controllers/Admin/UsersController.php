@@ -28,7 +28,7 @@ class UsersController extends Controller
     public function index(Request $request)
     {
         $this->authorize('view_user');
-        $users = $this->usersRepository->paginate(30);
+        $users = $this->usersRepository->all();
 
         return view('admin.users.index')->with('users', $users);
     }
@@ -152,14 +152,5 @@ class UsersController extends Controller
         session()->flash('success', "¡¡El usuario $name se ha eliminado con éxito!!");
 
         return redirect()->route('admin.users.index');
-    }
-
-    public function filter(Request $request)
-    {
-        $input = $request->input('name');
-
-        $users = USER::where('name', 'LIKE', '%'.$input.'%')->paginate(10);
-
-        return view('admin.users.index', ['users' => $users]);
     }
 }
