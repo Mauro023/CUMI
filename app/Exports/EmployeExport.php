@@ -9,6 +9,8 @@ use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Collection;
 
 use Maatwebsite\Excel\Concerns\WithStyles;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
@@ -16,19 +18,34 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 class EmployeExport implements FromCollection, WithHeadings, ShouldAutoSize, WithStyles
 {
     use Exportable;
+
+    private $period;
+
+    public function __construct($period)
+    {
+        $this->period = $period;
+    }
+
     /**
     * @return \Illuminate\Support\Collection
     */
     public function collection()
     {
         $threeMonthsAgo = now()->subMonths(3);
-        return Employe::select('dni', 'name', 'work_position', 'cost_center')
-                ->join('contracts', 'contracts.employe_id', '=', 'employes.id')
-                ->where('unit', '!=', 'Deshabilitado')
-                ->where('salary', '<', 2320000)
-                ->where('start_date_contract', '<=', $threeMonthsAgo)
-                ->orderBy('employes.name')
-            ->get();
+
+        $endowment = DB::select("
+            SELECT e.id, e.name, e.work_position, e.cost_center
+            FROM employes e
+            LEFT JOIN contracts c ON e.id = c.employe_id
+            WHERE e.id NOT IN (
+                SELECT e.id
+                FROM employes e
+                LEFT JOIN contracts c ON e.id = c.employe_id
+                LEFT JOIN endowments en ON c.id = en.contract_id
+                WHERE en.period = ?
+            )
+        ", [$this->period]);
+        return new Collection($endowment);
     }
 
     public function headings(): array

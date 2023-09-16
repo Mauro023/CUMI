@@ -61,17 +61,6 @@ Route::get('/attendanceTime/attendanceNot', [App\Http\Controllers\AttendanceTime
 Route::view('/counts', 'attendances.count')->name('attendances.count');
 Route::get('/attendanceReport/logistic', [App\Http\Controllers\AttendanceReportController::class, 'logistics'])->name('attendanceReport.logistic');
 
-
-//Ruta filtros
-Route::post('/filterUser', [App\Http\Controllers\Admin\UsersController::class, 'filter'])->name('users.filter');
-Route::post('/filterEmploye', [App\Http\Controllers\EmployeController::class, 'filter'])->name('employes.filter');
-Route::post('/filterAttendance', [App\Http\Controllers\AttendanceController::class, 'filter'])->name('attendances.filter');
-Route::post('/filterCalendar', [App\Http\Controllers\CalendarController::class, 'filter'])->name('calendars.filter');
-Route::post('/filterCard', [App\Http\Controllers\CardController::class, 'filter'])->name('card.filter');
-Route::post('/filterContract', [App\Http\Controllers\ContractsController::class, 'filter'])->name('contract.filter');
-Route::post('/filterEndowment', [App\Http\Controllers\EndowmentController::class, 'filter'])->name('endowment.filter');
-Route::post('/filterLogistic', [App\Http\Controllers\AttendanceReportController::class, 'filterLogistic'])->name('logistic.filter');
-
 //Generar calendarios
 Route::get('/generar-calendarios', [App\Http\Controllers\CalendarController::class, 'calendarGenerator'])->name('calendars.generate');
 
@@ -105,10 +94,6 @@ Route::get('/updateemployees', [App\Http\Controllers\EmployeController::class, '
 //Contracts
 Route::get('/getContracts', [App\Http\Controllers\contractsController::class, 'getContracts'])->name('get.contracts');
 
-
-
-
 Route::resource('invimaRegistrations', App\Http\Controllers\invima_registrationController::class);
-
 
 Route::resource('medicationTemplates', App\Http\Controllers\medicationTemplateController::class);

@@ -408,7 +408,8 @@ class endowmentController extends AppBaseController
 
     public function export() 
     {
-        return Excel::download(new EmployeExport, 'Empleados.xlsx');
+        $period = 'Agosto';
+        return Excel::download(new EmployeExport($period), 'Empleados.xlsx');
     }
 
 }
