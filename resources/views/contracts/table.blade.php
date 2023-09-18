@@ -2,7 +2,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
 @endsection
 <div class="table-responsive">
-    <table class="table table-hover shadow mb-5 rounded" id="contractsTable">
+    <table class="table table-hover shadow rounded" id="contractsTable">
         <thead>
             <tr>
                 <th>Empleado</th>

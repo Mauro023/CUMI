@@ -406,10 +406,11 @@ class endowmentController extends AppBaseController
         return response()->json($items);
     }
 
-    public function export() 
+    public function export(Request $request) 
     {
-        $period = 'Agosto';
-        return Excel::download(new EmployeExport($period), 'Empleados.xlsx');
+        $period = $request->period;
+        $year = $request->year;
+        return Excel::download(new EmployeExport($period, $year), 'Empleados_' . $period . '_' . $year . '.xlsx');
     }
 
 }

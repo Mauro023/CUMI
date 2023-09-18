@@ -20,10 +20,12 @@ class EmployeExport implements FromCollection, WithHeadings, ShouldAutoSize, Wit
     use Exportable;
 
     private $period;
+    private $year;
 
-    public function __construct($period)
+    public function __construct($period, $year)
     {
         $this->period = $period;
+        $this->year = $year;
     }
 
     /**
@@ -32,6 +34,14 @@ class EmployeExport implements FromCollection, WithHeadings, ShouldAutoSize, Wit
     public function collection()
     {
         $threeMonthsAgo = now()->subMonths(3);
+
+        if ($this->period == 'Abril') {
+            $date = '2023-04-01';    
+        } elseif ($this->period == 'Agosto') {
+            $date = '2023-08-01'; 
+        } elseif ($this->period == 'Diciembre') {
+            $date = '2023-12-01'; 
+        }        
 
         $endowment = DB::select("
             SELECT e.id, e.name, e.work_position, e.cost_center
@@ -43,8 +53,12 @@ class EmployeExport implements FromCollection, WithHeadings, ShouldAutoSize, Wit
                 LEFT JOIN contracts c ON e.id = c.employe_id
                 LEFT JOIN endowments en ON c.id = en.contract_id
                 WHERE en.period = ?
-            )
-        ", [$this->period]);
+                AND YEAR(en.deliver_date) = ?
+            ) AND e.unit != 'Deshabilitado'
+            AND DATE_SUB(?, INTERVAL 3 MONTH) >= c.start_date_contract
+            AND c.salary < 2320000
+            ORDER BY e.id;
+        ", [$this->period, $this->year, $date]);
         return new Collection($endowment);
     }
 
