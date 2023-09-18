@@ -124,18 +124,15 @@
 
     @stack('page_scripts')
 
-    @yield('js')
+    @yield('js')  
 </body>
-
-</html>
 
 <style>
     .fixed-footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    background-color: #f8f8f8;
-    padding: 10px 0;
-}
-
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        background-color: #f8f8f8;
+        padding: 10px 0;
+    }
 </style>

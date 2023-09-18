@@ -24,8 +24,8 @@
             </div>
 
             <div class="card-footer">
-                {!! Form::submit('Agregar', ['class' => 'btn btn-primary']) !!}
-                <a href="{{ route('employes.index') }}" class="btn btn-default">Cancelar</a>
+                {!! Form::submit('Guardar', ['class' => 'btn btn-success']) !!}
+                <a href="{{ route('employes.index') }}" class="btn btn-secondary">Cancelar</a>
             </div>
 
             {!! Form::close() !!}

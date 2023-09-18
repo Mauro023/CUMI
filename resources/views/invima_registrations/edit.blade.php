@@ -26,8 +26,8 @@
             </div>
 
             <div class="card-footer">
-                {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
-                <a href="{{ route('invimaRegistrations.index') }}" class="btn btn-default">Cancel</a>
+                {!! Form::submit('Guardar', ['class' => 'btn btn-success']) !!}
+                <a href="{{ route('invimaRegistrations.index') }}" class="btn btn-secondary">Cancelar</a>
             </div>
 
             {!! Form::close() !!}

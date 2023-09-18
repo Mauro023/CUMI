@@ -55,8 +55,8 @@
         </div>
 
         <div class="card-footer">
-            {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
-            <a href="{{ route('medicines.index') }}" class="btn btn-default">Cancel</a>
+            {!! Form::submit('Guardar', ['class' => 'btn btn-success text-white']) !!}
+            <a href="{{ route('medicines.index') }}" class="btn btn-secondary">Cancelar</a>
         </div>
 
         {!! Form::close() !!}

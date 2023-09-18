@@ -29,8 +29,8 @@
                         @include('admin.users.fields')
 
                         <div class="card-footer">
-                            {!! Form::submit('Actualizar', ['class' => 'btn btn-primary']) !!}
-                            <a href="{{ route('admin.users.index') }}" class="btn btn-default">Cancelar</a>
+                            {!! Form::submit('Actualizar', ['class' => 'btn btn-success']) !!}
+                            <a href="{{ route('admin.users.index') }}" class="btn btn-secondary">Cancelar</a>
                         </div>
 
 

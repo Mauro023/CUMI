@@ -27,8 +27,8 @@
             </div>
 
             <div class="card-footer">
-                {!! Form::submit('Guardar', ['class' => 'btn btn-primary']) !!}
-                <a href="{{ route('endowments.index') }}" class="btn btn-default">Cancelar</a>
+                {!! Form::submit('Guardar', ['class' => 'btn btn-success text-white']) !!}
+                <a href="{{ route('endowments.index') }}" class="btn btn-secondary">Cancelar</a>
             </div>
 
             {!! Form::close() !!}

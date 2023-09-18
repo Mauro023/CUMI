@@ -170,26 +170,6 @@ class calendarController extends AppBaseController
         return redirect(route('calendars.index'));
     }
 
-    public function filter(Request $request)
-    {
-        $query = Calendar::query();
-        $start_date = Carbon::parse($request->input('start_date'));
-        $end_date = Carbon::parse($request->input('end_date'));
-
-        // Búsqueda por nombre de empleado
-        if ($request->filled('name')) {
-            $query->whereHas('employe', function ($q) use ($request) {
-                $q->where('name', 'LIKE', '%'.$request->input('name').'%');
-            });
-        }else {
-            // Búsqueda por fecha
-            $query->whereDate('start_date', [$start_date->startOfDay(), $end_date->endOfDay()]);
-        }
-        $calendars = $query->orderBy('start_date', 'desc')->paginate(500);
-
-        return view('calendars.index')->with('calendars', $calendars);
-    }
-
     public function calendarGenerator(Request $request)
     {
         // Obtener la lista de empleados
