@@ -13,6 +13,7 @@
 <!-- Work Position Field -->
 <div class="form-group col-sm-5">
     {!! Form::label('work_position', 'Cargo:') !!}
+    <strong>
     {!! Form::select('work_position', 
         [
             'ADMINISTRADORA DE OBRA TORRE 2' => 'ADMINISTRADORA DE OBRA TORRE 2',
@@ -72,7 +73,7 @@
             'INSTRUMENTADOR QUIRURGICO' => 'INSTRUMENTADOR QUIRURGICO',
             'INSTRUMENTADOR QUIRURGICO LÍDER DE CENTRAL DE ESTERILIZACIÓN' => 'INSTRUMENTADOR QUIRURGICO LÍDER DE CENTRAL DE ESTERILIZACIÓN',
             'LIDER DE CONVENIOS ESPECIALES' => 'LIDER DE CONVENIOS ESPECIALES',
-            'MEDICO ESPECIALISTA INTERNISTA - INFECTOLOGO' => 'MEDICO ESPECIALISTA INTERNISTA - INFECTOLOGO',
+            'MEDICO ESPECIALISTA INTERNISTA' => 'MEDICO ESPECIALISTA INTERNISTA',
             'MEDICO GENERAL' => 'MEDICO GENERAL',
             'NUTRICIONISTA' => 'NUTRICIONISTA',
             'ORIENTADOR' => 'ORIENTADOR',
@@ -97,7 +98,8 @@
             'TESORERO/CARTERA' => 'TESORERO/CARTERA',
             'TRABAJADORA SOCIAL' => 'TRABAJADORA SOCIAL',
             'TRANSCRIPTORA' => 'TRANSCRIPTORA'
-        ], null, ['class' => 'form-control custom-select', 'placeholder' => 'Seleccione el cargo']) !!}
+        ], null, ['class' => 'form-control custom-select', 'placeholder' => 'Seleccione un cargo' ,'id' => 'work_position']) !!}
+    </strong>
 </div>
 
 <!-- Unit Field -->
@@ -125,6 +127,28 @@
             'HEMODINAMIA ' => 'HEMODINAMIA ',
             'HOSPITALIZACION' => 'HOSPITALIZACION',
             'UCI' => 'UCI',
-            'URGENCIAS' => 'URGENCIAS'
+            'URGENCIAS' => 'URGENCIAS',
+            'VARIOS' => 'VARIOS'
         ], null, ['class' => 'form-control custom-select', 'placeholder' => 'Seleccione el centro de costo']) !!}
 </div>
+
+@push('page_scripts')
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#work_position').select2({
+                placeholder: 'Seleccione un cargo',
+                allowClear: true,
+                width: '100%',
+                theme: 'bootstrap4',
+                language: {
+                    noResults: function() {
+                        return "No se encontraron resultados";
+                    },
+                    searching: function() {
+                        return "Buscando...";
+                    },
+                }
+            });
+        });
+    </script>
+@endpush

@@ -1,15 +1,18 @@
+@section('css')
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+@endsection
 <div class="table-responsive">
-    <table class="table" id="medicines-table">
+    <table class="table table-hover shadow mb-5 rounded" id="medicinesTable">
         <thead>
         <tr>
             <th>Fecha ingreso</th>
             <th># Acta</th>
             <th>Nombre generico</th>
-            <th>Numero lote</th>
             <th>Registro sanitario</th>
-            <th>Ingresado por</th>
+            <th>Cantidad</th>
+            <th>Fecha vencimiento</th>
             <th>Estado</th>
-            <th colspan="3">Acciones</th>
+            <th class="text-center">Acciones</th>
         </tr>
         </thead>
         <tbody>
@@ -21,13 +24,13 @@
                     <br>
                     <small style="color: #69C5A0"><strong>{{ $medicine->concentration }}</strong></small>
                     <small style="color: #69C5A0"><strong>{{ $medicine->pharmaceutical_form }}</strong></small></td>
-                <td>{{ $medicine->lot_number }}</td>
-                <td>{{ $medicine->invima_registrations_id ? $medicine->invima_registration->health_register : 'Sin ID'}}
+                <td><small>{{ $medicine->invima_registrations_id ? $medicine->invima_registration->health_register : 'Sin ID'}}</small>
                 <br>
                 <small style="color: #69C5A0"><strong>
-                    {{ $medicine->invima_registrations_id ? $medicine->invima_registration->laboratory_manufacturer : 'Sin ID'}}</strong></small>
+                    {{ $medicine->manufacturer_laboratory }}</strong></small>
                 </td>
-                <td>{{ $medicine->entered_by }}</td>
+                <td class="text-center">{{ $medicine->received_amount }}</td>
+                <td>{{ $medicine->expiration_date->format('Y-m-d') }}</td>
                 <td>{{ $medicine->state }}</td>
                 <td width="120">
                     {!! Form::open(['route' => ['medicines.destroy', $medicine->id], 'method' => 'delete']) !!}
@@ -48,4 +51,55 @@
         @endforeach
         </tbody>
     </table>
+    @section('js')
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+
+    <script>
+        new DataTable('#medicinesTable', {
+                language: {
+                    search: '<Strong style="color: #69C5A0">Buscar</Strong>',
+                    info: '<strong>Página</strong> <strong>_PAGE_</strong> <strong>de</strong> <strong>_PAGES_</strong>',
+                    lengthMenu: '<strong style="color: #69C5A0">Mostrar _MENU_</Strong>',
+                    infoEmpty: '',
+                    infoFiltered: 'Filtrado de _MAX_ registros totales',
+                    zeroRecords: 'No se encontraron resultados',
+                    paginate: {
+                        previous: 'Anterior',
+                        next: 'Siguiente'
+                    }
+                }
+            });
+    </script>
+    @endsection
 </div>
+
+<style>
+    .custom-title {
+        color: #14ABE3;
+        /* Cambia el color del título a rojo */
+    }
+
+    .custom-icon::before {
+        color: #cf33ff;
+        /* Cambia el color del icono a rojo */
+    }
+
+    .pagination .page-item.active .page-link {
+        background-color: #69C5A0;
+        border-color: #69C5A0;
+        color: white;
+    }
+
+    .dataTables_wrapper .dataTables_filter input {
+        border-radius: 10px;
+        margin-top: 10px;
+        margin-right: 4px;
+    }
+
+    .dataTables_length select {
+        border-radius: 10px;
+        margin-top: 10px;
+    }
+</style>

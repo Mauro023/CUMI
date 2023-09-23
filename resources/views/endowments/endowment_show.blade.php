@@ -34,7 +34,7 @@
                                 <th>Empleado</th>
                                 <th>Dotacion</th>
                                 <th>Periodo de entrega</th>
-                                <th>Action</th>
+                                <th class="text-center">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>

@@ -9,7 +9,7 @@
                 <th>Salario</th>
                 <th>Inicio de contrato</th>
                 <th>Deshabilitado</th>
-                <th>Action</th>
+                <th class="text-center">Acciones</th>
             </tr>
         </thead>
         <tbody>

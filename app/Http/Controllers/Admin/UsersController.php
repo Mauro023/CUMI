@@ -21,10 +21,12 @@ class UsersController extends Controller
      * @return \Illuminate\Http\Response
      */
     private $usersRepository;
+    
     public function __construct(UsersRepository $usersRepo)
     {
         $this->usersRepository = $usersRepo;
     }
+
     public function index(Request $request)
     {
         $this->authorize('view_user');

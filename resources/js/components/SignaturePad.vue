@@ -64,7 +64,7 @@ export default defineComponent({
 
 <style>
 #employe_signature {
-  border: double 3px transparent;
+  border: double 2px transparent;
   border-radius: 5px;
   background-image: linear-gradient(white, white),
     radial-gradient(circle at top left, lightgreen, #14ABE3);

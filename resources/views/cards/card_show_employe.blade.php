@@ -38,7 +38,7 @@
                                 <th>Código</th>
                                 <th>Empleado</th>
                                 <th>Fecha de entrega</th>
-                                <th>Action</th>
+                                <th class="text-center">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>

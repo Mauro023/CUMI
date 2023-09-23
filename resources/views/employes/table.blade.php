@@ -11,7 +11,7 @@
                 <th>Unidad</th>
                 <th class="text-center">Centro de costo</th>
                 @canany(['show_employes', 'update_employes', 'destroy_employes'])
-                <th>Acciones</th>
+                <th class="text-center">Acciones</th>
                 @endcan
             </tr>
         </thead>

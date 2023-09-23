@@ -7,11 +7,9 @@
 
     <div class="content px-3">
 
-        @include('flash::message')
-
         <div class="clearfix"></div>
         <div class="card shadow-none border-0">
-            <div class="card-header d-flex justify-content-between align-items-center" style="background-color: white">
+            <div class="card-header d-flex justify-content-between align-items-center" style="background-color: white; padding: 0 0;">
                 <h3 class="card-title m-0" style="color: #69C5A0"><strong>Registro invima</strong></h3>
                 <div class="ml-auto d-flex align-items-center gap-2">
                     @can('create_employes')
@@ -23,12 +21,6 @@
             </div>
             <div class="card-body p-0">
                 @include('invima_registrations.table')
-
-                <div class="card-footer clearfix">
-                    <div class="float-right">
-                        
-                    </div>
-                </div>
             </div>
 
         </div>
