@@ -50,7 +50,7 @@ class cardController extends AppBaseController
         }else {
             $employeesQuery->where('unit', '!=', 'pendiente')
             ->Where('unit', '!=', 'Deshabilitado')
-            ->orderBy('name')->get();
+            ->get();
         }
 
         $employees = $employeesQuery->orderBy('name', 'ASC')->paginate($perPage);
