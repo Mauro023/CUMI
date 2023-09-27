@@ -51,16 +51,38 @@ class AttendanceReportController extends Controller
         return view('attendanceReports.finished', compact('attendances'));
     }
 
-    public function logistics() {
-        $attendances = Attendance::join('employes', 'attendances.employe_id', '=', 'employes.id')
-            ->where('employes.work_position', 'PROFESIONAL LOGISTICA')
-            ->orWhere('employes.work_position', 'Auxiliar de servicios generales')
-            ->orWhere('employes.work_position', 'Auxiliar de ropa intrahospitalaria')
-            ->orderBy('workday', 'DESC')
-            ->orderBy('aentry_time', 'desc')
-            ->get();
+    public function logistics(Request $request) {
+        $perPage = $request->input('per_page', 10);
+        $search = $request->input('search');
+
+        $attendancesQuery = Attendance::query();
         
-            return view('attendanceReports.logistic', compact('attendances'));
+        if (!empty($search)) {
+            $attendancesQuery->whereHas('employe', function ($query) {
+                $query->whereIn('work_position', ['PROFESIONAL LOGISTICA', 'Auxiliar de servicios generales', 'Auxiliar de ropa intrahospitalaria']);
+            })
+            ->where(function ($query) use ($search) {
+                $query->where('workday', 'LIKE', '%' . $search . '%')
+                    ->orWhere('aentry_time', 'LIKE', '%' . $search . '%')
+                    ->orWhere('adeparture_time', 'LIKE', '%' . $search . '%')
+                    ->orWhereHas('employe', function ($query) use ($search) {
+                        $query->where('name', 'LIKE', '%' . $search . '%')
+                            ->orWhere('work_position', 'LIKE', '%' . $search . '%');
+                    });
+            });                       
+        }else {
+            $attendancesQuery->WhereHas('employe', function ($query) {
+                            $query->where('employes.work_position', 'PROFESIONAL LOGISTICA')
+                            ->OrWhere('employes.work_position', 'Auxiliar de servicios generales')
+                            ->OrWhere('employes.work_position', 'Auxiliar de ropa intrahospitalaria');
+                        });
+        }
+
+        $attendances = $attendancesQuery->orderBy('workday', 'DESC')
+        ->orderBy('aentry_time', 'DESC')
+        ->paginate($perPage);
+        
+        return view('attendanceReports.logistic', compact('attendances'));
     }
 
     public function filterLogistic(Request $request)

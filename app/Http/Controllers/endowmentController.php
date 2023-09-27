@@ -38,15 +38,34 @@ class endowmentController extends AppBaseController
     public function index(Request $request)
     {
         $this->authorize('view_endowments');
-        //$endowments = $this->endowmentRepository->all();
         $threeMonthsAgo = now()->subMonths(3);
-        $contracts = Contracts::where('disable', '!=', '3')
-        ->where('salary', '<', 2320000)
-        ->where('start_date_contract', '<=', $threeMonthsAgo)
-        ->get();
+        $perPage = $request->input('per_page', 10);
+        $search = $request->input('search');
+        $contractsQuery = Contracts::query();
 
-        return view('endowments.index')
-            ->with('contracts', $contracts);
+        if (!empty($search)) {
+            $contractsQuery->where(function ($query) use ($threeMonthsAgo) {
+                $query->where('disable', '!=', '3')
+                    ->where('salary', '<', 2320000)
+                    ->where('start_date_contract', '<=', $threeMonthsAgo);
+            })
+            ->WhereHas('employe', function ($query) use ($search) {
+                $query->where('name', 'LIKE', '%' . $search . '%')
+                    ->orWhere('dni', 'LIKE', '%' . $search . '%')
+                    ->orWhere('work_position', 'LIKE', '%' . $search . '%');
+            });            
+        }else {
+            $contractsQuery->join('employes', 'contracts.employe_id', '=', 'employes.id')
+            ->where('disable', '!=', 3)
+            ->where('salary', '<', 2320000)
+            ->where('start_date_contract', '<=', $threeMonthsAgo)
+            ->orderBy('employes.name')
+            ->get();
+        }
+
+        $contracts = $contractsQuery->paginate($perPage);
+
+        return view('endowments.index', compact('contracts'));
     }
 
     /**

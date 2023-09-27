@@ -3,6 +3,7 @@
 
 <head>
 	<title>{{ config('app.name') }} LOGIN</title>
+    <link rel="icon" type="image/png" href="{{ asset('images/icono_Mesa-de-trabajo-1.png') }}" sizes="32x32">
 	<link href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap" rel="stylesheet">
 	<script src="https://kit.fontawesome.com/b915f6423a.js" crossorigin="anonymous"></script>
 	<meta name="viewport" content="width=device-width, initial-scale=1">

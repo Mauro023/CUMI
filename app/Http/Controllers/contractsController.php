@@ -34,10 +34,22 @@ class contractsController extends AppBaseController
     public function index(Request $request)
     {
         $this->authorize('view_contracts');
-        $contracts = $this->contractsRepository->all();
+        $perPage = $request->input('per_page', 10);
+        $search = $request->input('search');
+        $contractsQuery = Contracts::query();
 
-        return view('contracts.index')
-            ->with('contracts', $contracts);
+        if (!empty($search)) {
+            $contractsQuery->where('salary', 'LIKE', '%' . $search . '%')
+                        ->orWhere('start_date_contract', 'LIKE', '%' . $search . '%')
+                        ->orWhere('disable', 'LIKE', '%' . $search . '%')
+                        ->orWhereHas('employe', function ($query) use ($search) {
+                            $query->where('name', 'LIKE', '%' . $search . '%');
+                        });
+        }
+
+        $contracts = $contractsQuery->orderBy('employe_id')->paginate($perPage);
+
+        return view('contracts.index', compact('contracts'));
     }
 
     /**

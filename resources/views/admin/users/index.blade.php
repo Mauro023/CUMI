@@ -1,9 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<section class="content-header">
 
-</section>
 <div class="content px-3">
     <div class="container-fluid">
         <div class="card shadow-none border-0">

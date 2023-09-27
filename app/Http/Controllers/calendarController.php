@@ -35,12 +35,26 @@ class calendarController extends AppBaseController
     public function index(Request $request)
     {
         $this->authorize('view_calendars');
-        $calendars = calendar::orderBy('start_date', 'DESC')
-        ->orderBy('entry_time', 'DESC') 
-        ->get();
 
-        return view('calendars.index')
-            ->with('calendars', $calendars);
+        $perPage = $request->input('per_page', 10);
+        $search = $request->input('search');
+        $calendarQuery = Calendar::query();
+
+        if (!empty($search)) {
+            $calendarQuery->where('start_date', 'LIKE', '%' . $search . '%')
+                        ->orWhere('end_date', 'LIKE', '%' . $search . '%')
+                        ->orWhere('entry_time', 'LIKE', '%' . $search . '%')
+                        ->orWhere('departure_time', 'LIKE', '%' . $search . '%')
+                        ->orWhere('floor', 'LIKE', '%' . $search . '%')
+                        ->orWhereHas('employe', function ($query) use ($search) {
+                            $query->where('name', 'LIKE', '%' . $search . '%')
+                            ->orWhere('work_position', 'LIKE', '%' . $search . '%');
+                        });
+        }
+
+        $calendars = $calendarQuery->orderBy('start_date', 'DESC')->paginate($perPage);
+
+        return view('calendars.index', compact('calendars'));
     }
 
     /**

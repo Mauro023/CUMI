@@ -34,12 +34,28 @@ class cardController extends AppBaseController
     public function index(Request $request)
     {
         $this->authorize('view_cards');
-        $employees = Employe::where('unit', '!=', 'pendiente')
-        ->Where('unit', '!=', 'Deshabilitado')
-        ->orderBy('name')->get();
 
-        return view('cards.index')
-            ->with('employees', $employees);
+        
+        $perPage = $request->input('per_page', 10);
+        $search = $request->input('search');
+        $employeesQuery = Employe::query();
+
+        if (!empty($search)) {
+            $employeesQuery->where('unit', '!=', 'Deshabilitado')
+                ->where(function ($query) use ($search) {
+                    $query->where('dni', 'LIKE', '%' . $search . '%')
+                        ->orWhere('name', 'LIKE', '%' . $search . '%')
+                        ->orWhere('work_position', 'LIKE', '%' . $search . '%');
+                });
+        }else {
+            $employeesQuery->where('unit', '!=', 'pendiente')
+            ->Where('unit', '!=', 'Deshabilitado')
+            ->orderBy('name')->get();
+        }
+
+        $employees = $employeesQuery->orderBy('name', 'ASC')->paginate($perPage);
+
+        return view('cards.index', compact('employees'));
     }
 
     /**

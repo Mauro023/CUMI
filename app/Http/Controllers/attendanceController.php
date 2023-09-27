@@ -34,12 +34,24 @@ class attendanceController extends AppBaseController
     public function index(Request $request)
     {
         $this->authorize('view_attendances');
-        $attendances = Attendance::orderBy('workday', 'DESC')
-        ->orderBy('aentry_time', 'desc')
-        ->get();
 
-        return view('attendances.index')
-            ->with('attendances', $attendances);
+        $perPage = $request->input('per_page', 10);
+        $search = $request->input('search');
+        $attendancesQuery = Attendance::query();
+
+        if (!empty($search)) {
+            $attendancesQuery->where('workday', 'LIKE', '%' . $search . '%')
+                        ->orWhere('aentry_time', 'LIKE', '%' . $search . '%')
+                        ->orWhere('adeparture_time', 'LIKE', '%' . $search . '%')
+                        ->orWhereHas('employe', function ($query) use ($search) {
+                            $query->where('name', 'LIKE', '%' . $search . '%')
+                            ->orWhere('work_position', 'LIKE', '%' . $search . '%');
+                        });
+        }
+
+        $attendances = $attendancesQuery->orderBy('workday', 'DESC')->paginate($perPage);
+
+        return view('attendances.index', compact('attendances'));
     }
 
     /**

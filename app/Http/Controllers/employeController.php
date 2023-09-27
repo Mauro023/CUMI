@@ -32,10 +32,21 @@ class employeController extends AppBaseController
     public function index(Request $request)
     {
         $this->authorize('view_employes');
-        $employes = $this->employeRepository->all();
+        $perPage = $request->input('per_page', 10);
+        $search = $request->input('search');
+        $employesQuery = Employe::query();
 
-        return view('employes.index')
-            ->with('employes', $employes);
+        if (!empty($search)) {
+            $employesQuery->where('dni', 'LIKE', '%' . $search . '%')
+                        ->orWhere('name', 'LIKE', '%' . $search . '%')
+                        ->orWhere('work_position', 'LIKE', '%' . $search . '%')
+                        ->orWhere('unit', 'LIKE', '%' . $search . '%')
+                        ->orWhere('cost_center', 'LIKE', '%' . $search . '%');
+        }
+
+        $employes = $employesQuery->paginate($perPage);
+
+        return view('employes.index', compact('employes'));
     }
 
     /**
