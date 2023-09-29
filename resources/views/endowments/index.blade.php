@@ -12,11 +12,11 @@
                 <h3 class="card-title m-0" style="color: #69C5A0; font-size: 25px;"><strong>Empleados
                         disponibles</strong></h3>
                 <div class="ml-auto d-flex align-items-center gap-2">
-                    <button type="submit" class="btn btn-default" data-toggle="modal" data-target="#exportModal">
+                    <button type="submit" class="btn btn-default" data-toggle="modal" data-target="#exportModal" title="Exportar empleados faltantes por dotación">
                         <span class="fas fa-file-export" style="color: #69C5A0"></span>
                     </button>
                     @can('create_endowments')
-                    <a href="{{ route('endowments.create') }}" class="btn btn-default">
+                    <a href="{{ route('endowments.create') }}" class="btn btn-default" title="Agregar entrega de dotación">
                         <span class="fas fa-plus" style="color: #69C5A0"></span>
                     </a>
                     @endcan
@@ -26,7 +26,7 @@
                 <form action="{{ route('endowments.index') }}" method="GET"
                     class="d-flex justify-content-between align-items-center">
                     <!-- Selector de registros por página (Mostrar) a la izquierda -->
-                    <div class="form-group mb-0 mt-2">
+                    <div class="form-group mb-3 mt-2">
                         <label for="perPageSelect" class="mr-2" style="color: #69C5A0">Mostrar:</label>
                         <select id="perPageSelect" name="per_page" class="form-select" style="border-radius: 20px"
                             onchange="this.form.submit()">

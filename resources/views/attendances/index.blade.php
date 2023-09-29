@@ -9,7 +9,7 @@
                 <h4 class="card-title m-0" style="color: #69C5A0; font-size: 25px;"><strong>Lista de asistencias</strong></h4>
                 <div class="ml-auto">
                     @can('create_attendances')
-                    <a href="{{ route('attendances.create') }}" class="btn btn-default">
+                    <a href="{{ route('attendances.create') }}" class="btn btn-default" title="Agregar asistencia">
                         <span class="fas fa-plus" style="color: #69C5A0"></span>
                     </a>
                     @endcan

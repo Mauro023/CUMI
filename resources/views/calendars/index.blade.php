@@ -9,19 +9,23 @@
                 <h3 class="card-title m-0" style="color: #69C5A0; font-size: 25px;"><strong>Calendarios</strong></h3>
                 <div class="ml-auto">
                     @can('create_calendars')
-                    <a href="{{ route('calendars.create') }}" class="btn btn-default">
+                    <a href="{{ route('calendars.create') }}" class="btn btn-default" title="Crear calendario">
                         <span class="fas fa-calendar-plus" style="color: #69C5A0"></span>
                     </a>
                     @endcan
-                    <a href="{{ route('calendars.generate') }}" class="boton-redondeado"><b>Generar calendarios</b></a>
-                    <a class="boton-redondeado" data-bs-toggle="modal" data-bs-target="#importar"><b>Importar</b></a>
+                    <a class="btn btn-default" data-bs-toggle="modal" data-bs-target="#importar" title="Importar calendarios">
+                        <span class="fas fa-file-import" style="color: #69C5A0"></span>
+                    </a>
+                    <a href="{{ route('calendars.generate') }}" class="btn btn-default" title="Actualizar calendarios">
+                        <span class="fas fa-redo-alt" style="color: #69C5A0"></span>
+                    </a>
                 </div>
             </div>
             <div class="card-body p-0">
 
                 <form action="{{ route('calendars.index') }}" method="GET" class="d-flex justify-content-between align-items-center">
                     <!-- Selector de registros por página (Mostrar) a la izquierda -->
-                    <div class="form-group mb-0 mt-2">
+                    <div class="form-group mb-3 mt-2">
                         <label for="perPageSelect" class="mr-2" style="color: #69C5A0">Mostrar:</label>
                         <select id="perPageSelect" name="per_page" class="form-select" style="border-radius: 20px" onchange="this.form.submit()">
                             <option value="10" {{ $calendars->perPage() == 10 ? 'selected' : '' }}>10</option>
@@ -97,23 +101,3 @@
 </script>
 @endpush
 @endsection
-
-<style>
-    .boton-redondeado {
-        border-radius: 30px;
-        padding: 7px 20px;
-        background-color: #69C5A0;
-        color: white;
-        border: none;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 14px;
-        cursor: pointer;
-        margin-bottom: 3px;
-    }
-
-    .boton-redondeado:hover {
-        color: white;
-    }
-</style>

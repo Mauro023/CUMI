@@ -8,6 +8,7 @@
         name="employe_signature" 
         v-model="employe_signature" 
         ref="signaturePad"
+        :options="options"
       ></vueSignaturePad>
     </div>
 
@@ -38,7 +39,11 @@ export default defineComponent({
   },
   data() {
     return {
-      employe_signature: this.initialSignature || ''
+      employe_signature: this.initialSignature || '',
+      options: {
+        minWidth: 0.5,
+        maxWidth: 1.5,
+      },
     };
   },
   mounted() {

@@ -9,7 +9,7 @@
                 <h4 class="card-title m-0" style="color: #69C5A0; font-size: 25px;"><strong>Lista de usuarios</strong></h4>
                 <div class="ml-auto">
                     @can('create_user')
-                    <a href="{{ route('admin.users.create') }}" class="btn btn-deafult">
+                    <a href="{{ route('admin.users.create') }}" class="btn btn-deafult" title="Crear usuario">
                         <span class="fas fa-user-plus" style="color: #69C5A0"></span>
                     </a>
                     @endcan
