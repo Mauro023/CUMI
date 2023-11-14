@@ -24,8 +24,8 @@
             </div>
 
             <div class="card-footer">
-                {!! Form::submit('Guardar', ['class' => 'btn btn-success']) !!}
-                <a href="{{ route('medicationTemplates.index') }}" class="btn btn-default">Cancel</a>
+                {!! Form::submit('Guardar', ['class' => 'btn btn-success text-white']) !!}
+                <a href="{{ route('medicationTemplates.index') }}" class="btn btn-secondary">Cancelar</a>
             </div>
 
             {!! Form::close() !!}

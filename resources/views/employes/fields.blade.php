@@ -1,19 +1,18 @@
 <!-- Employe Id Field -->
 <div class="form-group col-sm-5">
     {!! Form::label('dni', 'Identificacion:') !!}
-    {!! Form::text('dni', null, ['class' => 'form-control']) !!}
+    {!! Form::text('dni', null, ['class' => 'form-control', 'placeholder' => 'Digite la identificación']) !!}
 </div>
 
 <!-- Name Field -->
 <div class="form-group col-sm-5">
     {!! Form::label('name', 'Nombre:') !!}
-    {!! Form::text('name', null, ['class' => 'form-control']) !!}
+    {!! Form::text('name', null, ['class' => 'form-control', 'placeholder' => 'Digite el nombre']) !!}
 </div>
 
 <!-- Work Position Field -->
 <div class="form-group col-sm-5">
     {!! Form::label('work_position', 'Cargo:') !!}
-    <strong>
     {!! Form::select('work_position', 
         [
             'ADMINISTRADORA DE OBRA TORRE 2' => 'ADMINISTRADORA DE OBRA TORRE 2',
@@ -101,7 +100,6 @@
             'TRABAJADORA SOCIAL' => 'TRABAJADORA SOCIAL',
             'TRANSCRIPTORA' => 'TRANSCRIPTORA'
         ], null, ['class' => 'form-control custom-select', 'placeholder' => 'Seleccione un cargo' ,'id' => 'work_position']) !!}
-    </strong>
 </div>
 
 <!-- Unit Field -->
@@ -112,8 +110,8 @@
             'Administrativo' => 'Administrativo', 
             'Administrativo asistencial' => 'Administrativo asistencial', 
             'Asistencial' => 'Asistencial',
-            'Deshabilitado' => 'Deshabilitado'
-        ], null, ['class' => 'form-control custom-select', 'placeholder' => 'Seleccione la unidad']) !!}
+            'Otros' => 'Otros'
+        ], null, ['class' => 'form-control custom-select text-secondary', 'placeholder' => 'Seleccione la unidad']) !!}
 </div>
 
 <!-- Cost center Field -->
@@ -131,14 +129,77 @@
             'UCI' => 'UCI',
             'URGENCIAS' => 'URGENCIAS',
             'VARIOS' => 'VARIOS'
-        ], null, ['class' => 'form-control custom-select', 'placeholder' => 'Seleccione el centro de costo']) !!}
+        ], null, ['class' => 'form-control custom-select text-secondary', 'placeholder' => 'Seleccione el centro de costo']) !!}
 </div>
+
+<!-- Cost center Field -->
+<div class="form-group col-sm-5">
+    {!! Form::label('service', 'Servicio:') !!}
+    {!! Form::select('service', 
+        [
+            'ADMINISTRACION' => 'ADMINISTRACION',
+            'ADMISION Y FACTURACION' => 'ADMISION Y FACTURACION',
+            'ASAMBLEA GENERAL Y JUNTA DIRECTIVA' => 'ASAMBLEA GENERAL Y JUNTA DIRECTIVA',      
+            'ASEO' => 'ASEO',
+            'CALIDAD' => 'CALIDAD',
+            'CENTRAL DE ESTERILIZACION' => 'CENTRAL DE ESTERILIZACION',
+            'CIRUGIA' => 'CIRUGIA',
+            'COMPRAS' => 'COMPRAS',            
+            'CONSULTA EXTERNA' => 'CONSULTA EXTERNA',                        
+            'CONTABILIDAD' => 'CONTABILIDAD',
+            'CONTRATACION' => 'CONTRATACION',                       
+            'COSTO Y PRESUPUESTO' => 'COSTO Y PRESUPUESTO',                     
+            'ECOCARDIOGRAMA' => 'ECOCARDIOGRAMA',                
+            'ECOGRAFIA' => 'ECOGRAFIA',                     
+            'ENDOSCOPIAS' => 'ENDOSCOPIAS',                          
+            'FARMACIA' => 'FARMACIA',                        
+            'FINANZAS' => 'FINANZAS',
+            'HEMODINAMIA' => 'HEMODINAMIA',                           
+            'HOSPITALIZACION PISO 10' => 'HOSPITALIZACION PISO 10',     
+            'HOSPITALIZACION PISO 11' => 'HOSPITALIZACION PISO 11',
+            'HOSPITALIZACION PISO 7' => 'HOSPITALIZACION PISO 7',            
+            'HOSPITALIZACION PISO 8' => 'HOSPITALIZACION PISO 8',             
+            'HOSPITALIZACION PISO 9' => 'HOSPITALIZACION PISO 9',             
+            'MAMOGRAFIAS' => 'MAMOGRAFIAS',             
+            'MANTENIMIENTO (BIOMEDICO)' => 'MANTENIMIENTO (BIOMEDICO)',   
+            'MANTENIMIENTO (INFRAESTRUCTURA)' => 'MANTENIMIENTO (INFRAESTRUCTURA)',   
+            'PISO 8 UCI INTERMEDIO' => 'PISO 8 UCI INTERMEDIO',
+            'RESONANCIA' => 'RESONANCIA',                              
+            'SEGURIDAD DEL PACIENTE' => 'SEGURIDAD DEL PACIENTE',                  
+            'SIAU' => 'SIAU',                                    
+            'SISTEMAS' => 'SISTEMAS',
+            'TALENTO HUMANO' => 'TALENTO HUMANO',                  
+            'TESORERIA' => 'TESORERIA',
+            'TOMOGRAFIA' => 'TOMOGRAFIA',                              
+            'UCI PISO 5' => 'UCI PISO 5',                              
+            'UCI PISO 6' => 'UCI PISO 6',                              
+            'URGENCIAS' => 'URGENCIAS'
+        ], null, ['class' => 'form-control custom-select text-secondary', 'placeholder' => 'Seleccione el centro de costo','id' => 'service']) !!}
+</div>
+
 
 @push('page_scripts')
     <script type="text/javascript">
         $(document).ready(function() {
             $('#work_position').select2({
                 placeholder: 'Seleccione un cargo',
+                allowClear: true,
+                width: '100%',
+                theme: 'bootstrap4',
+                language: {
+                    noResults: function() {
+                        return "No se encontraron resultados";
+                    },
+                    searching: function() {
+                        return "Buscando...";
+                    },
+                }
+            });
+        });
+
+        $(document).ready(function() {
+            $('#service').select2({
+                placeholder: 'Seleccione un servicio',
                 allowClear: true,
                 width: '100%',
                 theme: 'bootstrap4',

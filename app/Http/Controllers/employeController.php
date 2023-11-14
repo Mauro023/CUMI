@@ -41,7 +41,8 @@ class employeController extends AppBaseController
                         ->orWhere('name', 'LIKE', '%' . $search . '%')
                         ->orWhere('work_position', 'LIKE', '%' . $search . '%')
                         ->orWhere('unit', 'LIKE', '%' . $search . '%')
-                        ->orWhere('cost_center', 'LIKE', '%' . $search . '%');
+                        ->orWhere('cost_center', 'LIKE', '%' . $search . '%')
+                        ->orWhere('service', 'LIKE', '%' . $search . '%');
         }
 
         $employes = $employesQuery->paginate($perPage);
@@ -185,30 +186,43 @@ class employeController extends AppBaseController
     public function getEmployees()
     {
         $results = DB::connection('sqlsrv')->select("SELECT e.identificacion, e.nombre_completo, 
-        c.codigo, ca.descripcion AS cargo, 
-        u.descripcion AS UFuncional, c.fecha_inicio_contrato, 
-        c.sueldo_basico, c.deshabilitar 
-        FROM contratos c
-        JOIN empleado e ON c.id_empleado = e.id
-        JOIN cargos ca ON ca.id = c.id_cargos
-        JOIN unidades_funcionales u ON u.id = c.id_unidades_funcionales
-        WHERE c.sueldo_basico > 900000 AND c.deshabilitar != 3 AND c.deshabilitar != 1");
+            c.codigo, ca.descripcion AS cargo, 
+            u.descripcion AS UFuncional,
+            cc.descripcion AS Servicio,
+            c.fecha_inicio_contrato, 
+            c.sueldo_basico, c.deshabilitar 
+            FROM contratos c
+            JOIN empleado e ON c.id_empleado = e.id
+            JOIN cargos ca ON ca.id = c.id_cargos
+            JOIN unidades_funcionales u ON u.id = c.id_unidades_funcionales
+            JOIN centros_de_costos cc ON cc.idccosto = c.id_centro_de_costo
+            WHERE ca.descripcion NOT IN ('Estudiante en practica', 'Aprendiz sena') 
+            AND c.deshabilitar NOT IN ('1', '3')
+            ORDER BY e.nombre_completo");
+        
         foreach ($results as $result) {
             //Se valida que el empleado esté registrado
             $existingEmploye = Employe::where('dni', $result->identificacion)->first();
-            
-            if (!$existingEmploye) {
+            if ($existingEmploye) {
+                // Actualiza los datos del empleado existente
+                $existingEmploye->name = $result->nombre_completo;
+                $existingEmploye->work_position = $result->cargo;
+                $existingEmploye->unit = $this->getUnit($result->cargo);
+                $existingEmploye->cost_center = $result->UFuncional;
+                $existingEmploye->service = $result->Servicio;
+                
+                $existingEmploye->save();
+            }else {
                 $newEmploye = new Employe();
                 $newEmploye->dni = $result->identificacion;
                 $newEmploye->name = $result->nombre_completo;
                 $newEmploye->work_position = $result->cargo;
-                $newEmploye->unit = 'Pendiente';
+                $newEmploye->unit = $this->getUnit($result->cargo);
                 $newEmploye->cost_center = $result->UFuncional;
-                
+                $newEmploye->service = $result->Servicio;
                 $newEmploye->save();
             }
         }
-
         $this->updateEmployees();
         session()->flash('success', "¡¡Empleados actualizados correctamente!!");
         return redirect(route('employes.index'));
@@ -216,40 +230,130 @@ class employeController extends AppBaseController
 
     public function updateEmployees()
     {
-        $results = DB::connection('sqlsrv')->select("SELECT e.identificacion, e.nombre_completo, 
-        c.codigo, ca.descripcion AS cargo, 
-        u.descripcion AS UFuncional, c.fecha_inicio_contrato, 
-        c.sueldo_basico, c.deshabilitar 
+        $results = DB::connection('sqlsrv')->select("SELECT c.id_empleado, e.identificacion, e.nombre_completo, 
+        c.codigo, ca.descripcion AS cargo, c.fecha_inicio_contrato, c.deshabilitar 
         FROM contratos c
         JOIN empleado e ON c.id_empleado = e.id
         JOIN cargos ca ON ca.id = c.id_cargos
         JOIN unidades_funcionales u ON u.id = c.id_unidades_funcionales
-        WHERE c.sueldo_basico > 900000 AND c.deshabilitar != 3 AND c.deshabilitar != 1");
+        WHERE ca.descripcion NOT IN ('Estudiante en practica', 'Aprendiz sena')
+		AND c.deshabilitar IN ('1', '3')
+		ORDER BY e.nombre_completo");
 
         foreach ($results as $result) {
-            $empleadoId = $result->identificacion;
+            $empleadoId = $result->id_empleado;
             $allDisable = true;
-
-            foreach ($results as $contrato) {
-                if ($contrato->identificacion === $empleadoId && $contrato->deshabilitar != 3) {
+            $contrats = DB::connection('sqlsrv')->select("SELECT * from contratos where id_empleado = $empleadoId");
+            foreach ($contrats as $contrat) {
+                if ($contrat->deshabilitar != 3 && $contrat->deshabilitar != 1) {
                     $allDisable = false;
                     break;
                 }
             }
 
-            if ($allDisable) {
-                $employe = Employe::where('dni', $empleadoId)->first();
-
-                    if ($employe) {
-                        $employe->unit = 'Deshabilitado';
-                        $employe->save();
+            if ($allDisable == true) {
+                $employe = Employe::where('dni', $result->identificacion)->first();
+                if ($employe) {
+                    $employe->unit = 'Deshabilitado';
+                    $employe->save();
         
-                        $employe->contracts()
-                            //->orderBy('start_date_contract', 'desc')
-                            ->update(['disable' => 3]);
-                    }
+                    $employe->contracts()
+                    //->orderBy('start_date_contract', 'desc')
+                    ->update(['disable' => 3]);
+                }
             }
         }
+    }
+
+    public function getUnit($cargo){
+        // Array asociativo que relaciona los cargos con las categorías
+        $categorias = [
+            'ANALISTA DE DATOS' => 'Administrativo',
+            'ASISTENTE CONTABLE' => 'Administrativo',
+            'AUDITOR MEDICO' => 'Administrativo asistencial',
+            'AUXILIAR ADMINISTRATIVO GENERAL' => 'Administrativo',
+            'AUXILIAR BIOMEDICO' => 'Administrativo',
+            'AUXILIAR CLINICO' => 'Asistencial',
+            'AUXILIAR DE ADMISIONES' => 'Otros',
+            'AUXILIAR DE AUTORIZACIONES' => 'Administrativo',
+            'AUXILIAR DE COMPRAS' => 'Administrativo',
+            'AUXILIAR DE CUENTAS MEDICAS' => 'Administrativo',
+            'AUXILIAR DE ENFERMERIA' => 'Asistencial',
+            'AUXILIAR DE FACTURACION' => 'Administrativo asistencial',
+            'AUXILIAR DE FARMACIA' => 'Asistencial',
+            'AUXILIAR DE GESTION DOCUMENTAL' => 'Administrativo',
+            'AUXILIAR DE MANTENIMIENTO E INFRAESTRUCTURA - ELECTRICISTA' => 'Otros',
+            'AUXILIAR DE PROGRAMACIÓN QUIRURGICA' => 'Otros',
+            'AUXILIAR DE RADICACION' => 'Administrativo',
+            'AUXILIAR DE SERVICIOS GENERALES' => 'Otros',
+            'AUXILIAR DE SISTEMAS' => 'Administrativo',
+            'AUXILIAR DE TALENTO HUMANO' => 'Administrativo',
+            'AUXILIAR MANTENIMIENTO E INFRAESTRUCTURA' => 'Otros',
+            'COMUNICADORA ORGANIZACIONAL' => 'Administrativo',
+            'CONTADOR' => 'Administrativo',
+            'COORDINADOR DE CALIDAD' => 'Administrativo',
+            'COORDINADOR DE CONSULTA EXTERNA' => 'Administrativo asistencial',
+            'COORDINADOR DE FACTURACION' => 'Administrativo',
+            'COORDINADOR DE HOSPITALIZACION' => 'Administrativo asistencial',
+            'COORDINADOR DE IMAGENOLOGIA' => 'Administrativo asistencial',
+            'COORDINADOR DE INFRAESTRUCTURA Y MANTENIMIENTO' => 'Administrativo',
+            'COORDINADOR DE SISTEMA' => 'Administrativo',
+            'COORDINADOR DE URGENCIAS' => 'Administrativo asistencial',
+            'COORDINADOR UCI' => 'Administrativo asistencial',
+            'COORDINADORA SIAU' => 'Administrativo asistencial',
+            'DIRECTOR SERVICIOS FARMACEUTICOS' => 'Administrativo asistencial',
+            'DIRECTORA Administrativo Y FINANCIERA' => 'Administrativo',
+            'DIRECTORA DE GESTION HUMANA' => 'Administrativo',
+            'ENFERMERA AUDITORA DE CUENTAS MEDICAS' => 'Administrativo',
+            'ENFERMERA LÍDER DE HOSPITALIZACIÓN' => 'Administrativo asistencial',
+            'ENFERMERO (A) JEFE' => 'Asistencial',
+            'ENFERMERO LÍDER DE URGENCIAS' => 'Administrativo asistencial',
+            'FISIOTERAPEUTA' => 'Asistencial',
+            'FISIOTERAPEUTA LIDER' => 'Administrativo asistencial',
+            'FISIOTERAPEUTA REHABILITADORA CARDIACA' => 'Asistencial',
+            'GERENTE GENERAL' => 'Otros',
+            'GESTOR QUIRURGICO' => 'Administrativo asistencial',
+            'INGENIERA DE PROCESOS/CIRUGIA' => 'Administrativo asistencial',
+            'INGENIERO BIOMEDICO' => 'Administrativo',
+            'INGENIERO DE PROCESOS' => 'Administrativo',
+            'INGENIERO DE SOPORTE' => 'Administrativo',
+            'INSTRUMENTADOR QUIRURGICO' => 'Asistencial',
+            'INSTRUMENTADOR QUIRURGICO LÍDER DE CENTRAL DE ESTERILIZACIÓN' => 'Administrativo asistencial',
+            'LIDER DE CONVENIOS ESPECIALES' => 'Administrativo asistencial',
+            'MEDICO EPIDEMIOLOGO' => 'Administrativo asistencial',
+            'MEDICO ESPECIALISTA INTERNISTA - INFECTOLOGO' => 'Asistencial',
+            'MEDICO GENERAL' => 'Asistencial',
+            'NUTRICIONISTA' => 'Administrativo asistencial',
+            'ORIENTADOR' => 'Otros',
+            'PROFESIONAL DE CARTERA' => 'Administrativo',
+            'PROFESIONAL DE COSTOS Y PRESUPUETOS' => 'Administrativo',
+            'PROFESIONAL DE GESTIÓN  RIESGO Y CONTROL INTERNO' => 'Administrativo',
+            'PROFESIONAL DE NOMINA' => 'Administrativo',
+            'PROFESIONAL DE SALUD Y SEGURIDAD EN EL TRABAJO' => 'Administrativo asistencial',
+            'PROFESIONAL EN COMPRAS Y SUMINISTROS' => 'Administrativo',
+            'PROFESIONAL LOGISTICA' => 'Administrativo',
+            'PSICÓLOGO CLINICO' => 'Administrativo asistencial',
+            'PSICÓLOGO ORGANIZACIONAL' => 'Otros',
+            'QUIMICO FARMACEUTICO' => 'Asistencial',
+            'QUIMICO FARMACEUTICO - CLINICO' => 'Asistencial',
+            'REFERENTE DE SEGURIDAD DEL PACIENTE' => 'Administrativo asistencial',
+            'REGENTE DE FARMACIA' => 'Asistencial',
+            'SECRETARIO GENERAL' => 'Otros',
+            'SUPERVISOR TECNICO EN REFRIGERACION' => 'Otros',
+            'TECNICO EN IMÁGENES DIAGNOSTICAS' => 'Asistencial',
+            'TECNICO EN REFRIGERACIÓN' => 'Otros',
+            'TECNOLOGO DE IMAGENES DIAGNOSTICAS' => 'Asistencial',
+            'TESORERO/CARTERA' => 'Administrativo',
+            'TRABAJADORA SOCIAL' => 'Administrativo asistencial',
+            'TRANSCRIPTORA' => 'Administrativo asistencial'
+        ];        
+
+        if (array_key_exists($cargo, $categorias)) {
+            $categoria = $categorias[$cargo];
+        } else {
+            $categoria = 'Pendiente';
+        }
+        return $categoria;
     }
 
 }

@@ -21,6 +21,7 @@ class CreateEmployesTable extends Migration
             $table->string('work_position');
             $table->string('unit');
             $table->string('cost_center');
+            $table->string('service');
             $table->timestamps();
             $table->softDeletes();
         });

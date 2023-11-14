@@ -22,9 +22,13 @@ class invima_registrationFactory extends Factory
     public function definition()
     {
         return [
+            'generic_name' => $this->faker->word,
+            'tradename' => $this->faker->word,
             'health_register' => $this->faker->word,
+            'state_invima' => $this->faker->word,
             'validity_registration' => $this->faker->word,
             'laboratory_manufacturer' => $this->faker->word,
+            'pharmaceutical_form' => $this->faker->word,
             'created_at' => $this->faker->date('Y-m-d H:i:s'),
             'updated_at' => $this->faker->date('Y-m-d H:i:s')
         ];

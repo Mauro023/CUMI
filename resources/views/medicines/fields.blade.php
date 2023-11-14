@@ -24,7 +24,7 @@
 <!-- Medicine Field -->
 <div id="app">
     <template>
-        <reception-medicines :data='@json($plantilla ?? null)' :invima='@json($invima ?? null)' :medicine='@json($medicine ?? null)'></reception-medicines>
+        <reception-medicines :data='@json($plantilla ?? null)' :invima='@json($invima ?? null)'></reception-medicines>
     </template>
 </div>
 

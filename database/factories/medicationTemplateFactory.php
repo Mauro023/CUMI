@@ -23,13 +23,8 @@ class medicationTemplateFactory extends Factory
     {
         return [
             'template_name' => $this->faker->word,
-            'generic_namet' => $this->faker->word,
-            'tradenamet' => $this->faker->word,
             'concentrationt' => $this->faker->word,
-            'pharmaceutical_formt' => $this->faker->word,
             'presentationt' => $this->faker->word,
-            'registration_validityt' => $this->faker->word,
-            'manufacturer_laboratoryt' => $this->faker->word,
             'received_amountt' => $this->faker->randomDigitNotNull,
             'samplet' => $this->faker->randomDigitNotNull,
             'invima_registrations_id' => $this->faker->randomDigitNotNull,

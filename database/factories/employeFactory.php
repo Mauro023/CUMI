@@ -27,6 +27,7 @@ class employeFactory extends Factory
             'work_position' => $this->faker->word,
             'unit' => $this->faker->word,
             'cost_center' => $this->faker->word,
+            'service' => $this->faker->word,
             'created_at' => $this->faker->date('Y-m-d H:i:s'),
             'updated_at' => $this->faker->date('Y-m-d H:i:s')
         ];

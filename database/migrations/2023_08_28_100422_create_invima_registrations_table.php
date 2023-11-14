@@ -16,9 +16,13 @@ class CreateInvimaRegistrationsTable extends Migration
     {
         Schema::create('invima_registrations', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('generic_name');
+            $table->string('tradename');
             $table->string('health_register');
+            $table->string('state_invima');
             $table->string('validity_registration');
             $table->string('laboratory_manufacturer');
+            $table->string('pharmaceutical_form');
             $table->timestamps();
             $table->softDeletes();
         });

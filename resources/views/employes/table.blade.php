@@ -16,14 +16,18 @@
             @foreach($employes as $employe)
             <tr>
                 <td><strong>{{$employe->id}}</strong></td>
-                <td>
+                <td style="vertical-align: middle"> 
                     {{ $employe->name }}
                     <br>
                     <small style="color: #69C5A0"><strong>{{ $employe->dni }}</strong></small>
                 </td>
                 <td scope="row" style="vertical-align: middle">{{ $employe->work_position }}</td>
                 <td scope="row" style="vertical-align: middle" class="text-uppercase">{{ $employe->unit }}</td>
-                <td class="text-center" style="vertical-align: middle">{{ $employe->cost_center }}</td>
+                <td 
+                    class="text-center" style="vertical-align: middle">{{ $employe->cost_center }}
+                    <br>
+                    <small style="color: #69C5A0"><strong>{{ $employe->service }}</strong></small>
+                </td>
                 <td>
 
                     {!! Form::open(['route' => ['employes.destroy', $employe->id], 'method' => 'delete'
@@ -99,18 +103,13 @@
                         </li>
                         <li class="list-group-item">
                             <span class="far fa-hospital" style="color: #69C5A0"></span>
-                            <b style="color: #69C5A0"><strong>Centro de costos</strong></b>
+                            <b style="color: #69C5A0"><strong>Centro costos</strong></b>
                             <p class="float-right">{{ $employe->cost_center }}</p>
                         </li>
                         <li class="list-group-item">
-                            <span class="far fa-calendar-check" style="color: #69C5A0"></span>
-                            <b style="color: #69C5A0"><strong>Creado</strong></b>
-                            <p class="float-right">{{ $employe->created_at->format('Y-m-d') }}</p>
-                        </li>
-                        <li class="list-group-item">
-                            <span class="far fa-edit" style="color: #69C5A0"></span>
-                            <b style="color: #69C5A0"><strong>Modificado</strong></b>
-                            <p class="float-right">{{ $employe->updated_at->format('Y-m-d') }}</p>
+                            <span class="far fa-hospital" style="color: #69C5A0"></span>
+                            <b style="color: #69C5A0"><strong>Servicio</strong></b>
+                            <p class="float-right">{{ $employe->service }}</p>
                         </li>
                     </ul>
                 </div>

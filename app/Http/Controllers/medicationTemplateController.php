@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Flash;
 use Response;
 use App\Models\Invima_registration;
+use App\Models\medicationTemplate;
 
 class medicationTemplateController extends AppBaseController
 {
@@ -30,10 +31,28 @@ class medicationTemplateController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $medicationTemplates = $this->medicationTemplateRepository->all();
+        $perPage = $request->input('per_page', 10);
+        $search = $request->input('search');
+        $templateQuery = medicationTemplate::query();
 
-        return view('medication_templates.index')
-            ->with('medicationTemplates', $medicationTemplates);
+        if (!empty($search)) {
+            $templateQuery->where('template_name', 'LIKE', '%' . $search . '%')
+                        ->orWhere('concentrationt', 'LIKE', '%' . $search . '%')
+                        ->orWhere('presentationt', 'LIKE', '%' . $search . '%')
+                        ->orWhere('received_amountt', 'LIKE', '%' . $search . '%')
+                        ->orWhere('samplet', 'LIKE', '%' . $search . '%')
+                        ->orWhereHas('invima_registration', function ($query) use ($search) {
+                            $query->where('generic_name', 'LIKE', '%' . $search . '%')
+                            ->orWhere('tradename', 'LIKE', '%' . $search . '%')
+                            ->orWhere('health_register', 'LIKE', '%' . $search . '%')
+                            ->orWhere('state_invima', 'LIKE', '%' . $search . '%')
+                            ->orWhere('pharmaceutical_form', 'LIKE', '%' . $search . '%');
+                        });
+        }
+
+        $medicationTemplates = $templateQuery->paginate($perPage);
+
+        return view('medication_templates.index', compact('medicationTemplates'));
     }
 
     /**
@@ -59,7 +78,7 @@ class medicationTemplateController extends AppBaseController
         $input = $request->all();
         $medicationTemplate = $this->medicationTemplateRepository->create($input);
 
-        Flash::success('Medication Template saved successfully.');
+        session()->flash('success', "¡¡Plantilla creada con éxito!!");
 
         return redirect(route('medicationTemplates.index'));
     }
@@ -103,7 +122,7 @@ class medicationTemplateController extends AppBaseController
         }
         
 
-        return view('medication_templates.edit', compact('invimas', 'invimasSelect'))->with('medicationTemplate', $medicationTemplate);
+        return view('medication_templates.edit', compact('invimas', 'invimasSelect', 'medicationTemplate'));
     }
 
     /**
@@ -126,7 +145,7 @@ class medicationTemplateController extends AppBaseController
 
         $medicationTemplate = $this->medicationTemplateRepository->update($request->all(), $id);
 
-        Flash::success('Medication Template updated successfully.');
+        session()->flash('success', "¡¡Plantilla modificada con éxito!!");
 
         return redirect(route('medicationTemplates.index'));
     }

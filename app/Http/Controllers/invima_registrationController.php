@@ -9,6 +9,7 @@ use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
+use App\Models\Invima_registration;
 
 class invima_registrationController extends AppBaseController
 {
@@ -29,10 +30,23 @@ class invima_registrationController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $invimaRegistrations = $this->invimaRegistrationRepository->all();
 
-        return view('invima_registrations.index')
-            ->with('invimaRegistrations', $invimaRegistrations);
+        $perPage = $request->input('per_page', 10);
+        $search = $request->input('search');
+        $invimaQuery = Invima_registration::query();
+
+        if (!empty($search)) {
+            $invimaQuery->where('tradename', 'LIKE', '%' . $search . '%')
+                        ->orWhere('health_register', 'LIKE', '%' . $search . '%')
+                        ->orWhere('state_invima', 'LIKE', '%' . $search . '%')
+                        ->orWhere('validity_registration', 'LIKE', '%' . $search . '%')
+                        ->orWhere('laboratory_manufacturer', 'LIKE', '%' . $search . '%')
+                        ->orWhere('pharmaceutical_form', 'LIKE', '%' . $search . '%');
+        }
+
+        $invimaRegistrations = $invimaQuery->paginate($perPage);
+
+        return view('invima_registrations.index', compact('invimaRegistrations'));
     }
 
     /**
@@ -58,7 +72,7 @@ class invima_registrationController extends AppBaseController
 
         $invimaRegistration = $this->invimaRegistrationRepository->create($input);
 
-        Flash::success('Invima Registration saved successfully.');
+        session()->flash('success', "¡¡Registro invima registrado con éxito!!");
 
         return redirect(route('invimaRegistrations.index'));
     }
@@ -123,7 +137,7 @@ class invima_registrationController extends AppBaseController
 
         $invimaRegistration = $this->invimaRegistrationRepository->update($request->all(), $id);
 
-        Flash::success('Invima Registration updated successfully.');
+        session()->flash('success', "¡¡Registro invima modificado con éxito!!");
 
         return redirect(route('invimaRegistrations.index'));
     }

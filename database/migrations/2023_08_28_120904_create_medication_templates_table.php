@@ -17,13 +17,8 @@ class CreateMedicationTemplatesTable extends Migration
         Schema::create('medication_templates', function (Blueprint $table) {
             $table->increments('id');
             $table->string('template_name');
-            $table->string('generic_namet');
-            $table->string('tradenamet');
             $table->string('concentrationt');
-            $table->string('pharmaceutical_formt');
             $table->string('presentationt');
-            $table->string('registration_validityt');
-            $table->string('manufacturer_laboratoryt');
             $table->integer('received_amountt');
             $table->integer('samplet');
             $table->integer('invima_registrations_id')->unsigned();

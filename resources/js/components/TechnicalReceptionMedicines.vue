@@ -9,11 +9,11 @@
             </div>
             <div class="form-group col-sm-3">
                 <label for="details">Nombre generico:</label>
-                <input type="text" v-model="generic_namet" class="form-control" name="generic_name" />
+                <input type="text" v-model="generic_name" class="form-control" name="generic_name" />
             </div>
             <div class="form-group col-sm-3">
                 <label for="details">Nombre comercial:</label>
-                <input type="text" v-model="tradenamet" class="form-control" name="tradename" />
+                <input type="text" v-model="tradename" class="form-control" name="tradename" />
             </div>
             <div class="form-group col-sm-3">
                 <label for="details">Concentracion:</label>
@@ -27,52 +27,7 @@
                         <label clas for="item">Forma farmaceutica:</label>
                         <select class="form-control custom-select" @change="setTemplate" v-model="template"
                             name="pharmaceutical_form">
-                            <option value="Aerosol">Aerosol</option>
-                            <option value="Ampolla">Ampolla</option>
-                            <option value="Caja">Caja</option>
-                            <option value="Capsula">Capsula</option>
-                            <option value="Comprimido">Comprimido</option>
-                            <option value="CremaTopica">Crema topica</option>
-                            <option value="Emulsion">Emulsion</option>
-                            <option value="Frasco">Frasco</option>
-                            <option value="FrascosVial">Frascos Vial</option>
-                            <option value="GelTopico">Gel topico</option>
-                            <option value="Gotas">Gotas</option>
-                            <option value="Granulados">Granulados</option>
-                            <option value="Inhaladores">Inhalacion</option>
-                            <option value="Jarabe">Jarabe</option>
-                            <option value="Lata">Lata</option>
-                            <option value="Liquida">Liquida</option>
-                            <option value="Mezclado">Mezclado</option>
-                            <option value="Otico">Otico</option>
-                            <option value="Ovulo">Ovulo</option>
-                            <option value="ParcheTransdermico">Parche termico</option>
-                            <option value="PolvoSuspensionOral">Polvo para suspension</option>
-                            <option value="Polvo">Polvo</option>
-                            <option value="PolvoEsteril">Polvo esteril</option>
-                            <option value="PolvoEsterilReconstituir">Polvo esteril para reconstituir</option>
-                            <option value="PolvoLiofilizado">Polvo liofilizado</option>
-                            <option value="PolvoReconstituir">Polvo para reconstituir</option>
-                            <option value="PolvoSolucionInyectable">Polvo para solucion inyectable</option>
-                            <option value="Pomada">Pomada</option>
-                            <option value="Pote">Pote</option>
-                            <option value="Solucion">Solucion</option>
-                            <option value="SolucionInyectable">Solucion inyectable</option>
-                            <option value="SolucionNasal">Solucion nasal</option>
-                            <option value="SolucionOftalmica">Solucion oftalmica</option>
-                            <option value="SolucionOral">Solucion oral</option>
-                            <option value="solucionInfusion">solucion para infusion</option>
-                            <option value="SolucionInhalar">Solucion para inhalar</option>
-                            <option value="SolucionNebulizar">Solucion para nebulizar</option>
-                            <option value="SolucionTopica">Solucion topica</option>
-                            <option value="Suspension">Suspension</option>
-                            <option value="SuspensionInyectable">Suspension inyectable</option>
-                            <option value="SuspensionOral">Suspension oral</option>
-                            <option value="SuspensiónRectal">Suspensión rectal</option>
-                            <option value="Tableta">Tableta</option>
-                            <option value="Unguento">Unguento</option>
-                            <option value="UnguentoTopica">Unguento topica</option>
-                            <option value="Vial">Vial</option>
+                            <option v-for="(value, displayValue) in options" :key="value" :value="value">{{ value }}</option>
                         </select>
                     </div>
                 </div>
@@ -83,21 +38,22 @@
             </div>
             <div class="form-group col-sm-3">
                 <label for="details">Registro invima:</label>
-                <input type="hidden" v-model="invima_registrations_id" class="form-control" name="invima_registrations_id" />
-    
-                <select v-model="invima_registrations_id" class="form-control custom-select" name="invima_registrations_id">
-                    <option v-for="category in invima" :value="category.id">{{ category.health_register}}</option>
+                <input type="hidden" v-model="invimaRegistrations" class="form-control"
+                    name="invima_registrations_id" />
+
+                <select v-model="invimaRegistrations" class="form-control custom-select" name="invima_registrations_id">
+                    <option v-for="category in invima" :value="category.id">{{ category.health_register }}</option>
                 </select>
             </div>
             <div class="form-group col-sm-3">
                 <label for="details">Laboratorio fabricante:</label>
-                <input type="text" v-model="manufacturer_laboratoryt" class="form-control" name="manufacturer_laboratory" />
+                <input type="text" v-model="manufacturer_laboratory" class="form-control" name="manufacturer_laboratory" />
             </div>
         </div>
         <div class="row">
             <div class="form-group col-sm-3">
                 <label for="details">Vigencia del registro:</label>
-                <input type="date" v-model="registration_validityt" class="form-control" name="registration_validity" />
+                <input type="date" v-model="registration_validity" class="form-control" name="registration_validity" />
             </div>
             <div class="form-group col-sm-3">
                 <label for="details">Muestras recibidas:</label>
@@ -126,41 +82,36 @@
                     </td>
                     <td>
                         <div class="custom-control custom-radio">
-                            <input class="custom-control-input custom-control-input-danger" type="radio"
-                                :name="item.name" :id="'value' + index + 'Critico'" value="Critico"
-                                v-model="item.value" />
+                            <input class="custom-control-input custom-control-input-danger" type="radio" :name="item.name"
+                                :id="'value' + index + 'Critico'" value="Critico" v-model="item.value" />
                             <label class="custom-control-label" :for="'value' + index + 'Critico'"></label>
                         </div>
                     </td>
                     <td>
                         <div class="custom-control custom-radio">
-                            <input class="custom-control-input custom-control-input-danger" type="radio"
-                                :name="item.name" :id="'value' + index + 'Mayor'" value="Mayor"
-                                v-model="item.value" />
+                            <input class="custom-control-input custom-control-input-danger" type="radio" :name="item.name"
+                                :id="'value' + index + 'Mayor'" value="Mayor" v-model="item.value" />
                             <label class="custom-control-label" :for="'value' + index + 'Mayor'"></label>
                         </div>
                     </td>
                     <td>
                         <div class="custom-control custom-radio">
-                            <input class="custom-control-input custom-control-input-warning" type="radio"
-                                :name="item.name" :id="'value' + index + 'Menor'" value="Menor"
-                                v-model="item.value"/>
+                            <input class="custom-control-input custom-control-input-warning" type="radio" :name="item.name"
+                                :id="'value' + index + 'Menor'" value="Menor" v-model="item.value" />
                             <label class="custom-control-label" :for="'value' + index + 'Menor'"></label>
                         </div>
                     </td>
                     <td>
                         <div class="custom-control custom-radio">
-                            <input class="custom-control-input custom-control-input-success" type="radio"
-                                :name="item.name" :id="'value' + index + 'Optimo'" value="Optimo"
-                                v-model="item.value"/>
+                            <input class="custom-control-input custom-control-input-success" type="radio" :name="item.name"
+                                :id="'value' + index + 'Optimo'" value="Optimo" v-model="item.value" />
                             <label class="custom-control-label" :for="'value' + index + 'Optimo'"></label>
                         </div>
                     </td>
                     <td>
                         <div class="custom-control custom-radio">
                             <input class="custom-control-input custom-control-input-secondary" type="radio"
-                                :name="item.name" :id="'value' + index + 'NA'" value="NA"
-                                v-model="item.value"/>
+                                :name="item.name" :id="'value' + index + 'NA'" value="NA" v-model="item.value" />
                             <label class="custom-control-label" :for="'value' + index + 'NA'"></label>
                         </div>
                     </td>
@@ -173,7 +124,7 @@
 
 <script>
 import TEMPLATES from '../utils/index.js';
-
+import { options } from '../utils/options.js';
 export default {
     name: 'TechnicalReceptionMedicines',
     props: {
@@ -182,10 +133,6 @@ export default {
         },
         invima: {
             type: Array // Define el tipo de dato como Array
-        },
-        medicine: {
-            type: Object,
-            required: true
         }
     },
     data() {
@@ -193,62 +140,59 @@ export default {
             items: [],
             template: 'TEMPLATE_ONE', // Agrega la propiedad template
             selectedTemplate: 'TEMPLATE_ONE', // Agrega la propiedad selectedTemplate
+            options: options,
             selectedCategory: null,
-            generic_namet: '',
-            tradenamet: '',
-            concentrationt: '',
-            pharmaceutical_formt: '',
-            presentationt: '',
-            registration_validityt: '',
-            manufacturer_laboratoryt: '',
-            received_amountt: '',
-            samplet: '',
-            invima_registrations_id: null,
+            invimaRegistrations: null,
+            generic_name: '', tradename: '', concentrationt: '', pharmaceutical_form: '', presentationt: '',
+            registration_validity: '', manufacturer_laboratory: '', received_amountt: '', samplet: '', invima_registrations_id: '',
         }
     },
     mounted() {
-        this.generic_namet = this.medicine.generic_name;
-        this.tradenamet = this.medicine.tradename;
-        this.concentrationt = this.medicine.concentration;
-        this.template = this.medicine.pharmaceutical_form;
-        this.presentationt = this.medicine.presentation;
-        this.registration_validityt = this.medicine.registration_validity;
-        this.manufacturer_laboratoryt = this.medicine.manufacturer_laboratory;
-        this.received_amountt = this.medicine.received_amount;
-        this.samplet = this.medicine.sample;
-        this.invima_registrations_id = this.medicine.invima_registrations_id;
-        this.selectedTemplate = this.template;
-        this.items = TEMPLATES[this.selectedTemplate];
+        if(!this.invima)
+        {
+            this.generic_namet = this.medicine.generic_name;
+            this.tradenamet = this.medicine.tradename;
+            this.concentrationt = this.medicine.concentration;
+            this.template = this.medicine.pharmaceutical_form;
+            this.presentationt = this.medicine.presentation;
+            this.registration_validityt = this.medicine.registration_validity;
+            this.manufacturer_laboratoryt = this.medicine.manufacturer_laboratory;
+            this.received_amountt = this.medicine.received_amount;
+            this.samplet = this.medicine.sample;
+            this.invima_registrations_id = this.medicine.invima_registrations_id;
+            this.selectedTemplate = this.template;
+            this.items = TEMPLATES[this.selectedTemplate];
+        }
 
-        this.items.forEach(item => {    
-            if(item.name == "lettering"){
+        this.items.forEach(item => {
+            if (item.name == "lettering") {
                 item.value = this.medicine.lettering;
-            }else{
-                if(item.name == "packing"){
+            } else {
+                if (item.name == "packing") {
                     item.value = this.medicine.packing;
-                }else{
-                    if(item.name == "laminate"){
+                } else {
+                    if (item.name == "laminate") {
                         item.value = this.medicine.laminate;
-                    }else{
-                        if(item.name == "closing"){
+                    } else {
+                        if (item.name == "closing") {
                             item.value = this.medicine.closing;
-                        }else{
-                            if(item.name == "all"){
+                        } else {
+                            if (item.name == "all") {
                                 item.value = this.medicine.all;
-                            }else{
-                                if(item.name == "liquids"){
+                            } else {
+                                if (item.name == "liquids") {
                                     item.value = this.medicine.liquids;
-                                }else{
-                                    if(item.name == "semisolid"){
+                                } else {
+                                    if (item.name == "semisolid") {
                                         item.value = this.medicine.semisolid;
-                                    }else{
-                                        if(item.name == "dust"){
+                                    } else {
+                                        if (item.name == "dust") {
                                             item.value = this.medicine.dust;
-                                        }else{
-                                            if(item.name == "tablet"){
+                                        } else {
+                                            if (item.name == "tablet") {
                                                 item.value = this.medicine.tablet;
-                                            }else{
-                                                if(item.name == "capsule"){
+                                            } else {
+                                                if (item.name == "capsule") {
                                                     item.value = this.medicine.capsule;
                                                 }
                                             }
@@ -260,82 +204,72 @@ export default {
                     }
                 }
             }
-            });
+        });
     },
     methods: {
-        setTemplate() {
-            this.selectedTemplate = this.template;
+        setTemplate(newTemplate) {
+            this.selectedTemplate = newTemplate;
             this.items = TEMPLATES[this.selectedTemplate];
-
             this.items.forEach(item => {
                 item.value = "Optimo";
             });
         }
     },
     watch: {
-    selectedCategory(newCategoryId) {
-      if (newCategoryId) {
-        // Busca los detalles de la categoría en los datos cargados
-        const selectedCategory = this.data.find(category => category.id === newCategoryId);
-        // Actualiza los detalles en la propiedad selectedCategoryDetails
-        if (selectedCategory) {  
-            this.generic_namet = `${selectedCategory.generic_namet}`;
-            this.tradenamet = `${selectedCategory.tradenamet}`;
-            this.concentrationt = `${selectedCategory.concentrationt}`;
-            this.template = `${selectedCategory.pharmaceutical_formt}`;
-            this.presentationt = `${selectedCategory.presentationt}`;
-            this.received_amountt = `${selectedCategory.received_amountt}`;
-            this.samplet = `${selectedCategory.samplet}`;
-            this.invima_registrations_id = `${selectedCategory.invima_registrations_id}`;
-            this.registration_validityt = `${selectedCategory.registration_validityt}`;
-            this.manufacturer_laboratoryt = `${selectedCategory.manufacturer_laboratoryt}`;
-            this.selectedTemplate = this.template;
-            this.items = TEMPLATES[this.selectedTemplate];
-
-            this.items.forEach(item => {
-                item.value = "Optimo";
-            });
-            
-        } else {
-            this.generic_namet = '';
-            this.tradenamet = '';
-            this.concentrationt = '';
-            this.template = '';
-            this.presentationt = '';
-            this.validity_registrationt = '';
-            this.manufacturer_laboratoryt = '';
-            this.received_amountt = '';
-            this.samplet = '';
-            this.invima_registrations_id = '';
+        selectedCategory(newCategoryId) {
+            if (newCategoryId) {
+                // Busca los detalles de la categoría en los datos cargados
+                const selectedCategory = this.data.find(category => category.id === newCategoryId);
+                // Actualiza los detalles en la propiedad selectedCategoryDetails
+                if (selectedCategory) {
+                    this.concentrationt = `${selectedCategory.concentrationt}`;
+                    this.presentationt = `${selectedCategory.presentationt}`;
+                    this.received_amountt = `${selectedCategory.received_amountt}`;
+                    this.samplet = `${selectedCategory.samplet}`;
+                    this.invima_registrations_id = `${selectedCategory.invima_registrations_id}`;
+                    
+                    // Llama a invima_registrations_id con el id de la categoría seleccionada
+                    this.invimaRegistrations = `${selectedCategory.invima_registrations_id}`;
+                } else {
+                    this.concentrationt = '';
+                    this.template = '';
+                    this.presentationt = '';
+                    this.received_amountt = '';
+                    this.samplet = '';
+                    this.invima_registrations_id = '';
+                }
+            } else {
+                this.concentrationt = '';
+                this.template = '';
+                this.presentationt = '';
+                this.received_amountt = '';
+                this.samplet = '';
+                this.invima_registrations_id = '';
+            }
+        },
+        invimaRegistrations(newCategoryId) {
+            if (newCategoryId) {
+                // Busca los detalles de la categoría en los datos cargados
+                const selectedCategory = this.invima.find(category => category.id === parseInt(newCategoryId));
+                
+                
+                // Actualiza los detalles en la propiedad selectedCategoryDetails
+                if (selectedCategory) {
+                    this.registration_validity = `${selectedCategory.validity_registration}`;
+                    this.manufacturer_laboratory = `${selectedCategory.laboratory_manufacturer}`;
+                    this.generic_name = `${selectedCategory.generic_name}`;
+                    this.tradename = `${selectedCategory.tradename}`;
+                    this.template = `${selectedCategory.pharmaceutical_form}`;
+                    this.selectedTemplate = this.template;
+                    const selectedDisplayValue = Object.entries(this.options).find(([key, value]) => value === this.template)[0];
+                    // Usa selectedDisplayValue como desees, por ejemplo, puedes pasarlo como parámetro a otra función
+                    this.setTemplate(selectedDisplayValue);
+                }
+            } else {
+                this.validity_registrationt = '';
+                this.manufacturer_laboratoryt = '';
+            }
         }
-      } else {
-            this.generic_namet = '';
-            this.tradenamet = '';
-            this.concentrationt = '';
-            this.template = '';
-            this.presentationt = '';
-            this.validity_registrationt = '';
-            this.manufacturer_laboratoryt = '';
-            this.received_amountt = '';
-            this.samplet = '';
-            this.invima_registrations_id = '';
-      }
-    },
-    invima_registrations_id(newCategoryId) {
-      if (newCategoryId) {
-        // Busca los detalles de la categoría en los datos cargados
-        const selectedCategory = this.invima.find(category => category.id === newCategoryId);
-        
-        // Actualiza los detalles en la propiedad selectedCategoryDetails
-        if (selectedCategory) {
-            this.registration_validityt = `${selectedCategory.validity_registration}`;
-            this.manufacturer_laboratoryt = `${selectedCategory.laboratory_manufacturer}`;
-        }
-      } else {
-        this.validity_registrationt = '';
-        this.manufacturer_laboratoryt = '';
-      }
     }
-  }
 }
 </script>

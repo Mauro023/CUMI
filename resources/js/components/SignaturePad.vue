@@ -51,7 +51,6 @@ export default defineComponent({
     this.$refs.signaturePad.$on('signatureInput', (signatureData) => {
       this.employe_signature = signatureData;
     });
-
   },
   methods: {
     clear() {

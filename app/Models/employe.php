@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property string $work_position
  * @property string $unit
  * @property string $cost_center
+ * @property string $service
  */
 class employe extends Model
 {
@@ -54,7 +55,8 @@ class employe extends Model
         'name',
         'work_position',
         'unit',
-        'cost_center'
+        'cost_center',
+        'service'
     ];
 
     /**
@@ -67,7 +69,8 @@ class employe extends Model
         'name' => 'string',
         'work_position' => 'string',
         'unit' => 'string',
-        'cost_center' => 'string'
+        'cost_center' => 'string',
+        'service' => 'string'
     ];
 
     /**
@@ -80,7 +83,8 @@ class employe extends Model
         'name' => 'required',
         'work_position' => 'required',
         'unit' => 'required',
-        'cost_center' => 'required'
+        'cost_center' => 'required',
+        'service' => 'required'
     ];
 
     
