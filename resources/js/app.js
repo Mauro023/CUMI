@@ -1,29 +1,27 @@
 require('./bootstrap');
+window.Vue = require('vue').default;
 
 //SweetAlert2
 import Swal from 'sweetalert2';
 window.Swal = Swal;
 
-//Vue
-import Vue from 'vue';
+// Importa Vue y Vuetify
+import vuetify from './vuetify';
 
-//Vuetify
-import Vuetify from 'vuetify';
-import 'vuetify/dist/vuetify.min.css';
-Vue.use(Vuetify);
+//Vue select
+import vSelect from "vue-select";
+import "vue-select/dist/vue-select.css";
 
-import InputComponent from './components/InputComponent.vue';
-import SignaturePad from './components/SignaturePad.vue';
-import TechnicalReceptionMedicines from './components/TechnicalReceptionMedicines.vue';
-import InvimaRegister from './components/InvimaRegister.vue';
+Vue.component("v-select", vSelect);
+Vue.component('invima-register', require('./components/InvimaRegister.vue').default);
+Vue.component('input-component', require('./components/InputComponent.vue').default);
+Vue.component('signature-pad', require('./components/SignaturePad.vue').default);
+Vue.component('reception-medicines', require('./components/TechnicalReceptionMedicines.vue').default);
 
-
-Vue.component('input-component', InputComponent);
-Vue.component('signature-pad', SignaturePad);
-Vue.component('reception-medicines', TechnicalReceptionMedicines);
-Vue.component('invima-register', InvimaRegister);
+//Modals
+Vue.component('medicine-modal', require('./components/Modals/MedicineModal.vue').default);
 
 const app = new Vue({
-  vuetify: new Vuetify(),
+  vuetify,
   el: '#app',
 });

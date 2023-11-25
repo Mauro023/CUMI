@@ -1,83 +1,14 @@
-<div class="form-group row">
-    <!-- Admission Date Field -->
-    <div class="form-group col-sm-3">
-        {!! Form::label('admission_date', 'Fecha de ingreso:') !!}
-        {!! Form::text('admission_date', $today ?? '', ['class' => 'form-control','id'=>'admission_date']) !!}
-    </div>
-    <!-- Act Number Field -->
-    <div class="form-group col-sm-3">
-        {!! Form::label('act_number', 'Número de acta:') !!}
-        {!! Form::number('act_number', $lastActNumber ?? '', ['class' => 'form-control']) !!}
-    </div>
-</div>
-
-@push('page_scripts')
-<script type="text/javascript">
-    $('#admission_date').datetimepicker({
-            format: 'YYYY-MM-DD',
-            useCurrent: true,
-            sideBySide: true
-        })
-</script>
-@endpush
-
 <!-- Medicine Field -->
 <div id="app">
     <template>
-        <reception-medicines :data='@json($plantilla ?? null)' :invima='@json($invima ?? null)'></reception-medicines>
+        <reception-medicines :data='@json($plantilla ?? null)' :invima='@json($invima ?? null)' :act_number='@json($lastActNumber ?? null)' :medicine='@json($medicine ?? null)'></reception-medicines>
     </template>
 </div>
 
 <script src="{{ asset('js/app.js') }}"></script>
 
-<div class="form-group row">
-    <!-- Expiration Date Field -->
-</div>
-
-@push('page_scripts')
-<script type="text/javascript">
-    $('#expiration_date').datetimepicker({
-        format: 'YYYY-MM-DD',
-            useCurrent: true,
-            sideBySide: true
-        })
-</script>
-@endpush
-
-<!-- Lot Number Field -->
-<div class="form-group row">
-    <div class="col-sm-3">
-        {!! Form::label('expiration_date', 'Fecha de vencimiento:') !!}
-        {!! Form::text('expiration_date', null, ['class' => 'form-control','id'=>'expiration_date']) !!}
-    </div>
-    <div class="col-sm-3">
-        {!! Form::label('lot_number', 'Número de lote:') !!}
-        {!! Form::text('lot_number', null, ['class' => 'form-control']) !!}
-    </div>
-    <!-- Supplier Field -->
-    <div class="col-sm-3">
-        {!! Form::label('supplier', 'Proveedor:') !!}
-        {!! Form::text('supplier', null, ['class' => 'form-control']) !!}
-    </div>
-    <!-- Invoice Number Field -->
-    <div class="col-sm-3">
-        {!! Form::label('invoice_number', 'Número de factura:') !!}
-        {!! Form::text('invoice_number', $lastFact ?? '', ['class' => 'form-control']) !!}
-    </div>
-</div>
-
-@push('page_scripts')
-<script type="text/javascript">
-    $('#registration_validity').datetimepicker({
-            format: 'YYYY-MM-DD',
-            useCurrent: true,
-            sideBySide: true
-        })
-</script>
-@endpush
-
 <!-- Purchase Order Field -->
-<div class="form-group row">
+<div class="form-group row mt-1">
     <div class="col-sm-8">
         <table class="table table-borderless table-centered">
             <thead>

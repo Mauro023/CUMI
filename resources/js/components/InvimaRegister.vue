@@ -1,16 +1,18 @@
 <template>
-  <div class="row">
+  <div class="row mt-1">
     <div class="form-group row">
       <!-- template name Field -->
       <div class="form-group col-sm-4">
-        <label for="details">Nombre de plantilla:</label>
-        <input type="text" v-model="template_name" class="form-control" name="template_name" placeholder="Ingrese el nombre de la plantilla"/>
+        <label for="details">Nombre de plantilla:<span style="color: red;">*</span></label>
+        <input type="text" v-model="template_name" class="form-control" name="template_name"
+          placeholder="Ingrese el nombre de la plantilla" />
       </div>
       <!-- Invima registrations id Field -->
       <div class="form-group col-sm-4">
-        <label clas for="item">Registro invima:</label>
+        <label clas for="item">Registro invima:<span style="color: red;">*</span></label>
         <select v-model="selectedCategory" class="form-control" name="invima_registrations_id" ref="invima_registration">
-          <option v-for="category in data" :value="category.id">{{ category.health_register }} - {{ category.tradename }}</option>
+          <option v-for="category in data" :value="category.id">{{ category.health_register }} - {{ category.tradename }}
+          </option>
         </select>
       </div>
       <!-- Generic name Field -->
@@ -28,46 +30,58 @@
       <!-- Pharmaceutical Formt Field -->
       <div class="form-group col-sm-4">
         <label for="details">Forma farmaceutica:</label>
-        <input type="text" v-model="pharmaceutical_form" class="form-control" placeholder="Ingrese la forma farmaceutica" />
+        <input type="text" v-model="pharmaceutical_form" class="form-control"
+          placeholder="Ingrese la forma farmaceutica" />
       </div>
       <!-- Validity registration Field -->
-      <div class="form-group col-sm-4">
-        <label for="details">Vigencia del registro:</label>
-        <input type="text" v-model="validity_registration" class="form-control" id="date" placeholder="Ingrese la fecha de vencimiento" />
-        <template>
-  <div class="purple darken-2 text-center">
-    <span class="white--text">Lorem ipsum</span>
-  </div>
-</template>
+      <div class="form-group col-sm-4" style="margin: 0, 0, 16px;  height: 94px;">
+        <v-app>
+          <label for="details">Vigencia del registro (yyyy-mm-dd) :</label>
+          <v-menu v-model="menu2" :close-on-content-click="false" :nudge-right="60" transition="scale-transition" offset-y
+            min-width="90%" style="margin-bottom: -16px;">
+            <template v-slot:activator="{ on, attrs }">
+              <input type="text" v-model="validity_registration" class="form-control"
+                placeholder="Ingrese la fecha de vencimiento" v-bind="attrs" v-on="on" />
+            </template>
+            <v-date-picker v-model="validity_registration" @input="menu2 = false" locale="Es" no-title
+              color="green"></v-date-picker>
+          </v-menu>
+        </v-app>
       </div>
     </div>
+
     <div class="form-group row">
       <!-- Laboratory manufacturer Field -->
       <div class="form-group col-sm-4">
         <label for="details">Laboratorio fabricante:</label>
-        <input type="text" v-model="laboratory_manufacturer" class="form-control" placeholder="Ingrese el laboratorio fabricante" />
+        <input type="text" v-model="laboratory_manufacturer" class="form-control"
+          placeholder="Ingrese el laboratorio fabricante" />
       </div>
       <!-- Concentrationt Field -->
       <div class="form-group col-sm-4">
-        <label for="details">Concentracion:</label>
-        <input type="text" v-model="concentrationt" class="form-control" name="concentrationt" placeholder="Ingrese la concentracion" />
+        <label for="details">Concentracion:<span style="color: red;">*</span></label>
+        <input type="text" v-model="concentrationt" class="form-control" name="concentrationt"
+          placeholder="Ingrese la concentracion" />
       </div>
       <!-- Concentrationt Field -->
       <div class="form-group col-sm-4">
-        <label for="details">Presentación:</label>
-        <input type="text" v-model="presentationt" class="form-control" name="presentationt" placeholder="Ingrese la presentación" />
+        <label for="details">Presentación:<span style="color: red;">*</span></label>
+        <input type="text" v-model="presentationt" class="form-control" name="presentationt"
+          placeholder="Ingrese la presentación" />
       </div>
     </div>
     <div class="form-group row">
       <!-- Received Amountt Field -->
       <div class="form-group col-sm-4">
-        <label for="details">Cantidad recibidas:</label>
-        <input type="number" v-model="received_amountt" class="form-control" name="received_amountt" placeholder="Ingrese la cantidad recibida"/>
+        <label for="details">Cantidad recibidas:<span style="color: red;">*</span></label>
+        <input type="number" v-model="received_amountt" class="form-control" name="received_amountt"
+          placeholder="Ingrese la cantidad recibida" />
       </div>
       <!-- Samplet Field -->
       <div class="form-group col-sm-4">
-        <label for="details">Muestras:</label>
-        <input type="number" v-model="samplet" class="form-control" name="samplet" placeholder="Ingrese la cantidad de muestras" />
+        <label for="details">Muestras:<span style="color: red;">*</span></label>
+        <input type="number" v-model="samplet" class="form-control" name="samplet"
+          placeholder="Ingrese la cantidad de muestras" />
       </div>
     </div>
   </div>
@@ -95,16 +109,19 @@ export default {
       received_amountt: '',
       samplet: '',
       //Datos de tabla invima
-      validity_registration: '',
+      validity_registration:  (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
       laboratory_manufacturer: '',
       tradename: '',
       pharmaceutical_form: '',
       generic_name: '',
+      //calendario
+      menu2: false,
     };
   },
+
   mounted() {
     //date
-    
+
     //Referencia al contexto del componente Vue
     const vm = this;
 
@@ -144,8 +161,6 @@ export default {
     });
   },
 
-
-
   watch: {
     selectedCategory(newCategoryId) {
       if (newCategoryId) {
@@ -173,13 +188,27 @@ export default {
         this.pharmaceutical_form = '';
         this.generic_name = '';
       }
-    }
+    },
+    validity_registration(newVal) {
+      // Verifica si la entrada es válida antes de formatear
+      if (/^\d{4}\/\d{2}\/\d{2}$/.test(newVal)) {
+        const parts = newVal.split('/');
+        const formattedDate = `${parts[0]}-${parts[1]}-${parts[2]}`;
+        this.validity_registration = formattedDate;
+      }
+    },
   }
 };
 </script>
+<style scoped lang="scss">
+::v-deep .v-application--wrap {
+  min-height: fit-content;
+}
+</style>
+
 <style>
-  .select2-selection__clear {
-    position: absolute;
-    right: 5%;
-  }
+.select2-selection__clear {
+  position: absolute;
+  right: 5%;
+}
 </style>

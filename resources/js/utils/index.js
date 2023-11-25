@@ -127,7 +127,7 @@ const CremaTopica = [
     {
         description: 'Liquidos',
         name: 'liquids',
-        value: ''
+        value: '',
     }
 ]
 
@@ -155,7 +155,7 @@ const Emulsion = [
     {
         description: 'Liquidos',
         name: 'liquids',
-        value: ''
+        value: '',
     }
 ]
 
@@ -183,7 +183,7 @@ const Frasco = [
     {
         description: 'Liquidos',
         name: 'liquids',
-        value: ''
+        value: '',
     }
 ]
 
@@ -206,7 +206,7 @@ const FrascosVial = [
     {
         description: 'Polvo',
         name: 'dust',
-        value: ''
+        value: '',
     }
 ]
 
@@ -234,7 +234,7 @@ const GelTopico = [
     {
         description: 'Liquido',
         name: 'liquids',
-        value: ''
+        value: '',
     }
 ]
 
@@ -257,7 +257,7 @@ const Gotas = [
     {
         description: 'Liquido',
         name: 'liquids',
-        value: ''
+        value: '',
     }
 ]
 
@@ -280,7 +280,7 @@ const Granulados = [
     {
         description: 'Liquido',
         name: 'liquids',
-        value: ''
+        value: '',
     }
 ]
 
@@ -303,7 +303,7 @@ const Inhaladores = [
     {
         description: 'Liquido',
         name: 'liquids',
-        value: ''
+        value: '',
     }
 ]
 
@@ -331,7 +331,7 @@ const Jarabe = [
     {
         description: 'Liquido',
         name: 'liquids',
-        value: ''
+        value: '',
     }
 ]
 
@@ -359,7 +359,7 @@ const Lata = [
     {
         description: 'Liquido',
         name: 'liquids',
-        value: ''
+        value: '',
     }
 ]
 
@@ -387,7 +387,7 @@ const Liquida = [
     {
         description: 'Liquido',
         name: 'liquids',
-        value: ''
+        value: '',
     }
 ]
 
@@ -415,7 +415,7 @@ const Mezclado = [
     {
         description: 'Liquido',
         name: 'liquids',
-        value: ''
+        value: '',
     }
 ]
 
@@ -443,7 +443,7 @@ const Otico = [
     {
         description: 'Liquido',
         name: 'liquids',
-        value: ''
+        value: '',
     }
 ]
 
@@ -476,7 +476,7 @@ const Ovulo = [
     {
         description: 'Semisolido',
         name: 'semisolid',
-        value: ''
+        value: '',
     }
 ]
 
@@ -500,7 +500,7 @@ const ParcheTransdermico = [
     {
         description: 'Liquido',
         name: 'liquids',
-        value: ''
+        value: '',
     }
 ]
 
@@ -777,7 +777,7 @@ const SolucionInyectable = [
     },
     {
         description: 'Liquido',
-        name: 'liquids ',
+        name: 'liquids',
         value: '',
     }
 ]

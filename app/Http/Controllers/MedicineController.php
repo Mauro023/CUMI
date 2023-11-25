@@ -33,7 +33,28 @@ class MedicineController extends AppBaseController
     public function index(Request $request)
     {
         $this->authorize('view_medicines');
-        $medicines = $this->medicineRepository->all();
+        $perPage = $request->input('per_page', 10);
+        $search = $request->input('search');
+        $medicinesQuery = Medicine::query();
+
+        if (!empty($search)) {
+            $medicinesQuery->where('admission_date', 'LIKE', '%' . $search . '%')
+                        ->orWhere('act_number', 'LIKE', '%' . $search . '%')
+                        ->orWhere('generic_name', 'LIKE', '%' . $search . '%')
+                        ->orWhere('tradename', 'LIKE', '%' . $search . '%')
+                        ->orWhere('pharmaceutical_form', 'LIKE', '%' . $search . '%')
+                        ->orWhere('presentation', 'LIKE', '%' . $search . '%')
+                        ->orWhere('expiration_date', 'LIKE', '%' . $search . '%')
+                        ->orWhere('lot_number', 'LIKE', '%' . $search . '%')
+                        ->orWhere('registration_validity', 'LIKE', '%' . $search . '%')
+                        ->orWhere('manufacturer_laboratory', 'LIKE', '%' . $search . '%')
+                        ->orWhere('entered_by', 'LIKE', '%' . $search . '%')
+                        ->orWhereHas('invima_registration', function ($query) use ($search) {
+                            $query->where('health_register', 'LIKE', '%' . $search . '%');
+                        });
+        }
+
+        $medicines = $medicinesQuery->paginate($perPage);
 
         return view('medicines.index')
             ->with('medicines', $medicines);
@@ -51,9 +72,8 @@ class MedicineController extends AppBaseController
         $plantilla = MedicationTemplate::all();
         $lastActNumber = Medicine::latest('act_number')->value('act_number');
         $temperature = 'N/A';
-        $today = now()->format('Y-m-d');
         $lastFact = Medicine::latest('invoice_number')->value('invoice_number');
-        return view('medicines.create', compact('invima', 'plantilla', 'lastActNumber', 'temperature', 'today', 'lastFact'));
+        return view('medicines.create', compact('invima', 'plantilla', 'lastActNumber', 'temperature', 'lastFact'));
     }
 
     /**
@@ -67,11 +87,9 @@ class MedicineController extends AppBaseController
     {
         $this->authorize('create_medicines');
         $input = $request->all();
-        //dd($input);
         $medicine = $this->medicineRepository->create($input);
 
-        Flash::success('Medicine saved successfully.');
-
+        session()->flash('success', "¡¡Acta registrada con éxito!!");
         return redirect(route('medicines.index'));
     }
 
@@ -107,13 +125,12 @@ class MedicineController extends AppBaseController
     {
         $this->authorize('update_medicines');
         $medicine = $this->medicineRepository->find($id);
-
         if (empty($medicine)) {
             Flash::error('Medicine not found');
 
             return redirect(route('medicines.index'));
         }
-
+        
         $temperature = $medicine->arrival_temperature;
         $today = $medicine->admission_date;
         $lastActNumber = $medicine->act_number;
@@ -136,8 +153,8 @@ class MedicineController extends AppBaseController
     {
         $this->authorize('update_medicines');
         $medicine = $this->medicineRepository->find($id);
-
-        if (empty($medicine)) {
+        //dd($request->all());
+        if (empty($request)) {
             Flash::error('Medicine not found');
 
             return redirect(route('medicines.index'));
@@ -145,7 +162,7 @@ class MedicineController extends AppBaseController
 
         $medicine = $this->medicineRepository->update($request->all(), $id);
 
-        Flash::success('Medicine updated successfully.');
+        session()->flash('success', "¡¡Acta actualizada con éxito!!");
 
         return redirect(route('medicines.index'));
     }
@@ -172,7 +189,7 @@ class MedicineController extends AppBaseController
 
         $this->medicineRepository->delete($id);
 
-        Flash::success('Medicine deleted successfully.');
+        session()->flash('success', "¡¡Acta eliminada con éxito!!");
 
         return redirect(route('medicines.index'));
     }

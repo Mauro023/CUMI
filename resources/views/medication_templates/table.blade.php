@@ -46,7 +46,7 @@
                     $medicationTemplate->invima_registration->validity_registration : 'Sin ID' }}</td>
                 <td width="120">
                     {!! Form::open(['route' => ['medicationTemplates.destroy', $medicationTemplate->id], 'method' =>
-                    'delete']) !!}
+                    'delete', 'class' => "eliminarTemplateForm"]) !!}
                     <div class='btn-group'>
                         <a href="{{ route('medicationTemplates.show', [$medicationTemplate->id]) }}"
                             class='btn btn-default btn-xs'>
@@ -57,7 +57,7 @@
                             <i class="far fa-edit" style="color: #6c6d77"></i>
                         </a>
                         {!! Form::button('<i class="far fa-trash-alt" style="color: #da1b1b"></i>', ['type' => 'submit',
-                        'class' => 'btn btn-default btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
+                        'class' => 'btn btn-default btn-xs']) !!}
                     </div>
                     {!! Form::close() !!}
                 </td>
@@ -88,3 +88,37 @@
         /* Cambia el color del icono a rojo */
     }
 </style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const eliminarUsuarioForms = document.querySelectorAll('.eliminarTemplateForm');
+    
+        eliminarUsuarioForms.forEach((form) => {
+            form.addEventListener('submit', function (event) {
+                event.preventDefault(); // Previene la acción por defecto del formulario
+                const currentForm = this; // Obtén el formulario actual
+    
+                Swal.fire({
+                    title: '¿Estás seguro de querer eliminar este registro?',
+                    html: 'Esta acción eliminará permanentemente la plantilla.<br><strong style= "color: red";>Esta acción no se puede deshacer.</strong>',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Sí, eliminarlo',
+                    cancelButtonText: 'Cancelar',
+                    customClass: {
+                        title: 'custom-title', // Clase personalizada para el título
+                        content: 'custom-content', // Clase personalizada para el contenido
+                        icon: 'custom-icon' // Clase personalizada para el icono
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // El usuario confirmó la eliminación, envía el formulario actual
+                        currentForm.submit();
+                    }
+                });
+            });
+        });
+    });
+</script>
