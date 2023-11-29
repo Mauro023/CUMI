@@ -20,11 +20,11 @@
                                     <span><strong>Detalles invima</strong></span>
                                 </v-col>
                                 <v-col cols="4">
-                                    <label for="details">Nombre generico:</label>
+                                    <label for="details" style="color: #69C5A0">Nombre generico:</label>
                                     <v-text-field v-model="medicine.generic_name" readonly></v-text-field>
                                 </v-col>
                                 <v-col cols="4">
-                                    <label for="details">Nombre comercial:</label>
+                                    <label for="details" style="color: #69C5A0">Nombre comercial:</label>
                                     <v-text-field v-model="medicine.tradename" readonly></v-text-field>
                                 </v-col>
                             </v-row>
@@ -33,11 +33,11 @@
                                     <span></span>
                                 </v-col>
                                 <v-col cols="4">
-                                    <label for="details">Forma farmaceutica:</label>
+                                    <label for="details" style="color: #69C5A0">Forma farmaceutica:</label>
                                     <v-text-field v-model="medicine.pharmaceutical_form" readonly></v-text-field>
                                 </v-col>
                                 <v-col cols="4">
-                                    <label for="details">Laboratorio fabricante</label>
+                                    <label for="details" style="color: #69C5A0">Laboratorio fabricante</label>
                                     <v-text-field v-model="medicine.manufacturer_laboratory" readonly></v-text-field>
                                 </v-col>
                             </v-row>
@@ -46,11 +46,11 @@
                                     <span></span>
                                 </v-col>
                                 <v-col cols="4">
-                                    <label for="details">Registro invima:</label>
+                                    <label for="details" style="color: #69C5A0">Registro invima:</label>
                                     <v-text-field v-model="invima" readonly></v-text-field>
                                 </v-col>
                                 <v-col cols="4">
-                                    <label for="details">Vigencia de registro:</label>
+                                    <label for="details" style="color: #69C5A0">Vigencia de registro:</label>
                                     <v-text-field v-model="registration_validity" readonly></v-text-field>
                                 </v-col>
                             </v-row>
@@ -62,11 +62,11 @@
                                     <span><strong>Factura</strong></span>
                                 </v-col>
                                 <v-col cols="4">
-                                    <label for="details"># Factura:</label>
+                                    <label for="details" style="color: #69C5A0"># Factura:</label>
                                     <v-text-field v-model="medicine.invoice_number" readonly></v-text-field>
                                 </v-col>
                                 <v-col cols="4">
-                                    <label for="details">Proveedor:</label>
+                                    <label for="details" style="color: #69C5A0">Proveedor:</label>
                                     <v-text-field v-model="medicine.supplier" readonly></v-text-field>
                                 </v-col>
                             </v-row>
@@ -75,11 +75,11 @@
                                     <span></span>
                                 </v-col>
                                 <v-col cols="4">
-                                    <label for="details">Cantidad recibida:</label>
+                                    <label for="details" style="color: #69C5A0">Cantidad recibida:</label>
                                     <v-text-field v-model="medicine.received_amount" readonly></v-text-field>
                                 </v-col>
                                 <v-col cols="4">
-                                    <label for="details">Muestras recibidas:</label>
+                                    <label for="details" style="color: #69C5A0">Muestras recibidas:</label>
                                     <v-text-field v-model="medicine.sample" readonly></v-text-field>
                                 </v-col>
                             </v-row>
@@ -91,11 +91,11 @@
                                     <span><strong>Detalle medicamento</strong></span>
                                 </v-col>
                                 <v-col cols="4">
-                                    <label for="details">Presentacion:</label>
+                                    <label for="details" style="color: #69C5A0">Presentacion:</label>
                                     <v-text-field v-model="medicine.presentation" readonly></v-text-field>
                                 </v-col>
                                 <v-col cols="4">
-                                    <label for="details">Concentracion:</label>
+                                    <label for="details" style="color: #69C5A0">Concentracion:</label>
                                     <v-text-field v-model="medicine.concentration" readonly></v-text-field>
                                 </v-col>
                             </v-row>
@@ -104,11 +104,11 @@
                                     <span></span>
                                 </v-col>
                                 <v-col cols="4">
-                                    <label for="details">Número de lote:</label>
+                                    <label for="details" style="color: #69C5A0">Número de lote:</label>
                                     <v-text-field v-model="medicine.lot_number" readonly></v-text-field>
                                 </v-col>
                                 <v-col cols="4">
-                                    <label for="details">Fecha de vencimiento:</label>
+                                    <label for="details" style="color: #69C5A0">Fecha de vencimiento:</label>
                                     <v-text-field v-model="expiration_date" readonly></v-text-field>
                                 </v-col>
                             </v-row>
@@ -117,7 +117,7 @@
                                     <span></span>
                                 </v-col>
                                 <v-col cols="4">
-                                    <label for="details">Temperatura(°C):</label>
+                                    <label for="details" style="color: #69C5A0">Temperatura(°C):</label>
                                     <v-text-field class="red--text" v-model="medicine.arrival_temperature" readonly></v-text-field>
                                 </v-col>
                             </v-row>
@@ -129,7 +129,7 @@
                                 <v-col cols="8">
                                     <v-row>
                                         <v-col v-for="(value, key) in filteredData" :key="key" cols="4">
-                                            <label>{{ translateLabel(key) }}</label>
+                                            <label style="color: #69C5A0">{{ translateLabel(key) }}</label>
                                             <v-icon :style="getBackgroundColorStyle(value)">mdi-pill</v-icon>
                                             <v-text-field v-if="value !== null" :value="value" readonly></v-text-field>
                                         </v-col>
@@ -144,11 +144,11 @@
                                     <span><strong>Detalles extra</strong></span>
                                 </v-col>
                                 <v-col cols="4">
-                                    <label for="details">Orden de compra:</label>
+                                    <label for="details" style="color: #69C5A0">Orden de compra:</label>
                                     <v-text-field v-model="medicine.purchase_order" readonly></v-text-field>
                                 </v-col>
                                 <v-col cols="4">
-                                    <label for="details">Observaciones:</label>
+                                    <label for="details" style="color: #69C5A0">Observaciones:</label>
                                     <v-text-field v-model="medicine.observations" readonly></v-text-field>
                                 </v-col>
                             </v-row>
@@ -157,11 +157,11 @@
                                     <span><strong></strong></span>
                                 </v-col>
                                 <v-col cols="4">
-                                    <label for="details">Estado:</label>
+                                    <label for="details" style="color: #69C5A0">Estado:</label>
                                     <v-text-field v-model="medicine.state" readonly></v-text-field>
                                 </v-col>
                                 <v-col cols="4">
-                                    <label for="details">Usuario:</label>
+                                    <label for="details" style="color: #69C5A0">Usuario:</label>
                                     <v-text-field v-model="medicine.entered_by" readonly></v-text-field>
                                 </v-col>
                             </v-row>
@@ -261,11 +261,5 @@ export default {
 
 ::v-deep .v-dialog {
     box-shadow: none;
-}
-</style>
-
-<style>
-label {
-    color: #69C5A0;
 }
 </style>

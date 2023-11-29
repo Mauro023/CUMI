@@ -104,7 +104,232 @@
         <table class="table table-bordered table-centered">
             <thead class="text-center">
                 <tr>
-                    <th>Descripcion</th>
+                    <th>Descripcion
+                        <v-dialog transition="dialog-bottom-transition" max-width="800" style="margin-bottom: 5px">
+                            <template v-slot:activator="{ on, attrs }">
+                                <v-btn class="ma-2" text icon>
+                                    <v-icon style="color: rgba(34, 154, 170, 0.87)" v-bind="attrs"
+                                        v-on="on">mdi-information-outline</v-icon>
+                                </v-btn>
+                            </template>
+                            <template v-slot:default="dialog">
+                                <v-card>
+                                    <v-card-text>
+                                        <table class="table table-bordered table-centered">
+                                            <thead class="text-center">
+                                                <tr>
+                                                    <th style="color: rgba(34, 154, 170, 0.87)">Descripcion</th>
+                                                    <th style="color: red">Critico</th>
+                                                    <th style="color: red">Mayor</th>
+                                                    <th style="color: orange">Menor</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <label>ROTULACION</label>
+                                                    </td>
+                                                    <td>
+                                                        <label>
+                                                            Falta de información: nombre genérico, registro sanitario,
+                                                            forma, lote, vencimiento, formulación, cantidad, fabricante,
+                                                            condiciones almacenamiento (si aplica), vía de administración,
+                                                            leyenda "agítese antes de usar" en suspensiones. Impresión
+                                                            defectuosa, ilegible o inconsistente entre empaques.
+                                                        </label>
+                                                    </td>
+                                                    <td>
+                                                        <label>
+                                                            Ausencia de la cantidad o volumen contenido, (CRÍTICO para
+                                                            soluciones estériles). Ausencia de la formulación del producto
+                                                            por unidad posológica sin necesidad de especificar excipientes
+                                                        </label>
+                                                    </td>
+                                                    <td>
+                                                        <label>
+                                                            Etiquetas mal alineadas o adheridas incorrectamente (mayor
+                                                            importancia para medicamentos que requieren reconstitución con
+                                                            señal de precaución).
+                                                        </label>
+                                                    </td>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label>LAMINADO</label>
+                                                    </td>
+                                                    <td>
+                                                        <label>
+                                                            Blister sin número de lote y/o sin fecha de vencimiento.
+                                                        </label>
+                                                    </td>
+                                                    <td>
+                                                        <label>
+                                                            Laminado roto, llenado incompleto, manchas
+                                                            o suciedad al interior del blister.
+                                                        </label>
+                                                    </td>
+                                                    <td>
+                                                        <label>
+                                                            Superficie arrugada, rayada o sucia
+                                                        </label>
+                                                    </td>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label>CIERRE</label>
+                                                    </td>
+                                                    <td>
+                                                        <label>
+                                                            Ausencia de: cierre o banda de seguridad, agrafe si se requiere,
+                                                            perforaciones para apertura. Deficiente hermeticidad del cierre,
+                                                            cierre roto, agrafe mal ajustado.
+                                                        </label>
+                                                    </td>
+                                                    <td>
+                                                        <label>
+                                                            Grafado defectuoso
+                                                        </label>
+                                                    </td>
+                                                    <td>
+                                                        <label>
+                                                        </label>
+                                                    </td>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label>TODAS</label>
+                                                    </td>
+                                                    <td>
+                                                        <label>
+                                                            Color no característico o no homogéneo, partículas extrañas,
+                                                            ausencia o menos contenido, Olor extraño.
+                                                        </label>
+                                                    </td>
+                                                    <td>
+                                                        <label>
+                                                        </label>
+                                                    </td>
+                                                    <td>
+                                                        <label>
+                                                        </label>
+                                                    </td>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label>LIQUIDOS</label>
+                                                    </td>
+                                                    <td>
+                                                        <label>
+                                                            Fluidez inadecuada, sedimento precipitado o turbidez
+                                                            (soluciones). Sedimento no redispersable (suspensiones).
+                                                            Separación de fases (emulsiones). Presencia de cristales
+                                                            (estériles), excepto si la monografía lo admite.
+                                                        </label>
+                                                    </td>
+                                                    <td>
+                                                        <label>
+                                                        </label>
+                                                    </td>
+                                                    <td>
+                                                        <label>
+                                                        </label>
+                                                    </td>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label>SEMISOLIDOS</label>
+                                                    </td>
+                                                    <td>
+                                                        <label>
+                                                            Separación de fases, consistencia inadecuada.
+                                                        </label>
+                                                    </td>
+                                                    <td>
+                                                        <label>
+                                                        </label>
+                                                    </td>
+                                                    <td>
+                                                        <label>
+                                                        </label>
+                                                    </td>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label>POLVO</label>
+                                                    </td>
+                                                    <td>
+                                                        <label>
+                                                        </label>
+                                                    </td>
+                                                    <td>
+                                                        <label>
+                                                            Compactación del polvo (estériles), compactación de polvos y
+                                                            granulados (No estériles)
+                                                        </label>
+                                                    </td>
+                                                    <td>
+                                                        <label>
+                                                        </label>
+                                                    </td>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label>TABLETA</label>
+                                                    </td>
+                                                    <td>
+                                                        <label>
+                                                            Manchadas o laminadas, ruptura o porosidad de la cubierta
+                                                            (recubiertas o grageas)
+                                                        </label>
+                                                    </td>
+                                                    <td>
+                                                        <label>
+                                                            Bordes erosionados y/o tabletas rotas
+                                                        </label>
+                                                    </td>
+                                                    <td>
+                                                        <label>
+                                                        </label>
+                                                    </td>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label>CAPSULAS</label>
+                                                    </td>
+                                                    <td>
+                                                        <label>
+                                                            Rotas, quebradizas, porosas o con cierre defectuoso.
+                                                        </label>
+                                                    </td>
+                                                    <td>
+                                                        <label>
+                                                            Deformadas, con suciedad exterior.
+                                                        </label>
+                                                    </td>
+                                                    <td>
+                                                        <label>
+                                                        </label>
+                                                    </td>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </v-card-text>
+                                    <v-card-actions class="justify-end">
+                                        <v-btn @click="dialog.value = false" depressed color="primary">Cerrar</v-btn>
+                                    </v-card-actions>
+                                </v-card>
+                            </template>
+                        </v-dialog>
+                    </th>
                     <th>Critico</th>
                     <th>Mayor</th>
                     <th>Menor</th>
@@ -133,7 +358,7 @@
                     </td>
                     <td>
                         <div class="custom-control custom-radio">
-                            <input class="custom-control-input custom-control-input-warning" type="radio" :name="item.name"
+                            <input class="custom-control-input custom-control-input-orange" type="radio" :name="item.name"
                                 :id="'value' + index + 'Menor'" value="Menor" v-model="item.value" />
                             <label class="custom-control-label" :for="'value' + index + 'Menor'"></label>
                         </div>
@@ -205,7 +430,10 @@ export default {
             type: Array // Define el tipo de dato como Array
         },
         act_number2: {
-            type: Array
+            type: Number
+        },
+        last_fact: {
+            type: Number
         },
         medicine: {
             type: Object
@@ -234,7 +462,7 @@ export default {
             expiration_date: '',
             lot_number: '',
             supplier: '',
-            invoice_number: '',
+            invoice_number: this.last_fact,
             act_number: this.act_number2,
             //Date pickers
             menu: false, menu2: false, menu3: false,

@@ -1,7 +1,7 @@
 <!-- Medicine Field -->
 <div id="app">
     <template>
-        <reception-medicines :data='@json($plantilla ?? null)' :invima='@json($invima ?? null)' :act_number='@json($lastActNumber ?? null)' :medicine='@json($medicine ?? null)'></reception-medicines>
+        <reception-medicines :data='@json($plantilla ?? null)' :invima='@json($invima ?? null)' :act_number2='@json($lastActNumber ?? null)' :last_fact='@json($lastFact ?? null)' :medicine='@json($medicine ?? null)'></reception-medicines>
     </template>
 </div>
 
