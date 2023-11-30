@@ -1,4 +1,3 @@
-
 <div class="mt-1">
     <li class="nav-item text-with-shadow">
         <a href="{{ route('home') }}" class="nav-link {{ Request::is('home*') ? 'active' : '' }}">
@@ -177,8 +176,17 @@
             </li>
         </ul>
     </li>
+    @endcan
+    </li>
 
-
+    <li class="nav-item">
+        @can('view_medicines')
+    <li class="nav-item has-treeview">
+        <a href="" class="nav-link {{ Request::is('invimaRegistrations*') ? 'active' : '' }}">
+            <span class="fas fa-coins"></span>
+            <p><Strong>Costos</Strong></p>
+        </a>
+    </li>
     @endcan
     </li>
 
@@ -195,20 +203,22 @@
 
 
 <style>
-
     .nav-pills .nav-link {
-            background-color: transparent;
-            color: #6B6B6B;
-        }
-    .nav-pills .nav-link.active {
-            background-color: white;
-            color: #14ABE3;
-            border: 2px solid transparent;
-            border-image: linear-gradient(to right, #14ABE3, lightgreen); /* Degradado lineal */
-            border-image-slice: 1; /* Hace que el degradado cubra todo el borde */
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        background-color: transparent;
+        color: #6B6B6B;
     }
-    
+
+    .nav-pills .nav-link.active {
+        background-color: white;
+        color: #14ABE3;
+        border: 2px solid transparent;
+        border-image: linear-gradient(to right, #14ABE3, lightgreen);
+        /* Degradado lineal */
+        border-image-slice: 1;
+        /* Hace que el degradado cubra todo el borde */
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
     .nav-link .nav-item:hover {
         background-color: transparent;
         color: red;
