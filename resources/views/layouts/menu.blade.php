@@ -182,7 +182,7 @@
     <li class="nav-item">
         @can('view_medicines')
     <li class="nav-item has-treeview">
-        <a href="" class="nav-link {{ Request::is('invimaRegistrations*') ? 'active' : '' }}">
+        <a href="{{ route('costs.index') }}" class="nav-link {{ Request::is('costs*') ? 'active' : '' }}">
             <span class="fas fa-coins"></span>
             <p><Strong>Costos</Strong></p>
         </a>
@@ -224,3 +224,5 @@
         color: red;
     }
 </style>
+
+

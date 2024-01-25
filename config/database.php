@@ -91,6 +91,32 @@ return [
             'prefix_indexes' => true,
         ],
 
+        'SismaSalud' => [
+            'driver' => 'sqlsrv',
+            'url' => env('DATABASE_URL'),
+            'host' => env('DB_EXTERNAL_HOST_SALUD', '10.1.11.93'),
+            'port' => env('DB_EXTERNAL_PORT_SALUD', '1433'),
+            'database' => env('DB_EXTERNAL_DATABASE_SALUD'),
+            'username' => env('DB_EXTERNAL_USERNAME_SALUD'),
+            'password' => env('DB_EXTERNAL_PASSWORD_SALUD'),
+            'charset' => 'utf8',
+            'prefix' => '',
+            'prefix_indexes' => true,
+        ],
+
+        'SismaInventario' => [
+            'driver' => 'sqlsrv',
+            'url' => env('DATABASE_URL'),
+            'host' => env('DB_EXTERNAL_HOST_INVENT', '10.1.11.93'),
+            'port' => env('DB_EXTERNAL_PORT_INVENT', '1433'),
+            'database' => env('DB_EXTERNAL_DATABASE_INVENT'),
+            'username' => env('DB_EXTERNAL_USERNAME_INVENT'),
+            'password' => env('DB_EXTERNAL_PASSWORD_INVENT'),
+            'charset' => 'utf8',
+            'prefix' => '',
+            'prefix_indexes' => true,
+        ],
+
     ],
 
     /*

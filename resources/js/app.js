@@ -21,6 +21,12 @@ Vue.component('reception-medicines', require('./components/TechnicalReceptionMed
 //Modals
 Vue.component('medicine-modal', require('./components/Modals/MedicineModal.vue').default);
 
+//Menú
+Vue.component('cost-menu', require('./components/Menu/Cost.vue').default);
+
+//GET
+Vue.component('get-procedure', require('./components/GET/GetProcedures.vue').default);
+
 const app = new Vue({
   vuetify,
   el: '#app',

@@ -46,3 +46,39 @@ Route::resource('invima_registrations', App\Http\Controllers\API\invima_registra
 
 
 Route::resource('medication_templates', App\Http\Controllers\API\medicationTemplateAPIController::class);
+
+
+Route::resource('articles', App\Http\Controllers\API\articlesAPIController::class);
+
+
+Route::resource('labours', App\Http\Controllers\API\labourAPIController::class);
+
+
+Route::resource('procedures', App\Http\Controllers\API\proceduresAPIController::class);
+
+
+Route::resource('baskets', App\Http\Controllers\API\basketAPIController::class);
+
+
+Route::resource('consumables', App\Http\Controllers\API\consumableAPIController::class);
+
+
+Route::resource('medical_fees', App\Http\Controllers\API\medical_feesAPIController::class);
+
+
+Route::resource('diferential_rates', App\Http\Controllers\API\diferential_ratesAPIController::class);
+
+
+Route::resource('doctors', App\Http\Controllers\API\doctorsAPIController::class);
+
+
+Route::resource('surgeries', App\Http\Controllers\API\surgeryAPIController::class);
+
+
+Route::resource('unit_costs', App\Http\Controllers\API\unit_costsAPIController::class);
+
+
+Route::resource('general_costs', App\Http\Controllers\API\general_costsAPIController::class);
+
+
+Route::resource('soat_groups', App\Http\Controllers\API\soat_groupAPIController::class);

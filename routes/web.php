@@ -65,7 +65,7 @@ Route::get('/attendanceReport/logistic', [App\Http\Controllers\AttendanceReportC
 Route::get('/generar-calendarios', [App\Http\Controllers\CalendarController::class, 'calendarGenerator'])->name('calendars.generate');
 
 //Importar excel
-Route::post('import', [App\Http\Controllers\ImportController::class, 'import'])->name('import');
+Route::post('import', [App\Http\Controllers\diferential_ratesController::class, 'import'])->name('import');
 
 //Exportar excel
 Route::post('export', [App\Http\Controllers\endowmentController::class, 'export'])->name('export');
@@ -94,6 +94,63 @@ Route::get('/updateemployees', [App\Http\Controllers\EmployeController::class, '
 //Contracts
 Route::get('/getContracts', [App\Http\Controllers\contractsController::class, 'getContracts'])->name('get.contracts');
 
+//Procedures
+Route::get('/getProcedures', [App\Http\Controllers\proceduresController::class, 'getProcedures'])->name('get.procedures');
+
+//Articles
+Route::get('/getArticles', [App\Http\Controllers\articlesController::class, 'getArticles'])->name('get.articles');
+
+//Medical_fees
+Route::get('/getFees', [App\Http\Controllers\medical_feesController::class, 'getFees'])->name('get.fees');
+
+//Doctors
+Route::get('/getDoctors', [App\Http\Controllers\doctorsController::class, 'getDoctors'])->name('get.doctors');
+
+//Doctors
+Route::get('/getSurgery', [App\Http\Controllers\surgeryController::class, 'getSurgery'])->name('get.surgeries');
+
+
 Route::resource('invimaRegistrations', App\Http\Controllers\invima_registrationController::class);
 
 Route::resource('medicationTemplates', App\Http\Controllers\medicationTemplateController::class);
+
+
+Route::resource('articles', App\Http\Controllers\articlesController::class);
+
+
+Route::resource('labours', App\Http\Controllers\labourController::class);
+
+
+Route::resource('procedures', App\Http\Controllers\proceduresController::class);
+
+
+Route::resource('baskets', App\Http\Controllers\basketController::class);
+
+
+Route::resource('consumables', App\Http\Controllers\consumableController::class);
+
+
+Route::resource('medicalFees', App\Http\Controllers\medical_feesController::class);
+
+Route::view('/costs', 'costs.index')->name('costs.index');
+
+Route::resource('diferentialRates', App\Http\Controllers\diferential_ratesController::class);
+
+
+Route::resource('doctors', App\Http\Controllers\doctorsController::class);
+
+
+Route::resource('surgeries', App\Http\Controllers\surgeryController::class);
+
+
+Route::resource('unitCosts', App\Http\Controllers\unit_costsController::class);
+
+
+Route::resource('generalCosts', App\Http\Controllers\general_costsController::class);
+
+
+Route::get('/unitCosts/{id}/calculate', [App\Http\Controllers\unit_costsController::class, 'calculate'])->name('costUnit.calculate');
+
+Route::get('/costSurgeries', [App\Http\Controllers\unit_costsController::class, 'costSurgeries'])->name('costUnit.costSurgeries');
+
+Route::resource('soatGroups', App\Http\Controllers\soat_groupController::class);

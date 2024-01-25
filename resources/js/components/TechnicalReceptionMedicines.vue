@@ -152,7 +152,6 @@
                                                             señal de precaución).
                                                         </label>
                                                     </td>
-                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <td>
@@ -173,7 +172,6 @@
                                                         <label>
                                                             Superficie arrugada, rayada o sucia
                                                         </label>
-                                                    </td>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -196,7 +194,6 @@
                                                         <label>
                                                         </label>
                                                     </td>
-                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <td>
@@ -215,7 +212,6 @@
                                                     <td>
                                                         <label>
                                                         </label>
-                                                    </td>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -238,7 +234,6 @@
                                                         <label>
                                                         </label>
                                                     </td>
-                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <td>
@@ -256,7 +251,6 @@
                                                     <td>
                                                         <label>
                                                         </label>
-                                                    </td>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -276,7 +270,6 @@
                                                     <td>
                                                         <label>
                                                         </label>
-                                                    </td>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -298,7 +291,6 @@
                                                         <label>
                                                         </label>
                                                     </td>
-                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <td>
@@ -317,7 +309,6 @@
                                                     <td>
                                                         <label>
                                                         </label>
-                                                    </td>
                                                     </td>
                                                 </tr>
                                             </tbody>
