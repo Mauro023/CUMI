@@ -16,14 +16,14 @@ class CreateBasketsTable extends Migration
     {
         Schema::create('baskets', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('store');
             $table->integer('item_quantity');
             $table->integer('reusable');
-            $table->decimal('basket_value', 12, 2);
-            $table->integer('id_article')->unsigned();
+            $table->string('id_article');
             $table->integer('surgical_act')->unsigned();
             $table->timestamps();
             $table->softDeletes();
-            $table->foreign('id_article')->references('id')->on('articles');
+            $table->foreign('id_article')->references('item_code')->on('articles');
             $table->foreign('surgical_act')->references('cod_surgical_act')->on('surgeries');
         });
     }

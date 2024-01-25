@@ -18,6 +18,7 @@ class CreateMedicalFeesTable extends Migration
             $table->increments('id');
             $table->integer('honorary_code')->unique();
             $table->string('payment_manual');
+            $table->string('fees_type');
             $table->timestamps();
             $table->softDeletes();
         });

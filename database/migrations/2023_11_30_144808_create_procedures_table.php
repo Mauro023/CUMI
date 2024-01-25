@@ -22,7 +22,7 @@ class CreateProceduresTable extends Migration
             $table->string('cups');
             $table->string('rips')->nullable();
             $table->integer('uvr');
-            $table->integer('uvt');
+            $table->decimal('uvt', 12, 2)->default(0);
             $table->timestamps();
             $table->softDeletes();
 

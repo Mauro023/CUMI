@@ -16,24 +16,26 @@ class CreateSurgeriesTable extends Migration
     {
         Schema::create('surgeries', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('date_surgery');
             $table->string('start_time');
             $table->string('end_time');
             $table->integer('surgeryTime')->nullable();
             $table->string('operating_room');
             $table->integer('cod_surgical_act')->unsigned()->key();
             $table->integer('study_number');
-            $table->integer('patient');
-            $table->string('name_patient');
-            $table->json('labours');
+            $table->string('patient');
             $table->integer('id_doctor')->unsigned();
             $table->integer('id_doctor2')->unsigned()->nullable();
-            $table->integer('id_anesthesiologist')->unsigned();
+            $table->integer('id_anesthesiologist')->unsigned()->nullable();
             $table->integer('id_procedures')->unsigned();
+            $table->integer('cod_helper');
+            $table->integer('cod_instrumentator');
+            $table->integer('cod_rotator');
             $table->timestamps();
             $table->softDeletes();
-            $table->foreign('id_doctor')->references('id')->on('doctors');
-            $table->foreign('id_doctor2')->references('id')->on('doctors');
-            $table->foreign('id_anesthesiologist')->references('id')->on('doctors');
+            $table->foreign('id_doctor')->references('code')->on('doctors');
+            $table->foreign('id_doctor2')->references('code')->on('doctors');
+            $table->foreign('id_anesthesiologist')->references('code')->on('doctors');
             $table->foreign('id_procedures')->references('id')->on('procedures');
             $table->index('cod_surgical_act');
         });

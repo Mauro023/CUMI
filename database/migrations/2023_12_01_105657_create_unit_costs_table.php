@@ -23,8 +23,7 @@ class CreateUnitCostsTable extends Migration
             $table->decimal('basket', 12, 2);
             $table->decimal('medical_fees', 12, 2);
             $table->decimal('medical_fees2', 12, 2)->nullable();
-            $table->decimal('anesthesiologist_fees', 12, 2);
-            $table->decimal('consumables', 12, 2)->nullable();
+            $table->decimal('anest_fees', 12, 2)->nullable();
             $table->integer('cod_surgical_act')->unsigned();
             $table->timestamps();
             $table->softDeletes();

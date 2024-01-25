@@ -16,10 +16,8 @@ class CreateGeneralCostsTable extends Migration
     {
         Schema::create('general_costs', function (Blueprint $table) {
             $table->increments('id');
-            $table->decimal('value_roomTime', 12, 2);
-            $table->decimal('value_gases', 12, 2);
-            $table->decimal('value_operatingRoom', 12, 2);
-            $table->decimal('value_RoomCardio', 12, 2);
+            $table->string('description');
+            $table->decimal('value', 12, 2);
             $table->timestamps();
             $table->softDeletes();
         });

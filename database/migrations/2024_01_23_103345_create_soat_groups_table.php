@@ -15,14 +15,14 @@ class CreateSoatGroupsTable extends Migration
     public function up()
     {
         Schema::create('soat_groups', function (Blueprint $table) {
-            $table->id('id');
+            $table->increments('id');
             $table->integer('group');
-            $table->decimal('surgeon');
-            $table->decimal('anesthed');
-            $table->decimal('assistant');
-            $table->decimal('room');
-            $table->decimal('materials');
-            $table->decimal('total');
+            $table->decimal('surgeon', 12, 2);
+            $table->decimal('anesthed', 12, 2);
+            $table->decimal('assistant', 12, 2);
+            $table->decimal('room', 12, 2);
+            $table->decimal('materials', 12, 2);
+            $table->decimal('total', 12, 2);
             $table->timestamps();
             $table->softDeletes();
         });

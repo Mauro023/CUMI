@@ -16,13 +16,17 @@ class CreateDiferentialRatesTable extends Migration
     {
         Schema::create('diferential_rates', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('rate_code');
-            $table->string('rate_description');
-            $table->decimal('value', 12, 2);
+            $table->integer('fixed_amount');
+            $table->integer('payment_availability');
+            $table->decimal('value1', 12, 2);
+            $table->decimal('value2', 12, 2);
+            $table->string('observation_rates');
             $table->integer('id_procedures')->unsigned();
+            $table->integer('id_doctor')->unsigned();
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('id_procedure')->references('id')->on('procedures');
+            $table->foreign('id_doctor')->references('code')->on('doctors');
         });
     }
 

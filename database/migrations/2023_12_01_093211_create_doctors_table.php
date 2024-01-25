@@ -16,13 +16,19 @@ class CreateDoctorsTable extends Migration
     {
         Schema::create('doctors', function (Blueprint $table) {
             $table->increments('id');
-            $table->bigInteger('dni');
+            $table->integer('code')->unsigned()->key();
+            $table->string('dni');
             $table->string('full_name');
+            $table->string('category_doctor');
             $table->string('specialty');
-            $table->integer('id_fees')->unsigned();
+            $table->string('payment_type');
+            $table->integer('id_fees')->unsigned()->nullable();
+            $table->integer('id_fees2')->unsigned()->nullable();
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('id_fees')->references('honorary_code')->on('medical_fees');
+            $table->foreign('id_fees2')->references('honorary_code')->on('medical_fees');
+            $table->index('code');
         });
     }
 

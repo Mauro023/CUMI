@@ -16,8 +16,8 @@ class CreateArticlesTable extends Migration
     {
         Schema::create('articles', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('item_code')->unique();
             $table->string('type');
-            $table->integer('item_code')->unique();
             $table->string('description');
             $table->decimal('average_cost', 12, 2);
             $table->decimal('last_cost', 12, 2);
