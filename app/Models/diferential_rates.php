@@ -35,7 +35,7 @@ class diferential_rates extends Model
 
     public function doctors()
     {
-        return $this->belongsTo(Doctors::class, 'id_doctor');
+        return $this->belongsTo(Doctors::class, 'id_doctor', 'code');
     }
 
     protected $dates = ['deleted_at'];

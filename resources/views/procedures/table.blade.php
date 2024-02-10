@@ -14,8 +14,14 @@
         <tbody>
             @foreach($procedures as $procedure)
             <tr>
-                <td>{{ $procedure->code }}</td>
-                <td>{{ $procedure->manual_type }}</td>
+                <td><strong>{{ $procedure->code }}</strong></td>
+                <td>
+                    @if($procedure->manual_type == 256)
+                    <span class="badge text-black" style="background-color:#A3BF18;">ISS</span>
+                  @else
+                    <span class="badge text-white" style="background-color:#00B0EB; text-color: white;">{{ $procedure->manual_type }}</span>
+                  @endif
+                </td>
                 <td>{{ $procedure->description }}</td>
                 <td>{{ $procedure->cups }}</td>
                 <td>{{ $procedure->uvr }}</td>

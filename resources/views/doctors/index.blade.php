@@ -12,8 +12,8 @@
                     <a href="{{ route('doctors.create') }}" class="btn btn-default" title="Agregar empleado">
                         <span class="fas fa-user-plus" style="color: #69C5A0"></span>
                     </a>
-                    <a href="{{ route('get.doctors') }}" id="loadarticlesBtn" class="btn btn-default" title="Actualizar doctores">
-                        <span class="fas fa-redo-alt" style="color: #69C5A0"></span>
+                    <a href="{{ route('get.doctors') }}" id="loaddoctorsBtn" class="btn btn-default" title="Actualizar doctores">
+                        <span class="fas fa-sync-alt" style="color: #69C5A0"></span>
                     </a>
                     @endcan
                 </div>
@@ -59,3 +59,34 @@
 </div>
 @endsection
 
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var loadarticlesBtn = document.getElementById('loaddoctorsBtn');
+
+        loadarticlesBtn.addEventListener('click', function() {
+            // Añade la clase 'loading' al botón cuando se hace clic
+            loadarticlesBtn.classList.add('loading');
+
+            // Simula la carga asincrónica
+            setTimeout(function() {
+                
+                loadarticlesBtn.classList.remove('loading');
+            }, 2000); 
+        });
+    });
+</script>
+<style>
+    /* Añade un estilo para la animación de carga */
+    .loading {
+        animation: spin 1s infinite linear;
+    }
+
+    @keyframes spin {
+        from {
+            transform: rotate(0deg);
+        }
+        to {
+            transform: rotate(360deg);
+        }
+    }
+</style>

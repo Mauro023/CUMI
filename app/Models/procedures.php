@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @package App\Models
  * @version November 30, 2023, 2:48 pm -05
  *
+ * @property string $code
  * @property string $manual_type
  * @property string $description
  * @property string $cups
@@ -27,12 +28,7 @@ class procedures extends Model
 
     public function diferential_rates()
     {
-        return $this->hasMany(Diferential_rates::class, 'id', 'id_doctor');
-    }
-
-    public function surgery()
-    {
-        return $this->hasMany(Surgery::class, 'id_procedures');
+        return $this->hasMany(Diferential_rates::class);
     }
 
     protected $dates = ['deleted_at'];
@@ -40,6 +36,7 @@ class procedures extends Model
 
 
     public $fillable = [
+        'code',
         'manual_type',
         'description',
         'cups',
@@ -53,6 +50,7 @@ class procedures extends Model
      * @var array
      */
     protected $casts = [
+        'code' => 'string',
         'manual_type' => 'string',
         'description' => 'string',
         'cups' => 'string',
@@ -66,6 +64,7 @@ class procedures extends Model
      * @var array
      */
     public static $rules = [
+        'code' => 'required',
         'manual_type' => 'required',
         'description' => 'required',
         'cups' => 'required',

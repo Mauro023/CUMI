@@ -13,11 +13,8 @@
                         <span class="fas fa-user-plus" style="color: #69C5A0"></span>
                     </a>
                     <a href="{{ route('get.procedures') }}" id="loadProceduresBtn" class="btn btn-default" title="Actualizar procedimientos">
-                        <span class="fas fa-redo-alt" style="color: #69C5A0"></span>
+                        <span class="fas fa-sync-alt" style="color: #69C5A0"></span>
                     </a>
-                    <div id="app">
-                        <get-procedure></get-procedure>
-                    </div>
                     @endcan
                 </div>
             </div>

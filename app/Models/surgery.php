@@ -23,7 +23,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property integer $id_doctor
  * @property integer $id_doctor2
  * @property integer $id_anesthesiologist
- * @property integer $id_procedures
  * @property integer $cod_helper
  * @property integer $cod_instrumentator
  * @property integer $cod_rotator
@@ -35,11 +34,6 @@ class surgery extends Model
     use HasFactory;
 
     public $table = 'surgeries';
-    
-    public function procedures()
-    {
-        return $this->belongsTo(Procedures::class, 'id_procedures');
-    }
 
     public function doctor()
     {
@@ -73,10 +67,10 @@ class surgery extends Model
         'id_doctor',
         'id_doctor2',
         'id_anesthesiologist',
-        'id_procedures',
         'cod_helper',
         'cod_instrumentator',
-        'cod_rotator'
+        'cod_rotator',
+        'category'
     ];
 
     /**
@@ -96,10 +90,10 @@ class surgery extends Model
         'id_doctor' => 'integer',
         'id_doctor2' => 'integer',
         'id_anesthesiologist' => 'integer',
-        'cod_procedures' => 'integer',
         'cod_helper' => 'integer',
         'cod_instrumentator' => 'integer',
-        'cod_rotator' => 'integer'
+        'cod_rotator' => 'integer',
+        'category' => 'string'
     ];
 
     /**
@@ -116,7 +110,6 @@ class surgery extends Model
         'study_number' => 'required',
         'patient' => 'required',
         'id_doctor' => 'required',
-        'cod_procedures' => 'required',
         
     ];
 

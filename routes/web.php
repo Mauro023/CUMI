@@ -106,9 +106,11 @@ Route::get('/getFees', [App\Http\Controllers\medical_feesController::class, 'get
 //Doctors
 Route::get('/getDoctors', [App\Http\Controllers\doctorsController::class, 'getDoctors'])->name('get.doctors');
 
-//Doctors
+//surgeries
 Route::get('/getSurgery', [App\Http\Controllers\surgeryController::class, 'getSurgery'])->name('get.surgeries');
 
+//Multiple surgeries
+Route::get('/getmsurgeries', [App\Http\Controllers\multiple_surgeryController::class, 'getmsurgeries'])->name('get.msurgeries');
 
 Route::resource('invimaRegistrations', App\Http\Controllers\invima_registrationController::class);
 
@@ -154,3 +156,13 @@ Route::get('/unitCosts/{id}/calculate', [App\Http\Controllers\unit_costsControll
 Route::get('/costSurgeries', [App\Http\Controllers\unit_costsController::class, 'costSurgeries'])->name('costUnit.costSurgeries');
 
 Route::resource('soatGroups', App\Http\Controllers\soat_groupController::class);
+
+
+Route::resource('multipleSurgeries', App\Http\Controllers\multiple_surgeryController::class);
+
+
+Route::resource('msurgeryProcedures', App\Http\Controllers\msurgery_procedureController::class);
+
+
+
+Route::resource('logOperationCosts', App\Http\Controllers\log_operation_costController::class);

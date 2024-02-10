@@ -14,12 +14,12 @@
         <tbody>
             @foreach($diferentialRates as $diferentialRate)
             <tr>
-                <td>{{ $diferentialRate->id_doctor}}</td>
+                <td>{{ $diferentialRate->id_doctor ? $diferentialRate->doctors->full_name : 'Sin ID' }}</td>
                 <td>{{ $diferentialRate->id_procedure ? $diferentialRate->procedures->description : 'Sin ID' }}</td>
                 <td>{{ $diferentialRate->fixed_amount }}</td>
                 <td>{{ $diferentialRate->payment_availability }}</td>
-                <td>{{ $diferentialRate->value1 }}</td>
-                <td>{{ $diferentialRate->value2 }}</td>
+                <td>{{ number_format($diferentialRate->value1, 0, ',', '.'); }}</td>
+                <td>{{ number_format($diferentialRate->value2, 0, ',', '.'); }}</td>
                 <td width="120">
                     {!! Form::open(['route' => ['diferentialRates.destroy', $diferentialRate->id], 'method' =>
                     'delete']) !!}
@@ -41,4 +41,35 @@
             @endforeach
         </tbody>
     </table>
+    <div class="d-flex justify-content-between mb-4">
+        <!-- Muestra el número de página actual a la izquierda -->
+        <div class="pagination-label">
+            Página <strong>{{ $diferentialRates->currentPage() }}</strong> de <strong>{{ $diferentialRates->lastPage() }}</strong>
+        </div>
+        <!-- Muestra la paginación generada por Laravel a la derecha -->
+        <div>
+            {{ $diferentialRates->appends(['search' => request('search'), 'per_page' => request('per_page')])->links() }}
+        </div>
+    </div>
+    
+    <div id="app">
+    </div>
+    <script src="{{ asset('js/app.js') }}"></script>
 </div>
+<style>
+    .custom-title {
+        color: #14ABE3;
+        /* Cambia el color del título a rojo */
+    }
+
+    .custom-icon::before {
+        color: #cf33ff;
+        /* Cambia el color del icono a rojo */
+    }
+
+    .pagination .page-item.active .page-link {
+        background-color: #69C5A0;
+        border-color: #69C5A0;
+        color: white;
+    }
+</style>

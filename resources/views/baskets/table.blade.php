@@ -13,9 +13,9 @@
         <tbody>
             @foreach($baskets as $basket)
             <tr>
-                <td>{{ $basket->surgical_act }}</td>
+                <td><strong>{{ $basket->surgical_act }}</strong></td>
                 <td>{{ $basket->store }}</td>
-                <td>{{ $basket->id_article ? $basket->articles->description : 'Sin ID' }}
+                <td>{{ $basket->id_article ? $basket->articles->description : 'NA' }}
                 <br>
                 <small style="color: #69C5A0"><strong>{{ $basket->id_article }}</strong></small>
                 </td>

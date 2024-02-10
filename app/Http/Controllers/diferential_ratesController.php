@@ -6,6 +6,7 @@ use App\Http\Requests\Creatediferential_ratesRequest;
 use App\Http\Requests\Updatediferential_ratesRequest;
 use App\Repositories\diferential_ratesRepository;
 use App\Http\Controllers\AppBaseController;
+use App\Models\Diferential_rates;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
@@ -35,10 +36,18 @@ class diferential_ratesController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $diferentialRates = $this->diferentialRatesRepository->all();
+        $perPage = $request->input('per_page', 10);
+        $search = $request->input('search');
+        $diferentialRatesQuery = Diferential_rates::query();
 
-        return view('diferential_rates.index')
-            ->with('diferentialRates', $diferentialRates);
+        if (!empty($search)) {
+            $diferentialRatesQuery->where('value1', 'LIKE', '%' . $search . '%')
+                        ->orWhere('value2', 'LIKE', '%' . $search . '%');
+        }
+
+        $diferentialRates = $diferentialRatesQuery->paginate($perPage);
+
+        return view('diferential_rates.index', compact('diferentialRates'));
     }
 
     /**
@@ -167,10 +176,8 @@ class diferential_ratesController extends AppBaseController
         $file = $request->file('file');
         
         try {
-            $import = new CalendarsImport(); // Reemplaza con tu clase de importación
+            $import = new CalendarsImport();
             Excel::import($import, $file);
-
-            // Resto de tu lógica después de la importación
 
             return redirect()->back()->with('success', '¡Archivo importado correctamente!');
         } catch (\Exception $e) {

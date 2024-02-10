@@ -27,10 +27,10 @@
                         <label for="perPageSelect" class="mr-2" style="color: #69C5A0">Mostrar:</label>
                         <select id="perPageSelect" name="per_page" class="form-select" style="border-radius: 20px"
                             onchange="this.form.submit()">
-                            <option value="10">10</option>
-                            <option value="25">25</option>
-                            <option value="50">50</option>
-                            <option value="100">100</option>
+                            <option value="10" {{ $diferentialRates->perPage() == 10 ? 'selected' : '' }}>10</option>
+                            <option value="25" {{ $diferentialRates->perPage() == 25 ? 'selected' : '' }}>25</option>
+                            <option value="50" {{ $diferentialRates->perPage() == 50 ? 'selected' : '' }}>50</option>
+                            <option value="100" {{ $diferentialRates->perPage() == 100 ? 'selected' : '' }}>100</option>
                         </select>
                     </div>
 
@@ -71,12 +71,29 @@
             <div class="modal-body">
                 <form action="{{ route('import') }}" method="post" enctype="multipart/form-data">
                     @csrf
-                    <input type="file" name="file">
+                    <input type="file" name="file" class="file">
                     <!-- Resto de tus campos del formulario -->
-                    <button type="submit">Enviar</button>
+                    <button type="submit" class="send">Cargar</button>
                 </form>
             </div>
         </div>
     </div>
 </div>
+<style>
+    .send{
+        color: white;
+        background-color: #69C5A0;
+        border: none;
+        padding: 10px 15px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+        border-radius: 30px;
+        font-weight: bold;
+    }
+</style>
 @endsection
+

@@ -82,3 +82,14 @@ Route::resource('general_costs', App\Http\Controllers\API\general_costsAPIContro
 
 
 Route::resource('soat_groups', App\Http\Controllers\API\soat_groupAPIController::class);
+
+
+Route::resource('multiple_surgeries', App\Http\Controllers\API\multiple_surgeryAPIController::class);
+
+
+Route::resource('msurgery_procedures', App\Http\Controllers\API\msurgery_procedureAPIController::class);
+
+
+
+
+Route::resource('log_operation_costs', App\Http\Controllers\API\log_operation_costAPIController::class);

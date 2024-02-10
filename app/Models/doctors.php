@@ -34,7 +34,7 @@ class doctors extends Model
 
     public function diferential_rates()
     {
-        return $this->hasMany(Diferential_rates::class);
+        return $this->hasMany(Diferential_rates::class, 'code', 'id_doctor');
     }
 
     public function medical_fees()

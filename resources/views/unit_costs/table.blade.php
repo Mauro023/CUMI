@@ -17,15 +17,15 @@
         <tbody>
             @foreach($unitCosts as $unitCost)
             <tr>
-                <td>{{ $unitCost->cod_surgical_act }}</td>
-                <td>{{ $unitCost->room_cost }}</td>
-                <td>{{ $unitCost->gas }}</td>
-                <td>{{ $unitCost->labour }}</td>
-                <td>{{ $unitCost->basket }}</td>
-                <td>{{ $unitCost->medical_fees }}</td>
-                <td>{{ $unitCost->medical_fees2 ?? 0}}</td>
-                <td>{{ $unitCost->anest_fees ?? 0}}</td>
-                <td>{{ $unitCost->total_value }}</td>
+                <td><strong>{{ $unitCost->cod_surgical_act }}</strong></td>
+                <td>{{ number_format($unitCost->room_cost, 0, ',', '.'); }}</td>
+                <td>{{ number_format($unitCost->gas, 0, ',', '.'); }}</td>
+                <td>{{ number_format($unitCost->labour, 0, ',', '.'); }}</td>
+                <td>{{ number_format($unitCost->basket, 0, ',', '.'); }}</td>
+                <td>{{ number_format($unitCost->medical_fees, 0, ',', '.'); }}</td>
+                <td>{{ number_format($unitCost->medical_fees2 ?? 0, 0, ',', '.'); }}</td>
+                <td>{{ number_format($unitCost->anest_fees ?? 0, 0, ',', '.'); }}</td>
+                <td>{{ number_format($unitCost->total_value, 0, ',', '.'); }}</td>
                 <td width="120">
                     {!! Form::open(['route' => ['unitCosts.destroy', $unitCost->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>

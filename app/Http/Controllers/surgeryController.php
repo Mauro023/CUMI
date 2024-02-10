@@ -19,6 +19,7 @@ use App\Models\procedures;
 use App\Models\basket;
 use App\Models\surgery;
 use App\Models\medical_fees;
+use App\Models\msurgery_procedure;
 
 class surgeryController extends AppBaseController
 {
@@ -219,8 +220,8 @@ class surgeryController extends AppBaseController
                 SELECT sm.con_estudio AS estudio
                 FROM sis_maes sm
                 LEFT JOIN hoja_cirugia hc ON hc.estudio = sm.con_estudio
-                WHERE CONVERT(DATE, sm.fecha_ing) >= ?
-                AND CONVERT(DATE, sm.fecha_ing) <= ?
+                WHERE CONVERT(DATE, hc.fecha) >= ?
+                AND CONVERT(DATE, hc.fecha) <= ?
                 AND hc.fecha_anulado IS NULL
                 AND hc.anulado != 1
                 AND sm.estado = 'C'
@@ -250,9 +251,23 @@ class surgeryController extends AppBaseController
                 GROUP BY CodActoQ
                 ORDER BY procedimientos
             ", [$data->estudio]);
+
             foreach ($services as $service) {
-                if ($service->procedimientos == 1) {
-                    $codActQ = $service->CodActoQ;
+                $codActQ = $service->CodActoQ;
+                $package = DB::connection('SismaSalud')->select("SELECT * FROM sis_deta 
+                        WHERE num_servicio = ?
+                        AND tipo_qx = 1
+                        AND total > 0 AND codigo_paquete IS NOT NULL
+                    ", [$codActQ]);
+
+                if (!$package) {
+                    $category = "";
+                    if ($service->procedimientos == 1) {
+                        $category = "1,1,1";
+                    }elseif ($service->procedimientos >= 1) {
+                        $category = "1,1,*";
+                    }
+
                     $surgeries = DB::connection('SismaSalud')->select("SELECT CONVERT(VARCHAR(20), hcd.id) AS id_tabla,
                         hc.estudio AS Estudio, hc.num_servicio AS CodActoQ, CONVERT(DATE, hc.fecha) AS Fecha, hc.horaini AS HoraI, hc.horafin AS HoraF,
                         hc.duracion, hc.cod_medico AS Medico, sm.cedula AS CedulaMD1, sm.nombre AS Nombre,
@@ -266,29 +281,31 @@ class surgeryController extends AppBaseController
                         WHEN hc.anulado = 1
                             THEN hc.fecha_anulado
                         ELSE NULL
-                        END AS fecha_anulado
-                            FROM hoja_cirugia hc
-                            LEFT JOIN
-                                hoja_cirugia_deta hcd ON hcd.num_servicio = hc.num_servicio
-                            LEFT JOIN 
-                                sis_medi sm ON sm.codigo = hc.cod_medico
-                            LEFT JOIN 
-                                sis_medi sm2 ON sm2.codigo = hc.cod_medico_b
-                            LEFT JOIN 
-                                sis_medi anes ON anes.codigo = hc.cod_anaste
-                            LEFT JOIN
-                                quirofano qf ON qf.codigo = hc.sala_cirugia
-                            LEFT JOIN
-                                sis_maes smaes ON smaes.con_estudio = hc.estudio
-                            LEFT JOIN
-                                sis_paci spaci ON spaci.autoid = smaes.autoid
-                            WHERE hc.num_servicio = ?
-                            AND hc.fecha_anulado IS NULL
-                            AND hc.anulado != 1
-                            AND qf.codigo != 6
-                            ORDER BY fecha, HoraI DESC
-                    ", [$codActQ]);
+                        END AS fecha_anulado,
+                        hcd.tipo_rea
+                        FROM hoja_cirugia hc
+                        LEFT JOIN
+                            hoja_cirugia_deta hcd ON hcd.num_servicio = hc.num_servicio
+                        LEFT JOIN 
+                            sis_medi sm ON sm.codigo = hc.cod_medico
+                        LEFT JOIN 
+                            sis_medi sm2 ON sm2.codigo = hc.cod_medico_b
+                        LEFT JOIN 
+                            sis_medi anes ON anes.codigo = hc.cod_anaste
+                        LEFT JOIN
+                            quirofano qf ON qf.codigo = hc.sala_cirugia
+                        LEFT JOIN
+                            sis_maes smaes ON smaes.con_estudio = hc.estudio
+                        LEFT JOIN
+                            sis_paci spaci ON spaci.autoid = smaes.autoid
+                        WHERE hc.num_servicio = ?
+                        AND hc.fecha_anulado IS NULL
+                        AND hc.anulado != 1
+                        AND qf.codigo != 6
+                        ORDER BY fecha, HoraI DESC
+                ", [$codActQ]);
                     //dd($surgeries);
+                    $count = 0;
                     foreach ($surgeries as $surgerie) {
                         $Medico2 = $surgerie->Medico_2;
                         $Anestes = $surgerie->Anestesiologo;
@@ -303,49 +320,53 @@ class surgeryController extends AppBaseController
                         if ($surgerie->duracion === "NaN") {
                             $surgerie->duracion = Carbon::parse($surgerie->HoraF)->diffInMinutes(Carbon::parse($surgerie->HoraI));
                         }
-                        //dd($Anestes);
-                        //Se valida que el procedimiento esté registrado
-                        $existingSurgeries = Surgery::where('cod_surgical_act', $codActQ)->first();
-                        $doctors = Doctors::where('code', $surgerie->Medico)->first();
-                        if ($existingSurgeries && $doctors->category_doctor !== "Medico General") {              
-                            // Actualiza los datos del procedimiento      
-                            $existingSurgeries->date_surgery = $surgerie->Fecha;   
-                            $existingSurgeries->start_time = $surgerie->HoraI;
-                            $existingSurgeries->end_time = $surgerie->HoraF;
-                            $existingSurgeries->surgeryTime = $surgerie->duracion;
-                            $existingSurgeries->operating_room = $surgerie->nomgrupo;
-                            $existingSurgeries->cod_surgical_act = $codActQ;
-                            $existingSurgeries->study_number = $surgerie->Estudio;
-                            $existingSurgeries->patient = $surgerie->NombreCompleto;
-                            $existingSurgeries->id_doctor = $surgerie->Medico;
-                            $existingSurgeries->id_doctor2 = $Medico2;
-                            $existingSurgeries->id_anesthesiologist = $Anestes;
-                            $existingSurgeries->id_procedures = $this->validateProcedure($surgerie->Procedimiento, $surgerie->Medico, $codActQ);
-                            $existingSurgeries->cod_helper = (int) $cod_helper;
-                            $existingSurgeries->cod_instrumentator = (int) $cod_instrumentator;
-                            $existingSurgeries->cod_rotator = (int) $cod_rotator;
-                            $existingSurgeries->save();
-                            $this->addBasket($codActQ, $surgerie->Estudio, $surgerie->nomgrupo);
-                        }else {
-                            if ($doctors->category_doctor !== "Medico General") {
-                                $newSurgery = new Surgery();
-                                $newSurgery->date_surgery = $surgerie->Fecha;
-                                $newSurgery->start_time = $surgerie->HoraI;
-                                $newSurgery->end_time = $surgerie->HoraF;
-                                $newSurgery->surgeryTime = $surgerie->duracion;
-                                $newSurgery->operating_room = $surgerie->nomgrupo;
-                                $newSurgery->cod_surgical_act = $codActQ;
-                                $newSurgery->study_number = $surgerie->Estudio;
-                                $newSurgery->patient = $surgerie->NombreCompleto;
-                                $newSurgery->id_doctor = $surgerie->Medico;
-                                $newSurgery->id_doctor2 = $Medico2;
-                                $newSurgery->id_anesthesiologist = $Anestes;
-                                $newSurgery->id_procedures = $this->validateProcedure($surgerie->Procedimiento, $surgerie->Medico, $codActQ); 
-                                $newSurgery->cod_helper = (int) $cod_helper;
-                                $newSurgery->cod_instrumentator = (int) $cod_instrumentator;
-                                $newSurgery->cod_rotator = (int) $cod_rotator;
-                                $newSurgery->save();
+                        if ($count < 2) {
+                            //dd($Anestes);
+                            //Se valida que el procedimiento esté registrado
+                            $existingSurgeries = Surgery::where('cod_surgical_act', $codActQ)->first();
+                            $doctors = Doctors::where('code', $surgerie->Medico)->first();
+                            if ($existingSurgeries && $doctors->category_doctor !== "Medico General") {              
+                                // Actualiza los datos del procedimiento      
+                                $existingSurgeries->date_surgery = $surgerie->Fecha;   
+                                $existingSurgeries->start_time = $surgerie->HoraI;
+                                $existingSurgeries->end_time = $surgerie->HoraF;
+                                $existingSurgeries->surgeryTime = $surgerie->duracion;
+                                $existingSurgeries->operating_room = $surgerie->nomgrupo;
+                                $existingSurgeries->cod_surgical_act = $codActQ;
+                                $existingSurgeries->study_number = $surgerie->Estudio;
+                                $existingSurgeries->patient = $surgerie->NombreCompleto;
+                                $existingSurgeries->id_doctor = $surgerie->Medico;
+                                $existingSurgeries->id_doctor2 = $Medico2;
+                                $existingSurgeries->id_anesthesiologist = $Anestes;
+                                $existingSurgeries->cod_helper = (int) $cod_helper;
+                                $existingSurgeries->cod_instrumentator = (int) $cod_instrumentator;
+                                $existingSurgeries->cod_rotator = (int) $cod_rotator;
+                                $existingSurgeries->category = $category;
+                                $existingSurgeries->save();
+                                $this->addProcedures($surgerie);
                                 $this->addBasket($codActQ, $surgerie->Estudio, $surgerie->nomgrupo);
+                            }else {
+                                if ($doctors->category_doctor !== "Medico General") {
+                                    $newSurgery = new Surgery();
+                                    $newSurgery->date_surgery = $surgerie->Fecha;
+                                    $newSurgery->start_time = $surgerie->HoraI;
+                                    $newSurgery->end_time = $surgerie->HoraF;
+                                    $newSurgery->surgeryTime = $surgerie->duracion;
+                                    $newSurgery->operating_room = $surgerie->nomgrupo;
+                                    $newSurgery->cod_surgical_act = $codActQ;
+                                    $newSurgery->study_number = $surgerie->Estudio;
+                                    $newSurgery->patient = $surgerie->NombreCompleto;
+                                    $newSurgery->id_doctor = $surgerie->Medico;
+                                    $newSurgery->id_doctor2 = $Medico2;
+                                    $newSurgery->id_anesthesiologist = $Anestes;
+                                    $newSurgery->cod_helper = (int) $cod_helper;
+                                    $newSurgery->cod_instrumentator = (int) $cod_instrumentator;
+                                    $newSurgery->cod_rotator = (int) $cod_rotator;
+                                    $newSurgery->category = $category;
+                                    $newSurgery->save();
+                                    $this->addProcedures($surgerie);
+                                    $this->addBasket($codActQ, $surgerie->Estudio, $surgerie->nomgrupo);
+                                }
                             }
                         }
                     }    
@@ -415,9 +436,32 @@ class surgeryController extends AppBaseController
         }
     }
 
+    public function addProcedures($surgery)
+    {
+        //dd($surgery);
+        $procedure = $this->validateProcedure($surgery->Procedimiento, $surgery->Medico, $surgery->CodActoQ);
+        $existingProcedure = Msurgery_procedure::where('cod_surgical_act', $surgery->CodActoQ)
+                ->where('code_procedure', $procedure)->first();
+
+        if ($existingProcedure) {
+            $existingProcedure->amount = $surgery->CantidadP;
+            $existingProcedure->type = $surgery->tipo_rea;
+            $existingProcedure->cod_surgical_act = $surgery->CodActoQ;
+            $existingProcedure->code_procedure = $this->validateProcedure($surgery->Procedimiento, $surgery->Medico, $surgery->CodActoQ);
+            $existingProcedure->save();
+        }else {
+            $newProcedure = new Msurgery_procedure();
+            $newProcedure->amount = $surgery->CantidadP;
+            $newProcedure->type = $surgery->tipo_rea;
+            $newProcedure->cod_surgical_act = $surgery->CodActoQ;
+            $newProcedure->code_procedure = $this->validateProcedure($surgery->Procedimiento, $surgery->Medico, $surgery->CodActoQ);
+            $newProcedure->save();
+        }
+    }
+
     public function validateProcedure($procedure, $doctor, $codActQ)
     {
-        Log::info("Surgery: " . $procedure . " " . $doctor. " ". $codActQ);
+        //Log::info("Surgery: " . $procedure . " " . $doctor. " ". $codActQ);
         //Datos del médico
         $doctor = Doctors::where('code', $doctor)->first();
         //Datos de los honorarios médicos

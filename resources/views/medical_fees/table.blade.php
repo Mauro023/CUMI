@@ -2,7 +2,7 @@
     <table class="table table-hover shadow mb-3 rounded" id="medicalFees-table">
         <thead>
             <tr>
-                <th>Código honorario</th>
+                <th>Código</th>
                 <th>Manual de pago</th>
                 <th>Tipo</th>
                 <th colspan="2">Action</th>
@@ -11,9 +11,17 @@
         <tbody>
             @foreach($medicalFees as $medicalFee)
             <tr>
-                <td>{{ $medicalFee->honorary_code }}</td>
+                <td><strong>{{ $medicalFee->honorary_code }}</strong></td>
                 <td>{{ $medicalFee->payment_manual }}</td>
-                <td>{{ $medicalFee->fees_type }}</td>
+                <td>
+                    @if($medicalFee->fees_type == 256 || $medicalFee->fees_type == 312)
+                        <span class="badge text-black" style="background-color:#A3BF18;">ISS</span>
+                    @elseif ($medicalFee->fees_type == 'SOAT')
+                        <span class="badge text-white" style="background-color:#00B0EB; text-color: white;">{{ $medicalFee->fees_type }}</span>
+                    @elseif ($medicalFee->fees_type == 'INST')
+                    <span class="badge text-white" style="background-color:#FA773E; text-color: white;">{{ $medicalFee->fees_type }}</span>
+                    @endif
+                </td>
                 <td width="120">
                     {!! Form::open(['route' => ['medicalFees.destroy', $medicalFee->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>

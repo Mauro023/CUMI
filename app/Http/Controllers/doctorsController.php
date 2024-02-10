@@ -45,7 +45,7 @@ class doctorsController extends AppBaseController
                     ->orWhere('code', 'LIKE', '%' . $search . '%');
         }
 
-        $doctors = $doctorsQuery->paginate($perPage);
+        $doctors = $doctorsQuery->orderBy('full_name')->paginate($perPage);
 
         return view('doctors.index', compact('doctors'));
     }

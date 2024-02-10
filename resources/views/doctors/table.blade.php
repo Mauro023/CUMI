@@ -3,7 +3,6 @@
         <thead>
             <tr>
                 <th>Código</th>
-                <th>Dni</th>
                 <th>Nombre</th>
                 <th>Especialidad</th>
                 <th>Tipo pagoo</th>
@@ -15,16 +14,18 @@
         <tbody>
             @foreach($doctors as $doctor)
             <tr>
-                <td>{{ $doctor->code }}</td>
-                <td>{{ $doctor->dni }}</td>
+                <td><strong>{{ $doctor->code }}</strong></td>
                 <td>{{ $doctor->full_name }}
+                <br>
+                <small style="color: #69C5A0"><strong>{{ $doctor->dni }}</strong></small>
+                </td>
+                <td>{{ $doctor->specialty }}
                 <br>
                 <small style="color: #69C5A0"><strong>{{ $doctor->category_doctor }}</strong></small>
                 </td>
-                <td>{{ $doctor->specialty }}</td>
                 <td>{{ $doctor->payment_type }}</td>
-                <td>{{ $doctor->id_fees ? $doctor->medical_fees->payment_manual : 'Sin ID' }}</td>
-                <td>{{ $doctor->id_fees2 ? $doctor->medical_fees2->payment_manual : 'Sin ID' }}</td>
+                <td>{{ $doctor->id_fees ? $doctor->medical_fees->payment_manual : 'NA' }}</td>
+                <td>{{ $doctor->id_fees2 ? $doctor->medical_fees2->payment_manual : 'NA' }}</td>
                 <td width="120">
                     {!! Form::open(['route' => ['doctors.destroy', $doctor->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>

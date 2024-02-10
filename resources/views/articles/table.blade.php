@@ -4,7 +4,6 @@
             <tr>
                 <th>Codigo</th>
                 <th>Descripcion</th>
-                <th>Tipo</th>
                 <th>Costo promedio</th>
                 <th>Ultimo costo</th>
                 <th colspan="3">Action</th>
@@ -14,10 +13,12 @@
             @foreach($articles as $article)
             <tr>
                 <td><strong>{{ $article->item_code }}</strong></td>
-                <td>{{ $article->description }}</td>
-                <td>{{ $article->type }}</td>
-                <td>{{ $article->average_cost }}</td>
-                <td>{{ $article->last_cost }}</td>
+                <td>{{ $article->description }}
+                <br>
+                <small style="color: #69C5A0"><strong>{{ $article->type }}</strong></small>
+                </td>
+                <td>{{ number_format($article->average_cost, 0, ',', '.'); }}</td>
+                <td>{{ number_format($article->last_cost, 0, ',', '.'); }}</td>
                 <td width="120">
                     {!! Form::open(['route' => ['articles.destroy', $article->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>

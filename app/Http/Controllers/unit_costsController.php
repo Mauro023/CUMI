@@ -24,6 +24,10 @@ use App\Models\Procedures;
 use App\Models\Doctors;
 use App\Models\unit_costs;
 use App\Models\Soat_group;
+use App\Models\msurgery_procedure;
+use App\Models\log_operation_cost;
+use App\Models\SismaSalud\sis_deta;
+
 
 
 class unit_costsController extends AppBaseController
@@ -186,162 +190,34 @@ class unit_costsController extends AppBaseController
     public function calculate($id) {
         //Surgery time
         $surgery = Surgery::find($id);
-        //dd($surgery);
-        $time = $surgery->surgeryTime;
-
-        //Operating room
-        $RoomTime = General_costs::where('description', $surgery->operating_room)->first();
-        $valueRoomTime = $RoomTime->value * $time;
-
-        //Gases
-        $gases = General_costs::where('description', 'GASES')->first();
-        $gasesValue = $gases->value * $time;
-
-        //Labour
-        $totalLaborCost = 0;
-        if ($surgery->cod_helper !== NULL && $surgery->cod_helper != 0) {
-            $value = Labour::where('position', 'MÉDICO AYUDANTE')->first();
-            $totalLaborCost +=  $value->labor_value;
+        if ($surgery->category == "1,1,1") {
+            $this->oneProcedure($surgery);
+        }elseif ($surgery->category == "1,1,*") {
+            $this->moreProcedures($surgery);
         }
-        if ($surgery->cod_instrumentator !== NULL && $surgery->cod_instrumentator != 0) {
-            $value = Labour::where('position', 'INSTRUMENTADOR QUIRURGICO')->first();
-            $totalLaborCost += $value->labor_value;
-        }
-        if ($surgery->cod_rotator !== NULL && $surgery->cod_rotator != 0) {
-            $value = Labour::where('position', 'AUXILIAR DE ENFERMERIA')->first();
-            $totalLaborCost += $value->labor_value;
-        }
-        $labour = $totalLaborCost * $time;
-        //Basket
-        $surgical_acts = $surgery->cod_surgical_act;
-        $baskets = basket::where('surgical_act', $surgical_acts)->get();
-        $totalBasketCost = 0;
-
-        foreach ($baskets as $basket) {
-            $basketId = $basket->id_article;
-            $value_article = Articles::where('item_code', $basketId)->first();
-            $basketCost = $basket->item_quantity * $value_article->last_cost;
-
-            $totalBasketCost += $basketCost;
-        }
-
-        //Médical fees value
-        $fees_value = 0;
-        //Const procedure
-        $procedure = Procedures::where('id', $surgery->id_procedures)->first();
-        //doctor
-        //diferential_rates
-        $doctor = Diferential_rates::where('id_doctor', $surgery->id_doctor)
-        ->where('id_procedure', $surgery->id_procedures)->first();
-        if ($doctor) {
-            $fees_value += $doctor->value1;
-        }else {
-            //Medical_fees
-            $doctor = Doctors::where('code', $surgery->id_doctor)->first();
-            $fees = Medical_fees::where('honorary_code', $doctor->id_fees)->first();
-            if ($fees->honorary_code === 13) {
-                $fees_value += ($procedure->uvr * 1270 * 1.1);
-            }elseif ($fees->honorary_code === 52) {
-                $fees_value += ($procedure->uvr * 1270 * 1.2);
-            }elseif ($fees->honorary_code === 56 || $fees->honorary_code === 57) {
-                $group = soat_group::where('group', $procedure->uvr)->first();
-                $fees_value += $group->surgeon;
-            }
-        }
-        
-        //doctor2
-        $fees_value2 = 0;
-        //diferential_rates
-        $doctor2 = Doctors::where('code', $surgery->id_doctor2)->first();
-        if ($doctor2 !== NULL) {
-            $doctor2 = Diferential_rates::where('id_doctor', $surgery->id_doctor2)
-            ->where('id_procedure', $surgery->id_procedures)->first();
-            if ($doctor2) {
-                $fees_value2 += $doctor2->value2;
-            }else {
-                //Medical_fees
-                $doctor2 = Doctors::where('code', $surgery->id_doctor2)->first();
-                $fees = Medical_fees::where('honorary_code', $doctor2->id_fees)->first();
-                if ($fees->honorary_code === 13) {
-                    $fees_value2 += ($procedure->uvr * 960 * 1.1);
-                }elseif ($fees->honorary_code === 52) {
-                    $fees_value2 += ($procedure->uvr * 960 * 1.2);
-                }
-            }
-        }
-        
-        //anestesiolog
-        $antest_value = 0;
-        $anest = Doctors::where('code', $surgery->id_anesthesiologist)->first();
-        if ($anest !== NULL) {
-            $anest = Diferential_rates::where('id_doctor', $surgery->id_anesthesiologist)
-            ->where('id_procedure', $surgery->id_procedures)->first();
-            if ($anest) {
-                $antest_value += $anest->value1;
-            }else {
-                //Medical_fees
-                $anest = Doctors::where('code', $surgery->id_anesthesiologist)->first();
-                $fees = Medical_fees::where('honorary_code', $anest->id_fees)->first();
-                if ($fees->honorary_code === 13) {
-                    $antest_value += ($procedure->uvr * 960 * 1.1);
-                }elseif ($fees->honorary_code === 52) {
-                    $antest_value += ($procedure->uvr * 960 * 1.2);
-                }elseif ($fees->honorary_code === 56 || $fees->honorary_code === 57) {
-                    $group = soat_group::where('group', $procedure->uvr)->first();
-                    $fees_value += $group->anesthed;
-                }
-            }
-        }
-        
-        $totalValue = $valueRoomTime + $gasesValue + $labour + $totalBasketCost + $fees_value + $fees_value2 + $antest_value;
-        $existingCost = Unit_costs::where('cod_surgical_act', $surgical_acts)->first();
-     
-        if ($existingCost) {                
-            $existingCost->room_cost = $valueRoomTime;
-            $existingCost->gas = $gasesValue;
-            $existingCost->total_value = $totalValue;
-            $existingCost->labour = $labour;
-            $existingCost->basket = $totalBasketCost;
-            $existingCost->medical_fees = $fees_value;
-            $existingCost->medical_fees2 = $fees_value2;
-            $existingCost->anest_fees = $antest_value;
-            $existingCost->cod_surgical_act = $surgical_acts;
-            $existingCost->save();
-        }else {
-            $newCost = new Unit_costs();
-            $newCost->room_cost = $valueRoomTime;
-            $newCost->gas = $gasesValue;
-            $newCost->total_value = $totalValue;
-            $newCost->labour = $labour;
-            $newCost->basket = $totalBasketCost;
-            $newCost->medical_fees = $fees_value;
-            $newCost->medical_fees2 = $fees_value2;
-            $newCost->anest_fees = $antest_value;
-            $newCost->cod_surgical_act = $surgical_acts;
-            $newCost->save();
-        }
-        return redirect(route('unitCosts.index'));
     }
     
     public function costSurgeries(Request $request){
         $surgeries = Surgery::where('date_surgery', '>=', $request->start_date)
         ->where('date_surgery', '<=', $request->end_date)->get();
-
+        
         foreach ($surgeries as $surgery) {
-            $this->calculateAll($surgery->id);
+            Log::info("Surgery: " . $surgery->category);
+            if ($surgery->category == "1,1,1") {
+                $this->oneProcedure($surgery);
+            }
         }
         return redirect(route('unitCosts.index'));
     }
 
-    public function calculateAll($id) {
-        //Surgery time
-        $surgery = Surgery::find($id);
+    public function oneProcedure($surgery)
+    {
         //dd($surgery);
         $time = $surgery->surgeryTime;
-        //Log::info($surgery->operating_room . " " . $surgery->id);
+
         //Operating room
         $RoomTime = General_costs::where('description', $surgery->operating_room)->first();
-        $valueRoomTime = $RoomTime->value * $time;
+        $valueRoomTime = ($RoomTime->value/60) * $time;
 
         //Gases
         $gases = General_costs::where('description', 'GASES')->first();
@@ -349,16 +225,16 @@ class unit_costsController extends AppBaseController
 
         //Labour
         $totalLaborCost = 0;
-        if ($surgery->cod_helper !== NULL && $surgery->cod_helper != 0) {
-            $value = Labour::where('position', 'MÉDICO AYUDANTE')->first();
+        if ($surgery->cod_helper !== NULL && $surgery->cod_helper !== 0) {
+            $value = Labour::where('code', 3)->first();
             $totalLaborCost +=  $value->labor_value;
         }
-        if ($surgery->cod_instrumentator !== NULL && $surgery->cod_instrumentator != 0) {
-            $value = Labour::where('position', 'INSTRUMENTADOR QUIRURGICO')->first();
+        if ($surgery->cod_instrumentator !== NULL && $surgery->cod_instrumentator !== 0) {
+            $value = Labour::where('code', 1)->first();
             $totalLaborCost += $value->labor_value;
         }
-        if ($surgery->cod_rotator !== NULL && $surgery->cod_rotator != 0) {
-            $value = Labour::where('position', 'AUXILIAR DE ENFERMERIA')->first();
+        if ($surgery->cod_rotator !== NULL && $surgery->cod_rotator !== 0) {
+            $value = Labour::where('code', 2)->first();
             $totalLaborCost += $value->labor_value;
         }
         $labour = $totalLaborCost * $time;
@@ -370,19 +246,20 @@ class unit_costsController extends AppBaseController
         foreach ($baskets as $basket) {
             $basketId = $basket->id_article;
             $value_article = Articles::where('item_code', $basketId)->first();
-            $basketCost = $basket->item_quantity * $value_article->last_cost;
+            $basketCost = $basket->item_quantity * $value_article->average_cost;
 
             $totalBasketCost += $basketCost;
         }
-
         //Médical fees value
         $fees_value = 0;
+        //Procedures
+        $getProcedure = Msurgery_procedure::where('cod_surgical_act', $surgical_acts)->first();
         //Const procedure
-        $procedure = Procedures::where('id', $surgery->id_procedures)->first();
+        $procedure = Procedures::where('id', $getProcedure->code_procedure)->first();
         //doctor
         //diferential_rates
         $doctor = Diferential_rates::where('id_doctor', $surgery->id_doctor)
-        ->where('id_procedure', $surgery->id_procedures)->first();
+        ->where('id_procedure', $getProcedure->code_procedure)->first();
         if ($doctor) {
             $fees_value += $doctor->value1;
         }else {
@@ -393,7 +270,7 @@ class unit_costsController extends AppBaseController
                 $fees_value += ($procedure->uvr * 1270 * 1.1);
             }elseif ($fees->honorary_code === 52) {
                 $fees_value += ($procedure->uvr * 1270 * 1.2);
-            }elseif ($fees->honorary_code === 56 || $fees->honorary_code === 57) {
+            }elseif ($fees->honorary_code === 56 || $fees->honorary_code === 57 || $fees->honorary_code === 68) {
                 $group = soat_group::where('group', $procedure->uvr)->first();
                 $fees_value += $group->surgeon;
             }
@@ -405,7 +282,7 @@ class unit_costsController extends AppBaseController
         $doctor2 = Doctors::where('code', $surgery->id_doctor2)->first();
         if ($doctor2 !== NULL) {
             $doctor2 = Diferential_rates::where('id_doctor', $surgery->id_doctor2)
-            ->where('id_procedure', $surgery->id_procedures)->first();
+            ->where('id_procedure', $getProcedure->code_procedure)->first();
             if ($doctor2) {
                 $fees_value2 += $doctor2->value2;
             }else {
@@ -425,7 +302,7 @@ class unit_costsController extends AppBaseController
         $anest = Doctors::where('code', $surgery->id_anesthesiologist)->first();
         if ($anest !== NULL) {
             $anest = Diferential_rates::where('id_doctor', $surgery->id_anesthesiologist)
-            ->where('id_procedure', $surgery->id_procedures)->first();
+            ->where('id_procedure', $getProcedure->code_procedure)->first();
             if ($anest) {
                 $antest_value += $anest->value1;
             }else {
@@ -436,9 +313,9 @@ class unit_costsController extends AppBaseController
                     $antest_value += ($procedure->uvr * 960 * 1.1);
                 }elseif ($fees->honorary_code === 52) {
                     $antest_value += ($procedure->uvr * 960 * 1.2);
-                }elseif ($fees->honorary_code === 56 || $fees->honorary_code === 57) {
+                }elseif ($fees->honorary_code === 56 || $fees->honorary_code === 57 || $fees->honorary_code === 68) {
                     $group = soat_group::where('group', $procedure->uvr)->first();
-                    $fees_value += $group->anesthed;
+                    $antest_value += $group->anesthed;
                 }
             }
         }
@@ -471,4 +348,238 @@ class unit_costsController extends AppBaseController
             $newCost->save();
         }
     }
+
+    public function moreProcedures($surgery)
+    {
+        //dd($surgery);
+        $time = $surgery->surgeryTime;
+        $surgical_acts = $surgery->cod_surgical_act;
+
+        $procedures = Msurgery_procedure::where('cod_surgical_act', $surgery->cod_surgical_act)
+        ->join('procedures', 'procedures.id', '=', 'msurgery_procedures.code_procedure')
+        ->orderBy('uvr', 'desc')
+        ->get();
+
+        $totalUvr = 0;
+        foreach ($procedures as $quanty) {
+            
+            $details = sis_deta::where('num_servicio', $surgical_acts)  
+            ->where('tipo_qx', 1)
+            ->where('codigo_cirugia', $quanty->code)
+            ->select('num_servicio', 'cod_servicio', 'descripcion', 'porcentaje', 'codigo_cirugia', 'tipo')   
+            ->get();
+            if (!$details->isEmpty()) {
+                $totalUvr = $totalUvr + $quanty->uvr;
+            }
+        }
+        //dd($procedures);
+
+        $fees_value = 0;
+        $fees_value2 = 0;
+        $antest_value = 0;
+        $valueRoomTime = 0;
+        $gasesValue = 0;
+        $totalLaborCost = 0;
+        $labour = 0;
+        foreach ($procedures as $procedure) {
+            
+            //dd($procedure);
+            //Consulta realizada a la tabla sis_deta
+            $details = sis_deta::where('num_servicio', $surgical_acts)  
+            ->where('tipo_qx', 1)
+            ->where('codigo_cirugia', $procedure->code)
+            ->select('num_servicio', 'cod_servicio', 'descripcion', 'porcentaje', 'codigo_cirugia', 'tipo')   
+            ->get();
+            
+            if ($details->isEmpty()) {
+                Log::info("Surgery: " . $procedure);
+            }else {
+                $percentage = ($procedure->uvr * 100)/$totalUvr;
+                $time = (($percentage)/100)*$surgery->surgeryTime;
+                //Médical fees value
+                //diferential_rates
+                $doctor = Diferential_rates::where('id_doctor', $surgery->id_doctor)
+                ->where('id_procedure', $procedure->code_procedure)->first();
+                if ($doctor) {
+                    $fees_value += $doctor->value1;
+                    $fees_log = $doctor->value1;
+                }else {
+                    $doctor_perce = $details->firstWhere('cod_servicio', 'S41101');
+                    //Medical_fees
+                    $doctor = Doctors::where('code', $surgery->id_doctor)->first();
+                    $fees = Medical_fees::where('honorary_code', $doctor->id_fees)->first();
+                    if ($fees->honorary_code === 13) {
+                        $fees_value += ($procedure->uvr * 1270 * 1.1 * ($doctor_perce->porcentaje/100));
+                        $fees_log = ($procedure->uvr * 1270 * 1.1 * ($doctor_perce->porcentaje/100));
+                    }elseif ($fees->honorary_code === 52) {
+                        $fees_value += ($procedure->uvr * 1270 * 1.2 * ($doctor_perce->porcentaje/100));
+                        $fees_log = ($procedure->uvr * 1270 * 1.2 * ($doctor_perce->porcentaje/100));
+                    }elseif ($fees->honorary_code === 56 || $fees->honorary_code === 57 || $fees->honorary_code === 68) {
+                        $group = soat_group::where('group', $procedure->uvr)->first();
+                        $fees_value += $group->surgeon;
+                    }
+                }
+    
+                //doctor2
+                //diferential_rates
+                $doctor2 = Doctors::where('code', $surgery->id_doctor2)->first();
+                if ($doctor2 !== NULL) {
+                    $doctor2 = Diferential_rates::where('id_doctor', $surgery->id_doctor2)
+                    ->where('id_procedure', $procedure->code_procedure)->first();
+                    if ($doctor2) {
+                        $fees_value2 += $doctor2->value2;
+                        $fees_log2 = $doctor2->value2;
+                    }else {
+                        $doctor2_perce = $details->firstWhere('cod_servicio', 'S41301');
+                        //Medical_fees
+                        $doctor2 = Doctors::where('code', $surgery->id_doctor2)->first();
+                        $fees = Medical_fees::where('honorary_code', $doctor2->id_fees)->first();
+                        if ($fees->honorary_code === 13) {
+                            $fees_value2 += ($procedure->uvr * 960 * 1.1 * ($doctor2_perce->porcentaje/100));
+                            $fees_log2 = ($procedure->uvr * 960 * 1.1 * ($doctor2_perce->porcentaje/100));
+                        }elseif ($fees->honorary_code === 52) {
+                            $fees_value2 += ($procedure->uvr * 960 * 1.2 * ($doctor2_perce->porcentaje/100));
+                            $fees_log2 = ($procedure->uvr * 960 * 1.2 * ($doctor2_perce->porcentaje/100));
+                        }
+                    }
+                }
+    
+                //anestesiolog
+                $anest = Doctors::where('code', $surgery->id_anesthesiologist)->first();
+                if ($anest !== NULL) {
+                    $anest = Diferential_rates::where('id_doctor', $surgery->id_anesthesiologist)
+                    ->where('id_procedure', $procedure->code_procedure)->first();
+                    if ($anest) {
+                        $antest_value += $anest->value1;
+                        $antest_log = $anest->value1;
+                    }else {
+                        $anest_perce = $details->firstWhere('cod_servicio', 'S41201');
+                        //Medical_fees
+                        $anest = Doctors::where('code', $surgery->id_anesthesiologist)->first();
+                        $fees = Medical_fees::where('honorary_code', $anest->id_fees)->first();
+                        if ($fees->honorary_code === 13) {
+                            $antest_value += ($procedure->uvr * 960 * 1.1 * ($anest_perce->porcentaje/100));
+                            $antest_log = ($procedure->uvr * 960 * 1.1 * ($anest_perce->porcentaje/100));
+                        }elseif ($fees->honorary_code === 52) {
+                            $antest_value += ($procedure->uvr * 960 * 1.2 * ($anest_perce->porcentaje/100));
+                            $antest_log = ($procedure->uvr * 960 * 1.2 * ($anest_perce->porcentaje/100));
+                        }elseif ($fees->honorary_code === 56 || $fees->honorary_code === 57 || $fees->honorary_code === 68) {
+                            $group = soat_group::where('group', $procedure->uvr)->first();
+                            $antest_value += $group->anesthed;
+                            $antest_log = $group->anesthed;
+                        }
+                    }
+                }
+    
+                //Operating room
+                $RoomTime = General_costs::where('description', $surgery->operating_room)->first();
+                $valueRoomTime += ($RoomTime->value/60) * $time;
+                $room_log = ($RoomTime->value/60) * $time;
+    
+                //Gases
+                $gases = General_costs::where('description', 'GASES')->first();
+                $gasesValue += $gases->value * $time;
+                $gases_log = $gases->value * $time;
+    
+                //Labour
+                $totalLaborCost = 0;
+                if ($surgery->cod_helper !== NULL && $surgery->cod_helper !== 0) {
+                    $value = Labour::where('code', 3)->first();
+                    $totalLaborCost +=  $value->labor_value;
+                }
+                if ($surgery->cod_instrumentator !== NULL && $surgery->cod_instrumentator !== 0) {
+                    $value = Labour::where('code', 1)->first();
+                    $totalLaborCost += $value->labor_value;
+                }
+                if ($surgery->cod_rotator !== NULL && $surgery->cod_rotator !== 0) {
+                    $value = Labour::where('code', 2)->first();
+                    $totalLaborCost += $value->labor_value;
+                }
+                $labour += $totalLaborCost * $time;
+                $labour_log = $totalLaborCost * $time;
+    
+                $existingLog = Log_operation_cost::where('cod_surgical_act', $surgical_acts)
+                ->where('code_procedure', $procedure->code_procedure)->first();
+    
+                if ($existingLog) {        
+                    $existingLog->update(
+                    [
+                        'percentage_uvr' => $percentage,
+                        'time_procedure' => $time,
+                        'doctor_percentage' => $doctor_perce->porcentaje,
+                        'doctor_fees' => $fees_log,
+                        'anest_percentage' => $anest_perce->porcentaje,
+                        'anest_fees' => $antest_log,
+                        'total_uvr' => $totalUvr,
+                        'room_cost' => $room_log,
+                        'gases' => $gases_log,
+                        'labour' => $labour_log,
+                        'cod_surgical_act' => $surgical_acts,
+                        'code_procedure' => $procedure->code_procedure
+                    ]);
+                }else {
+                    Log_operation_cost::create(
+                    [
+                        'percentage_uvr' => $percentage,
+                        'time_procedure' => $time,
+                        'doctor_percentage' => $doctor_perce->porcentaje,
+                        'doctor_fees' => $fees_log,
+                        'anest_percentage' => $anest_perce->porcentaje,
+                        'anest_fees' => $antest_log,
+                        'total_uvr' => $totalUvr,
+                        'room_cost' => $room_log,
+                        'gases' => $gases_log,
+                        'labour' => $labour_log,
+                        'cod_surgical_act' => $surgical_acts,
+                        'code_procedure' => $procedure->code_procedure
+                    ]);
+                }     
+            }
+    
+            //Basket
+            $baskets = basket::where('surgical_act', $surgical_acts)->get();
+            $totalBasketCost = 0;
+    
+            foreach ($baskets as $basket) {
+                $basketId = $basket->id_article;
+                $value_article = Articles::where('item_code', $basketId)->first();
+                $basketCost = $basket->item_quantity * $value_article->last_cost;
+    
+                $totalBasketCost += $basketCost;
+            }
+    
+            $totalValue = $valueRoomTime + $gasesValue + $labour + $totalBasketCost + $fees_value + $fees_value2 + $antest_value;
+            $existingCost = Unit_costs::where('cod_surgical_act', $surgical_acts)->first();
+         
+            if ($existingCost) {    
+                
+                $existingCost->update(
+                [
+                    'room_cost' => $valueRoomTime,
+                    'gas' => $gasesValue,
+                    'total_value' => $totalValue,
+                    'labour' => $labour,
+                    'basket' => $totalBasketCost,
+                    'medical_fees' => $fees_value,
+                    'medical_fees2' => $fees_value2,
+                    'anest_fees' => $antest_value,
+                    'cod_surgical_act' => $surgical_acts
+                ]);
+            }else {
+                Unit_costs::create(
+                [
+                    'room_cost' => $valueRoomTime,
+                    'gas' => $gasesValue,
+                    'total_value' => $totalValue,
+                    'labour' => $labour,
+                    'basket' => $totalBasketCost,
+                    'medical_fees' => $fees_value,
+                    'medical_fees2' => $fees_value2,
+                    'anest_fees' => $antest_value,
+                    'cod_surgical_act' => $surgical_acts
+                ]);
+            }   
+        }
+    }
 }
+

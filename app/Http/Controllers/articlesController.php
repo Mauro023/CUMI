@@ -11,6 +11,12 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Articles;
 use Flash;
 use Response;
+//ModelosSisma
+use App\Models\SismaInventario\articulos;
+use App\Models\SismaInventario\costo;
+use App\Models\SismaInventario\grupos;
+use App\Models\SismaInventario\Sisma_Inventario_Costos;
+
 
 class articlesController extends AppBaseController
 {
@@ -169,39 +175,53 @@ class articlesController extends AppBaseController
     public function getArticles()
     {
 
-        $results = DB::connection('SismaInventario')->select("SELECT ic.codigo, a.id, a.descripcion, 
-        a.id_grupo, g.descripcion AS tipo, c.costo_actual, c.costo_promedio_actual
-        FROM Sisma_Inventario_Costos ic
-        JOIN articulos a ON a.codigo = ic.codigo
-        JOIN grupos g ON g.id = a.id_grupo
-        JOIN costo c ON c.id_articulo = a.id
-        WHERE a.codigo NOT LIKE '%ASE%'
-        AND a.codigo NOT LIKE '%CAF%'
-        AND a.codigo NOT LIKE '%OBR%'
-        AND a.codigo NOT LIKE '%OFIC%'
-        AND c.ultimo_registro = 1
-        ORDER BY a.codigo");
+        $results = Sisma_Inventario_Costos::join('articulos', 'articulos.codigo', '=', 'Sisma_Inventario_Costos.codigo') 
+            ->join('grupos', 'grupos.id', '=', 'articulos.id_grupo')
+            ->join('costo', 'costo.id_articulo', '=', 'articulos.id')
+            ->whereRaw("articulos.codigo NOT LIKE '%ASE%'")
+            ->whereRaw("articulos.codigo NOT LIKE '%CAF%'") 
+            ->whereRaw("articulos.codigo NOT LIKE '%OBR%'")
+            ->whereRaw("articulos.codigo NOT LIKE '%OFIC%'") 
+            ->whereRaw("articulos.codigo NOT LIKE '%DH%'") 
+            ->whereRaw("articulos.codigo NOT LIKE '%MTOS%'") 
+            ->where('costo.ultimo_registro', 1)
+            ->select('Sisma_Inventario_Costos.codigo', 'articulos.id', 'articulos.descripcion', 'articulos.id_grupo', 'grupos.descripcion AS tipo', 'costo.costo_actual', 'costo.costo_promedio_actual')
+            ->orderBy('articulos.codigo')
+            ->get();
+        
         //dd($results);
-        foreach ($results as $index => $result) {
+        foreach ($results as $result) {
+            //dd($result);
+            if ($result->costo_actual == 1) {
+                $previousCost = Costo::where('id_articulo', $result->id)
+                    ->where('ultimo_registro', 0)
+                    ->orderBy('id', 'desc')
+                    ->first();
+                
+                if ($previousCost != NULL) {
+                    $result->costo_actual = $previousCost->costo_actual;
+                }
+            }
             //Se valida que el procedimiento esté registrado
             $existingArticles = Articles::where('item_code', $result->codigo)->first();
-            if ($existingArticles) {              
+            if ($existingArticles) {   
                 // Actualiza los datos del procedimiento         
-                $existingArticles->item_code = $result->codigo;
-                $existingArticles->type = $result->tipo;
-                $existingArticles->description = $result->descripcion;
-                $existingArticles->average_cost = $result->costo_promedio_actual;
-                $existingArticles->last_cost = $result->costo_actual;
-                    
-                $existingArticles->save();
+                $existingArticles->update([
+                    'item_code' => $result->codigo,
+                    'type' => $result->tipo,
+                    'description' => $result->descripcion,
+                    'average_cost' => $result->costo_promedio_actual,
+                    'last_cost' => $result->costo_actual
+                ]);           
             }else {
-                $newArticles = new Articles();
-                $newArticles->item_code = $result->codigo;
-                $newArticles->type = $result->tipo;
-                $newArticles->description = $result->descripcion;
-                $newArticles->average_cost = $result->costo_promedio_actual;
-                $newArticles->last_cost = $result->costo_actual;
-                $newArticles->save();
+                Articles::create(
+                [
+                    'item_code' => $result->codigo,
+                    'type' => $result->tipo,
+                    'description' => $result->descripcion,
+                    'average_cost' => $result->costo_promedio_actual,
+                    'last_cost' => $result->costo_actual
+                ]);
             }
         }
         session()->flash('success', "Articulos actualizados correctamente!!");

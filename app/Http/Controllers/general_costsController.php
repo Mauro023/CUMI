@@ -7,6 +7,7 @@ use App\Http\Requests\Updategeneral_costsRequest;
 use App\Repositories\general_costsRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
+use App\Models\General_costs;
 use Flash;
 use Response;
 
@@ -29,10 +30,19 @@ class general_costsController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $generalCosts = $this->generalCostsRepository->all();
+        
+        $perPage = $request->input('per_page', 10);
+        $search = $request->input('search');
+        $generalCostsQuery = general_costs::query();
 
-        return view('general_costs.index')
-            ->with('generalCosts', $generalCosts);
+        if (!empty($search)) {
+            $generalCostsQuery->where('description', 'LIKE', '%' . $search . '%')
+                        ->orWhere('value', 'LIKE', '%' . $search . '%');
+        }
+
+        $generalCosts = $generalCostsQuery->paginate($perPage);
+
+        return view('general_costs.index', compact('generalCosts'));
     }
 
     /**

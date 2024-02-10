@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Procedures;
 use Flash;
 use Response;
+use App\Models\SismaSalud\sis_proc;
 
 class proceduresController extends AppBaseController
 {
@@ -175,13 +176,16 @@ class proceduresController extends AppBaseController
 
         // Establecer un límite de tiempo de ejecución más largo (por ejemplo, 300 segundos)
         ini_set('max_execution_time', 300);
-        $results = DB::connection('SismaSalud')->select("SELECT codigo, tipo, cups, nombreve, rips, uvr, factoruvt 
-            FROM sis_proc 
-            WHERE Activo = 1 
-            AND tipo != '312' 
-            AND tipo != 'INTS'");
+        
+
+        $results = sis_proc::where('Activo', 1)
+        ->where('tipo', '!=', '312')
+        ->where('tipo', '!=', 'INTS')
+        ->select('codigo', 'tipo', 'cups', 'nombreve', 'rips', 'uvr', 'factoruvt' )
+        ->orderBy('codigo', 'asc')
+        ->get();
+        
         //dd($results);
-        $totalProcedures = count($results);
         foreach ($results as $index => $result) {
             //Se valida que el procedimiento esté registrado
             $existingProcedures = Procedures::where('code', $result->codigo)
@@ -191,29 +195,29 @@ class proceduresController extends AppBaseController
             if ($uvr === NULL) {$uvr = 0;}
             if ($uvt === NULL) {$uvt = 0;}
             if ($existingProcedures) {              
-                // Actualiza los datos del procedimiento         
-                $existingProcedures->code = $result->codigo;
-                $existingProcedures->manual_type = $result->tipo;
-                $existingProcedures->description = $result->nombreve;
-                $existingProcedures->cups = $result->cups;
-                $existingProcedures->rips = $result->rips;
-                $existingProcedures->uvr = $uvr;
-                $existingProcedures->uvt = $uvt;
-                    
-                $existingProcedures->save();
+                // Actualiza los datos del procedimiento   
+                $existingProcedures->update(
+                [
+                    'code' => $result->codigo,
+                    'manual_type' => $result->tipo,
+                    'description' => $result->nombreve,
+                    'cups' => $result->cups,
+                    'rips' => $result->rips,
+                    'uvr' => $uvr,
+                    'uvt' => $uvt
+                ]);
             }else {
-                $newProcedures = new Procedures();
-                $newProcedures->code = $result->codigo;
-                $newProcedures->manual_type = $result->tipo;
-                $newProcedures->description = $result->nombreve;
-                $newProcedures->cups = $result->cups;
-                $newProcedures->rips = $result->rips;
-                $newProcedures->uvr = $uvr;
-                $newProcedures->uvt = $uvt;
-                $newProcedures->save();
+                Procedures::create(
+                [
+                    'code' => $result->codigo,
+                    'manual_type' => $result->tipo,
+                    'description' => $result->nombreve,
+                    'cups' => $result->cups,
+                    'rips' => $result->rips,
+                    'uvr' => $uvr,
+                    'uvt' => $uvt
+                ]);
             }
-            $progress = ($index + 1) / $totalProcedures * 100;
-            session(['progress' => $progress]);
         }
         // Restaurar el límite de tiempo de ejecución predeterminado (opcional)
         ini_set('max_execution_time', 60);

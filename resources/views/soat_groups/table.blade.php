@@ -15,13 +15,13 @@
         <tbody>
         @foreach($soatGroups as $soatGroup)
             <tr>
-                <td>{{ $soatGroup->group }}</td>
-                <td>{{ $soatGroup->surgeon }}</td>
-                <td>{{ $soatGroup->anesthed }}</td>
-                <td>{{ $soatGroup->assistant }}</td>
-                <td>{{ $soatGroup->room }}</td>
-                <td>{{ $soatGroup->materials }}</td>
-                <td>{{ $soatGroup->total }}</td>
+                <td><strong>{{ $soatGroup->group }}</strong></td>
+                <td>{{ number_format($soatGroup->surgeon, 0, ',', '.'); }}</td>
+                <td>{{ number_format($soatGroup->anesthed, 0, ',', '.'); }}</td>
+                <td>{{ number_format($soatGroup->assistant, 0, ',', '.'); }}</td>
+                <td>{{ number_format($soatGroup->room, 0, ',', '.'); }}</td>
+                <td>{{ number_format($soatGroup->materials, 0, ',', '.'); }}</td>
+                <td>{{ number_format($soatGroup->total, 0, ',', '.'); }}</td>
                 <td width="120">
                     {!! Form::open(['route' => ['soatGroups.destroy', $soatGroup->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>

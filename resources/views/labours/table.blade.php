@@ -2,6 +2,7 @@
     <table class="table table-hover shadow mb-3 rounded" id="labours-table">
         <thead>
             <tr>
+                <th>Código</th>
                 <th>Cargo</th>
                 <th>Salario</th>
                 <th>Valor minuto</th>
@@ -11,9 +12,10 @@
         <tbody>
             @foreach($labours as $labour)
             <tr>
+                <td><strong>{{ $labour->Code }}</strong></td>
                 <td>{{ $labour->position }}</td>
-                <td>{{ $labour->salary }}</td>
-                <td>{{ $labour->labor_value }}</td>
+                <td>{{ number_format($labour->salary, 0, ',', '.'); }}</td>
+                <td>{{ number_format($labour->labor_value, 0, ',', '.'); }}</td>
                 <td width="120">
                     {!! Form::open(['route' => ['labours.destroy', $labour->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>
