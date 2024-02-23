@@ -8,8 +8,8 @@
                 style="background-color: white; padding: 0 0;">
                 <h3 class="card-title m-0" style="color: #69C5A0; font-size: 25px;"><strong>Mano de obra</strong></h3>
                 <div class="ml-auto d-flex align-items-center gap-2">
-                    @can('create_employes')
-                    <a href="{{ route('labours.create') }}" class="btn btn-default" title="Agregar empleado">
+                    @can('create_labour')
+                    <a href="{{ route('labours.create') }}" class="btn btn-default" title="Agregar mano obra">
                         <span class="fas fa-user-plus" style="color: #69C5A0"></span>
                     </a>
                     @endcan

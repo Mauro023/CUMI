@@ -31,6 +31,11 @@ class procedures extends Model
         return $this->hasMany(Diferential_rates::class);
     }
 
+    public function msurgery_procedure()
+    {
+        return $this->hasMany(Msurgery_procedure::class);
+    }
+
     protected $dates = ['deleted_at'];
 
 

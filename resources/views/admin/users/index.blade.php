@@ -5,7 +5,7 @@
 <div class="content px-3">
     <div class="container-fluid">
         <div class="card shadow-none border-0">
-            <div class="card-header d-flex justify-content-between align-items-center" style="background-color: white; padding: 0 0;">
+            <div class="card-header d-flex justify-content-between align-items-center" style="padding: 0 0;">
                 <h4 class="card-title m-0" style="color: #69C5A0; font-size: 25px;"><strong>Lista de usuarios</strong></h4>
                 <div class="ml-auto">
                     @can('create_user')

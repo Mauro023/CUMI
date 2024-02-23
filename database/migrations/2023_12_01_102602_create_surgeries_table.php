@@ -31,6 +31,9 @@ class CreateSurgeriesTable extends Migration
             $table->integer('cod_helper');
             $table->integer('cod_instrumentator');
             $table->integer('cod_rotator');
+            $table->string('category');
+            $table->integer('code_contract');
+            $table->string('name_contract');
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('id_doctor')->references('code')->on('doctors');

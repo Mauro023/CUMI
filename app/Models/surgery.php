@@ -26,6 +26,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property integer $cod_helper
  * @property integer $cod_instrumentator
  * @property integer $cod_rotator
+ * @property integer $code_contract
+ * @property integer $name_contract
  */
 class surgery extends Model
 {
@@ -70,7 +72,9 @@ class surgery extends Model
         'cod_helper',
         'cod_instrumentator',
         'cod_rotator',
-        'category'
+        'category',
+        'code_contract',
+        'name_contract'
     ];
 
     /**
@@ -93,7 +97,9 @@ class surgery extends Model
         'cod_helper' => 'integer',
         'cod_instrumentator' => 'integer',
         'cod_rotator' => 'integer',
-        'category' => 'string'
+        'category' => 'string',
+        'code_contract' => 'integer',
+        'name_contract' => 'string'
     ];
 
     /**

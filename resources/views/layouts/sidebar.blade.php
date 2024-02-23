@@ -1,31 +1,69 @@
-<aside class="main-sidebar" style="overflow-x: hidden;">
 
-    <div class="card card-widget widget-user">
-        <div class="widget-user-header text-white"
-            style="background: url({{ asset('images/IMG_9515.jpg') }}) center center; background-size: cover;">
-            <div class="widget-user-image">
-                <img class="img-circle elevation-2" src="{{ asset('images/icono_Mesa-de-trabajo-1.png') }}"
-                    alt="{{ config('app.name') }} Logo" class="brand-image"
-                    style="background-color: white; max-width: 85%;">
+<link rel="stylesheet" href="{{ asset('css/sidebar.css') }}">
+    <div class="menu">
+        <i class="fas fa-bars"></i>
+        <i class="fas fa-times"></i>
+    </div>
+    <div class="sidebar">
+        <div>
+            <div class="pagename">
+                <i class="fas fa-hospital-alt" id="cloud" style="color: #A2C61E;"></i>
+                <span class="mt-3"><span style="color: #A2C61E;">CU</span><span style="color: #14ABE3; margin-left: 0">MI</span></span>
             </div>
-            <div>
-                <a class="nav-link">
-                    <p class="text-white"><strong>{{ Auth::user()->name }}</strong></p>
-                </a>
-            </div>
+            <div class="space mt-0"></div>
         </div>
-
-        <div class="card-footer" style="background: linear-gradient(to bottom, #EAEAEA, #F7F7F7);">
-            <div class="row">
-                <div class="sidebar">
-                    <nav>
-                        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
-                            data-accordion="false">
-                            @include('layouts.menu')
-                        </ul>
-                    </nav>
+            <nav class="navegation">
+                <ul>
+                    @include('layouts.menu')
+                    {{-- <li><a href="#">Inicio</a></li>
+                    
+                    <li class="list_item" style="display: block">
+                        <div class="list_button_click">
+                            <a href="#" class="desplegable">
+                                <span>Categoria</span>
+                                <i class="fas fa-angle-left right "></i>
+                            </a>
+                        </div>
+                    <ul class="list_show">
+                        <li class="list_inside"><a href="#" class="nav-link-inside">Sub opción 1</a></li>
+                        <li class="list_inside"><a href="#" class="nav-link-inside">Sub opción 2</a></li>  
+                    </ul>
+                    </li> --}}
+                    
+                </ul> 
+            </nav>
+        <div>
+            <div class="space"></div>
+            <div class="mode-dark">
+                <div class="info">
+                    <i class="far fa-moon"></i>
+                    <span>Modo oscuro</span>
                 </div>
+                <div class="switch">
+                    <div class="base">
+                        <div class="circle">             
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="user">
+                <img src="{{ asset('images/icono_Mesa-de-trabajo-1.png') }}" 
+                alt="{{ config('app.name') }}">
+                <div class="info-user">
+                    <div class="name-email">
+                        <span class="name">{{ Auth::user()->name }}</span>
+                        <span class="email">{{ Auth::user()->email }}</span>  
+                    </div>
+                    <i class="fas fa-ellipsis-v"></i>
+                </div>    
             </div>
         </div>
     </div>
-</aside>
+    <main>
+        <div>
+            <section class="content">
+                @yield('content')
+            </section>
+        </div>
+    </main>
+<script src="{{ asset('js/sidebar.js') }}"></script>

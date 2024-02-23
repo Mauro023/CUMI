@@ -146,7 +146,7 @@ Route::resource('surgeries', App\Http\Controllers\surgeryController::class);
 
 
 Route::resource('unitCosts', App\Http\Controllers\unit_costsController::class);
-
+Route::view('/report', 'unit_costs.report')->name('unitCosts.report');
 
 Route::resource('generalCosts', App\Http\Controllers\general_costsController::class);
 
@@ -154,6 +154,8 @@ Route::resource('generalCosts', App\Http\Controllers\general_costsController::cl
 Route::get('/unitCosts/{id}/calculate', [App\Http\Controllers\unit_costsController::class, 'calculate'])->name('costUnit.calculate');
 
 Route::get('/costSurgeries', [App\Http\Controllers\unit_costsController::class, 'costSurgeries'])->name('costUnit.costSurgeries');
+
+
 
 Route::resource('soatGroups', App\Http\Controllers\soat_groupController::class);
 

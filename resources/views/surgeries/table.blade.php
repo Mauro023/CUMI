@@ -7,8 +7,7 @@
                 <th>Fecha</th>
                 <th>Tiempo cirugia</th>
                 <th>Médico</th>
-                <th>Procedimiento</th>
-                <th colspan="4">Action</th>
+                <th colspan="4">Acciones</th>
             </tr>
         </thead>
         <tbody>
@@ -22,21 +21,28 @@
                 <small style="color: #69C5A0"><strong>{{ $surgery->surgeryTime }} Minutos</strong></small>
                 </td>
                 <td>{{ $surgery->id_doctor}}</td>
-                <td>{{ $surgery->id_procedures ? $surgery->procedures->id : 'Sin ID' }}</td>
                 <td width="120">
                     {!! Form::open(['route' => ['surgeries.destroy', $surgery->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>
-                        <a href="{{ route('costUnit.calculate', [$surgery->id]) }}" class='btn btn-default btn-xs'>
-                            <i class="fas fa-coins" style="color: #ffbf00"></i>
-                        </a>
-                        <a href="{{ route('surgeries.show', [$surgery->id]) }}" class='btn btn-default btn-xs'>
-                            <i class="fas fa-eye" style="color: #13A4DA"></i>
-                        </a>
-                        <a href="{{ route('surgeries.edit', [$surgery->id]) }}" class='btn btn-default btn-xs'>
-                            <i class="far fa-edit" style="color: #6c6d77"></i>
-                        </a>
-                        {!! Form::button('<i class="far fa-trash-alt" style="color: #da1b1b"></i>', ['type' => 'submit', 'class' => 'btn
-                        btn-default btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
+                        @can('calculate_cost')
+                            <a href="{{ route('costUnit.calculate', [$surgery->id]) }}" class='btn btn-default btn-xs'>
+                                <i class="fas fa-coins" style="color: #ffbf00"></i>
+                            </a>
+                        @endcan
+                        @can('show_surgeries')
+                            <a href="{{ route('surgeries.show', [$surgery->id]) }}" class='btn btn-default btn-xs'>
+                                <i class="fas fa-eye" style="color: #13A4DA"></i>
+                            </a>
+                        @endcan
+                        @can('update_surgeries')
+                            <a href="{{ route('surgeries.edit', [$surgery->id]) }}" class='btn btn-default btn-xs'>
+                                <i class="far fa-edit" style="color: #6c6d77"></i>
+                            </a>
+                        @endcan
+                        @can('destroy_surgeries')
+                            {!! Form::button('<i class="far fa-trash-alt" style="color: #da1b1b"></i>', ['type' => 'submit', 'class' => 'btn
+                            btn-default btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
+                        @endcan
                     </div>
                     {!! Form::close() !!}
                 </td>

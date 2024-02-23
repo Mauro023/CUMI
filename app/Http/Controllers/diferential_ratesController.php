@@ -36,13 +36,15 @@ class diferential_ratesController extends AppBaseController
      */
     public function index(Request $request)
     {
+        $this->authorize('view_diferentialRates');
         $perPage = $request->input('per_page', 10);
         $search = $request->input('search');
         $diferentialRatesQuery = Diferential_rates::query();
 
         if (!empty($search)) {
             $diferentialRatesQuery->where('value1', 'LIKE', '%' . $search . '%')
-                        ->orWhere('value2', 'LIKE', '%' . $search . '%');
+                        ->orWhere('value2', 'LIKE', '%' . $search . '%')
+                        ->orWhere('id_doctor', 'LIKE', '%' . $search . '%');
         }
 
         $diferentialRates = $diferentialRatesQuery->paginate($perPage);
@@ -57,7 +59,12 @@ class diferential_ratesController extends AppBaseController
      */
     public function create()
     {
-        $procedures = Procedures::orderby('description')->pluck('description', 'id');
+        $this->authorize('create_diferentialRates');
+        $procedures = Procedures::orderBy('description')
+        ->get()
+        ->mapWithKeys(function ($proc) {
+            return [$proc->id => $proc->description . ' - ' . $proc->manual_type];  
+        });
         $doctors = Doctors::orderby('full_name')->pluck('full_name', 'id');
         return view('diferential_rates.create', compact('procedures', 'doctors'));
     }
@@ -71,8 +78,9 @@ class diferential_ratesController extends AppBaseController
      */
     public function store(Creatediferential_ratesRequest $request)
     {
+        $this->authorize('create_diferentialRates');
         $input = $request->all();
-
+        dd($input);
         $diferentialRates = $this->diferentialRatesRepository->create($input);
 
         Flash::success('Diferential Rates saved successfully.');
@@ -89,6 +97,7 @@ class diferential_ratesController extends AppBaseController
      */
     public function show($id)
     {
+        $this->authorize('show_diferentialRates');
         $diferentialRates = $this->diferentialRatesRepository->find($id);
 
         if (empty($diferentialRates)) {
@@ -109,6 +118,7 @@ class diferential_ratesController extends AppBaseController
      */
     public function edit($id)
     {
+        $this->authorize('update_diferentialRates');
         $diferentialRates = $this->diferentialRatesRepository->find($id);
 
         if (empty($diferentialRates)) {
@@ -130,6 +140,7 @@ class diferential_ratesController extends AppBaseController
      */
     public function update($id, Updatediferential_ratesRequest $request)
     {
+        $this->authorize('update_diferentialRates');
         $diferentialRates = $this->diferentialRatesRepository->find($id);
 
         if (empty($diferentialRates)) {
@@ -156,6 +167,7 @@ class diferential_ratesController extends AppBaseController
      */
     public function destroy($id)
     {
+        $this->authorize('destroy_diferentialRates');
         $diferentialRates = $this->diferentialRatesRepository->find($id);
 
         if (empty($diferentialRates)) {

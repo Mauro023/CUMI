@@ -5,12 +5,15 @@
     <div class="container-fluid">
         <div class="card shadow-none border-0">
             <div class="card-header d-flex justify-content-between align-items-center"
-                style="background-color: white; padding: 0 0;">
+                style="padding: 0 0;">
                 <h3 class="card-title m-0" style="color: #69C5A0; font-size: 25px;"><strong>Costo unitario</strong></h3>
                 <div class="ml-auto d-flex align-items-center gap-2">
-                    @can('create_employes')
+                    @can('create_unitCosts')
                     <a href="{{ route('unitCosts.create') }}" class="btn btn-default" title="Agregar costo unitario">
                         <span class="fas fa-user-plus" style="color: #69C5A0"></span>
+                    </a>
+                    <a href="{{ route('unitCosts.report') }}" class="btn btn-default" title="Mirar reporte">
+                        <span class="fas fa-file-invoice-dollar" style="color: #69C5A0"></span>
                     </a>
                     @endcan
                 </div>

@@ -1,49 +1,49 @@
 <div class="table-responsive">
-    <table class="table" id="logOperationCosts-table">
+    <table class="table table table-hover shadow mb-3 rounded" id="logOperationCosts-table">
         <thead>
         <tr>
-            <th>Percentage Uvr</th>
-        <th>Time Procedure</th>
-        <th>Doctor Percentage</th>
-        <th>Doctor Fees</th>
-        <th>Anest Percentage</th>
-        <th>Anest Fees</th>
-        <th>Total Uvr</th>
-        <th>Room Cost</th>
-        <th>Gases</th>
-        <th>Labour</th>
-        <th>Cod Surgical Act</th>
-        <th>Code Procedure</th>
+            <th>N servicio</th>
+            <th>Procedimiento</th>
+            <th>%Uvr</th>
+            <th>Tiempo</th>
+            <th>Médico</th>
+            <th>Anestesiologo</th>
+            <th>Derecho sala</th>
+            <th>Gases</th>
+            <th>Mano obra</th>
             <th colspan="3">Action</th>
         </tr>
         </thead>
         <tbody>
         @foreach($logOperationCosts as $logOperationCost)
             <tr>
-                <td>{{ $logOperationCost->percentage_uvr }}</td>
-            <td>{{ $logOperationCost->time_procedure }}</td>
-            <td>{{ $logOperationCost->doctor_percentage }}</td>
-            <td>{{ $logOperationCost->doctor_fees }}</td>
-            <td>{{ $logOperationCost->anest_percentage }}</td>
-            <td>{{ $logOperationCost->anest_fees }}</td>
-            <td>{{ $logOperationCost->total_uvr }}</td>
-            <td>{{ $logOperationCost->room_cost }}</td>
-            <td>{{ $logOperationCost->gases }}</td>
-            <td>{{ $logOperationCost->labour }}</td>
-            <td>{{ $logOperationCost->cod_surgical_act }}</td>
-            <td>{{ $logOperationCost->code_procedure }}</td>
+                <td>{{ $logOperationCost->cod_surgical_act }}</td>
+                <td>{{ $logOperationCost->code_procedure }}</td>
+                <td>{{ $logOperationCost->percentage_uvr }}%</td>
+                <td>{{ $logOperationCost->time_procedure }}</td>
+                <td>{{ number_format($logOperationCost->doctor_fees, 0, ',', '.'); }}
+                    <br>
+                    <small style="color: #69C5A0"><strong>{{ $logOperationCost->doctor_percentage }}%</strong></small>
+                </td>
+                <td>{{ number_format($logOperationCost->anest_fees, 0, ',', '.'); }}
+                    <br>
+                    <small style="color: #69C5A0"><strong>{{ $logOperationCost->anest_percentage }}%</strong></small>
+                </td>
+                <td>{{ number_format($logOperationCost->room_cost, 0, ',', '.'); }}</td>
+                <td>{{ number_format($logOperationCost->gases, 0, ',', '.'); }}</td>
+                <td>{{ number_format($logOperationCost->labour, 0, ',', '.'); }}</td>
                 <td width="120">
                     {!! Form::open(['route' => ['logOperationCosts.destroy', $logOperationCost->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>
                         <a href="{{ route('logOperationCosts.show', [$logOperationCost->id]) }}"
                            class='btn btn-default btn-xs'>
-                            <i class="far fa-eye"></i>
+                            <i class="far fa-eye" style="color: #13A4DA"></i>
                         </a>
                         <a href="{{ route('logOperationCosts.edit', [$logOperationCost->id]) }}"
-                           class='btn btn-default btn-xs'>
+                           class='btn btn-default btn-xs' style="color: #6c6d77">
                             <i class="far fa-edit"></i>
                         </a>
-                        {!! Form::button('<i class="far fa-trash-alt"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
+                        {!! Form::button('<i class="far fa-trash-alt" style="color: #da1b1b"></i>', ['type' => 'submit', 'class' => 'btn btn-default btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
                     </div>
                     {!! Form::close() !!}
                 </td>

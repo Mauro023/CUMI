@@ -7,7 +7,7 @@
                 <th>Articulo</th>
                 <th>Cantidad</th>
                 <th>Reusable</th>
-                <th colspan="3">Action</th>
+                <th colspan="2">Acciones</th>
             </tr>
         </thead>
         <tbody>
@@ -24,11 +24,15 @@
                 <td width="120">
                     {!! Form::open(['route' => ['baskets.destroy', $basket->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>
-                        <a href="{{ route('baskets.edit', [$basket->id]) }}" class='btn btn-default btn-xs'>
-                            <i class="far fa-edit" style="color: #6c6d77"></i>
-                        </a>
-                        {!! Form::button('<i class="far fa-trash-alt" style="color: #da1b1b"></i>', ['type' => 'submit', 'class' => 'btn
-                        btn-default btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
+                        @can('update_baskets')
+                            <a href="{{ route('baskets.edit', [$basket->id]) }}" class='btn btn-default btn-xs'>
+                                <i class="far fa-edit" style="color: #6c6d77"></i>
+                            </a>
+                        @endcan
+                        @can('destroy_baskets')
+                            {!! Form::button('<i class="far fa-trash-alt" style="color: #da1b1b"></i>', ['type' => 'submit', 'class' => 'btn
+                            btn-default btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
+                        @endcan
                     </div>
                     {!! Form::close() !!}
                 </td>

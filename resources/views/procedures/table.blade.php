@@ -8,7 +8,7 @@
                 <th>Cups</th>
                 <th>Uvr</th>
                 <th>Uvt</th>
-                <th colspan="2">Action</th>
+                <th colspan="2">Acciones</th>
             </tr>
         </thead>
         <tbody>
@@ -29,12 +29,16 @@
                 <td width="120">
                     {!! Form::open(['route' => ['procedures.destroy', $procedure->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>
-                        <a href="{{ route('procedures.edit', [$procedure->id]) }}" class='btn btn-default btn-xs'>
-                            <i class="far fa-edit" style="color: #6c6d77"></i>
-                        </a>
-                        {!! Form::button('<i class="far fa-trash-alt" style="color: #da1b1b"></i>', ['type' => 'submit',
-                        'class' => 'btn
-                        btn-default btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
+                        @can('update_procedure')
+                            <a href="{{ route('procedures.edit', [$procedure->id]) }}" class='btn btn-default btn-xs'>
+                                <i class="far fa-edit" style="color: #6c6d77"></i>
+                            </a>
+                        @endcan
+                        @can('destroy_procedure')
+                            {!! Form::button('<i class="far fa-trash-alt" style="color: #da1b1b"></i>', ['type' => 'submit',
+                            'class' => 'btn
+                            btn-default btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
+                        @endcan
                     </div>
                     {!! Form::close() !!}
                 </td>

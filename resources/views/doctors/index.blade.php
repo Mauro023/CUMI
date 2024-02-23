@@ -8,7 +8,7 @@
                 style="background-color: white; padding: 0 0;">
                 <h3 class="card-title m-0" style="color: #69C5A0; font-size: 25px;"><strong>Médicos</strong></h3>
                 <div class="ml-auto d-flex align-items-center gap-2">
-                    @can('create_employes')
+                    @can('create_doctors')
                     <a href="{{ route('doctors.create') }}" class="btn btn-default" title="Agregar empleado">
                         <span class="fas fa-user-plus" style="color: #69C5A0"></span>
                     </a>

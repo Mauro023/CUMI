@@ -23,7 +23,11 @@ class msurgery_procedure extends Model
     use HasFactory;
 
     public $table = 'msurgery_procedures';
-    
+
+    public function procedures()
+    {
+        return $this->belongsTo(Procedures::class, 'code_procedure');
+    }
 
     protected $dates = ['deleted_at'];
 

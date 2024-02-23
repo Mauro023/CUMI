@@ -30,7 +30,7 @@ class general_costsController extends AppBaseController
      */
     public function index(Request $request)
     {
-        
+        $this->authorize('view_generalCosts');
         $perPage = $request->input('per_page', 10);
         $search = $request->input('search');
         $generalCostsQuery = general_costs::query();
@@ -52,6 +52,7 @@ class general_costsController extends AppBaseController
      */
     public function create()
     {
+        $this->authorize('create_generalCosts');
         return view('general_costs.create');
     }
 
@@ -64,6 +65,7 @@ class general_costsController extends AppBaseController
      */
     public function store(Creategeneral_costsRequest $request)
     {
+        $this->authorize('create_generalCosts');
         $input = $request->all();
 
         $generalCosts = $this->generalCostsRepository->create($input);
@@ -82,6 +84,7 @@ class general_costsController extends AppBaseController
      */
     public function show($id)
     {
+        $this->authorize('show_generalCosts');
         $generalCosts = $this->generalCostsRepository->find($id);
 
         if (empty($generalCosts)) {
@@ -102,6 +105,7 @@ class general_costsController extends AppBaseController
      */
     public function edit($id)
     {
+        $this->authorize('update_generalCosts');
         $generalCosts = $this->generalCostsRepository->find($id);
 
         if (empty($generalCosts)) {
@@ -123,6 +127,7 @@ class general_costsController extends AppBaseController
      */
     public function update($id, Updategeneral_costsRequest $request)
     {
+        $this->authorize('update_generalCosts');
         $generalCosts = $this->generalCostsRepository->find($id);
 
         if (empty($generalCosts)) {
@@ -149,6 +154,7 @@ class general_costsController extends AppBaseController
      */
     public function destroy($id)
     {
+        $this->authorize('destroy_generalCosts');
         $generalCosts = $this->generalCostsRepository->find($id);
 
         if (empty($generalCosts)) {

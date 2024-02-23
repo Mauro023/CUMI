@@ -1,8 +1,8 @@
-<div class="table-responsive">
+<div class="table-responsive" style="scrollbar-width: none">
     <table class="table table-hover shadow mb-3 rounded" id="unitCosts-table">
         <thead>
             <tr>
-                <th>Codigo acto quirurgico</th>
+                <th>N servicio</th>
                 <th>Derecho sala</th>
                 <th>Gas</th>
                 <th>Mano obra</th>
@@ -11,7 +11,7 @@
                 <th>Honorarios médico2</th>
                 <th>Honorarios anestesiologo</th>
                 <th>Valor total</th>
-                <th colspan="3">Action</th>
+                <th colspan="3">Acciones</th>
             </tr>
         </thead>
         <tbody>
@@ -29,14 +29,20 @@
                 <td width="120">
                     {!! Form::open(['route' => ['unitCosts.destroy', $unitCost->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>
-                        <a href="{{ route('unitCosts.show', [$unitCost->id]) }}" class='btn btn-default btn-xs'>
-                            <i class="far fa-eye" style="color: #13A4DA"></i>
-                        </a>
-                        <a href="{{ route('unitCosts.edit', [$unitCost->id]) }}" class='btn btn-default btn-xs'>
-                            <i class="far fa-edit" style="color: #6c6d77"></i>
-                        </a>
-                        {!! Form::button('<i class="far fa-trash-alt" style="color: #da1b1b"></i>', ['type' => 'submit', 'class' => 'btn
-                        btn-default btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
+                        @can('show_unitCosts')
+                            <a href="{{ route('unitCosts.show', [$unitCost->id]) }}" class='btn btn-default btn-xs'>
+                                <i class="far fa-eye" style="color: #13A4DA"></i>
+                            </a>
+                        @endcan
+                        @can('create_unitCosts')
+                            <a href="{{ route('unitCosts.edit', [$unitCost->id]) }}" class='btn btn-default btn-xs'>
+                                <i class="far fa-edit" style="color: #6c6d77"></i>
+                            </a>
+                        @endcan
+                        @can('update_unitCosts')
+                            {!! Form::button('<i class="far fa-trash-alt" style="color: #da1b1b"></i>', ['type' => 'submit', 'class' => 'btn
+                            btn-default btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
+                        @endcan
                     </div>
                     {!! Form::close() !!}
                 </td>

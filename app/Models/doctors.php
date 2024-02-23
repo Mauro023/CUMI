@@ -90,8 +90,6 @@ class doctors extends Model
         'category_doctor' => 'required',
         'specialty' => 'required',
         'payment_type' => 'required',
-        'id_fees' => 'required',
-        'id_fees2' => 'required'
     ];
 
     

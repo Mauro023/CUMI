@@ -6,7 +6,7 @@
                 <th>Descripcion</th>
                 <th>Costo promedio</th>
                 <th>Ultimo costo</th>
-                <th colspan="3">Action</th>
+                <th colspan="3">Acciones</th>
             </tr>
         </thead>
         <tbody>
@@ -22,14 +22,20 @@
                 <td width="120">
                     {!! Form::open(['route' => ['articles.destroy', $article->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>
-                        <a href="{{ route('articles.show', [$article->id]) }}" class='btn btn-default btn-xs'>
-                            <i class="far fa-eye" style="color: #13A4DA"></i>
-                        </a>
-                        <a href="{{ route('articles.edit', [$article->id]) }}" class='btn btn-default btn-xs'>
-                            <i class="far fa-edit" style="color: #6c6d77"></i>
-                        </a>
-                        {!! Form::button('<i class="far fa-trash-alt" style="color: #da1b1b"></i>', ['type' => 'submit', 'class' => 'btn
-                        btn-default btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
+                        @can('show_articles')
+                            <a href="{{ route('articles.show', [$article->id]) }}" class='btn btn-default btn-xs'>
+                                <i class="far fa-eye" style="color: #13A4DA"></i>
+                            </a>
+                        @endcan
+                        @can('update_articles')
+                            <a href="{{ route('articles.edit', [$article->id]) }}" class='btn btn-default btn-xs'>
+                                <i class="far fa-edit" style="color: #6c6d77"></i>
+                            </a>
+                        @endcan
+                        @can('destroy_articulos')
+                            {!! Form::button('<i class="far fa-trash-alt" style="color: #da1b1b"></i>', ['type' => 'submit', 'class' => 'btn
+                            btn-default btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
+                        @endcan
                     </div>
                     {!! Form::close() !!}
                 </td>

@@ -8,7 +8,7 @@
                 style="background-color: white; padding: 0 0;">
                 <h3 class="card-title m-0" style="color: #69C5A0;  font-size: 25px;"><strong>Manuales SOAT</strong></h3>
                 <div class="ml-auto d-flex align-items-center gap-2">
-                    @can('create_medicines')
+                    @can('create_soat')
                     <a href="{{ route('soatGroups.create') }}" class="btn btn-default">
                         <span class="fas fa-plus" style="color: #69C5A0"></span>
                     </a>

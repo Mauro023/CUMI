@@ -29,6 +29,7 @@ class soat_groupController extends AppBaseController
      */
     public function index(Request $request)
     {
+        $this->authorize('view_soat');
         $soatGroups = $this->soatGroupRepository->all();
 
         return view('soat_groups.index')
@@ -42,6 +43,7 @@ class soat_groupController extends AppBaseController
      */
     public function create()
     {
+        $this->authorize('create_soat');
         return view('soat_groups.create');
     }
 
@@ -54,6 +56,7 @@ class soat_groupController extends AppBaseController
      */
     public function store(Createsoat_groupRequest $request)
     {
+        $this->authorize('create_soat');
         $input = $request->all();
 
         $soatGroup = $this->soatGroupRepository->create($input);
@@ -72,6 +75,7 @@ class soat_groupController extends AppBaseController
      */
     public function show($id)
     {
+        $this->authorize('view_soat');
         $soatGroup = $this->soatGroupRepository->find($id);
 
         if (empty($soatGroup)) {
@@ -92,6 +96,7 @@ class soat_groupController extends AppBaseController
      */
     public function edit($id)
     {
+        $this->authorize('update_soat');
         $soatGroup = $this->soatGroupRepository->find($id);
 
         if (empty($soatGroup)) {
@@ -113,6 +118,7 @@ class soat_groupController extends AppBaseController
      */
     public function update($id, Updatesoat_groupRequest $request)
     {
+        $this->authorize('update_soat');
         $soatGroup = $this->soatGroupRepository->find($id);
 
         if (empty($soatGroup)) {
@@ -139,6 +145,7 @@ class soat_groupController extends AppBaseController
      */
     public function destroy($id)
     {
+        $this->authorize('destroy_soat');
         $soatGroup = $this->soatGroupRepository->find($id);
 
         if (empty($soatGroup)) {

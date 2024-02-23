@@ -32,6 +32,7 @@ class basketController extends AppBaseController
      */
     public function index(Request $request)
     {
+        $this->authorize('view_baskets');
         $perPage = $request->input('per_page', 10);
         $search = $request->input('search');
         $basketQuery = Basket::query();
@@ -58,6 +59,7 @@ class basketController extends AppBaseController
      */
     public function create()
     {
+        $this->authorize('create_baskets');
         $articles = Articles::orderby('description')->pluck('description', 'id');
         $surgical_acts = Surgery::orderby('cod_surgical_act')->pluck('cod_surgical_act', 'cod_surgical_act');
         return view('baskets.create', compact('articles', 'surgical_acts'));
@@ -72,6 +74,7 @@ class basketController extends AppBaseController
      */
     public function store(CreatebasketRequest $request)
     {
+        $this->authorize('create_baskets');
         $input = $request->all();
         $basket = $this->basketRepository->create($input);
 
@@ -89,6 +92,7 @@ class basketController extends AppBaseController
      */
     public function show($id)
     {
+        $this->authorize('show_baskets');
         $basket = $this->basketRepository->find($id);
 
         if (empty($basket)) {
@@ -109,6 +113,7 @@ class basketController extends AppBaseController
      */
     public function edit($id)
     {
+        $this->authorize('update_baskets');
         $basket = $this->basketRepository->find($id);
 
         if (empty($basket)) {
@@ -130,6 +135,7 @@ class basketController extends AppBaseController
      */
     public function update($id, UpdatebasketRequest $request)
     {
+        $this->authorize('update_baskets');
         $basket = $this->basketRepository->find($id);
 
         if (empty($basket)) {
@@ -156,6 +162,7 @@ class basketController extends AppBaseController
      */
     public function destroy($id)
     {
+        $this->authorize('destroy_baskets');
         $basket = $this->basketRepository->find($id);
 
         if (empty($basket)) {

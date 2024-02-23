@@ -32,7 +32,7 @@ class proceduresController extends AppBaseController
      */
     public function index(Request $request)
     {
-
+        $this->authorize('view_procedure');
         $perPage = $request->input('per_page', 10);
         $search = $request->input('search');
         $proceduresQuery = Procedures::query();
@@ -59,6 +59,7 @@ class proceduresController extends AppBaseController
      */
     public function create()
     {
+        $this->authorize('create_procedure');
         return view('procedures.create');
     }
 
@@ -71,6 +72,7 @@ class proceduresController extends AppBaseController
      */
     public function store(CreateproceduresRequest $request)
     {
+        $this->authorize('create_procedure');
         $input = $request->all();
 
         $procedures = $this->proceduresRepository->create($input);
@@ -89,6 +91,7 @@ class proceduresController extends AppBaseController
      */
     public function show($id)
     {
+        $this->authorize('view_procedure');
         $procedures = $this->proceduresRepository->find($id);
 
         if (empty($procedures)) {
@@ -109,6 +112,7 @@ class proceduresController extends AppBaseController
      */
     public function edit($id)
     {
+        $this->authorize('update_procedure');
         $procedures = $this->proceduresRepository->find($id);
 
         if (empty($procedures)) {
@@ -130,6 +134,7 @@ class proceduresController extends AppBaseController
      */
     public function update($id, UpdateproceduresRequest $request)
     {
+        $this->authorize('update_procedure');
         $procedures = $this->proceduresRepository->find($id);
 
         if (empty($procedures)) {
@@ -156,6 +161,7 @@ class proceduresController extends AppBaseController
      */
     public function destroy($id)
     {
+        $this->authorize('destroy_procedure');
         $procedures = $this->proceduresRepository->find($id);
 
         if (empty($procedures)) {

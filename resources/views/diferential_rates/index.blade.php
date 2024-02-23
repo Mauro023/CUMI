@@ -9,8 +9,8 @@
                 <h3 class="card-title m-0" style="color: #69C5A0; font-size: 25px;"><strong>Tarifas
                         diferenciales</strong></h3>
                 <div class="ml-auto d-flex align-items-center gap-2">
-                    @can('create_employes')
-                    <a class="btn btn-default" data-bs-toggle="modal" data-bs-target="#importar" title="Importar calendarios">
+                    @can('create_diferentialRates')
+                    <a class="btn btn-default" data-bs-toggle="modal" data-bs-target="#importar" title="Importar tarifas">
                         <span class="fas fa-file-import" style="color: #69C5A0"></span>
                     </a>
                     <a href="{{ route('diferentialRates.create') }}" class="btn btn-default" title="Agregar empleado">

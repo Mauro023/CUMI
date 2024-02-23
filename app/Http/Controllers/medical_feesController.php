@@ -31,6 +31,7 @@ class medical_feesController extends AppBaseController
      */
     public function index(Request $request)
     {
+        $this->authorize('view_medicalFees');
         $perPage = $request->input('per_page', 10);
         $search = $request->input('search');
         $medicalFeesQuery = Medical_fees::query();
@@ -53,6 +54,7 @@ class medical_feesController extends AppBaseController
      */
     public function create()
     {
+        $this->authorize('create_medicalFees');
         return view('medical_fees.create');
     }
 
@@ -65,6 +67,7 @@ class medical_feesController extends AppBaseController
      */
     public function store(Createmedical_feesRequest $request)
     {
+        $this->authorize('create_medicalFees');
         $input = $request->all();
 
         $medicalFees = $this->medicalFeesRepository->create($input);
@@ -83,6 +86,7 @@ class medical_feesController extends AppBaseController
      */
     public function show($id)
     {
+        $this->authorize('show_medicalFees');
         $medicalFees = $this->medicalFeesRepository->find($id);
 
         if (empty($medicalFees)) {
@@ -103,6 +107,7 @@ class medical_feesController extends AppBaseController
      */
     public function edit($id)
     {
+        $this->authorize('update_medicalFees');
         $medicalFees = $this->medicalFeesRepository->find($id);
 
         if (empty($medicalFees)) {
@@ -124,6 +129,7 @@ class medical_feesController extends AppBaseController
      */
     public function update($id, Updatemedical_feesRequest $request)
     {
+        $this->authorize('update_medicalFees');
         $medicalFees = $this->medicalFeesRepository->find($id);
 
         if (empty($medicalFees)) {
@@ -150,6 +156,7 @@ class medical_feesController extends AppBaseController
      */
     public function destroy($id)
     {
+        $this->authorize('destroy_medicalFees');
         $medicalFees = $this->medicalFeesRepository->find($id);
 
         if (empty($medicalFees)) {

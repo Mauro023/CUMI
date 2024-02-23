@@ -8,7 +8,7 @@
                 <th>Disponibilidad pago</th>
                 <th>Valor 1</th>
                 <th>Valor 2</th>
-                <th colspan="2">Action</th>
+                <th colspan="3">Acciones</th>
             </tr>
         </thead>
         <tbody>
@@ -24,16 +24,22 @@
                     {!! Form::open(['route' => ['diferentialRates.destroy', $diferentialRate->id], 'method' =>
                     'delete']) !!}
                     <div class='btn-group'>
-                        <a href="{{ route('diferentialRates.show', [$diferentialRate->id]) }}"
-                            class='btn btn-default btn-xs'>
-                            <i class="far fa-eye" style="color: #13A4DA"></i>
-                        </a>
-                        <a href="{{ route('diferentialRates.edit', [$diferentialRate->id]) }}"
-                            class='btn btn-default btn-xs'>
-                            <i class="far fa-edit" style="color: #6c6d77"></i>
-                        </a>
-                        {!! Form::button('<i class="far fa-trash-alt" style="color: #da1b1b"></i>', ['type' => 'submit', 'class' => 'btn
-                        btn-default btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
+                        @can('show_diferentialRates')
+                            <a href="{{ route('diferentialRates.show', [$diferentialRate->id]) }}"
+                                class='btn btn-default btn-xs'>
+                                <i class="far fa-eye" style="color: #13A4DA"></i>
+                            </a>
+                        @endcan
+                        @can('update_diferentialRates')
+                            <a href="{{ route('diferentialRates.edit', [$diferentialRate->id]) }}"
+                                class='btn btn-default btn-xs'>
+                                <i class="far fa-edit" style="color: #6c6d77"></i>
+                            </a>
+                        @endcan
+                        @can('destroy_diferentialRates')
+                            {!! Form::button('<i class="far fa-trash-alt" style="color: #da1b1b"></i>', ['type' => 'submit', 'class' => 'btn
+                            btn-default btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
+                        @endcan
                     </div>
                     {!! Form::close() !!}
                 </td>

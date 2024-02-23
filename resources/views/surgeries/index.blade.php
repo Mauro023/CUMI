@@ -8,13 +8,17 @@
                 style="background-color: white; padding: 0 0;">
                 <h3 class="card-title m-0" style="color: #69C5A0; font-size: 25px;"><strong>Cirugias</strong></h3>
                 <div class="ml-auto d-flex align-items-center gap-2">
-                    @can('create_employes')
-                    <a href="{{ route('surgeries.create') }}" class="btn btn-default" title="Agregar empleado">
+                    @can('create_surgeries')
+                    <a href="{{ route('surgeries.create') }}" class="btn btn-default" title="Agregar cirugia">
                         <span class="fas fa-user-plus" style="color: #69C5A0"></span>
                     </a>
+                    @endcan
+                    @can('calculate_cost')
                     <a class="btn btn-default" data-toggle="modal" data-target="#CosttModal" title="Calcular costos">
                         <span class="fas fa-coins" style="color: #ffbf00"></span>
                     </a>
+                    @endcan
+                    @can('create_surgeries')
                     <a class="btn btn-default" data-toggle="modal" data-target="#exportModal" title="Actualizar cirugias">
                         <span class="fas fa-upload" style="color: #69C5A0"></span>
                     </a>
@@ -148,11 +152,11 @@
                     @csrf
                     <div class="form-group col-sm-8">
                         {!! Form::label('start_date', 'Fecha inicial:') !!}
-                        {!! Form::text('start_date', null, ['class' => 'form-control','id'=>'start_date']) !!}
+                        {!! Form::text('start_date', null, ['class' => 'form-control','id'=>'start_datec']) !!}
                     </div>
                     <div class="form-group col-sm-8">
                         {!! Form::label('end_date', 'Fecha final:') !!}
-                        {!! Form::text('end_date', null, ['class' => 'form-control','id'=>'end_date']) !!}
+                        {!! Form::text('end_date', null, ['class' => 'form-control','id'=>'end_datec']) !!}
                     </div>                                       
                 </div>
                 <div class="modal-footer">
@@ -171,6 +175,16 @@
             sideBySide: true
         })
         $('#end_date').datetimepicker({
+            format: 'YYYY-MM-DD',
+            useCurrent: true,
+            sideBySide: true
+        })
+        $('#start_datec').datetimepicker({
+            format: 'YYYY-MM-DD',
+            useCurrent: true,
+            sideBySide: true
+        })
+        $('#end_datec').datetimepicker({
             format: 'YYYY-MM-DD',
             useCurrent: true,
             sideBySide: true

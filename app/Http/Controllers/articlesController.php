@@ -37,6 +37,7 @@ class articlesController extends AppBaseController
      */
     public function index(Request $request)
     {
+        $this->authorize('view_articles');
         $perPage = $request->input('per_page', 10);
         $search = $request->input('search');
         $articlesQuery = Articles::query();
@@ -60,6 +61,7 @@ class articlesController extends AppBaseController
      */
     public function create()
     {
+        $this->authorize('create_articles');
         return view('articles.create');
     }
 
@@ -72,6 +74,7 @@ class articlesController extends AppBaseController
      */
     public function store(CreatearticlesRequest $request)
     {
+        $this->authorize('create_articles');
         $input = $request->all();
 
         $articles = $this->articlesRepository->create($input);
@@ -90,6 +93,7 @@ class articlesController extends AppBaseController
      */
     public function show($id)
     {
+        $this->authorize('show_articles');
         $articles = $this->articlesRepository->find($id);
 
         if (empty($articles)) {
@@ -110,6 +114,7 @@ class articlesController extends AppBaseController
      */
     public function edit($id)
     {
+        $this->authorize('update_articles');
         $articles = $this->articlesRepository->find($id);
 
         if (empty($articles)) {
@@ -131,6 +136,7 @@ class articlesController extends AppBaseController
      */
     public function update($id, UpdatearticlesRequest $request)
     {
+        $this->authorize('update_articles');
         $articles = $this->articlesRepository->find($id);
 
         if (empty($articles)) {
@@ -157,6 +163,7 @@ class articlesController extends AppBaseController
      */
     public function destroy($id)
     {
+        $this->authorize('destroy_articulos');
         $articles = $this->articlesRepository->find($id);
 
         if (empty($articles)) {

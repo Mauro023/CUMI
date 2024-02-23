@@ -32,6 +32,7 @@ class doctorsController extends AppBaseController
      */
     public function index(Request $request)
     {
+        $this->authorize('view_doctors');
         $perPage = $request->input('per_page', 10);
         $search = $request->input('search');
         $doctorsQuery = doctors::query();
@@ -57,6 +58,7 @@ class doctorsController extends AppBaseController
      */
     public function create()
     {
+        $this->authorize('create_doctors');
         $rates = Medical_fees::orderby('payment_manual')->pluck('payment_manual', 'id');
         $fees = Diferential_rates::orderby('rate_description')->pluck('rate_description', 'id');
         return view('doctors.create', compact('rates', 'fees'));
@@ -71,6 +73,7 @@ class doctorsController extends AppBaseController
      */
     public function store(CreatedoctorsRequest $request)
     {
+        $this->authorize('create_doctors');
         $input = $request->all();
 
         $doctors = $this->doctorsRepository->create($input);
@@ -89,6 +92,7 @@ class doctorsController extends AppBaseController
      */
     public function show($id)
     {
+        $this->authorize('show_doctors');
         $doctors = $this->doctorsRepository->find($id);
 
         if (empty($doctors)) {
@@ -109,6 +113,7 @@ class doctorsController extends AppBaseController
      */
     public function edit($id)
     {
+        $this->authorize('update_doctors');
         $doctors = $this->doctorsRepository->find($id);
 
         if (empty($doctors)) {
@@ -130,6 +135,7 @@ class doctorsController extends AppBaseController
      */
     public function update($id, UpdatedoctorsRequest $request)
     {
+        $this->authorize('update_doctors');
         $doctors = $this->doctorsRepository->find($id);
 
         if (empty($doctors)) {
@@ -156,6 +162,7 @@ class doctorsController extends AppBaseController
      */
     public function destroy($id)
     {
+        $this->authorize('destroy_doctors');
         $doctors = $this->doctorsRepository->find($id);
 
         if (empty($doctors)) {
@@ -191,35 +198,36 @@ class doctorsController extends AppBaseController
         ORDER BY sm.codigo");
         //dd($results);
         foreach ($results as $result) {
-
-            $codMPago = $result->cod_manual_pago;
-            $codMPago2 = $result->cod_manual_pago2;
-            $codMPago = ($codMPago === "") ? NULL : $codMPago;
-            $codMPago2 = ($codMPago2 === "") ? NULL : $codMPago2;
-            //Se valida que el procedimiento esté registrado
-            $existingDoctors = Doctors::where('dni', $result->cedula)->first();
-            if ($existingDoctors) {              
-                // Actualiza los datos del procedimiento    
-                $existingDoctors->dni = $result->codigo;   
-                $existingDoctors->dni = $result->cedula;
-                $existingDoctors->full_name = $result->nombre;
-                $existingDoctors->category_doctor = $result->Categoria;
-                $existingDoctors->specialty = $result->especialidad;
-                $existingDoctors->payment_type = $result->tipo_pago;
-                $existingDoctors->id_fees = $codMPago;
-                $existingDoctors->id_fees2 = $codMPago2;           
-                $existingDoctors->save();
-            }else {
-                $newDoctors = new Doctors();
-                $newDoctors->code = $result->codigo;
-                $newDoctors->dni = $result->cedula;
-                $newDoctors->full_name = $result->nombre;
-                $newDoctors->category_doctor = $result->Categoria;
-                $newDoctors->specialty = $result->especialidad;
-                $newDoctors->payment_type = $result->tipo_pago;
-                $newDoctors->id_fees = $codMPago;
-                $newDoctors->id_fees2 = $codMPago2;
-                $newDoctors->save();
+            if ($result->tipo_pago !== "nomina") {
+                $codMPago = $result->cod_manual_pago;
+                $codMPago2 = $result->cod_manual_pago2;
+                $codMPago = ($codMPago === '') ? NULL : $codMPago;
+                $codMPago2 = ($codMPago2 === '') ? NULL : $codMPago2;
+                //Se valida que el procedimiento esté registrado
+                $existingDoctors = Doctors::where('dni', $result->cedula)->first();
+                if ($existingDoctors) {              
+                    // Actualiza los datos del procedimiento    
+                    $existingDoctors->dni = $result->codigo;   
+                    $existingDoctors->dni = $result->cedula;
+                    $existingDoctors->full_name = $result->nombre;
+                    $existingDoctors->category_doctor = $result->Categoria;
+                    $existingDoctors->specialty = $result->especialidad;
+                    $existingDoctors->payment_type = $result->tipo_pago;
+                    $existingDoctors->id_fees = $codMPago;
+                    $existingDoctors->id_fees2 = $codMPago2;           
+                    $existingDoctors->save();
+                }else {
+                    $newDoctors = new Doctors();
+                    $newDoctors->code = $result->codigo;
+                    $newDoctors->dni = $result->cedula;
+                    $newDoctors->full_name = $result->nombre;
+                    $newDoctors->category_doctor = $result->Categoria;
+                    $newDoctors->specialty = $result->especialidad;
+                    $newDoctors->payment_type = $result->tipo_pago;
+                    $newDoctors->id_fees = $codMPago;
+                    $newDoctors->id_fees2 = $codMPago2;
+                    $newDoctors->save();
+                }
             }
         }
         session()->flash('success', "Médicos actualizados correctamente!!");

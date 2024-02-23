@@ -28,12 +28,6 @@
     {!! Form::number('medical_fees', null, ['class' => 'form-control']) !!}
 </div>
 
-<!-- Id Consumables Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('id_consumables', 'Consumibles:') !!}
-    {!! Form::select('id_consumables', $consumables, null, ['class' => 'form-control custom-select']) !!}
-</div>
-
 <!-- Cod Surgical Act Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('cod_surgical_act', 'Codigo acto quirurgico:') !!}

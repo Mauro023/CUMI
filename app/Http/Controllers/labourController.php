@@ -29,6 +29,7 @@ class labourController extends AppBaseController
      */
     public function index(Request $request)
     {
+        $this->authorize('view_labour');
         $labours = $this->labourRepository->all();
 
         return view('labours.index')
@@ -42,6 +43,7 @@ class labourController extends AppBaseController
      */
     public function create()
     {
+        $this->authorize('create_labour');
         return view('labours.create');
     }
 
@@ -54,6 +56,7 @@ class labourController extends AppBaseController
      */
     public function store(CreatelabourRequest $request)
     {
+        $this->authorize('create_labour');
         $input = $request->all();
 
         $labour = $this->labourRepository->create($input);
@@ -72,6 +75,7 @@ class labourController extends AppBaseController
      */
     public function show($id)
     {
+        $this->authorize('view_labour');
         $labour = $this->labourRepository->find($id);
 
         if (empty($labour)) {
@@ -92,6 +96,7 @@ class labourController extends AppBaseController
      */
     public function edit($id)
     {
+        $this->authorize('update_labour');
         $labour = $this->labourRepository->find($id);
 
         if (empty($labour)) {
@@ -113,6 +118,7 @@ class labourController extends AppBaseController
      */
     public function update($id, UpdatelabourRequest $request)
     {
+        $this->authorize('update_labour');
         $labour = $this->labourRepository->find($id);
 
         if (empty($labour)) {
@@ -139,6 +145,7 @@ class labourController extends AppBaseController
      */
     public function destroy($id)
     {
+        $this->authorize('destroy_labour');
         $labour = $this->labourRepository->find($id);
 
         if (empty($labour)) {

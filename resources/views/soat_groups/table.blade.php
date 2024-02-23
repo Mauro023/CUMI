@@ -9,7 +9,7 @@
             <th>Sala</th>
             <th>Materiales</th>
             <th>Total</th>
-            <th colspan="3">Action</th>
+            <th colspan="3">Acciones</th>
         </tr>
         </thead>
         <tbody>
@@ -25,15 +25,15 @@
                 <td width="120">
                     {!! Form::open(['route' => ['soatGroups.destroy', $soatGroup->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>
-                        <a href="{{ route('soatGroups.show', [$soatGroup->id]) }}"
-                           class='btn btn-default btn-xs'>
-                            <i class="far fa-eye" style="color: #69C5A0"></i>
-                        </a>
-                        <a href="{{ route('soatGroups.edit', [$soatGroup->id]) }}"
-                           class='btn btn-default btn-xs'>
-                            <i class="far fa-edit" style="color: #6c6d77"></i>
-                        </a>
-                        {!! Form::button('<i class="far fa-trash-alt" style="color: #da1b1b"></i>', ['type' => 'submit', 'class' => 'btn btn-default btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
+                        @can('update_soat')
+                            <a href="{{ route('soatGroups.edit', [$soatGroup->id]) }}"
+                            class='btn btn-default btn-xs'>
+                                <i class="far fa-edit" style="color: #6c6d77"></i>
+                            </a>
+                        @endcan
+                        @can('destroy_soat')
+                            {!! Form::button('<i class="far fa-trash-alt" style="color: #da1b1b"></i>', ['type' => 'submit', 'class' => 'btn btn-default btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
+                        @endcan
                     </div>
                     {!! Form::close() !!}
                 </td>

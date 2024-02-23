@@ -323,6 +323,7 @@ class employeController extends AppBaseController
             'MEDICO EPIDEMIOLOGO' => 'Administrativo asistencial',
             'MEDICO ESPECIALISTA INTERNISTA - INFECTOLOGO' => 'Asistencial',
             'MEDICO GENERAL' => 'Asistencial',
+            'MEDICO RURAL' => 'Asistencial',
             'NUTRICIONISTA' => 'Administrativo asistencial',
             'ORIENTADOR' => 'Otros',
             'PROFESIONAL DE CARTERA' => 'Administrativo',

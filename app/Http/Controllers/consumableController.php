@@ -31,6 +31,7 @@ class consumableController extends AppBaseController
      */
     public function index(Request $request)
     {
+        $this->authorize('view_consumables');
         $perPage = $request->input('per_page', 10);
         $search = $request->input('search');
         $consumablesQuery = Consumable::query();
@@ -56,6 +57,7 @@ class consumableController extends AppBaseController
      */
     public function create()
     {
+        $this->authorize('create_consumables');
         $articles = Articles::orderBy('description')->get(['id', 'description', 'item_code'])
         ->mapWithKeys(function ($article) {
             return [$article->id => $article->description . ' - ' . $article->item_code];
@@ -72,6 +74,7 @@ class consumableController extends AppBaseController
      */
     public function store(CreateconsumableRequest $request)
     {
+        $this->authorize('create_consumables');
         $input = $request->all();
         $consumable = $this->consumableRepository->create($input);
 
@@ -89,6 +92,7 @@ class consumableController extends AppBaseController
      */
     public function show($id)
     {
+        $this->authorize('show_consumables');
         $consumable = $this->consumableRepository->find($id);
 
         if (empty($consumable)) {
@@ -109,6 +113,7 @@ class consumableController extends AppBaseController
      */
     public function edit($id)
     {
+        $this->authorize('update_consumables');
         $consumable = $this->consumableRepository->find($id);
 
         if (empty($consumable)) {
@@ -130,6 +135,7 @@ class consumableController extends AppBaseController
      */
     public function update($id, UpdateconsumableRequest $request)
     {
+        $this->authorize('update_consumables');
         $consumable = $this->consumableRepository->find($id);
 
         if (empty($consumable)) {
@@ -156,6 +162,7 @@ class consumableController extends AppBaseController
      */
     public function destroy($id)
     {
+        $this->authorize('destroy_consumables');
         $consumable = $this->consumableRepository->find($id);
 
         if (empty($consumable)) {

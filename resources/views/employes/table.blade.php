@@ -65,10 +65,6 @@
             {{ $employes->appends(['search' => request('search'), 'per_page' => request('per_page')])->links() }}
         </div>
     </div>
-    
-    <div id="app">
-    </div>
-    <script src="{{ asset('js/app.js') }}"></script>
 </div>
 
 @foreach($employes as $employe)
