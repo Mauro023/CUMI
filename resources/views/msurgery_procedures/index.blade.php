@@ -23,10 +23,10 @@
                         <label for="perPageSelect" class="mr-2" style="color: #69C5A0">Mostrar:</label>
                         <select id="perPageSelect" name="per_page" class="form-select" style="border-radius: 20px"
                             onchange="this.form.submit()">
-                            <option value="10">10</option>
-                            <option value="25">25</option>
-                            <option value="50">50</option>
-                            <option value="100">100</option>
+                            <option value="10" {{ $msurgeryProcedures->perPage() == 10 ? 'selected' : '' }}>10</option>
+                            <option value="25" {{ $msurgeryProcedures->perPage() == 25 ? 'selected' : '' }}>25</option>
+                            <option value="50" {{ $msurgeryProcedures->perPage() == 50? 'selected' : '' }}>50</option>
+                            <option value="100" {{ $msurgeryProcedures->perPage() == 100 ? 'selected' : '' }}>100</option>
                         </select>
                     </div>
 

@@ -1,5 +1,5 @@
 <div class="table-responsive">
-    <table class="table table-hover shadow rounded" id="contractsTable">
+    <table class="table table-hover shadow mb-3 rounded" id="contractsTable">
         <thead>
             <tr>
                 <th>Empleado</th>
@@ -12,8 +12,11 @@
         <tbody>
             @foreach($contracts as $contract)
             <tr>
-                <td>{{ $contract->employe_id ? $contract->employe->name : 'Sin ID' }}</td>
-                <td>{{ $contract->salary }}</td>
+                <td>{{ $contract->employe_id ? $contract->employe->name : 'Sin ID' }}
+                <br>
+                <small style="color: #A2C61E"><strong>{{ $contract->employe_id ? $contract->employe->dni : 'Sin ID' }}</strong></small>
+                </td>
+                <td>{{ number_format($contract->salary, 0, ',', '.'); }}</td>
                 <td>{{ $contract->start_date_contract->format('Y-m-d') }}</td>
                 <td class="text-center">{{ $contract->disable }}</td>
                 <td width="120">
@@ -41,15 +44,15 @@
             @endforeach
         </tbody>
     </table>
-    <div class="d-flex justify-content-between mb-4">
-        <!-- Muestra el número de página actual a la izquierda -->
-        <div class="pagination-label">
-            Página <strong>{{ $contracts->currentPage() }}</strong> de <strong>{{ $contracts->lastPage() }}</strong>
-        </div>
-        <!-- Muestra la paginación generada por Laravel a la derecha -->
-        <div>
-            {{ $contracts->appends(['search' => request('search'), 'per_page' => request('per_page')])->links() }}
-        </div>
+</div>
+<div class="d-flex justify-content-between mb-1 mt-2" style="background-color: transparent">
+    <!-- Muestra el número de página actual a la izquierda -->
+    <div class="pagination-label">
+        Página <strong>{{ $contracts->currentPage() }}</strong> de <strong>{{ $contracts->lastPage() }}</strong>
+    </div>
+    <!-- Muestra la paginación generada por Laravel a la derecha -->
+    <div>
+        {{ $contracts->appends(['search' => request('search'), 'per_page' => request('per_page')])->links() }}
     </div>
 </div>
 
@@ -99,8 +102,8 @@
     }
 
     .pagination .page-item.active .page-link {
-        background-color: #69C5A0;
-        border-color: #69C5A0;
+        background-color: #14ABE3;
+        border-color: #14ABE3;
         color: white;
     }
 </style>

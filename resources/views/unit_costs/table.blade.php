@@ -5,12 +5,14 @@
                 <th>N servicio</th>
                 <th>Derecho sala</th>
                 <th>Gas</th>
-                <th>Mano obra</th>
+                <th>Consumibles</th>
                 <th>Canasta</th>
+                <th>Equipos rentados</th>
                 <th>Honorarios médico</th>
                 <th>Honorarios médico2</th>
                 <th>Honorarios anestesiologo</th>
                 <th>Valor total</th>
+                <th>Categoria</th>
                 <th colspan="3">Acciones</th>
             </tr>
         </thead>
@@ -20,12 +22,14 @@
                 <td><strong>{{ $unitCost->cod_surgical_act }}</strong></td>
                 <td>{{ number_format($unitCost->room_cost, 0, ',', '.'); }}</td>
                 <td>{{ number_format($unitCost->gas, 0, ',', '.'); }}</td>
-                <td>{{ number_format($unitCost->labour, 0, ',', '.'); }}</td>
+                <td>{{ number_format($unitCost->consumables, 0, ',', '.'); }}</td>
                 <td>{{ number_format($unitCost->basket, 0, ',', '.'); }}</td>
+                <td>{{ number_format($unitCost->rented, 0, ',', '.'); }}</td>
                 <td>{{ number_format($unitCost->medical_fees, 0, ',', '.'); }}</td>
                 <td>{{ number_format($unitCost->medical_fees2 ?? 0, 0, ',', '.'); }}</td>
                 <td>{{ number_format($unitCost->anest_fees ?? 0, 0, ',', '.'); }}</td>
                 <td>{{ number_format($unitCost->total_value, 0, ',', '.'); }}</td>
+                <td>{{ $unitCost->category }}</td>
                 <td width="120">
                     {!! Form::open(['route' => ['unitCosts.destroy', $unitCost->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>
@@ -34,12 +38,12 @@
                                 <i class="far fa-eye" style="color: #13A4DA"></i>
                             </a>
                         @endcan
-                        @can('create_unitCosts')
-                            <a href="{{ route('unitCosts.edit', [$unitCost->id]) }}" class='btn btn-default btn-xs'>
+                        @can('update_unitCosts')
+                            <a href="{{ route('unitCosts.edit', [$unitCost->id]) }}" class='btn btn-default btn-xs btn-edit'>
                                 <i class="far fa-edit" style="color: #6c6d77"></i>
                             </a>
                         @endcan
-                        @can('update_unitCosts')
+                        @can('destroy_unitCosts')
                             {!! Form::button('<i class="far fa-trash-alt" style="color: #da1b1b"></i>', ['type' => 'submit', 'class' => 'btn
                             btn-default btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
                         @endcan

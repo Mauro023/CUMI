@@ -11,8 +11,11 @@
                 style="background-color: white; padding: 0 0;">
                 <h3 class="card-title m-0" style="color: #69C5A0; font-size: 25px;"><strong>Empleados
                         disponibles</strong></h3>
-                <div class="ml-auto">
+                <div class="ml-auto d-flex align-items-center gap-2">
                     @can('create_cards')
+                    <div id="app">
+                        <addcard-component></addcard-component>
+                    </div>
                     <a href="{{ route('cards.create') }}" class="btn btn-default" title="Agregar entrega de carnet">
                         <span class="fas fa-plus" style="color: #69C5A0"></span>
                     </a>
@@ -53,4 +56,8 @@
         </div>
     </div>
 </div>
+<div id="app">
+</div>
+<script src="{{ asset('js/app.js') }}"></script>
+@include('layouts.alerts')
 @endsection

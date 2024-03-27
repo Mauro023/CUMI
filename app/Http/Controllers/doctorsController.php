@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\medical_fees;
 use App\Models\doctors;
+use App\Models\SismaSalud\sis_especialidades;
+use Illuminate\Support\Facades\Log;
 use Flash;
 use Response;
 
@@ -59,9 +61,9 @@ class doctorsController extends AppBaseController
     public function create()
     {
         $this->authorize('create_doctors');
-        $rates = Medical_fees::orderby('payment_manual')->pluck('payment_manual', 'id');
-        $fees = Diferential_rates::orderby('rate_description')->pluck('rate_description', 'id');
-        return view('doctors.create', compact('rates', 'fees'));
+        $fees = Medical_fees::orderby('payment_manual')->pluck('payment_manual', 'honorary_code');
+        $especiality = sis_especialidades::select('id', 'nombre')->orderby('nombre')->pluck('nombre','nombre');
+        return view('doctors.create', compact('fees', 'especiality'));
     }
 
     /**
@@ -75,10 +77,10 @@ class doctorsController extends AppBaseController
     {
         $this->authorize('create_doctors');
         $input = $request->all();
-
+        //dd($input);
         $doctors = $this->doctorsRepository->create($input);
 
-        Flash::success('Doctors saved successfully.');
+        session()->flash('success', "¡¡MÉDICO $request->full_name REGISTRADO CON EXITO!!");
 
         return redirect(route('doctors.index'));
     }
@@ -94,14 +96,15 @@ class doctorsController extends AppBaseController
     {
         $this->authorize('show_doctors');
         $doctors = $this->doctorsRepository->find($id);
-
+        $payment = json_decode($doctors->payment);
+        //dd($payment);
         if (empty($doctors)) {
-            Flash::error('Doctors not found');
+            session()->flash('error', "¡¡MÉDICO NO ENCONTRADO!!");
 
             return redirect(route('doctors.index'));
         }
 
-        return view('doctors.show')->with('doctors', $doctors);
+        return view('doctors.show', compact('doctors', 'payment'));
     }
 
     /**
@@ -115,14 +118,16 @@ class doctorsController extends AppBaseController
     {
         $this->authorize('update_doctors');
         $doctors = $this->doctorsRepository->find($id);
-
+        $fees = Medical_fees::orderby('payment_manual')->pluck('payment_manual', 'honorary_code');
+        $selectedItems = json_decode($doctors->payment);
+        $especiality = sis_especialidades::select('id', 'nombre')->orderby('nombre')->pluck('nombre','nombre');
         if (empty($doctors)) {
-            Flash::error('Doctors not found');
+            session()->flash('error', "¡¡MÉDICO NO ENCONTRADO!!");
 
             return redirect(route('doctors.index'));
         }
 
-        return view('doctors.edit')->with('doctors', $doctors);
+        return view('doctors.edit', compact('doctors', 'fees', 'selectedItems', 'especiality'));
     }
 
     /**
@@ -137,16 +142,16 @@ class doctorsController extends AppBaseController
     {
         $this->authorize('update_doctors');
         $doctors = $this->doctorsRepository->find($id);
-
+        //dd($request->all());
         if (empty($doctors)) {
-            Flash::error('Doctors not found');
+            session()->flash('error', "¡¡MÉDICO NO ENCONTRADO!!");
 
             return redirect(route('doctors.index'));
         }
 
         $doctors = $this->doctorsRepository->update($request->all(), $id);
 
-        Flash::success('Doctors updated successfully.');
+        session()->flash('success', "¡¡MÉDICO $request->full_name ACTUALIZADO CON EXITO!!");
 
         return redirect(route('doctors.index'));
     }
@@ -166,14 +171,14 @@ class doctorsController extends AppBaseController
         $doctors = $this->doctorsRepository->find($id);
 
         if (empty($doctors)) {
-            Flash::error('Doctors not found');
+            session()->flash('error', "¡¡MÉDICO NO ENCONTRADO!!");
 
             return redirect(route('doctors.index'));
         }
-
+        $name = $doctors->full_name;
         $this->doctorsRepository->delete($id);
 
-        Flash::success('Doctors deleted successfully.');
+        session()->flash('success', "¡¡MÉDICO $name ELIMINADO CORRECTAMENTE!!");
 
         return redirect(route('doctors.index'));
     }
@@ -198,40 +203,49 @@ class doctorsController extends AppBaseController
         ORDER BY sm.codigo");
         //dd($results);
         foreach ($results as $result) {
-            if ($result->tipo_pago !== "nomina") {
-                $codMPago = $result->cod_manual_pago;
-                $codMPago2 = $result->cod_manual_pago2;
-                $codMPago = ($codMPago === '') ? NULL : $codMPago;
-                $codMPago2 = ($codMPago2 === '') ? NULL : $codMPago2;
-                //Se valida que el procedimiento esté registrado
-                $existingDoctors = Doctors::where('dni', $result->cedula)->first();
-                if ($existingDoctors) {              
-                    // Actualiza los datos del procedimiento    
-                    $existingDoctors->dni = $result->codigo;   
-                    $existingDoctors->dni = $result->cedula;
-                    $existingDoctors->full_name = $result->nombre;
-                    $existingDoctors->category_doctor = $result->Categoria;
-                    $existingDoctors->specialty = $result->especialidad;
-                    $existingDoctors->payment_type = $result->tipo_pago;
-                    $existingDoctors->id_fees = $codMPago;
-                    $existingDoctors->id_fees2 = $codMPago2;           
-                    $existingDoctors->save();
-                }else {
-                    $newDoctors = new Doctors();
-                    $newDoctors->code = $result->codigo;
-                    $newDoctors->dni = $result->cedula;
-                    $newDoctors->full_name = $result->nombre;
-                    $newDoctors->category_doctor = $result->Categoria;
-                    $newDoctors->specialty = $result->especialidad;
-                    $newDoctors->payment_type = $result->tipo_pago;
-                    $newDoctors->id_fees = $codMPago;
-                    $newDoctors->id_fees2 = $codMPago2;
-                    $newDoctors->save();
-                }
+            $codMPago = $result->cod_manual_pago;
+            $codMPago2 = trim($result->cod_manual_pago2);
+            Log::info($codMPago2);
+            $codMPago = ($codMPago === '') ? NULL : $codMPago;
+            $codMPago2 = ($codMPago2 === '') ? NULL : $codMPago2;
+            //Se valida que el procedimiento esté registrado
+            $existingDoctors = Doctors::where('dni', $result->cedula)->first();
+            if ($existingDoctors) {              
+                // Actualiza los datos del procedimiento    
+                $existingDoctors->update(
+                [
+                    'code' => $result->codigo,
+                    'dni' => $result->cedula,
+                    'full_name' => $result->nombre,
+                    'category_doctor' => $result->Categoria,
+                    'specialty' => $result->especialidad,
+                    'payment_type' => $result->tipo_pago,
+                    'id_fees' => $codMPago,
+                    'id_fees2' => $codMPago2  
+                ]);
+            }else {
+                Doctors::create(
+                [
+                    'code' => $result->codigo,
+                    'dni' => $result->cedula,
+                    'full_name' => $result->nombre,
+                    'category_doctor' => $result->Categoria,
+                    'specialty' => $result->especialidad,
+                    'payment_type' => $result->tipo_pago,
+                    'id_fees' => $codMPago,
+                    'id_fees2' => $codMPago2 
+                ]);
             }
         }
-        session()->flash('success', "Médicos actualizados correctamente!!");
-
+        session()->flash('success', "¡¡MÉDICOS ACTUALIZADOS CORRECTAMENTE!!");
         return redirect(route('doctors.index'));
+    }
+
+    public function searchDoctors(Request $request)
+    {
+        $term = $request->input('term');
+        $doctors = Doctors::where('full_name', 'like', "%$term%")->get();
+        
+        return response()->json($doctors);
     }
 }

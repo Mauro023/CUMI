@@ -5,7 +5,7 @@
                 title: 'Éxito',
                 text: '{{ session('success') }}',
                 icon: 'success',
-                timer: 6000 // Tiempo en milisegundos para que la alerta desaparezca automáticamente
+                timer: 12000 // Tiempo en milisegundos para que la alerta desaparezca automáticamente
             });
         @endif
 
@@ -14,7 +14,7 @@
                 title: 'Error',
                 text: '{{ session('error') }}',
                 icon: 'error',
-                timer: 6000 // Tiempo en milisegundos para que la alerta desaparezca automáticamente
+                timer: 12000 // Tiempo en milisegundos para que la alerta desaparezca automáticamente
             });
         @endif 
     });

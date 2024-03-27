@@ -20,7 +20,7 @@
                 <td>{{ $logOperationCost->cod_surgical_act }}</td>
                 <td>{{ $logOperationCost->code_procedure }}</td>
                 <td>{{ $logOperationCost->percentage_uvr }}%</td>
-                <td>{{ $logOperationCost->time_procedure }}</td>
+                <td>{{ number_format($logOperationCost->time_procedure, 2) }}</td>
                 <td>{{ number_format($logOperationCost->doctor_fees, 0, ',', '.'); }}
                     <br>
                     <small style="color: #69C5A0"><strong>{{ $logOperationCost->doctor_percentage }}%</strong></small>

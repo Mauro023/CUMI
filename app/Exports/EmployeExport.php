@@ -44,21 +44,25 @@ class EmployeExport implements FromCollection, WithHeadings, ShouldAutoSize, Wit
         }        
 
         $endowment = DB::select("
-            SELECT e.id, e.name, e.work_position, e.cost_center
+        SELECT e.dni, e.name, e.work_position, e.cost_center, e.service
+        FROM employes e
+        LEFT JOIN contracts c ON e.id = c.employe_id
+        WHERE e.id NOT IN (
+            SELECT e.id
             FROM employes e
             LEFT JOIN contracts c ON e.id = c.employe_id
-            WHERE e.id NOT IN (
-                SELECT e.id
-                FROM employes e
-                LEFT JOIN contracts c ON e.id = c.employe_id
-                LEFT JOIN endowments en ON c.id = en.contract_id
-                WHERE en.period = ?
-                AND YEAR(en.deliver_date) = ?
-            ) AND e.unit != 'Deshabilitado'
-            AND DATE_SUB(?, INTERVAL 3 MONTH) >= c.start_date_contract
-            AND c.salary < 2320000
-            ORDER BY e.id;
-        ", [$this->period, $this->year, $date]);
+            LEFT JOIN endowments en ON c.id = en.contract_id
+            WHERE en.period = ?
+            AND YEAR(en.deliver_date) = ?
+        )
+        AND e.unit != 'Deshabilitado'
+        AND (
+            ? <> (SELECT MAX(period) FROM endowments)
+            OR DATE_SUB(?, INTERVAL 3 MONTH) >= c.start_date_contract
+        )
+        AND c.salary < 2600000
+        ORDER BY e.name;
+        ", [$this->period, $this->year, $this->period, $date]);
         return new Collection($endowment);
     }
 
@@ -68,7 +72,8 @@ class EmployeExport implements FromCollection, WithHeadings, ShouldAutoSize, Wit
             'DNI',
             'NOMBRE',
             'PUESTO DE TRABAJO',
-            'CENTRO DE COSTO'
+            'CENTRO DE COSTO',
+            'SERVICIO'
         ];
     }
 

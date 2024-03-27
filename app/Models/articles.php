@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string $description
  * @property number $average_cost
  * @property number $last_cost
+ * @property integer $usage_quantity
  */
 class articles extends Model
 {
@@ -28,7 +29,7 @@ class articles extends Model
     
     public function consumable()
     {
-        return $this->hasMany(Consumable::class, 'id_article');
+        return $this->hasMany(Consumable::class, 'item_code', 'id_article');
     }
 
     public function basket()
@@ -46,7 +47,8 @@ class articles extends Model
         'item_code',
         'description',
         'average_cost',
-        'last_cost'
+        'last_cost',
+        'usage_quantity'
     ];
 
     /**
@@ -59,7 +61,8 @@ class articles extends Model
         'item_code' => 'string',
         'description' => 'string',
         'average_cost' => 'decimal:2',
-        'last_cost' => 'decimal:2'
+        'last_cost' => 'decimal:2',
+        'usage_quantity' => 'integer'
     ];
 
     /**

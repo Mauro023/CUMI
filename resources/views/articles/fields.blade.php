@@ -1,7 +1,7 @@
 <!-- Item Code Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('item_code', 'Codigo:') !!}
-    {!! Form::number('item_code', null, ['class' => 'form-control']) !!}
+    {!! Form::text('item_code', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Description Field -->
@@ -26,4 +26,10 @@
 <div class="form-group col-sm-6">
     {!! Form::label('last_cost', 'Ultimo costo:') !!}
     {!! Form::number('last_cost', null, ['class' => 'form-control']) !!}
+</div>
+
+<!-- Usage Quantity Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('usage_quantity', 'Cantidad reutilizable:') !!}
+    {!! Form::number('usage_quantity', null, ['class' => 'form-control']) !!}
 </div>

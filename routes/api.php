@@ -93,3 +93,12 @@ Route::resource('msurgery_procedures', App\Http\Controllers\API\msurgery_procedu
 
 
 Route::resource('log_operation_costs', App\Http\Controllers\API\log_operation_costAPIController::class);
+
+
+Route::resource('rented_equipments', App\Http\Controllers\API\rented_equipmentAPIController::class);
+
+
+Route::resource('cumi_lab_rates', App\Http\Controllers\API\cumiLab_rateAPIController::class);
+
+
+Route::resource('imaging_productions', App\Http\Controllers\API\imaging_productionAPIController::class);

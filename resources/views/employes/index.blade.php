@@ -13,8 +13,11 @@
                     <a href="{{ route('employes.create') }}" class="btn btn-default" title="Agregar empleado">
                         <span class="fas fa-user-plus" style="color: #69C5A0"></span>
                     </a>
-                    <a href="{{ route('get.employee') }}" class="btn btn-default" title="Actualizar empleados">
-                        <span class="fas fa-redo-alt" style="color: #69C5A0"></span>
+                    <a href="{{ route('get.employee') }}" id="loadEmployesBtn" class="btn btn-default" title="Actualizar empleados">
+                        <span class="fas fa-sync-alt" style="color: #69C5A0"></span>
+                    </a>
+                    <a href="{{ route('update.employee') }}" id="loadDisableBtn" class="btn btn-default" title="Deshabilitar empleados">
+                        <span class="fas fa-ban" style="color: #da1b1b"></span>
                     </a>
                     @endcan
                 </div>
@@ -59,3 +62,75 @@
     @include('layouts.alerts')
 </div>
 @endsection
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var loadarticlesBtn = document.getElementById('loadEmployesBtn');
+
+        loadarticlesBtn.addEventListener('click', function() {
+            // Añade la clase 'loading' al botón cuando se hace clic
+            loadarticlesBtn.classList.add('loading');
+
+            // Simula la carga asincrónica
+            setTimeout(function() {
+                
+                loadarticlesBtn.classList.remove('loading');
+            }, 2000); 
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        var loadarticlesBtn = document.getElementById('loadDisableBtn');
+
+        loadarticlesBtn.addEventListener('click', function() {
+            // Añade la clase 'loading' al botón cuando se hace clic
+            loadarticlesBtn.classList.add('loading');
+
+            // Simula la carga asincrónica
+            setTimeout(function() {
+                
+                loadarticlesBtn.classList.remove('loading');
+            }, 2000); 
+        });
+    });
+</script>
+<style>
+    /* Añade un estilo para la animación de carga */
+    .loading {
+        animation: spin 1s infinite linear;
+    }
+
+    @keyframes spin {
+        from {
+            transform: rotate(0deg);
+        }
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    .fade-out {
+        animation: fadeOut 0.5s forwards;
+    }
+
+    .translate-right {
+        animation: translateRight 0.5s forwards;
+    }
+
+    @keyframes fadeOut {
+        0% {
+            opacity: 1;
+        }
+        100% {
+            opacity: 0;
+        }
+    }
+
+    @keyframes translateRight {
+        0% {
+            transform: translateX(0);
+        }
+        100% {
+            transform: translateX(50px); /* Cambia la distancia según necesites */
+        }
+    }
+</style>

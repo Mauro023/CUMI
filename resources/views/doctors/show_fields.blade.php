@@ -28,6 +28,12 @@
     <p>{{ $doctors->id_fees }}</p>
 </div>
 
+<!-- Id Fees Field -->
+<div class="col-sm-12">
+    {!! Form::label('payment', 'Pagos:') !!}
+    <p>{{ $doctors->payment }}</p>
+</div>
+
 <!-- Created At Field -->
 <div class="col-sm-12">
     {!! Form::label('created_at', 'Created At:') !!}

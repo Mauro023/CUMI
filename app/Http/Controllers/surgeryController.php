@@ -50,9 +50,10 @@ class surgeryController extends AppBaseController
                     ->orWhere('operating_room', 'LIKE', '%' . $search . '%')
                     ->orWhere('cod_surgical_act', 'LIKE', '%' . $search . '%')
                     ->orWhere('study_number', 'LIKE', '%' . $search . '%')
-                    ->orWhereHas('procedures', function ($query) use ($search) {
+                    ->orWhereHas('doctors', function ($query) use ($search) {
                         $query->where('code', 'LIKE', '%' . $search . '%')
-                            ->OrWhere('description', 'LIKE', '%' . $search . '%');
+                        ->orWhere('dni', 'LIKE', '%' . $search . '%')
+                        ->orWhere('full_name', 'LIKE', '%' . $search . '%');
                     });
         }
 
@@ -73,7 +74,7 @@ class surgeryController extends AppBaseController
         $assistants = Doctors::orderby('full_name')->pluck('full_name', 'id');
         $anesthesiologists = Doctors::orderby('full_name')->pluck('full_name', 'id');
         $labours = Labour::orderby('position')->pluck('position', 'id');
-        $procedures = Procedures::orderby('manual_type')->pluck('manual_type', 'id');
+        $procedures = Procedures::orderby('code')->pluck('description', 'id');
         $baskets = Basket::orderby('id')->pluck('id');
         return view('surgeries.create', compact('doctors', 'assistants', 'anesthesiologists', 'labours', 'procedures', 'baskets'));
     }
@@ -135,14 +136,20 @@ class surgeryController extends AppBaseController
     {
         $this->authorize('update_surgeries');
         $surgery = $this->surgeryRepository->find($id);
-
+        $doctors = Doctors::orderby('full_name')->pluck('full_name', 'code');
+        $doctors2 = Doctors::orderby('full_name')->pluck('full_name', 'code');
+        $assistants = Doctors::orderby('full_name')->pluck('full_name', 'id');
+        $anesthesiologists = Doctors::orderby('full_name')->pluck('full_name', 'id');
+        $labours = Labour::orderby('position')->pluck('position', 'id');
+        $procedures = Procedures::orderby('code')->pluck('description', 'id');
+        $baskets = Basket::orderby('id')->pluck('id');
         if (empty($surgery)) {
             Flash::error('Surgery not found');
 
             return redirect(route('surgeries.index'));
         }
 
-        return view('surgeries.edit')->with('surgery', $surgery);
+        return view('surgeries.edit', compact('surgery', 'doctors', 'doctors2', 'assistants', 'anesthesiologists', 'labours', 'procedures', 'baskets'));
     }
 
     /**
@@ -163,12 +170,12 @@ class surgeryController extends AppBaseController
             return redirect(route('surgeries.index'));
         }
 
-        $startTime = $request->input('start_time');
-        $endTime = $request->input('end_time');
+        $startTime = Carbon::parse($request->input('start_time'));
+        $endTime = Carbon::parse($request->input('end_time'));
 
         // Verificar si las fechas son válidas antes de calcular la diferencia
         if ($startTime->greaterThanOrEqualTo($endTime)) {
-            Flash::error('End time must be after start time');
+            Flash::error('La hora final debe ser mayor a la hora de inicio ');
             return redirect()->back()->withInput();
         }
 
@@ -176,7 +183,8 @@ class surgeryController extends AppBaseController
 
         $input = $request->all();
         $input['surgeryTime'] = $surgeryTime;
-
+        $input['start_time'] = $startTime->format('H:i');
+        $input['end_time'] = $endTime->format('H:i');
         $this->surgeryRepository->update($input, $id);
 
         Flash::success('Surgery updated successfully.');
@@ -261,12 +269,13 @@ class surgeryController extends AppBaseController
             if(count($services) == 1){
                 foreach ($services as $service) {
                     $codActQ = $service->CodActoQ;
+
                     $package = DB::connection('SismaSalud')->select("SELECT * FROM sis_deta 
                             WHERE num_servicio = ?
                             AND tipo_qx = 1
                             AND total > 0 AND codigo_paquete IS NOT NULL
                         ", [$codActQ]);
-                    if (!$package) {
+                    if (!$package || $service->procedimientos == 1) {
                         $category = "";
                         if ($service->procedimientos == 1) {
                             $category = "1,1,1";
@@ -311,15 +320,15 @@ class surgeryController extends AppBaseController
                             AND hc.anulado != 1
                             AND qf.codigo != 6
                             ORDER BY fecha, HoraI DESC
-                    ", [$codActQ]);
+                        ", [$codActQ]);
                         //dd($surgeries);
                         $count = 0;
                         foreach ($surgeries as $surgerie) {
                             if ($surgerie->Procedimiento == NULL || $surgerie->id_tabla == NULL) {
-                                Log::info("No registrado ". $surgerie->Estudio . " " . $surgerie->CodActoQ. " " . $surgerie->Fecha);
+                                //Log::info("No registrado ". $surgerie->Estudio . " " . $surgerie->CodActoQ. " " . $surgerie->Fecha);
                             }else {
                                 $cantidad ++;
-                                Log::info("Registrado ". $surgerie->Fecha . " " . $surgerie->Estudio . " " . $surgerie->CodActoQ . " " . $cantidad);
+                                //Log::info("Registrado ". $surgerie->Fecha . " " . $surgerie->Estudio . " " . $surgerie->CodActoQ . " " . $cantidad);
                                 $Medico2 = $surgerie->Medico_2;
                                 $Anestes = $surgerie->Anestesiologo;
                                 $cod_helper = $surgerie->cod_ayudante;
@@ -338,6 +347,7 @@ class surgeryController extends AppBaseController
                                     //Se valida que el procedimiento esté registrado
                                     $existingSurgeries = Surgery::where('cod_surgical_act', $codActQ)->first();
                                     $doctors = Doctors::where('code', $surgerie->Medico)->first();
+                                    Log::info($codActQ);
                                     if ($existingSurgeries && $doctors->category_doctor !== "Medico General") {              
                                         // Actualiza los datos del procedimiento      
                                         $existingSurgeries->date_surgery = $surgerie->Fecha;   
@@ -391,7 +401,7 @@ class surgeryController extends AppBaseController
                     }
                 }
             }else {
-                Log::info("Más de un acto quirurgico" . " " . $data->estudio);
+                //Log::info("Más de un acto quirurgico" . " " . $data->estudio);
             }
         }
         session()->flash('success', "Cirugias actualizadas correctamente!!");
@@ -462,27 +472,38 @@ class surgeryController extends AppBaseController
         //dd($surgery);
         $procedure = $this->validateProcedure($surgery->Procedimiento, $surgery->Medico, $surgery->CodActoQ);
         $existingProcedure = Msurgery_procedure::where('cod_surgical_act', $surgery->CodActoQ)
-                ->where('code_procedure', $procedure)->first();
+                ->where('code_procedure', $procedure->id)->first();
+        $validateProcedure = $this->validateProcedure($surgery->Procedimiento, $surgery->Medico, $surgery->CodActoQ);
+        $observation = "";
+        if ($validateProcedure->code === '0') {
+            $observation = $surgery->Procedimiento;
+            //Log::info($observation);
+        }
 
         if ($existingProcedure) {
-            $existingProcedure->amount = $surgery->CantidadP;
-            $existingProcedure->type = $surgery->tipo_rea;
-            $existingProcedure->cod_surgical_act = $surgery->CodActoQ;
-            $existingProcedure->code_procedure = $this->validateProcedure($surgery->Procedimiento, $surgery->Medico, $surgery->CodActoQ);
-            $existingProcedure->save();
+            $existingProcedure->update(
+            [
+                'amount' => $surgery->CantidadP,
+                'type' => $surgery->tipo_rea,
+                'cod_surgical_act' => $surgery->CodActoQ,
+                'code_procedure' => $validateProcedure->id,
+                'observation' => $observation
+            ]);
         }else {
-            $newProcedure = new Msurgery_procedure();
-            $newProcedure->amount = $surgery->CantidadP;
-            $newProcedure->type = $surgery->tipo_rea;
-            $newProcedure->cod_surgical_act = $surgery->CodActoQ;
-            $newProcedure->code_procedure = $this->validateProcedure($surgery->Procedimiento, $surgery->Medico, $surgery->CodActoQ);
-            $newProcedure->save();
+            Msurgery_procedure::create(
+            [
+                'amount' => $surgery->CantidadP,
+                'type' => $surgery->tipo_rea,
+                'cod_surgical_act' => $surgery->CodActoQ,
+                'code_procedure' => $validateProcedure->id,
+                'observation' => $observation
+            ]);
         }
     }
 
     public function validateProcedure($procedure, $doctor, $codActQ)
     {
-        //Log::info("Surgery: " . $procedure . " " . $doctor. " ". $codActQ);
+        Log::info("Surgery: " . $procedure . " " . $doctor. " ". $codActQ);
         //Datos del médico
         $doctor = Doctors::where('code', $doctor)->first();
         //Datos de los honorarios médicos
@@ -490,11 +511,15 @@ class surgeryController extends AppBaseController
         //Procedimiento correspondiente
         $procedures = Procedures::where('code', $procedure)
         ->where('manual_type', $fees->fees_type)->first();
-
+        Log::info("Procedures: " . $procedures);
         if (!$procedures) {
             $procedures = Procedures::where('cups', $procedure)
             ->where('manual_type', $fees->fees_type)->first();
+            if (!$procedures) {
+                $procedures = Procedures::where('code', '0')->first();
+                //Log::info("Procedures: " . $procedures);
+            }
         }
-        return $procedures->id;
+        return $procedures;
     }
 }

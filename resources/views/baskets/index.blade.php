@@ -10,7 +10,7 @@
                 <div class="ml-auto d-flex align-items-center gap-2">
                     @can('create_baskets')
                     <a href="{{ route('baskets.create') }}" class="btn btn-default" title="Agregar articulo">
-                        <span class="fas fa-user-plus" style="color: #69C5A0"></span>
+                        <span class="fas fa-plus" style="color: #69C5A0"></span>
                     </a>
                     @endcan
                 </div>

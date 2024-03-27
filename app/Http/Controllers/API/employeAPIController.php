@@ -34,13 +34,12 @@ class employeAPIController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $employes = $this->employeRepository->all(
-            $request->except(['skip', 'limit']),
-            $request->get('skip'),
-            $request->get('limit')
-        );
+        $employes = employe::where('unit', '!=', 'pendiente')
+        ->Where('unit', '!=', 'Deshabilitado')
+        ->orderBy('name')
+        ->get();
 
-        return $this->sendResponse($employes->toArray(), 'Employes retrieved successfully');
+        return $this->sendResponse($employes->toArray(), 'Empleados recuperadas con éxito');
     }
 
     /**

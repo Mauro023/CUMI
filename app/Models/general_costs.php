@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @package App\Models
  * @version December 1, 2023, 11:16 am -05
  *
+ * @property integer $code
  * @property string $description
  * @property number $value
  */
@@ -28,6 +29,7 @@ class general_costs extends Model
 
 
     public $fillable = [
+        'code',
         'description',
         'value'
     ];
@@ -38,6 +40,7 @@ class general_costs extends Model
      * @var array
      */
     protected $casts = [
+        'code' => 'integer',
         'description' => 'string',
         'value' => 'decimal:2'
     ];
@@ -48,6 +51,7 @@ class general_costs extends Model
      * @var array
      */
     public static $rules = [
+        'code' => 'required',
         'description' => 'required',
         'value' => 'required'
     ];

@@ -15,6 +15,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property string $time_procedure
  * @property integer $doctor_percentage
  * @property number $doctor_fees
+ * @property integer $doctor2_percentage
+ * @property number $doctor2_fees
  * @property integer $anest_percentage
  * @property number $anest_fees
  * @property integer $total_uvr
@@ -42,6 +44,8 @@ class log_operation_cost extends Model
         'time_procedure',
         'doctor_percentage',
         'doctor_fees',
+        'doctor2_percentage',
+        'doctor2_fees',
         'anest_percentage',
         'anest_fees',
         'total_uvr',
@@ -62,6 +66,8 @@ class log_operation_cost extends Model
         'time_procedure' => 'string',
         'doctor_percentage' => 'integer',
         'doctor_fees' => 'decimal:2',
+        'doctor2_percentage' => 'integer',
+        'doctor2_fees' => 'decimal:2',
         'anest_percentage' => 'integer',
         'anest_fees' => 'decimal:2',
         'total_uvr' => 'integer',

@@ -2,21 +2,16 @@
 
 @section('content')
     <section class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-12">
-                    <h1>Registrar procedimiento</h1>
-                </div>
-            </div>
-        </div>
+        
     </section>
-
     <div class="content px-3">
 
         @include('adminlte-templates::common.errors')
 
         <div class="card">
-
+            <div class="card-header">
+                <strong>Registrar procedimiento</strong>
+            </div>
             {!! Form::open(['route' => 'procedures.store']) !!}
 
             <div class="card-body">
@@ -28,8 +23,8 @@
             </div>
 
             <div class="card-footer">
-                {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
-                <a href="{{ route('procedures.index') }}" class="btn btn-default">Cancel</a>
+                {!! Form::submit('Guardar', ['class' => 'btn btn-success']) !!}
+                <a href="{{ route('procedures.index') }}" class="btn btn-secondary">Cancelar</a>
             </div>
 
             {!! Form::close() !!}

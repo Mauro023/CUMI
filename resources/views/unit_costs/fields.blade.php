@@ -33,9 +33,3 @@
     {!! Form::label('cod_surgical_act', 'Codigo acto quirurgico:') !!}
     {!! Form::select('cod_surgical_act', $surgical_acts, null, ['class' => 'form-control custom-select']) !!}
 </div>
-
-<!-- Total Value Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('total_value', 'Valor total:') !!}
-    {!! Form::number('total_value', null, ['class' => 'form-control']) !!}
-</div>

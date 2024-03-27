@@ -10,13 +10,13 @@
                 <div class="ml-auto d-flex align-items-center gap-2">
                     @can('create_generalCosts')
                     <a href="{{ route('generalCosts.create') }}" class="btn btn-default" title="Agregar costo">
-                        <span class="fas fa-user-plus" style="color: #69C5A0"></span>
+                        <span class="fas fa-plus" style="color: #69C5A0"></span>
                     </a>
                     @endcan
                 </div>
             </div>
             <div class="card-body p-0">
-                <form action="{{ route('general_costs.index') }}" method="GET"
+                <form action="{{ route('generalCosts.index') }}" method="GET"
                     class="d-flex justify-content-between align-items-center">
                     <!-- Selector de registros por página (Mostrar) a la izquierda -->
                     <div class="form-group mb-3 mt-2">

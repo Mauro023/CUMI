@@ -116,7 +116,6 @@ class articlesController extends AppBaseController
     {
         $this->authorize('update_articles');
         $articles = $this->articlesRepository->find($id);
-
         if (empty($articles)) {
             Flash::error('Articles not found');
 
@@ -182,20 +181,17 @@ class articlesController extends AppBaseController
     public function getArticles()
     {
 
-        $results = Sisma_Inventario_Costos::join('articulos', 'articulos.codigo', '=', 'Sisma_Inventario_Costos.codigo') 
-            ->join('grupos', 'grupos.id', '=', 'articulos.id_grupo')
+        $results = articulos::join('grupos', 'grupos.id', '=', 'articulos.id_grupo')
             ->join('costo', 'costo.id_articulo', '=', 'articulos.id')
-            ->whereRaw("articulos.codigo NOT LIKE '%ASE%'")
-            ->whereRaw("articulos.codigo NOT LIKE '%CAF%'") 
-            ->whereRaw("articulos.codigo NOT LIKE '%OBR%'")
-            ->whereRaw("articulos.codigo NOT LIKE '%OFIC%'") 
-            ->whereRaw("articulos.codigo NOT LIKE '%DH%'") 
-            ->whereRaw("articulos.codigo NOT LIKE '%MTOS%'") 
+            ->where('articulos.codigo', 'NOT LIKE', '%ASE%')
+            ->where('articulos.codigo', 'NOT LIKE', '%CAF%') 
+            ->where('articulos.codigo', 'NOT LIKE', '%OBR%')
+            ->where('articulos.codigo', 'NOT LIKE', '%OFIC%') 
+            ->where('articulos.codigo', 'NOT LIKE', '%DH%')
             ->where('costo.ultimo_registro', 1)
-            ->select('Sisma_Inventario_Costos.codigo', 'articulos.id', 'articulos.descripcion', 'articulos.id_grupo', 'grupos.descripcion AS tipo', 'costo.costo_actual', 'costo.costo_promedio_actual')
+            ->select('articulos.codigo', 'articulos.id', 'articulos.descripcion', 'articulos.id_grupo', 'grupos.descripcion AS tipo', 'costo.costo_actual', 'costo.costo_promedio_actual')
             ->orderBy('articulos.codigo')
             ->get();
-        
         //dd($results);
         foreach ($results as $result) {
             //dd($result);

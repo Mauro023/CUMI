@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @property integer $consumable_quantity
  * @property integer $level
- * @property integer $id_article
+ * @property string $id_article
  */
 class consumable extends Model
 {
@@ -26,7 +26,7 @@ class consumable extends Model
     
     public function articles()
     {
-        return $this->belongsTo(Articles::class, 'id_article');
+        return $this->belongsTo(Articles::class, 'id_article', 'item_code');
     }
 
     protected $dates = ['deleted_at'];
@@ -47,7 +47,7 @@ class consumable extends Model
     protected $casts = [
         'consumable_quantity' => 'integer',
         'level' => 'integer',
-        'id_article' => 'integer'
+        'id_article' => 'string'
     ];
 
     /**

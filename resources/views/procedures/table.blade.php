@@ -16,11 +16,13 @@
             <tr>
                 <td><strong>{{ $procedure->code }}</strong></td>
                 <td>
-                    @if($procedure->manual_type == 256)
+                @if($procedure->manual_type == 256)
                     <span class="badge text-black" style="background-color:#A3BF18;">ISS</span>
-                  @else
+                @elseif ($procedure->manual_type == "SOAT")
                     <span class="badge text-white" style="background-color:#00B0EB; text-color: white;">{{ $procedure->manual_type }}</span>
-                  @endif
+                @else
+                    <span class="badge text-white" style="background-color:#da1b1b; text-color: white;">{{ $procedure->manual_type }}</span>
+                @endif
                 </td>
                 <td>{{ $procedure->description }}</td>
                 <td>{{ $procedure->cups }}</td>

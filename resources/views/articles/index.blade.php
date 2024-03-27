@@ -10,7 +10,7 @@
                 <div class="ml-auto d-flex align-items-center gap-2">
                     @can('create_articles')
                     <a href="{{ route('articles.create') }}" class="btn btn-default" title="Agregar empleado">
-                        <span class="fas fa-user-plus" style="color: #69C5A0"></span>
+                        <span class="fas fa-plus" style="color: #69C5A0"></span>
                     </a>
                     <a href="{{ route('get.articles') }}" id="loadarticlesBtn" class="btn btn-default" title="Actualizar articulos">
                         <span class="fas fa-sync-alt" style="color: #69C5A0"></span>

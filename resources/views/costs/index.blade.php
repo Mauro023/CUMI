@@ -17,6 +17,7 @@
     :soat-Route='{{ json_encode(route('soatGroups.index')) }}'
     :msurgery-Route='{{ json_encode(route('msurgeryProcedures.index')) }}'
     :log-Route='{{ json_encode(route('logOperationCosts.index')) }}'
+    :rented-Route='{{ json_encode(route('rentedEquipments.index')) }}'
     ></cost-menu>
 </div>
 

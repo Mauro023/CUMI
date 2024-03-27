@@ -8,7 +8,10 @@ use App\Repositories\employeRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use App\Models\Employe;
+use App\Models\Sisma_Nomina\empleado;
+use App\Models\Sisma_Nomina\contratos;
 use Flash;
 use Response;
 
@@ -169,7 +172,7 @@ class employeController extends AppBaseController
     {
         $this->authorize('destroy_employes');
         $employe = $this->employeRepository->find($id);
-        dd($employe);
+        //dd($employe);
         if (empty($employe)) {
             Flash::error('Employe not found');
 
@@ -203,66 +206,55 @@ class employeController extends AppBaseController
         foreach ($results as $result) {
             //Se valida que el empleado esté registrado
             $existingEmploye = Employe::where('dni', $result->identificacion)->first();
+            $cargo = trim($result->cargo);
             if ($existingEmploye) {
                 // Actualiza los datos del empleado existente
-                $existingEmploye->name = $result->nombre_completo;
-                $existingEmploye->work_position = $result->cargo;
-                $existingEmploye->unit = $this->getUnit($result->cargo);
-                $existingEmploye->cost_center = $result->UFuncional;
-                $existingEmploye->service = $result->Servicio;
-                
-                $existingEmploye->save();
+                $existingEmploye->update([
+                    'dni' => $result->identificacion,
+                    'name' => $result->nombre_completo,
+                    'work_position' => $result->cargo,
+                    'unit' => $this->getUnit($cargo),
+                    'cost_center' => $result->UFuncional,
+                    'service' => $result->Servicio
+                ]);
             }else {
-                $newEmploye = new Employe();
-                $newEmploye->dni = $result->identificacion;
-                $newEmploye->name = $result->nombre_completo;
-                $newEmploye->work_position = $result->cargo;
-                $newEmploye->unit = $this->getUnit($result->cargo);
-                $newEmploye->cost_center = $result->UFuncional;
-                $newEmploye->service = $result->Servicio;
-                $newEmploye->save();
+                Employe::create([
+                    'dni' => $result->identificacion,
+                    'name' => $result->nombre_completo,
+                    'work_position' => $result->cargo,
+                    'unit' => $this->getUnit($cargo),
+                    'cost_center' => $result->UFuncional,
+                    'service' => $result->Servicio
+                ]);
             }
         }
-        $this->updateEmployees();
+        //$this->updateEmployees();
         session()->flash('success', "¡¡Empleados actualizados correctamente!!");
         return redirect(route('employes.index'));
     }
 
     public function updateEmployees()
     {
-        $results = DB::connection('sqlsrv')->select("SELECT c.id_empleado, e.identificacion, e.nombre_completo, 
-        c.codigo, ca.descripcion AS cargo, c.fecha_inicio_contrato, c.deshabilitar 
-        FROM contratos c
-        JOIN empleado e ON c.id_empleado = e.id
-        JOIN cargos ca ON ca.id = c.id_cargos
-        JOIN unidades_funcionales u ON u.id = c.id_unidades_funcionales
-        WHERE ca.descripcion NOT IN ('Estudiante en practica', 'Aprendiz sena')
-		AND c.deshabilitar IN ('1', '3')
-		ORDER BY e.nombre_completo");
-
+        $results = Employe::where('unit', '!=', 'Deshabilitado')->get();
         foreach ($results as $result) {
-            $empleadoId = $result->id_empleado;
-            $allDisable = true;
-            $contrats = DB::connection('sqlsrv')->select("SELECT * from contratos where id_empleado = $empleadoId");
-            foreach ($contrats as $contrat) {
-                if ($contrat->deshabilitar != 3 && $contrat->deshabilitar != 1) {
-                    $allDisable = false;
-                    break;
-                }
-            }
-
-            if ($allDisable == true) {
-                $employe = Employe::where('dni', $result->identificacion)->first();
-                if ($employe) {
-                    $employe->unit = 'Deshabilitado';
-                    $employe->save();
-        
-                    $employe->contracts()
-                    //->orderBy('start_date_contract', 'desc')
-                    ->update(['disable' => 3]);
-                }
+            $empleado = Empleado::leftjoin('contratos', 'contratos.id_empleado', '=', 'empleado.id')
+            ->where('empleado.identificacion', $result->dni)
+            ->whereNotIn('contratos.deshabilitar', [1, 3])
+            ->select('empleado.id', 'empleado.identificacion', 'empleado.nombre_completo')
+            ->first();
+            //dd($empleado);
+            if (!$empleado) {
+                $result->update([
+                    'unit' => 'Deshabilitado'
+                ]);
+    
+                $result->contracts()
+                //->orderBy('start_date_contract', 'desc')
+                ->update(['disable' => 3]);
             }
         }
+        session()->flash('success', "¡¡Empleados actualizados correctamente!!");
+        return redirect(route('employes.index'));
     }
 
     public function getUnit($cargo){
@@ -301,8 +293,12 @@ class employeController extends AppBaseController
             'COORDINADOR DE URGENCIAS' => 'Administrativo asistencial',
             'COORDINADOR UCI' => 'Administrativo asistencial',
             'COORDINADORA SIAU' => 'Administrativo asistencial',
+            'COORDINADORA DE CONTRATACION' => 'Administrativo',
+            'COORDINADOR SERVICIOS FARMACEUTICOS/ DIRECTOR TECNICO' => 'Administrativo asistencial',
+            'COORDINADORA DE ENFERMERIA' => 'Administrativo asistencial',
             'DIRECTOR SERVICIOS FARMACEUTICOS' => 'Administrativo asistencial',
-            'DIRECTORA Administrativo Y FINANCIERA' => 'Administrativo',
+            'DIRECTOR MEDICO' => 'Administrativo asistencial',
+            'DIRECTORA ADMINISTRATIVA Y FINANCIERA' => 'Administrativo',
             'DIRECTORA DE GESTION HUMANA' => 'Administrativo',
             'ENFERMERA AUDITORA DE CUENTAS MEDICAS' => 'Administrativo',
             'ENFERMERA LÍDER DE HOSPITALIZACIÓN' => 'Administrativo asistencial',
@@ -342,6 +338,7 @@ class employeController extends AppBaseController
             'SECRETARIO GENERAL' => 'Otros',
             'SUPERVISOR TECNICO EN REFRIGERACION' => 'Otros',
             'TECNICO EN IMÁGENES DIAGNOSTICAS' => 'Asistencial',
+            'TECNICO EN IMÁGENES DIAGNOSTICA' => 'Asistencial',
             'TECNICO EN REFRIGERACIÓN' => 'Otros',
             'TECNOLOGO DE IMAGENES DIAGNOSTICAS' => 'Asistencial',
             'TESORERO/CARTERA' => 'Administrativo',

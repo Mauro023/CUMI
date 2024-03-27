@@ -8,6 +8,7 @@ use App\Repositories\contractsRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use App\Models\Contracts;
 use Flash;
 use Response;
@@ -43,7 +44,8 @@ class contractsController extends AppBaseController
                         ->orWhere('start_date_contract', 'LIKE', '%' . $search . '%')
                         ->orWhere('disable', 'LIKE', '%' . $search . '%')
                         ->orWhereHas('employe', function ($query) use ($search) {
-                            $query->where('name', 'LIKE', '%' . $search . '%');
+                            $query->where('name', 'LIKE', '%' . $search . '%')
+                            ->orWhere('dni', 'LIKE', '%' . $search . '%');
                         });
         }
 
@@ -202,16 +204,20 @@ class contractsController extends AppBaseController
             JOIN empleado e ON c.id_empleado = e.id
             JOIN cargos ca ON ca.id = c.id_cargos
             JOIN unidades_funcionales u ON u.id = c.id_unidades_funcionales
-            WHERE c.sueldo_basico > 900000 AND c.deshabilitar != 3 AND c.deshabilitar != 1");
+            WHERE ca.codigo NOT IN(29,116,67) AND c.deshabilitar NOT IN(1,3)");
                     
         foreach ($results as $result) {
             // Se valida que el contrato exista
             $idEmploye = Employe::where('dni', $result->identificacion)->first();
-
-            //Se busca el contrato del empleado
-            $existingContracts = Contracts::where('start_date_contract', $result->fecha_inicio_contrato)
-                ->where('employe_id', $idEmploye->id)
-                ->first();
+            if ($idEmploye) {
+                //Se busca el contrato del empleado
+                $existingContracts = Contracts::where('start_date_contract', $result->fecha_inicio_contrato)
+                    ->where('employe_id', $idEmploye->id)
+                    ->first();                
+            }else {
+                session()->flash('error', "¡¡Empleado con cedula $result->identificacion no encontrado!!");
+                return redirect(route('contracts.index'));
+            }
 
             //Si no existe
             if (!$existingContracts) {
@@ -246,23 +252,5 @@ class contractsController extends AppBaseController
 
         session()->flash('success', "¡¡Contratos actualizados con éxito!!");
         return redirect(route('contracts.index'));
-    }
-
-
-    public function filter(Request $request)
-    {
-        $input = $request->input('dni');
-        if ($input) {
-            $contracts = contracts::join('employes', 'employes.id', '=', 'contracts.employe_id')
-            ->select('contracts.*') 
-            ->where(function ($query) use ($input) {
-                $query->where('employes.dni', 'LIKE', '%'.$input.'%')
-                    ->orWhere('employes.name', 'LIKE', '%'.$input.'%');
-            })
-            ->paginate(500);
-            return view('contracts.index', ['contracts' => $contracts]);
-        }else{
-            return redirect(route('contracts.index'));
-        }
     }
 }

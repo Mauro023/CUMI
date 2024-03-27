@@ -120,8 +120,8 @@
             <tr>
                 <th>CÓDIGO</th>
                 <th>DESCRIPCION</th>
-                <th>UBICACIÓN</th>
                 <th>CENTRO COSTOS</th>
+                <th>SERVICIO</th>
             </tr>
         </thead>
         <tbody>
@@ -131,8 +131,8 @@
                 <td style="text-align: center">
                     Carnet institusional
                 </td>
-                <td style="text-align: center">AREA ADMINISTRATIVA GENERAL SISTEMAS</td>
                 <td style="text-align: center">{{ $employeecost }}</td>
+                <td style="text-align: center">{{ $employeeservice }}</td>
             </tr>
         </tbody>
     </table>
@@ -151,6 +151,8 @@
         <div class="signature-section float-right">
             <h2 class="signature-title">Recibe:</h2>
             <img src="{{ $signature }}" alt="Recibe" class="signature-image">
+            <h3 class="signature-title">{{ $employeeName }}</h3>
+            <h3 class="signature-title">C.C {{ $employeeDni }}</h3>
         </div>
     </div>
 </body>

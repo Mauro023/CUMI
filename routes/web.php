@@ -64,8 +64,14 @@ Route::get('/attendanceReport/logistic', [App\Http\Controllers\AttendanceReportC
 //Generar calendarios
 Route::get('/generar-calendarios', [App\Http\Controllers\CalendarController::class, 'calendarGenerator'])->name('calendars.generate');
 
-//Importar excel
+//Importar tarifas diferenciales
 Route::post('import', [App\Http\Controllers\diferential_ratesController::class, 'import'])->name('import');
+
+//Importar laboratorio
+Route::post('importlab', [App\Http\Controllers\cumiLab_rateController::class, 'importlab'])->name('importlab');
+
+//Importar produccion imagenes
+Route::post('importImagingProductions', [App\Http\Controllers\imaging_productionController::class, 'importImagingProductions'])->name('importImagingProductions');
 
 //Exportar excel
 Route::post('export', [App\Http\Controllers\endowmentController::class, 'export'])->name('export');
@@ -96,6 +102,9 @@ Route::get('/getContracts', [App\Http\Controllers\contractsController::class, 'g
 
 //Procedures
 Route::get('/getProcedures', [App\Http\Controllers\proceduresController::class, 'getProcedures'])->name('get.procedures');
+Route::get('/searchProcedures', [App\Http\Controllers\proceduresController::class, 'searchProcedures'])->name('search.procedures');
+
+Route::get('/getsCups', [App\Http\Controllers\proceduresController::class, 'getsCups'])->name('cups.procedures');
 
 //Articles
 Route::get('/getArticles', [App\Http\Controllers\articlesController::class, 'getArticles'])->name('get.articles');
@@ -105,6 +114,7 @@ Route::get('/getFees', [App\Http\Controllers\medical_feesController::class, 'get
 
 //Doctors
 Route::get('/getDoctors', [App\Http\Controllers\doctorsController::class, 'getDoctors'])->name('get.doctors');
+Route::get('/searchDoctors', [App\Http\Controllers\doctorsController::class, 'searchDoctors'])->name('search.doctor');
 
 //surgeries
 Route::get('/getSurgery', [App\Http\Controllers\surgeryController::class, 'getSurgery'])->name('get.surgeries');
@@ -168,3 +178,16 @@ Route::resource('msurgeryProcedures', App\Http\Controllers\msurgery_procedureCon
 
 
 Route::resource('logOperationCosts', App\Http\Controllers\log_operation_costController::class);
+
+
+Route::resource('rentedEquipments', App\Http\Controllers\rented_equipmentController::class);
+
+
+
+Route::resource('cumiLabRates', App\Http\Controllers\cumiLab_rateController::class);
+
+Route::get('/calculateLab', [App\Http\Controllers\cumiLab_rateController::class, 'calculateLab'])->name('cumilab.calculateLab');
+
+Route::post('/python', [App\Http\Controllers\PythonController::class, 'ejecutarPython'])->name('python');
+
+Route::resource('imagingProductions', App\Http\Controllers\imaging_productionController::class);

@@ -9,10 +9,15 @@
                 <h3 class="card-title m-0" style="color: #69C5A0; font-size: 25px;"><strong>Médicos</strong></h3>
                 <div class="ml-auto d-flex align-items-center gap-2">
                     @can('create_doctors')
-                    <a href="{{ route('doctors.create') }}" class="btn btn-default" title="Agregar empleado">
-                        <span class="fas fa-user-plus" style="color: #69C5A0"></span>
+                    <a class="btn btn-default" data-bs-toggle="modal" data-bs-target="#prefactura"
+                        title="Hacer prefactura">
+                        <span class="fas fa-file-invoice" style="color: #69C5A0"></span>
                     </a>
-                    <a href="{{ route('get.doctors') }}" id="loaddoctorsBtn" class="btn btn-default" title="Actualizar doctores">
+                    <a href="{{ route('doctors.create') }}" class="btn btn-default" title="Agregar empleado">
+                        <span class="fas fa-plus" style="color: #69C5A0"></span>
+                    </a>
+                    <a href="{{ route('get.doctors') }}" id="loaddoctorsBtn" class="btn btn-default"
+                        title="Actualizar doctores">
                         <span class="fas fa-sync-alt" style="color: #69C5A0"></span>
                     </a>
                     @endcan
@@ -57,34 +62,108 @@
     <script src="{{ asset('js/app.js') }}"></script>
     @include('layouts.alerts')
 </div>
+<!-- Modal -->
+<div class="modal fade" id="prefactura" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-default">
+                <h5 class="modal-title" id="staticBackdropLabel"><strong>Datos prefactura</strong></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {!! Form::open(['route' => 'python']) !!}
+                <div class="card-body">
+                    <div class="row">
+                        <div class="form-group col-sm-12">
+                            {!! Form::label('code_doctor', 'Médico:') !!}
+                            {!! Form::select('code_doctor', [], null, ['class' => 'form-control custom-select',
+                            'placeholder' => '','id' => 'doctor']) !!}
+                        </div>
+                        <div class="form-group col-sm-6">
+                            {!! Form::label('start_date', 'Fecha inicial:') !!}
+                            {!! Form::text('start_date', null, ['class' => 'form-control','id'=>'start_date']) !!}
+                        </div>
+                        <div class="form-group col-sm-6">
+                            {!! Form::label('end_date', 'Fecha final:') !!}
+                            {!! Form::text('end_date', null, ['class' => 'form-control','id'=>'end_date']) !!}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-footer">
+                    {!! Form::submit('Guardar', ['class' => 'btn btn-success', 'style' => 'color: white']) !!}
+                    <a href="{{ route('doctors.index') }}" class="btn btn-secondary">Cancelar</a>
+                </div>
+
+                {!! Form::close() !!}
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var loadarticlesBtn = document.getElementById('loaddoctorsBtn');
-
-        loadarticlesBtn.addEventListener('click', function() {
-            // Añade la clase 'loading' al botón cuando se hace clic
-            loadarticlesBtn.classList.add('loading');
-
-            // Simula la carga asincrónica
-            setTimeout(function() {
-                
-                loadarticlesBtn.classList.remove('loading');
-            }, 2000); 
+@push('page_scripts')
+<script type="text/javascript">
+    $(document).ready(function() {
+            $('#doctor').select2({
+                dropdownParent: $('#prefactura .modal-body'),
+                placeholder: 'Seleccione un médico',
+                allowClear: true,
+                width: '100%',
+                theme: 'bootstrap4',
+                ajax: {
+                    url: '{{ route('search.doctor') }}',
+                    dataType: 'json',
+                    delay: 250,
+                    processResults: function(data) {
+                        return {
+                            results: $.map(data, function(doctors) {
+                                return {
+                                    id: doctors.code,
+                                    text: doctors.full_name
+                                };
+                            })
+                        };
+                    },
+                    cache: true
+                },
+                language: {
+                    noResults: function() {
+                        return "No se encontraron resultados";
+                    },
+                    searching: function() {
+                        return "Buscando...";
+                    },
+                }
+            });
         });
-    });
+
+        $('#start_date').datetimepicker({
+            format: 'YYYY-MM-DD',
+            useCurrent: true,
+            sideBySide: true
+        })
+
+        $('#end_date').datetimepicker({
+            format: 'YYYY-MM-DD',
+            useCurrent: true,
+            sideBySide: true
+        })
 </script>
+@endpush
+
 <style>
-    /* Añade un estilo para la animación de carga */
-    .loading {
-        animation: spin 1s infinite linear;
+    .select2-container {
+        z-index: 1060;
+        /* o cualquier otro valor alto que esté por debajo del modal */
     }
 
     @keyframes spin {
         from {
             transform: rotate(0deg);
         }
+
         to {
             transform: rotate(360deg);
         }

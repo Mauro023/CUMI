@@ -37,7 +37,7 @@ class general_costsController extends AppBaseController
 
         if (!empty($search)) {
             $generalCostsQuery->where('description', 'LIKE', '%' . $search . '%')
-                        ->orWhere('value', 'LIKE', '%' . $search . '%');
+                        ->orWhere('id', 'LIKE', '%' . $search . '%');
         }
 
         $generalCosts = $generalCostsQuery->paginate($perPage);

@@ -115,14 +115,15 @@ class basketController extends AppBaseController
     {
         $this->authorize('update_baskets');
         $basket = $this->basketRepository->find($id);
-
+        $articles = Articles::orderby('description')->pluck('description', 'id');
+        $surgical_acts = Surgery::orderby('cod_surgical_act')->pluck('cod_surgical_act', 'cod_surgical_act');
         if (empty($basket)) {
             Flash::error('Basket not found');
 
             return redirect(route('baskets.index'));
         }
 
-        return view('baskets.edit')->with('basket', $basket);
+        return view('baskets.edit', compact('basket','articles', 'surgical_acts'));
     }
 
     /**

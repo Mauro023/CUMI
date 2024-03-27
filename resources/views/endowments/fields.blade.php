@@ -12,6 +12,7 @@
         {!! Form::label('deliver_date', 'Fecha entrega:') !!}
         {!! Form::text('deliver_date', $today, ['class' => 'form-control','id'=>'deliver_date']) !!}
     </div>
+    <!-- Period -->
     <div class="form-group col-sm-3">
         {!! Form::label('Period', 'Periodo:') !!}
         {!! Form::select('period', [
@@ -50,7 +51,7 @@
     </script>
 @endpush
 
-<!-- Period Field -->
+<!-- Item Field -->
 <div id="app">
         <div class="form-group col-sm-3">
             {!! Form::label('Item', 'Item:') !!}

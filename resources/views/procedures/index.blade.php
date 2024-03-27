@@ -10,7 +10,7 @@
                 <div class="ml-auto d-flex align-items-center gap-2">
                     @can('create_procedure')
                     <a href="{{ route('procedures.create') }}" class="btn btn-default" title="Agregar procedimiento">
-                        <span class="fas fa-user-plus" style="color: #69C5A0"></span>
+                        <span class="fas fa-plus" style="color: #69C5A0"></span>
                     </a>
                     <a href="{{ route('get.procedures') }}" id="loadProceduresBtn" class="btn btn-default" title="Actualizar procedimientos">
                         <span class="fas fa-sync-alt" style="color: #69C5A0"></span>

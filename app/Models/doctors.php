@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string $specialty
  * @property integer $id_rates
  * @property integer $id_fees
+ * @property string $payment
  */
 class doctors extends Model
 {
@@ -29,7 +30,7 @@ class doctors extends Model
 
     public function surgeries()
     {
-        return $this->hasMany(Surgery::class, 'id_doctor');
+        return $this->hasMany(Surgery::class,'code', 'id_doctor');
     }
 
     public function diferential_rates()
@@ -47,6 +48,11 @@ class doctors extends Model
         return $this->belongsTo(Medical_fees::class, 'id_fees2', 'honorary_code');
     }
 
+    public function imaging_production()
+    {
+        return $this->hasMany(Imaging_production::class,'code', 'cod_medi');
+    }
+
     protected $dates = ['deleted_at'];
 
 
@@ -58,6 +64,7 @@ class doctors extends Model
         'category_doctor',
         'specialty',
         'payment_type',
+        'payment',
         'id_fees',
         'id_fees2'
     ];
@@ -74,6 +81,7 @@ class doctors extends Model
         'category_doctor' => 'string',
         'specialty' => 'string',
         'payment_type' => 'string',
+        'payment' => 'string',
         'id_fees' => 'integer',
         'id_fees2' => 'integer'
     ];

@@ -8,12 +8,12 @@ use App\Repositories\diferential_ratesRepository;
 use App\Http\Controllers\AppBaseController;
 use App\Models\Diferential_rates;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Flash;
 use Response;
 
 use App\Models\doctors;
 use App\Models\procedures;
-
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\CalendarsImport;
 
@@ -44,7 +44,12 @@ class diferential_ratesController extends AppBaseController
         if (!empty($search)) {
             $diferentialRatesQuery->where('value1', 'LIKE', '%' . $search . '%')
                         ->orWhere('value2', 'LIKE', '%' . $search . '%')
-                        ->orWhere('id_doctor', 'LIKE', '%' . $search . '%');
+                        ->orWhere('id_doctor', 'LIKE', '%' . $search . '%')
+                        ->orWhereHas('doctors', function ($query) use ($search) {
+                            $query->where('dni', 'LIKE', '%' . $search . '%')
+                            ->orWhere('full_name', 'LIKE', '%' . $search . '%')
+                            ->orWhere('code', 'LIKE', '%' . $search . '%');
+                        });
         }
 
         $diferentialRates = $diferentialRatesQuery->paginate($perPage);
@@ -60,13 +65,8 @@ class diferential_ratesController extends AppBaseController
     public function create()
     {
         $this->authorize('create_diferentialRates');
-        $procedures = Procedures::orderBy('description')
-        ->get()
-        ->mapWithKeys(function ($proc) {
-            return [$proc->id => $proc->description . ' - ' . $proc->manual_type];  
-        });
-        $doctors = Doctors::orderby('full_name')->pluck('full_name', 'id');
-        return view('diferential_rates.create', compact('procedures', 'doctors'));
+        $doctors = Doctors::orderby('full_name')->pluck('full_name', 'code');
+        return view('diferential_rates.create', compact('doctors'));
     }
 
     /**
@@ -80,10 +80,11 @@ class diferential_ratesController extends AppBaseController
     {
         $this->authorize('create_diferentialRates');
         $input = $request->all();
-        dd($input);
+        //dd($request->id_doctor);
         $diferentialRates = $this->diferentialRatesRepository->create($input);
-
-        Flash::success('Diferential Rates saved successfully.');
+        $name = doctors::select('full_name')->where('code', $request->id_doctor)->first();
+        //dd($name->full_name);
+        session()->flash('success', "¡¡TARIFA DEL MÉDICO $name->full_name REGISTRADA CORRECTAMENTE!!");
 
         return redirect(route('diferentialRates.index'));
     }
@@ -120,14 +121,27 @@ class diferential_ratesController extends AppBaseController
     {
         $this->authorize('update_diferentialRates');
         $diferentialRates = $this->diferentialRatesRepository->find($id);
+        
+        //dd($diferentialRates);
+        $doctors = Doctors::orderby('full_name')->pluck('full_name', 'code');
+        $procedure = Procedures::find($diferentialRates->id_procedure);
 
+        $proc = collect([$procedure])->map(function ($procedure) {
+            return [
+                $procedure->id => $procedure->description . ' (CUPS: ' . $procedure->cups . " - " . $procedure->manual_type . ')'
+            ];
+        })->first();
+
+        Log::info($proc);
         if (empty($diferentialRates)) {
             Flash::error('Diferential Rates not found');
 
             return redirect(route('diferentialRates.index'));
         }
 
-        return view('diferential_rates.edit')->with('diferentialRates', $diferentialRates);
+        // Obtener el valor seleccionado para id_procedure
+
+        return view('diferential_rates.edit', compact('diferentialRates', 'doctors', 'proc', 'procedure'));
     }
 
     /**
@@ -150,8 +164,8 @@ class diferential_ratesController extends AppBaseController
         }
 
         $diferentialRates = $this->diferentialRatesRepository->update($request->all(), $id);
-
-        Flash::success('Diferential Rates updated successfully.');
+        $name = doctors::select('full_name')->where('code', $request->id_doctor)->first();
+        session()->flash('success', "¡¡TARIFA DEL MÉDICO $name->full_name ACTUALIZADA CORRECTAMENTE!!");
 
         return redirect(route('diferentialRates.index'));
     }
@@ -177,8 +191,8 @@ class diferential_ratesController extends AppBaseController
         }
 
         $this->diferentialRatesRepository->delete($id);
-
-        Flash::success('Diferential Rates deleted successfully.');
+        $name = doctors::select('full_name')->where('code', $diferentialRates->id_doctor)->first();
+        session()->flash('success', "TARIFA DIFERENCIAL DEL MÉDICO $name->full_name ELIMINADA CORRECTAMENTE!!");
 
         return redirect(route('diferentialRates.index'));
     }

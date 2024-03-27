@@ -11,7 +11,7 @@
         <tbody>
             @foreach($generalCosts as $generalCost)
             <tr>
-                <td><strong>{{ $generalCost->id }}</strong></td>
+                <td><strong>{{ $generalCost->code }}</strong></td>
                 <td>{{ $generalCost->description }}</td>
                 <td>{{ number_format($generalCost->value, 0, ',', '.'); }}</td>
                 <td width="120">

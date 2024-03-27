@@ -6,6 +6,7 @@
                 <th>Descripcion</th>
                 <th>Costo promedio</th>
                 <th>Ultimo costo</th>
+                <th>Reutilizable</th>
                 <th colspan="3">Acciones</th>
             </tr>
         </thead>
@@ -19,6 +20,7 @@
                 </td>
                 <td>{{ number_format($article->average_cost, 0, ',', '.'); }}</td>
                 <td>{{ number_format($article->last_cost, 0, ',', '.'); }}</td>
+                <td>{{ $article->usage_quantity }}</td>
                 <td width="120">
                     {!! Form::open(['route' => ['articles.destroy', $article->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>

@@ -12,8 +12,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @package App\Models
  * @version December 1, 2023, 9:32 am -05
  *
- * @property integer $fixed_amount
- * @property integer $payment_availability
  * @property number $value1
  * @property number $value2
  * @property varchar $observation_rates
@@ -43,8 +41,6 @@ class diferential_rates extends Model
 
 
     public $fillable = [
-        'fixed_amount',
-        'payment_availability',
         'value1',
         'value2',
         'observation_rates',
@@ -58,8 +54,6 @@ class diferential_rates extends Model
      * @var array
      */
     protected $casts = [
-        'fixed_amount' => 'integer',
-        'payment_availability' => 'integer',
         'value1' => 'decimal:2',
         'value2' => 'decimal:2',
         'observation_rates' => 'string',
@@ -73,12 +67,8 @@ class diferential_rates extends Model
      * @var array
      */
     public static $rules = [
-        'fixed_amount' => 'required',
-        'payment_availability' => 'required',
         'value1' => 'required',
         'id_procedure' => 'required',
         'id_doctor' => 'required'
-    ];
-
-    
+    ]; 
 }

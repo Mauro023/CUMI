@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use Flash;
 use Response;
 
+use App\Models\msurgery_procedure;
+
 class msurgery_procedureController extends AppBaseController
 {
     /** @var msurgery_procedureRepository $msurgeryProcedureRepository*/
@@ -29,10 +31,22 @@ class msurgery_procedureController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $msurgeryProcedures = $this->msurgeryProcedureRepository->all();
+        $this->authorize('view_surgeries');
+        $perPage = $request->input('per_page', 10);
+        $search = $request->input('search');
+        $msurgeryProceduresQuery = msurgery_procedure::query();
 
-        return view('msurgery_procedures.index')
-            ->with('msurgeryProcedures', $msurgeryProcedures);
+        if (!empty($search)) {
+            $msurgeryProceduresQuery->where('cod_surgical_act', 'LIKE', '%' . $search . '%')
+                    ->orWhere('code_procedure', 'LIKE', '%' . $search . '%')
+                    ->orWhereHas('procedures', function ($query) use ($search) {
+                        $query->where('manual_type', 'LIKE', '%' . $search . '%');
+                    });
+        }
+
+        $msurgeryProcedures = $msurgeryProceduresQuery->orderBy('cod_surgical_act')->paginate($perPage);
+
+        return view('msurgery_procedures.index', compact('msurgeryProcedures'));
     }
 
     /**

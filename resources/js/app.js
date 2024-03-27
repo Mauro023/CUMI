@@ -17,15 +17,16 @@ Vue.component('invima-register', require('./components/InvimaRegister.vue').defa
 Vue.component('input-component', require('./components/InputComponent.vue').default);
 Vue.component('signature-pad', require('./components/SignaturePad.vue').default);
 Vue.component('reception-medicines', require('./components/TechnicalReceptionMedicines.vue').default);
+Vue.component('payment-component', require('./components/Doctors/PaymentComponent.vue').default);
 
-//Modals
+//Medicines
 Vue.component('medicine-modal', require('./components/Modals/MedicineModal.vue').default);
 
 //Menú
 Vue.component('cost-menu', require('./components/Menu/Cost.vue').default);
 
-//GET
-Vue.component('get-procedure', require('./components/GET/GetProcedures.vue').default);
+//Endowment
+Vue.component('addcard-component', require('./components/Card/addcardComponent.vue').default);
 
 const app = new Vue({
   vuetify,

@@ -16,7 +16,7 @@
                 </div>
             </div>
             <div class="card-body p-0">
-                <form action="{{ route('soat_groups.index') }}" method="GET"
+                <form action="{{ route('soatGroups.index') }}" method="GET"
                     class="d-flex justify-content-between align-items-center">
                     <!-- Selector de registros por página (Mostrar) a la izquierda -->
                     <div class="form-group mb-3 mt-2">

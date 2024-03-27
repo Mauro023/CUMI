@@ -4,8 +4,6 @@
             <tr>
                 <th>Médico</th>
                 <th>Procedimiento</th>
-                <th>Pago fijo</th>
-                <th>Disponibilidad pago</th>
                 <th>Valor 1</th>
                 <th>Valor 2</th>
                 <th colspan="3">Acciones</th>
@@ -14,15 +12,36 @@
         <tbody>
             @foreach($diferentialRates as $diferentialRate)
             <tr>
-                <td>{{ $diferentialRate->id_doctor ? $diferentialRate->doctors->full_name : 'Sin ID' }}</td>
-                <td>{{ $diferentialRate->id_procedure ? $diferentialRate->procedures->description : 'Sin ID' }}</td>
-                <td>{{ $diferentialRate->fixed_amount }}</td>
-                <td>{{ $diferentialRate->payment_availability }}</td>
+                <td>{{ $diferentialRate->id_doctor ? $diferentialRate->doctors->full_name : 'Sin ID' }}
+                <br><small><strong style="color: #69C5A0">{{ $diferentialRate->id_doctor ? $diferentialRate->doctors->dni : 'Sin ID' }}</strong></small>
+                </td>
+                <td>
+                    {{ $diferentialRate->id_procedure ? $diferentialRate->procedures->description : 'Sin ID' }}
+                    <br>
+                    <small>
+                        <strong style="color: #69C5A0">
+                            CUPS: {{ $diferentialRate->id_procedure ? $diferentialRate->procedures->cups : 'Sin ID' }}
+                            - Tipo:
+                        </strong>
+                        @php
+                            $manualType = $diferentialRate->id_procedure ? $diferentialRate->procedures->manual_type : null;
+                        @endphp
+                        @if ($manualType == 256 || $manualType == 312)
+                            <span class="badge text-black" style="background-color:#A3BF18;">ISS</span>
+                        @elseif ($manualType == 'SOAT')
+                            <span class="badge text-white" style="background-color:#00B0EB;">{{ $manualType }}</span>
+                        @elseif ($manualType == 'INST')
+                            <span class="badge text-white" style="background-color:#FA773E;">{{ $manualType }}</span>
+                        @else
+                            Sin ID
+                        @endif
+                    </small>
+                </td>
                 <td>{{ number_format($diferentialRate->value1, 0, ',', '.'); }}</td>
                 <td>{{ number_format($diferentialRate->value2, 0, ',', '.'); }}</td>
                 <td width="120">
                     {!! Form::open(['route' => ['diferentialRates.destroy', $diferentialRate->id], 'method' =>
-                    'delete']) !!}
+                    'delete', 'class' => 'eliminarTFForm']) !!}
                     <div class='btn-group'>
                         @can('show_diferentialRates')
                             <a href="{{ route('diferentialRates.show', [$diferentialRate->id]) }}"
@@ -38,7 +57,7 @@
                         @endcan
                         @can('destroy_diferentialRates')
                             {!! Form::button('<i class="far fa-trash-alt" style="color: #da1b1b"></i>', ['type' => 'submit', 'class' => 'btn
-                            btn-default btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
+                            btn-default btn-xs']) !!}
                         @endcan
                     </div>
                     {!! Form::close() !!}
@@ -79,3 +98,44 @@
         color: white;
     }
 </style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const eliminarUsuarioForms = document.querySelectorAll('.eliminarTFForm');
+    
+        eliminarUsuarioForms.forEach((form) => {
+            form.addEventListener('submit', function (event) {
+                event.preventDefault(); // Previene la acción por defecto del formulario
+                const currentForm = this; // Obtén el formulario actual
+                
+                Swal.fire({
+                    title: '¿Estás seguro de querer eliminar este registro?',
+                    html: 'Esta acción eliminará permanentemente el registro de la tarifa diferencial del médico.<br><strong style= "color: red";>Esta acción no se puede deshacer.</strong>',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Sí, eliminarlo',
+                    cancelButtonText: 'Cancelar',
+                    customClass: {
+                        title: 'custom-title', // Clase personalizada para el título
+                        content: 'custom-content', // Clase personalizada para el contenido
+                        icon: 'custom-icon' // Clase personalizada para el icono
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // El usuario confirmó la eliminación, envía el formulario actual
+                        currentForm.submit();
+                    }else{
+                        Swal.fire({
+                            title: 'Cancelado',
+                            text: 'Operación cancelada',
+                            icon: 'error',
+                            timer: 6000 // Tiempo en milisegundos para que la alerta desaparezca automáticamente
+                        });
+                    }
+                });
+            });
+        });
+    });
+</script>

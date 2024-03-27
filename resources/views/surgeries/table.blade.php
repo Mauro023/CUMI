@@ -7,6 +7,7 @@
                 <th>Fecha</th>
                 <th>Tiempo cirugia</th>
                 <th>Médico</th>
+                <th>Categoria</th>
                 <th colspan="4">Acciones</th>
             </tr>
         </thead>
@@ -18,9 +19,12 @@
                 <td>{{ $surgery->date_surgery }}</td>
                 <td>{{ $surgery->start_time }} - {{ $surgery->end_time }}
                 <br>
-                <small style="color: #69C5A0"><strong>{{ $surgery->surgeryTime }} Minutos</strong></small>
+                <small style="color: #A2C61E""><strong>{{ $surgery->surgeryTime }} Minutos</strong></small>
                 </td>
-                <td>{{ $surgery->id_doctor}}</td>
+                <td>{{ $surgery->id_doctor ? $surgery->doctors->full_name : 'Sin ID' }}
+                <br>
+                <small style="color: #A2C61E""><strong>{{ $surgery->id_doctor ? $surgery->doctors->code : 'Sin ID' }}</strong></small></td>
+                <td>{{ $surgery->category }}</td>
                 <td width="120">
                     {!! Form::open(['route' => ['surgeries.destroy', $surgery->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>
@@ -73,8 +77,8 @@
     }
 
     .pagination .page-item.active .page-link {
-        background-color: #69C5A0;
-        border-color: #69C5A0;
+        background-color: #14ABE3;
+        border-color: #14ABE3;
         color: white;
     }
 </style>

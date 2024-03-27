@@ -37,9 +37,9 @@ class surgery extends Model
 
     public $table = 'surgeries';
 
-    public function doctor()
+    public function doctors()
     {
-        return $this->belongsTo(Doctors::class, 'id_doctor');
+        return $this->belongsTo(Doctors::class, 'id_doctor', 'code');
     }
 
     public function basket()

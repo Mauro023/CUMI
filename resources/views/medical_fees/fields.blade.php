@@ -9,3 +9,14 @@
     {!! Form::label('payment_manual', 'Manual de pago:') !!}
     {!! Form::text('payment_manual', null, ['class' => 'form-control']) !!}
 </div>
+
+<!-- Fees Type Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('fees_type', 'Tipo:') !!}
+    {!! Form::select('fees_type', [
+        "256" => "256",
+        "312" => "312",
+        "SOAT" => "SOAT",
+        "INST" => "INST",
+    ] ,null, ['class' => 'form-control custom-select', 'placeholder' => 'Seleccione el tipo']) !!}
+</div>

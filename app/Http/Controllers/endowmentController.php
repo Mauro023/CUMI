@@ -46,7 +46,7 @@ class endowmentController extends AppBaseController
         if (!empty($search)) {
             $contractsQuery->where(function ($query) use ($threeMonthsAgo) {
                 $query->where('disable', '!=', '3')
-                    ->where('salary', '<', 2320000)
+                    ->where('salary', '<', 2600000)
                     ->where('start_date_contract', '<=', $threeMonthsAgo);
             })
             ->WhereHas('employe', function ($query) use ($search) {
@@ -57,7 +57,7 @@ class endowmentController extends AppBaseController
         }else {
             $contractsQuery->join('employes', 'contracts.employe_id', '=', 'employes.id')
             ->where('disable', '!=', 3)
-            ->where('salary', '<', 2320000)
+            ->where('salary', '<', 2600000)
             ->where('start_date_contract', '<=', $threeMonthsAgo)
             ->orderBy('employes.name')
             ->get();
@@ -83,7 +83,7 @@ class endowmentController extends AppBaseController
             $query->where('start_date_contract', '<=', $threeMonthsAgo);
             
             // Validar salario mínimo
-            $minSalary =  2320000;
+            $minSalary =  2600000;
             $query->where('salary', '<', $minSalary);
             
             // Validar contrato habilitado
@@ -203,7 +203,7 @@ class endowmentController extends AppBaseController
             $query->where('start_date_contract', '<=', $threeMonthsAgo);
             
             // Validar salario mínimo
-            $minSalary =  2320000;
+            $minSalary =  2600000;
             $query->where('salary', '<', $minSalary);
             
             // Validar contrato habilitado
@@ -320,11 +320,12 @@ class endowmentController extends AppBaseController
         $employeeName = $contract->employe->name;
         $employeeDni = $contract->employe->dni;
         $employeeWork = $contract->employe->work_position;
+        $employeeService = $contract->employe->service;
 
 
         // Cargar la vista PDF y pasar los datos necesarios
         $pdf = PDF::loadView('endowments.acta_entrega', compact('id','deliverDate','contractId',
-        'item', 'period', 'signature', 'employeeName', 'employeeDni', 'employeeWork'));
+        'item', 'period', 'signature', 'employeeName', 'employeeDni', 'employeeWork', 'employeeService'));
 
         // Retornar el PDF para su visualización en el navegador
         return response($pdf->output())

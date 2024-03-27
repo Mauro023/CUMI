@@ -238,11 +238,12 @@ class cardController extends AppBaseController
         $employeeDni = $card->employe->dni;
         $employeeWork = $card->employe->work_position;
         $employeecost = $card->employe->cost_center;
+        $employeeservice = $card->employe->service;
 
 
         // Cargar la vista PDF y pasar los datos necesarios
         $pdf = PDF::loadView('cards.acta_entrega_carnet', compact('id','deliverDate','employeId',
-        'signature', 'employeeName', 'employeeDni', 'employeeWork', 'employeecost'));
+        'signature', 'employeeName', 'employeeDni', 'employeeWork', 'employeecost', 'employeeservice'));
 
         return response($pdf->output())
         ->header('Content-Type', 'application/pdf')

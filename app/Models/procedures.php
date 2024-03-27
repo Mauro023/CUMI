@@ -36,6 +36,16 @@ class procedures extends Model
         return $this->hasMany(Msurgery_procedure::class);
     }
 
+    public function imaging_production()
+    {
+        return $this->hasMany(Imaging_production::class,'id', 'cups');
+    }
+
+    public function cumiLab_rate()
+    {
+        return $this->hasMany(Imaging_production::class,'code', 'cups');
+    }
+
     protected $dates = ['deleted_at'];
 
 
@@ -59,8 +69,8 @@ class procedures extends Model
         'manual_type' => 'string',
         'description' => 'string',
         'cups' => 'string',
-        'uvr' => 'integer',
-        'procedure_value' => 'decimal:2'
+        'uvr' => 'integer'
+        /* 'procedure_value' => 'decimal:2' */
     ];
 
     /**
@@ -73,8 +83,8 @@ class procedures extends Model
         'manual_type' => 'required',
         'description' => 'required',
         'cups' => 'required',
-        'uvr' => 'required',
-        'procedure_value' => 'required'
+        'uvr' => 'required'
+        /* 'procedure_value' => 'required' */
     ];
 
     

@@ -9,6 +9,7 @@ use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Procedures;
+use Illuminate\Support\Facades\Log;
 use Flash;
 use Response;
 use App\Models\SismaSalud\sis_proc;
@@ -121,7 +122,7 @@ class proceduresController extends AppBaseController
             return redirect(route('procedures.index'));
         }
 
-        return view('procedures.edit')->with('procedures', $procedures);
+        return view('procedures.edit', compact('procedures'));
     }
 
     /**
@@ -230,5 +231,56 @@ class proceduresController extends AppBaseController
         session()->flash('success', "¡¡Procedimientos actualizados correctamente!!");
 
         return redirect(route('procedures.index'));
+    }
+
+    public function searchProcedures(Request $request)
+    {
+        Log::info($request->all());
+        $term = $request->input('q');
+        $page = $request->input('page', 1);
+        $perPage = 30;
+
+        $procedures = Procedures::where('code', 'like', '%' . $term . '%')
+            ->orWhere('description', 'like', '%' . $term . '%')
+            ->orWhere('manual_type', 'like', '%' . $term . '%')
+            ->paginate($perPage, ['*'], 'page', $page);
+        $results = $procedures->items();
+        $totalCount = $procedures->total();
+
+        $results = $procedures->map(function ($procedure) {
+            return [
+                'id' => $procedure->id,
+                'text' => $procedure->description . ' (CUPS: ' . $procedure->cups . " - " . $procedure->manual_type . ')'
+            ];
+        });
+    
+        return response()->json([
+            'results' => $results,
+            'total_count' => $procedures->count()
+        ]);
+    }
+
+    public function getsCups(Request $request)
+    {
+        $term = $request->input('q');
+        $page = $request->input('page', 1);
+        $perPage = 30;
+
+        $procedures = Procedures::where('code', 'like', '%' . $term . '%')
+            ->orWhere('description', 'like', '%' . $term . '%')
+            ->orWhere('cups', 'like', '%' . $term . '%')
+            ->paginate($perPage, ['*'], 'page', $page);
+        $results = $procedures->items();
+        $totalCount = $procedures->total();
+
+        return response()->json([
+            'results' => collect($results)->map(function ($procedure) {
+                return [
+                    'id' => $procedure->cups,
+                    'text' => $procedure->description . ' (CUPS: ' . $procedure->cups . " - " . $procedure->manual_type .')'
+                ];
+            }),
+            'total_count' => $totalCount
+        ]);
     }
 }

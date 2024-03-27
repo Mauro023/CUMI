@@ -198,3 +198,19 @@
     </li>
 
 
+<li class="nav-item">
+    <a href="{{ route('cumiLabRates.index') }}"
+       class="nav-link {{ Request::is('cumiLabRates*') ? 'active' : '' }}">
+        <p>Cumi Lab Rates</p>
+    </a>
+</li>
+
+
+<li class="nav-item">
+    <a href="{{ route('imagingProductions.index') }}"
+       class="nav-link {{ Request::is('imagingProductions*') ? 'active' : '' }}">
+        <p>Imaging Productions</p>
+    </a>
+</li>
+
+

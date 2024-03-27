@@ -7,7 +7,7 @@
                         <h3>General</h3>
                         <v-avatar tile size="30" color="yellow darken-2" class="rounded-lg ml-2">
                             <span style="color: white;">
-                                <strong>5</strong>
+                                <strong>4</strong>
                             </span>
                         </v-avatar>
                     </div>
@@ -15,26 +15,6 @@
             </v-row>
             <v-divider class="mt-0"></v-divider>
             <v-row>
-                <v-col cols="12" sm="6" md="4">
-                    <v-hover v-slot="{ hover }">
-                        <v-card class="mx-auto" max-width="344" outlined @click="handleCardClick('labour')"
-                            :elevation="hover ? 16 : 2" :class="{ 'on-hover': hover }">
-                            <v-list-item three-line>
-                                <v-list-item-avatar tile size="50" color="#F4A040" class="rounded-xl">
-                                    <v-icon style="font-size: 150%;" color="white">
-                                        mdi-account-group
-                                    </v-icon>
-                                </v-list-item-avatar>
-                                <v-list-item-content>
-                                    <v-list-item-title class="text-h5 mb-1">
-                                        Mano de obra
-                                    </v-list-item-title>
-                                    <v-list-item-subtitle>Registro y gestión de mano de obra</v-list-item-subtitle>
-                                </v-list-item-content>
-                            </v-list-item>
-                        </v-card>
-                    </v-hover>
-                </v-col>
                 <v-col cols="12" sm="6" md="4">
                     <v-hover v-slot="{ hover }">
                         <v-card class="mx-auto" max-width="344" outlined @click="handleCardClick('procedure')"
@@ -164,7 +144,7 @@
                                 </v-list-item-avatar>
                                 <v-list-item-content>
                                     <v-list-item-title class="text-h5 mb-1">
-                                        Honorarios <br> médicos
+                                        Manual <br> pago
                                     </v-list-item-title>
                                     <v-list-item-subtitle>Registro y gestión de honorarios médicos</v-list-item-subtitle>
                                 </v-list-item-content>
@@ -201,7 +181,7 @@
                         <h3>Articulos</h3>
                         <v-avatar tile size="30" color="#55D46B" class="rounded-lg ml-2">
                             <span style="color: white;">
-                                <strong>5</strong>
+                                <strong>4</strong>
                             </span>
                         </v-avatar>
                     </div>
@@ -269,6 +249,26 @@
                         </v-card>
                     </v-hover>
                 </v-col>
+                <v-col cols="12" sm="6" md="4">
+                    <v-hover v-slot="{ hover }">
+                        <v-card class="mx-auto" max-width="344" outlined @click="handleCardClick('rented')"
+                            :elevation="hover ? 16 : 2" :class="{ 'on-hover': hover }">
+                            <v-list-item three-line>
+                                <v-list-item-avatar tile size="50" color="#55D46B" class="rounded-xl">
+                                    <v-icon style="font-size: 150%;" color="white">
+                                        mdi-basket-fill
+                                    </v-icon>
+                                </v-list-item-avatar>
+                                <v-list-item-content>
+                                    <v-list-item-title class="text-h5 mb-1">
+                                        Equipos alquilados
+                                    </v-list-item-title>
+                                    <v-list-item-subtitle>Registro y gestión de equipos alquilados</v-list-item-subtitle>
+                                </v-list-item-content>
+                            </v-list-item>
+                        </v-card>
+                    </v-hover>
+                </v-col>
             </v-row>
         </v-container>
         <v-container>
@@ -278,7 +278,7 @@
                         <h3>Cirugias</h3>
                         <v-avatar tile size="30" color="red darken-2" class="rounded-lg ml-2">
                             <span style="color: white;">
-                                <strong>5</strong>
+                                <strong>3</strong>
                             </span>
                         </v-avatar>
                     </div>
@@ -368,6 +368,7 @@ export default {
         soatRoute: String,
         msurgeryRoute: String,
         logRoute: String,
+        rentedRoute: String,
     },
     methods: {
         handleCardClick(route) {
@@ -399,6 +400,8 @@ export default {
                 window.location.href = this.msurgeryRoute;
             } else if (route === 'logOperation') {
                 window.location.href = this.logRoute;
+            } else if (route === 'rented') {
+                window.location.href = this.rentedRoute;
             }
         }
     }

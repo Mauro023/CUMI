@@ -4,8 +4,8 @@
 <div>
     <section class="content-header">
         <div class="container-fluid d-flex align-items-center justify-content-center" style="height: 70vh;">
-            <div class="banner_img">
-                <img src="{{ asset('images/LOGO_cumi_Mesa-de-trabajo-1.png') }}" alt="CUMI" style="max-width: 100%">
+            <div class="banner_img d-flex align-items-center justify-content-center">
+                <img src="{{ asset('images/LOGO_cumi_Mesa-de-trabajo-1.png') }}" alt="CUMI" style="max-width: 60%">
             </div>
         </div>
     </section>

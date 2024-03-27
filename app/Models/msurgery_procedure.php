@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property string $type
  * @property integer $mcod_surgical_act
  * @property integer $code_procedure
+ * @property string $observation
  */
 class msurgery_procedure extends Model
 {
@@ -36,8 +37,9 @@ class msurgery_procedure extends Model
     public $fillable = [
         'amount',
         'type',
-        'mcod_surgical_act',
-        'code_procedure'
+        'cod_surgical_act',
+        'code_procedure',
+        'observation'
     ];
 
     /**
@@ -48,8 +50,9 @@ class msurgery_procedure extends Model
     protected $casts = [
         'amount' => 'integer',
         'type' => 'string',
-        'mcod_surgical_act' => 'integer',
-        'code_procedure' => 'integer'
+        'cod_surgical_act' => 'integer',
+        'code_procedure' => 'integer',
+        'observation' => 'string'
     ];
 
     /**

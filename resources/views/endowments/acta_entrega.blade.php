@@ -120,7 +120,7 @@
             <tr>
                 <th>CÓDIGO</th>
                 <th>DESCRIPCION</th>
-                <th>UBICACIÓN</th>
+                <th>SERVICIO</th>
                 <th>PERIODO</th>
             </tr>
         </thead>
@@ -137,7 +137,7 @@
                     }
                     @endphp
                 </td>
-                <td style="text-align: center">AREA ADMINISTRATIVA GENERAL SISTEMAS</td>
+                <td style="text-align: center">{{ $employeeService }}</td>
                 <td style="text-align: center">{{ $period }} {{ $deliverDate->format('Y') }}</td>
             </tr>
         </tbody>
@@ -156,6 +156,8 @@
         </div>        <div class="signature-section float-right">
             <h2 class="signature-title">Recibe:</h2>
             <img src="{{ $signature }}" alt="Recibe" class="signature-image">
+            <h3 class="signature-title">{{ $employeeName }}</h3>
+            <h3 class="signature-title">C.C {{ $employeeDni }}</h3>
         </div>
     </div>
 </body>

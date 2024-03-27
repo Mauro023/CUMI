@@ -1,7 +1,18 @@
+<!-- code Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('code', 'Código:') !!}
+    {!! Form::text('code', null, ['class' => 'form-control']) !!}
+</div>
+
 <!-- manual_type Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('manual_type', 'Tipo de manual:') !!}
-    {!! Form::text('manual_type', null, ['class' => 'form-control']) !!}
+    {!! Form::select('manual_type', [
+        "256" => "256",
+        "SOAT" => "SOAT",
+        "ins" => "ins",
+        "INF" => "INF"
+    ] ,null, ['class' => 'form-control custom-select', 'placeholder' => 'Seleccione un tipo de manual']) !!}
 </div>
 
 <!-- Description Field -->
@@ -22,8 +33,14 @@
     {!! Form::number('uvr', null, ['class' => 'form-control']) !!}
 </div>
 
-<!-- Procedure Value Field -->
+<!-- Uvr Field -->
 <div class="form-group col-sm-6">
+    {!! Form::label('uvt', 'Uvt:') !!}
+    {!! Form::number('uvt', null, ['class' => 'form-control']) !!}
+</div>
+
+<!-- Procedure Value Field -->
+{{-- <div class="form-group col-sm-6">
     {!! Form::label('procedure_value', 'Valor:') !!}
     {!! Form::number('procedure_value', null, ['class' => 'form-control']) !!}
-</div>
+</div> --}}

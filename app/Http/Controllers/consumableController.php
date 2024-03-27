@@ -60,7 +60,7 @@ class consumableController extends AppBaseController
         $this->authorize('create_consumables');
         $articles = Articles::orderBy('description')->get(['id', 'description', 'item_code'])
         ->mapWithKeys(function ($article) {
-            return [$article->id => $article->description . ' - ' . $article->item_code];
+            return [$article->item_code => $article->description . ' - ' . $article->item_code];
         });
         return view('consumables.create', compact('articles'));
     }
@@ -115,14 +115,17 @@ class consumableController extends AppBaseController
     {
         $this->authorize('update_consumables');
         $consumable = $this->consumableRepository->find($id);
-
+        $articles = Articles::orderBy('description')->get(['id', 'description', 'item_code'])
+        ->mapWithKeys(function ($article) {
+            return [$article->item_code => $article->description . ' - ' . $article->item_code];
+        });
         if (empty($consumable)) {
             Flash::error('Consumable not found');
 
             return redirect(route('consumables.index'));
         }
 
-        return view('consumables.edit')->with('consumable', $consumable);
+        return view('consumables.edit', compact('consumable','articles'));
     }
 
     /**

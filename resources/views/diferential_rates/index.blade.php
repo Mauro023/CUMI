@@ -14,7 +14,7 @@
                         <span class="fas fa-file-import" style="color: #69C5A0"></span>
                     </a>
                     <a href="{{ route('diferentialRates.create') }}" class="btn btn-default" title="Agregar empleado">
-                        <span class="fas fa-user-plus" style="color: #69C5A0"></span>
+                        <span class="fas fa-plus" style="color: #69C5A0"></span>
                     </a>
                     @endcan
                 </div>

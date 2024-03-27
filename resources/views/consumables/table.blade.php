@@ -2,18 +2,22 @@
     <table class="table table-hover shadow mb-3 rounded" id="consumables-table">
         <thead>
             <tr>
+                <th>Codigo</th>
                 <th>Articulo</th>
                 <th>Cantidad</th>
                 <th>Nivel</th>
+                <th>Ultimo costo</th>
                 <th colspan="2">Acciones</th>
             </tr>
         </thead>
         <tbody>
             @foreach($consumables as $consumable)
             <tr>
+                <td>{{ $consumable->id_article }}</td>
                 <td>{{ $consumable->id_article ? $consumable->articles->description : 'Sin ID'}}</td>
                 <td>{{ $consumable->consumable_quantity }}</td>
                 <td>{{ $consumable->level }}</td>
+                <td>{{ number_format($consumable->id_article ? $consumable->articles->last_cost : 'Sin ID', 0, ',', '.'); }}</td>
                 <td width="120">
                     {!! Form::open(['route' => ['consumables.destroy', $consumable->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>
